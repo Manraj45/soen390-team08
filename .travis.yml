@@ -8,7 +8,12 @@ before_install:
 
 install:
   - npm install
+  - cd backend
+  - npm install
+  - cd ../
   - npm ci
 
 script:
+  - npm test
+  - cd backend
   - npm test
