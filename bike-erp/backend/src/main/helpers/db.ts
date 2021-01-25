@@ -3,7 +3,7 @@ import mysql from 'mysql2';
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'mysqlpw',
+    password: '<insert your own pw here>',
     database: 'bike_erp'
 });
 
