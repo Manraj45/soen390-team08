@@ -1,0 +1,19 @@
+sudo: false
+language: node_js
+node_js:
+  - node
+
+before_install:
+  - "cd bike-erp"
+
+install:
+  - npm install
+  - cd backend
+  - npm install
+  - cd ../
+  - npm ci
+
+script:
+  - npm test
+  - cd backend
+  - npm test
