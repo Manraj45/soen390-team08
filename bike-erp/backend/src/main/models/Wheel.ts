@@ -39,14 +39,3 @@ export enum WheelType {
     TOURING,
     MOUNTAIN
 }
-
-const test = {
-    component_id: 1,
-    price: 50,
-    quantity: 20,
-    size: Size.LARGE,
-    component_status: Status.AVAILABLE,
-    component_type: Type.HANDLE,
-    wheel_id: 2,
-    wheel_type: WheelType.MOUNTAIN
-};
