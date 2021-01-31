@@ -2,26 +2,26 @@ import express from 'express';
 import { AuthenticationService } from '../services/authenticationService/AuthenticationService';
 
 const router = express();
-const authenticationService = new AuthenticationService();
+const authenticationService = AuthenticationService.getAuthenticationService();
 
 router.post('/login', (req, res) => {
-    authenticationService.login(req.body.email, req.body.password).then((response) => {
-        res.status(204).json(response);
+    AuthenticationService.login(req.body.email, req.body.password).then((response) => {
+        res.status(202).send(response);
     }).catch((error) => {
         res.status(error.status).send(error.message);
     });
 });
 
 router.post('/token', (req, res) => {
-    authenticationService.generateNewAccessToken(req.body.token).then((response) => {
-        res.status(204).json(response);
+    AuthenticationService.generateNewAccessToken(req.body.token).then((response) => {
+        res.status(202).send(response);
     }).catch((error) => {
         res.status(error.status).send(error.message);
     });
 });
 
 router.delete('/logout', (req, res) => {
-    res.json(authenticationService.logout(req.body.token));
+    res.json(AuthenticationService.logout(req.body.token));
 });
 
 export default router;

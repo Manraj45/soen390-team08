@@ -4,9 +4,21 @@ import bcrypt from 'bcrypt';
 
 export class AuthenticationService {
 
-    private refreshTokens: Array<any> = [];
+    private static refreshTokens: Array<any> = [];
 
-    public login = async (email: string, password: string) => {
+    private static authenticationService: AuthenticationService | undefined;
+
+    private constructor() { }
+
+    public static getAuthenticationService() {
+        if (this.authenticationService === undefined) {
+            this.authenticationService = new AuthenticationService();
+        } else {
+            return this.authenticationService;
+        }
+    }
+
+    public static login = async (email: string, password: string) => {
         const account = await fetchAccount(email);
 
         //Verifying if there was any account with the same email in the database
@@ -17,11 +29,11 @@ export class AuthenticationService {
         try {
             //Verifying if the encrypted password is the same as the one in the database
             if (await bcrypt.compare(password, account[0].password)) {
-                const accessToken = this.generateAccessToken(email);
+                const accessToken = AuthenticationService.generateAccessToken(email);
 
                 //serializing refresh token with the user email
                 const refreshToken = jwt.sign(email, process.env.REFRESH_TOKEN_SECRET);
-                this.refreshTokens.push(refreshToken);
+                AuthenticationService.refreshTokens.push(refreshToken);
 
                 return { accessToken: accessToken, refreshToken: refreshToken };
             } else {
@@ -33,22 +45,22 @@ export class AuthenticationService {
         }
     }
 
-    public logout = (userToken) => {
+    public static logout = (userToken) => {
         //Removing refresh token from array
-        this.refreshTokens = this.refreshTokens.filter(token => token !== userToken);
-        return { status: 204, message: "Logout successful" };
+        AuthenticationService.refreshTokens = AuthenticationService.refreshTokens.filter(token => token !== userToken);
+        return { status: 202, message: "Logout successful" };
     }
 
-    public generateAccessToken = (email: string) => {
+    public static generateAccessToken = (email: string) => {
         return jwt.sign({ data: email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
     }
 
-    public generateNewAccessToken = async (refreshToken) => {
+    public static generateNewAccessToken = async (refreshToken) => {
         if (refreshToken == null) {
             throw { status: 401, message: "No refresh token provided" };
         }
 
-        if (!this.refreshTokens.includes(refreshToken)) {
+        if (!AuthenticationService.refreshTokens.includes(refreshToken)) {
             throw { status: 403, message: "Invalid refresh token" };
         }
 
@@ -58,7 +70,7 @@ export class AuthenticationService {
                     return reject({ status: 403, message: "Invalid refresh token" });
                 }
 
-                const accessToken = this.generateAccessToken(user);
+                const accessToken = AuthenticationService.generateAccessToken(user);
 
                 resolve({ accessToken: accessToken });
             });
