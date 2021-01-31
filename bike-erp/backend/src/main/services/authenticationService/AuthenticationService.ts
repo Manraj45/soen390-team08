@@ -17,9 +17,7 @@ export class AuthenticationService {
         /*try {
             if (await bcrypt.compare(password, account[0].password)) {*/
         const accessToken = this.generateAccessToken(email);
-        //console.log(accessToken)
         const refreshToken = jwt.sign(email, process.env.REFRESH_TOKEN_SECRET)
-        console.log(refreshToken)
         this.refreshTokens.push(refreshToken);
         return { accessToken: accessToken, refreshToken: refreshToken };
         /*}
@@ -34,7 +32,7 @@ export class AuthenticationService {
 
     public logout = (userToken) => {
         this.refreshTokens = this.refreshTokens.filter(token => token !== userToken)
-        return { status: 204, message: "Logout sucessfully" }
+        return { status: 204, message: "Logout successful" }
     }
 
     public generateAccessToken = (email: string) => {
@@ -51,16 +49,16 @@ export class AuthenticationService {
             throw { status: 403, message: "Invalid refresh token" }
         }
 
-        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-            if (err) {
-                throw { status: 403, message: "Invalid refresh token" }
-            }
+        return new Promise((resolve, reject) => {
+            jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+                if (err) {
+                    return reject({ status: 403, message: "Invalid refresh token" });
+                }
 
-            const accessToken = this.generateAccessToken(user);
+                const accessToken = this.generateAccessToken(user);
 
-            console.log(accessToken)
-
-            return { accessToken: accessToken };
+                resolve({ accessToken: accessToken });
+            })
         })
     }
 }

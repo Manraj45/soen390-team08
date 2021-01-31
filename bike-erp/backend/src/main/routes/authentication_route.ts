@@ -6,7 +6,8 @@ const authenticationService = new AuthenticationService();
 
 router.post('/login', (req, res) => {
     authenticationService.login(req.body.email, req.body.password).then((response) => {
-        res.json(response)
+        console.log(response)
+        res.status(204).json(response)
     }).catch((error) => {
         res.status(error.status).send(error.message)
     });
@@ -16,7 +17,7 @@ router.post('/token', (req, res) => {
 
     authenticationService.generateNewAccessToken(req.body.token).then((response) => {
         console.log(response)
-        res.json(response)
+        res.status(204).json(response)
     }).catch((error) => {
         res.status(error.status).send(error.message)
     });
