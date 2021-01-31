@@ -6,14 +6,18 @@
   "scripts": {
     "start": "node dist/app.js",
     "dev": "nodemon src/main/app.ts",
+    "authStart": "nodemon src/main/services/authenticationService/AuthServer.ts",
     "build": "tsc -p .",
     "test": "jest src/test"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.2.5"
   },
   "devDependencies": {
