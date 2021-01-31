@@ -17,7 +17,7 @@ export class AuthenticationService {
         /*try {
             if (await bcrypt.compare(password, account[0].password)) {*/
         const accessToken = this.generateAccessToken(email);
-        console.log(accessToken)
+        //console.log(accessToken)
         const refreshToken = jwt.sign(email, process.env.REFRESH_TOKEN_SECRET)
         console.log(refreshToken)
         this.refreshTokens.push(refreshToken);
@@ -38,10 +38,10 @@ export class AuthenticationService {
     }
 
     public generateAccessToken = (email: string) => {
-        return jwt.sign(email, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
+        return jwt.sign(email, process.env.ACCESS_TOKEN_SECRET);
     }
 
-    public generateNewAccessToken = (refreshToken) => {
+    public generateNewAccessToken = async (refreshToken) => {
 
         if (refreshToken == null) {
             throw { status: 401, message: "No refresh token provided" }
@@ -58,7 +58,9 @@ export class AuthenticationService {
 
             const accessToken = this.generateAccessToken(user);
 
-            return { accessToken: accessToken }
+            console.log(accessToken)
+
+            return { accessToken: accessToken };
         })
     }
 }
