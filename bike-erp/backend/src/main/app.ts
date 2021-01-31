@@ -7,7 +7,7 @@ import { BACKEND_PORT } from './config/config';
 import dotenv from 'dotenv';
 
 //Configure dotenv
-dotenv.config()
+dotenv.config();
 
 const app: Application = express();
 
@@ -15,7 +15,7 @@ const app: Application = express();
 app.use(cors());
 
 //Initialize json parser
-app.use(express.json())
+app.use(express.json());
 
 //Setup routes
 app.use('/', indexRouter);
@@ -24,4 +24,4 @@ app.use('/account_receivable', accountReceivableRouter);
 const port = process.env.PORT || BACKEND_PORT;
 app.listen(port, () => console.log(`Server started on port ${port}`));
 
-initialize_db()
+initialize_db();

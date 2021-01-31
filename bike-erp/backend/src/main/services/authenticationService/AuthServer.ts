@@ -5,7 +5,7 @@ import authentication_route from '../../routes/authentication_route';
 import dotenv from 'dotenv';
 
 //Configure dotenv
-dotenv.config()
+dotenv.config();
 
 const app: Application = express();
 
@@ -13,7 +13,7 @@ const app: Application = express();
 app.use(cors());
 
 //Initialize json parser
-app.use(express.json())
+app.use(express.json());
 
 //Setup routes
 app.use('/auth', authentication_route);
