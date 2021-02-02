@@ -2,10 +2,8 @@ import express from 'express';
 import { RegistrationService } from '../services/registrationService/RegistrationService';
 
 const router = express();
+
 RegistrationService.getRegistrationService();
-
-// const users: string<{id: string, path: string}>();
-
 
 //Post register data
 router.post('/submission', (req, res) => {
