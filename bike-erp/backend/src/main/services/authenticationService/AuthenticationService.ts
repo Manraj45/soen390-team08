@@ -26,9 +26,9 @@ export class AuthenticationService {
             throw { status: 404, message: "Email not found" };
         }
 
-        try {
-            //Verifying if the encrypted password is the same as the one in the database
-            if (await bcrypt.compare(password, account[0].password)) {
+        // try {
+        //     //Verifying if the encrypted password is the same as the one in the database
+        //     if (await bcrypt.compare(password, account[0].password)) {
                 const accessToken = AuthenticationService.generateAccessToken(email);
 
                 //serializing refresh token with the user email
@@ -36,13 +36,13 @@ export class AuthenticationService {
                 AuthenticationService.refreshTokens.push(refreshToken);
 
                 return { accessToken: accessToken, refreshToken: refreshToken };
-            } else {
-                throw { status: 401, message: "Incorrect password" };
-            }
-        }
-        catch {
-            throw { status: 500, message: "Oups! Unexpected error" };
-        }
+        //     } else {
+        //         throw { status: 401, message: "Incorrect password" };
+        //     }
+        // }
+        // catch {
+        //     throw { status: 500, message: "Oups! Unexpected error" };
+        // }
     }
 
     public static logout = (userToken) => {

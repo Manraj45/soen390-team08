@@ -8,8 +8,11 @@ export const initialize_db = (): void => {
         last_name TINYTEXT NOT NULL,
         role ENUM('ADMIN','MANAGER','EMPLOYEE','CUSTOMER') NOT NULL,
         password TINYTEXT NOT NULL,
-        email TINYTEXT NOT NULL,
-        recovery_questions TINYTEXT NOT NULL,
+        email VARCHAR(60) NOT NULL UNIQUE,
+        recovery_question1 TINYTEXT NOT NULL,
+        recovery_question1_answer TINYTEXT NOT NULL,
+        recovery_question2 TINYTEXT NOT NULL,
+        recovery_question1_2 TINYTEXT NOT NULL,
         organization TINYTEXT NOT NULL
     );`
 
