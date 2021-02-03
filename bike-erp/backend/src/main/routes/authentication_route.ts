@@ -2,7 +2,7 @@ import express from 'express';
 import { authenticateToken, AuthenticationService } from '../services/authenticationService/AuthenticationService';
 
 const router = express();
-const authenticationService = AuthenticationService.getAuthenticationService();
+AuthenticationService.getAuthenticationService();
 
 router.post('/login', (req, res) => {
     AuthenticationService.login(req.body.email, req.body.password).then((response) => {
