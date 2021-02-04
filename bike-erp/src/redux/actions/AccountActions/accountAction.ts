@@ -27,10 +27,11 @@ export const loginFailure = (error: any) => {
 
 export interface credential {
     email: string
-    //password: string
+    password: string
 }
 
 export const login = (credential: credential) => {
+    
     return (dispatch: any) => {
         dispatch(loginRequest)
         axios.post(`${url}/auth/login`, credential).then((response) => {

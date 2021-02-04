@@ -1,3 +1,5 @@
+import { rejects } from 'assert';
+import { error } from 'console';
 import db from '../helpers/db';
 
 export const fetchAccount = (email: string) => {
@@ -11,10 +13,11 @@ export const fetchAccount = (email: string) => {
 }
 
 export const createAcccount = (firstName: string, lastName: string, role: string, password: string, email: string, recovery_question1: string, recovery_question1_answer: string, recovery_question2: string, recovery_question2_answer: string, organization: string) => {
-    return new Promise<any>((resolve) => {
+    return new Promise<any>((resolve, rejects) => {
         const insert = 'INSERT INTO `bike_erp`.`account` (`first_name`, `last_name`, `role`, `password`, `email`, `recovery_question1`, `recovery_question1_answer`, `recovery_question2`, `recovery_question1_2`, `organization`) VALUES (\''+ firstName + '\', \''+ lastName +'\', \'' + role + '\', \''+password+'\', \''+ email +'\', \''+ recovery_question1 +'\', \''+ recovery_question1_answer +'\', \''+ recovery_question2 +'\', \''+ recovery_question2_answer +'\', \''+ organization + '\');'; 
         db.query(insert, (err) => {
             if (err) {
+                rejects({ status: 500, message: "Error with registration." })
                 console.log("The email already exists in the database.");
             }
             else {

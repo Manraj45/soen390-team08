@@ -7,6 +7,7 @@ import axios from 'axios';
 import { AUTH_URL } from './core/utils/config';
 import localStorageService from './core/services/LocalStorageService'
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import RegistrationPage from './components/RegistrationPage/RegistrationPage';
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
       localStorageService.setBearerToken();
     }
     isAuthenticated()
-  }, [])
+  }, [authenticated])
 
   axios.interceptors.response.use(
     (response) => {
@@ -24,7 +25,6 @@ function App() {
     },
     error => {
       if (error.response.data.message === "invalid_token") {
-        console.log("here")
         const request = error.config;
         delete axios.defaults.headers.common.Authorization;
         delete request.headers.Authorization;
@@ -37,11 +37,7 @@ function App() {
 
   const isAuthenticated = () => {
     const access_token: any = localStorage.getItem('access_token')
-    console.log()
-    console.log("asdasdas")
-    console.log(access_token)
     axios.get(`${AUTH_URL}/auth/token/validation`).then(response => {
-      console.log(response)
       if (response.status === 200) {
         setAuthenticated(true)
         console.log("authenticated")
@@ -55,8 +51,9 @@ function App() {
     <Provider store={store}>
       <Router>
         <div className="App">
-          <Route exact path="/" render={()=><h1>Hi</h1>}/> 
-          <Route path="/login" render={()=> authenticated ? <Redirect to="/"/>:<LoginPage/>}/>
+          <Route exact path="/" render={() => <h1>Hi</h1>} />
+          <Route path="/login" render={() => authenticated ? <Redirect to="/" /> : <LoginPage />} />
+          <Route path="/register" render={() => <RegistrationPage></RegistrationPage>} />
           <button onClick={isAuthenticated}>Click here</button>
         </div>
       </Router>
