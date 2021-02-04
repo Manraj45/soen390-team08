@@ -6,7 +6,7 @@
 /backend/dist
 /.pnp
 .pnp.js
-
+/backend/src/main/config.ts
 # testing
 /coverage
 
