@@ -2,6 +2,7 @@
     height: 100%;
     width: 300px;
     background-color: #3C3030;
+    position: relative
 }
 
 .accountMenuBar {
@@ -14,14 +15,12 @@
     align-items: center;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 24px;
-
 }
 
 .sideMenuList {
     height: auto;
     padding: 0;
     width: 100%;
-
 }
 
 .menuItems {
@@ -46,4 +45,30 @@
 .items{
     place-items: center;
     display: grid;
+}
+
+.container {
+    display: flex;
+    color:white;
+    justify-content: center;
+    padding-top: 25px;
+    place-items: center;
+}
+
+.icon {
+    flex: 10%;
+}
+
+.username {
+    flex: 30%;
+    font-size: 28px;
+}
+
+.settingLogout {
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    color: white;
+    width: 300px;
+    justify-content: space-between; 
 }
