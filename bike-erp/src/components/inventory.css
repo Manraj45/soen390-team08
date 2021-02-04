@@ -1,0 +1,19 @@
+
+.inventoryTable{
+    width: 10%;
+    
+    
+}
+
+.inventoryTitle{
+    display: inline-block;
+    padding-top: 500px;
+    padding-bottom: 1%;
+    align-items: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 24px;
+}
+
+.tableGrey{
+    background-color: #BFBFBF;
+}
