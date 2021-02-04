@@ -34,6 +34,13 @@ const LoginPage = (props: any) => {
                             <TextField type="password" name="password" label="Password" className={classes.textfield} ></TextField>
                             <br />
                             <Button type="submit" variant="contained" color="primary" className={classes.button}>Login</Button>
+                            
+                            
+                            
+                            {
+                                props.account.access_token ?<Typography>Login Success</Typography>:<></>
+                            }
+                            
                         </form>
                     </div>
                 </Grid>

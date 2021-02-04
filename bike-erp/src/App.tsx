@@ -8,6 +8,7 @@ import { AUTH_URL } from './core/utils/config';
 import localStorageService from './core/services/LocalStorageService'
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import RegistrationPage from './components/RegistrationPage/RegistrationPage';
+import Home from './components/Home/Home';
 
 function App() {
 
@@ -51,13 +52,12 @@ function App() {
     <Provider store={store}>
       <Router>
         <div className="App">
-          <Route exact path="/" render={() => <h1>Hi</h1>} />
+          <Route exact path="/" render={() => authenticated ? <Home></Home>:<Redirect to="/login"/>} />
           <Route path="/login" render={() => authenticated ? <Redirect to="/" /> : <LoginPage />} />
-          <Route path="/register" render={() => <RegistrationPage></RegistrationPage>} />
+          <Route path="/register" render={() => authenticated ? <Redirect to="/"/>:<RegistrationPage></RegistrationPage>} />
           <button onClick={isAuthenticated}>Click here</button>
         </div>
       </Router>
-
     </Provider>
   );
 }
