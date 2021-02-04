@@ -55,7 +55,6 @@ function App() {
           <Route exact path="/" render={() => authenticated ? <Home></Home>:<Redirect to="/login"/>} />
           <Route path="/login" render={() => authenticated ? <Redirect to="/" /> : <LoginPage />} />
           <Route path="/register" render={() => authenticated ? <Redirect to="/"/>:<RegistrationPage></RegistrationPage>} />
-          <button onClick={isAuthenticated}>Click here</button>
         </div>
       </Router>
     </Provider>
