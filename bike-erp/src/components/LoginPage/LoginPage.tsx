@@ -47,7 +47,7 @@ const LoginPage = (props: any) => {
                 <Grid item xs={12} md={4} className={classes.grid}>
                     <div className={classes.register}>
                         <Typography variant="h5">Don't have an account?</Typography>
-                        <Button variant="contained" color="primary" className={classes.button}><Link to="/register">Register</Link></Button>
+                        <Button variant="contained" color="primary" className={classes.button}><Link to="/register" style={{textDecoration: "none", color:"white"}}>Register</Link></Button>
                     </div>
                 </Grid>
             </Grid>
