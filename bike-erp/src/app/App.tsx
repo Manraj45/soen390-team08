@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import { Provider } from 'react-redux';
-import store from './redux/store';
-import LoginPage from './components/LoginPage/LoginPage'
+import store from '../redux/store';
+import LoginPage from '../components/LoginPage/LoginPage'
 import axios from 'axios';
-import { AUTH_URL } from './core/utils/config';
-import localStorageService from './core/services/LocalStorageService'
+import { AUTH_URL } from '../core/utils/config';
+import localStorageService from '../core/services/LocalStorageService'
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import RegistrationPage from './components/RegistrationPage/RegistrationPage';
-import Home from './components/Home/Home';
+import RegistrationPage from '../components/RegistrationPage/RegistrationPage';
+import Home from '../components/Home/Home';
 
 function App() {
 
