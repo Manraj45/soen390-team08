@@ -38,7 +38,7 @@ Our product will allow creating, editing and tracking of bike components.
 - Typescript
 - MySQL
 
-## Install
-1. Clone the repository
-2. `npm install` in the root of the project
-3. `cd` to the `backend` folder and `npm install`
+## Running the project
+To run the project locally, make sure to have Docker set up following the [documentation](https://github.com/nasaku898/soen390-team08/wiki/Setting-up-Docker).
+
+Once done, simply write `docker-compose up --build` in your terminal. The project will be available at http://localhost:3000.
