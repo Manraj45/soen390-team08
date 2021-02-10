@@ -8,7 +8,7 @@ const db = mysql.createConnection({
     database: 'bike_erp'
 });
 
-db.connect(function(err) {
+db.connect(function (err) {
     if (err) throw err;
     console.log("Connected to database.");
 });
