@@ -1,11 +1,11 @@
 export class Location {
 
     private location_id: number
-    private component_name: string
+    private location: string
 
     constructor(location_id: number, name: string) {
         this.location_id = location_id
-        this.component_name = name
+        this.location = name
     }
 
     public getLocation_id(): number {
@@ -16,11 +16,11 @@ export class Location {
         this.location_id = location_id;
     }
 
-    public getName(): string {
-        return this.component_name;
+    public getLocation(): string {
+        return this.location;
     }
 
-    public setName(name: string): void {
-        this.component_name = name;
+    public setLocation(name: string): void {
+        this.location = name;
     }
 }
