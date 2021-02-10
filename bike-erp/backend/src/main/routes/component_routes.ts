@@ -5,14 +5,6 @@ import { InventoryManagementService } from '../services/inventoryManagementServi
 const router = express();
 const inventoryManagementService = new InventoryManagementService();
 
-router.post('/', (req, res) => {
-    inventoryManagementService.addComponent(req.body).then((response) => {
-        res.json(response)
-    }).catch((error) => {
-        res.status(error.status).send(error.message)
-    });
-});
-
 router.get('/', (req, res) => {
     inventoryManagementService.getAllComponents().then((response) => {
         res.json(response)
@@ -29,28 +21,15 @@ router.get('/:component_id', (req, res) => {
     });
 });
 
-router.put('/:component_id', (req, res) => {
-    inventoryManagementService.editComponent(req.params.component_id, req.body).then((response) => {
+router.put('/updateQuantity', (req, res) => {
+    const id = req.body.id;
+    const quantity = req.body.quantity;
+    inventoryManagementService.editComponent(id, quantity).then((response) => {
         res.json(response)
     }).catch((error) => {
         res.status(error.status).send(error.message)
     });
 });
 
-router.delete('/:component_id', (req, res) => {
-    inventoryManagementService.removeComponent(req.params.component_id).then((response) => {
-        res.json(response)
-    }).catch((error) => {
-        res.status(error.status).send(error.message)
-    });
-});
-
-router.delete('/', (req, res) => {
-    inventoryManagementService.removeAllComponents().then((response) => {
-        res.json(response)
-    }).catch((error) => {
-        res.status(error.status).send(error.message)
-    });
-});
 
 export default router;

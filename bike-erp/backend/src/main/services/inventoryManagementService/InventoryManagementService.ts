@@ -1,11 +1,8 @@
 import { JsonObjectExpression } from 'typescript';
-import {createComponent, fetchAllComponents, fetchComponent, updateComponent, deleteComponent, deleteAllComponents} from '../../dao/ComponentDAO';
+import {fetchAllComponents, fetchComponent, updateComponent} from '../../dao/ComponentDAO';
 import {Component} from '../../models/Component';
 
 export class InventoryManagementService {
-    public addComponent = (component: JsonObjectExpression) => {
-        return createComponent(component);
-    }
 
     public getAllComponents = () => {
         return fetchAllComponents();
@@ -15,15 +12,8 @@ export class InventoryManagementService {
         return fetchComponent(id);
     }
 
-    public editComponent = (id: string, component: JsonObjectExpression) => {
-        return updateComponent(id, component);
+    public editComponent = (id: string, quantity: string) => {
+        return updateComponent(id, quantity);
     }
 
-    public removeComponent = (id: string) => {
-        return deleteComponent(id);
-    }
-
-    public removeAllComponents = () => {
-        return deleteAllComponents();
-    }
 }
