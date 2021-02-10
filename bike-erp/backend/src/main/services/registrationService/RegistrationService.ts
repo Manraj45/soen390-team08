@@ -6,7 +6,7 @@ export class RegistrationService {
     private static registrationService: RegistrationService | undefined;
 
     //restrict so that the service cannot be constructed outside of the class
-    private constructor () {};
+    private constructor() { };
 
     public static getRegistrationService() {
         if (this.registrationService === undefined) {
@@ -25,4 +25,4 @@ export class RegistrationService {
             throw { status: 500, message: "Error with registration." };
         }
     }
-}
+} 

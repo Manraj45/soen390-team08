@@ -1,7 +1,6 @@
 export class Bike {
 
     private bike_id: number
-    private model_id: number
     private price: number
     private size: Size
     private color: string
