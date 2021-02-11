@@ -1,8 +1,8 @@
 import express from 'express';
-import { AuthenticationService } from '../services/authenticationService/AuthenticationService';
+import { authenticateToken, AuthenticationService } from '../services/authenticationService/AuthenticationService';
 
 const router = express();
-const authenticationService = AuthenticationService.getAuthenticationService();
+AuthenticationService.getAuthenticationService();
 
 router.post('/login', (req, res) => {
     AuthenticationService.login(req.body.email, req.body.password).then((response) => {
@@ -11,6 +11,10 @@ router.post('/login', (req, res) => {
         res.status(error.status).send(error.message);
     });
 });
+
+router.get('/token/validation', authenticateToken ,(req, res)=>{
+    res.sendStatus(200)
+})
 
 router.post('/token', (req, res) => {
     AuthenticationService.generateNewAccessToken(req.body.token).then((response) => {

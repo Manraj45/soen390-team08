@@ -8,8 +8,11 @@ export const initialize_db = (): void => {
         last_name TINYTEXT NOT NULL,
         role ENUM('ADMIN','MANAGER','EMPLOYEE','CUSTOMER') NOT NULL,
         password TINYTEXT NOT NULL,
-        email TINYTEXT NOT NULL,
-        recovery_questions TINYTEXT NOT NULL,
+        email VARCHAR(60) NOT NULL UNIQUE,
+        recovery_question1 TINYTEXT NOT NULL,
+        recovery_question1_answer TINYTEXT NOT NULL,
+        recovery_question2 TINYTEXT NOT NULL,
+        recovery_question1_2 TINYTEXT NOT NULL,
         organization TINYTEXT NOT NULL
     );`
 
@@ -26,35 +29,22 @@ export const initialize_db = (): void => {
     const createComponentLocation:string = `
     CREATE TABLE IF NOT EXISTS component_location(
         location_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        component_name TINYTEXT NOT NULL
+        location_name TINYTEXT NOT NULL
     );`
 
     const createLocatedIn:string = `
     CREATE TABLE IF NOT EXISTS located_in(
         location_id int NOT NULL,
-        component_id int NOT NULL PRIMARY KEY,
+        component_id int NOT NULL,
+        PRIMARY KEY(location_id,component_id),
         FOREIGN KEY(location_id) REFERENCES component_location(location_id),
         FOREIGN KEY(component_id) REFERENCES Component(component_id)
     );`
 
-    const createModel:string = `
-    CREATE TABLE IF NOT EXISTS Model(
-        model_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        model_name TINYTEXT NOT NULL
-    );`
-
-    const createHasA:string = `
-    CREATE TABLE IF NOT EXISTS has_a(
-        model_id int NOT NULL,
-        component_id int NOT NULL PRIMARY KEY,
-        FOREIGN KEY(model_id) REFERENCES Model(model_id),
-        FOREIGN KEY(component_id) REFERENCES Component(component_id)
-    );`
 
     const createBike:string = `
     CREATE TABLE IF NOT EXISTS Bike(
         bike_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        model_id int NOT NULL,
         price float(24),
         size ENUM('LARGE','MEDIUM','SMALL') NOT NULL,
         color TINYTEXT NOT NULL,
@@ -100,12 +90,13 @@ export const initialize_db = (): void => {
 
     const createComposedOf:string = `
     CREATE TABLE IF NOT EXISTS Composed_of(
-        bike_id int NOT NULL PRIMARY KEY,
+        bike_id int NOT NULL,
         handle_id int NOT NULL,
         wheel_id int NOT NULL,
         frame_id int NOT NULL,
         seat_id int NOT NULL,
         drive_train_id int NOT NULL,
+        PRIMARY KEY(bike_id,handle_id,wheel_id,frame_id,seat_id,drive_train_id),
         FOREIGN KEY(bike_id) REFERENCES Bike(bike_id),
         FOREIGN KEY(handle_id) REFERENCES Handle(handle_id),
         FOREIGN KEY(wheel_id) REFERENCES Wheel(wheel_id),
@@ -165,15 +156,6 @@ export const initialize_db = (): void => {
     db.query(createLocatedIn, (err, result) => {
         if (err) throw err;
         console.log("Located_in Tables Created")
-    })
-    db.query(createModel, (err, result) => {
-        if (err) throw err;
-        console.log("Model Tables Created")
-    })
-
-    db.query(createHasA, (err, result) => {
-        if (err) throw err;
-        console.log("Has_a Tables Created")
     })
 
     db.query(createBike, (err, result) => {

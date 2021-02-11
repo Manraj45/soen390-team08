@@ -6,7 +6,7 @@
 /backend/dist
 /.pnp
 .pnp.js
-
+/backend/src/main/config.ts
 # testing
 /coverage
 
@@ -23,3 +23,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.eslintcache
+
+/backend/src/main/config/config.ts

@@ -10,6 +10,7 @@
     "build": "tsc -p .",
     "test": "jest src/test"
   },
+  "proxy": "http://localhost:3000",
   "author": "",
   "license": "ISC",
   "dependencies": {
