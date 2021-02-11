@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-d
 import RegistrationPage from './components/RegistrationPage/RegistrationPage';
 import Home from './components/Home/Home';
 
-import ERPMenu from './components/ERPMenu';
+import Inventory from './components/inventory'
 
 function App() {
 
@@ -52,7 +52,7 @@ function App() {
 
   return (
     <div className="App">
-      <ERPMenu/>
+      <Inventory></Inventory>
     </div>
   );
 }
