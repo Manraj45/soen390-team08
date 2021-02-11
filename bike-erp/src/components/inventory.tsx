@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const : React.FC = () => {
+const Inventory : React.FC = () => {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -65,4 +65,4 @@ const : React.FC = () => {
   );
 }
 
-export default ;
+export default Inventory;
