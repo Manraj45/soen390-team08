@@ -2,7 +2,9 @@ version: "3.9"
 services:
 
   database:
+    container_name: mysql_db
     restart: always
+    command: --default-authentication-plugin=mysql_native_password
     image: mysql:8.0.22
     networks:
       - backend
@@ -10,11 +12,16 @@ services:
     environment:
       MYSQL_DATABASE: bike_erp
       MYSQL_USER: root
-      MYSQL_PASSWORD: bikeerp123
+      MYSQL_PASSWORD: root
+      MYSQL_HOSTNAME: 127.0.0.1
+      MYSQL_ROOT_PASSWORD: root
+    
     ports:
       - "3306:3306"
 
   backend:
+    depends_on: 
+      - database
     restart: on-failure
     image: backend
     build:
@@ -25,6 +32,11 @@ services:
       - backend
     environment: 
       - CHOKIDAR_USEPOLLING=true
+      - MYSQL_HOSTNAME=127.0.0.1
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=bike_erp
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
     command: 
       bash -c "cd backend && npm run start"
 
@@ -39,6 +51,11 @@ services:
       - authentication
     environment: 
       - CHOKIDAR_USEPOLLING=true
+      - MYSQL_HOSTNAME=127.0.0.1
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=bike_erp
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
     command: 
       bash -c "cd backend && npm run auth"
 

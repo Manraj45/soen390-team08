@@ -19,7 +19,6 @@ export class Bike {
         quantity: number
     ) {
         this.bike_id = bike_id
-        this.model_id = model_id
         this.price = price
         this.size = size
         this.color = color
@@ -35,15 +34,6 @@ export class Bike {
     public setBike_id(bike_id: number): void {
         this.bike_id = bike_id;
     }
-
-    public getModel_id(): number {
-        return this.model_id;
-    }
-
-    public setModel_id(model_id: number): void {
-        this.model_id = model_id;
-    }
-
     public getPrice(): number {
         return this.price;
     }
