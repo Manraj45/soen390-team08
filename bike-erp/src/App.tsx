@@ -49,18 +49,6 @@ function App() {
   }
 
   return (
-<<<<<<< HEAD
-    <Grid container direction="column">
-        <Grid item container>
-          <Grid item xs={1} sm={2}>
-            This is where the menu will be
-          </Grid>
-          <Grid item xs={11} sm={10}>
-            <Content />
-          </Grid>
-        </Grid>
-    </Grid>
-=======
     <Provider store={store}>
       <Router>
         <div className="App">
@@ -70,7 +58,6 @@ function App() {
         </div>
       </Router>
     </Provider>
->>>>>>> development
   );
 }
 

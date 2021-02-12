@@ -39,7 +39,7 @@ export const login = (credential: credential) => {
             localStorageService.setToken(response.data)
             localStorageService.setBearerToken()
             dispatch(loginSuccuess(access_token))
-        }).catch(error => {
+        }).catch((error) => {
             const errorMsg = error.response.data
             dispatch(loginFailure(errorMsg))
         })
