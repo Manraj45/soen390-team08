@@ -39,6 +39,46 @@ Our product will allow creating, editing and tracking of bike components.
 - MySQL
 
 ## Running the project
-To run the project locally, make sure to have Docker set up following the [documentation](https://github.com/nasaku898/soen390-team08/wiki/Setting-up-Docker).
 
-Once done, simply write `docker-compose up --build` in your terminal. The project will be available at http://localhost:3000.
+### Locally
+1. In the file `/bike-erp/backend/src/main/config/config.ts`, make sure that the local database variables are uncommented and that the external database variables are commented. You have to enter the password (and other information if necessary) of your local mysql database in the config.ts file.
+
+2. Open a terminal and `cd` into the bike-erp directory.
+
+3. Run the following install and build scripts: `sh install.sh; sh build.sh`
+
+if the scripts don't work, run the following commands in order:
+
+i. `npm install`
+
+ii. `cd backend`
+
+iii. `npm install`
+
+iv. Open three terminal:
+
+In the first terminal, run the following command: 
+`npm start`
+
+In the second terminal, run the following commands: 
+`cd backend`
+`npm run dev`
+
+In the third terminal, run the following commands:
+`cd backend`
+`npm run authStart`
+
+4. The project will be available at http://localhost:3000.
+
+### Docker
+To run the project on docker, make sure to have Docker set up following the [documentation](https://github.com/nasaku898/soen390-team08/wiki/Setting-up-Docker).
+
+1. Make sure that docker is running.
+
+2. In the file `/bike-erp/backend/src/main/config/config.ts`, make sure that the external database variables are uncommented and that the local database variables are commented.
+
+3. Open a terminal and `cd` into the bike-erp directory.
+
+4. Run the following command: `docker-compose up --build` 
+
+5. The project will be available at http://localhost:3000.
