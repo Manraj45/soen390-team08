@@ -64,7 +64,7 @@ To run the project locally, make sure to have a MySQL database set up following 
 
     | `sh install.sh`                                                                | `sh build.sh`                                                                          |
     |:------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------:|
-    | This script will install all the node modules for the frontend and the backend | This script will start the front end, the backend server and the authentication server |
+    | This script will install all the node modules for the frontend and the backend | This script will start the frontend, the backend server and the authentication server |
 
     Should the scripts not work (e.g. you are running the above in the command prompt), run the following commands:
 
@@ -76,15 +76,20 @@ To run the project locally, make sure to have a MySQL database set up following 
 
     iv. Open three new terminals:
 
-    In the first terminal, `cd` into the bike-erp directory and run the following command: 
+    In the first terminal, navigate to the bike-erp directory and run the following command: 
+    
     `npm start`
 
-    In the second terminal, `cd` into the bike-erp directory and run the following commands: 
+    In the second terminal, navigate to the bike-erp directory and run the following commands: 
+    
     `cd backend`
+    
     `npm run dev`
 
-    In the third terminal, `cd` into the bike-erp directory and run the following commands:
+    In the third terminal, navigate to the bike-erp directory and run the following commands:
+   
     `cd backend`
+
     `npm run authStart`
 
 4. The project will be available at http://localhost:3000.
