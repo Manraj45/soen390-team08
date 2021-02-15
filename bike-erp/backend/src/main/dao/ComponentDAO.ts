@@ -32,3 +32,13 @@ export const updateComponent = (id: string, quantity: string) => {
         });
     });
 }
+
+export const addComponent = (component : Component) => {
+    return new Promise((resolve, reject) =>{
+        const query = "INSERT INTO component VALUES (?, ?, ?, ?, ? ,?)";
+        db.query(query, [component.getComponent_id, component.getPrice, component.getQuantity, component.getComponent_type, component.getComponent_status, component.getSize]), (err, rows)=>{
+            if(err) return reject(err);
+            resolve(JSON.parse(JSON.stringify(rows)));
+        }
+    });
+}
