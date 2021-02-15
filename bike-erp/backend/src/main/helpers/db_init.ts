@@ -1,4 +1,5 @@
 import db from '../helpers/db'
+import {fillComponentCatalogue,fillLocation} from '../helpers/db_catalog_init'
 
 export const initialize_db = (): void => {
     const createAccountQuery: string = `
@@ -21,26 +22,18 @@ export const initialize_db = (): void => {
         component_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         price float(24) NOT NULL,
         quantity int NOT NULL DEFAULT 0,
-        component_type ENUM('PEDAL','WHEEL', 'SEAT','DRIVE_TRAIN', 'HANDLE') NOT NULL,
+        component_type ENUM('FRAME','WHEEL', 'SEAT','DRIVE_TRAIN', 'HANDLE') NOT NULL,
         component_status ENUM('AVAILABLE','UNAVAILABLE','INCOMING') NOT NULL,
-        size ENUM('LARGE','MEDIUM','SMALL') NOT NULL
+        size ENUM('LARGE','MEDIUM','SMALL') NOT NULL,
+        specificComponentType TINYTEXT NULL
     );`
 
     const createComponentLocation:string = `
     CREATE TABLE IF NOT EXISTS component_location(
-        location_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        location_name TINYTEXT NOT NULL
-    );`
-
-    const createLocatedIn:string = `
-    CREATE TABLE IF NOT EXISTS located_in(
-        location_id int NOT NULL,
         component_id int NOT NULL,
-        PRIMARY KEY(location_id,component_id),
-        FOREIGN KEY(location_id) REFERENCES component_location(location_id),
-        FOREIGN KEY(component_id) REFERENCES Component(component_id)
+        location_name VARCHAR(60) NOT NULL,
+        PRIMARY KEY(location_name,component_id)
     );`
-
 
     const createBike:string = `
     CREATE TABLE IF NOT EXISTS Bike(
@@ -138,6 +131,10 @@ export const initialize_db = (): void => {
         FOREIGN KEY(bike_id) REFERENCES Bike(bike_id)
     );`
 
+    
+
+
+
     db.query(createAccountQuery, (err, result) => {
         if (err) throw err;
         console.log("Account Table Created")
@@ -150,12 +147,7 @@ export const initialize_db = (): void => {
 
     db.query(createComponentLocation, (err, result) => {
         if (err) throw err;
-        console.log("Component Tables Created")
-    })
-
-    db.query(createLocatedIn, (err, result) => {
-        if (err) throw err;
-        console.log("Located_in Tables Created")
+        console.log("Component Table Created")
     })
 
     db.query(createBike, (err, result) => {
@@ -210,5 +202,15 @@ export const initialize_db = (): void => {
     db.query(createAccountReceivable, (err, result) => {
         if (err) throw err;
         console.log("Account_receivable Tables Created")
+    })
+
+    db.query(fillComponentCatalogue, (err, result) => {
+        if (err) throw err;
+        console.log("Filling Component Catalogue")
+    })
+
+    db.query(fillLocation, (err,result) => {
+        if (err) throw err;
+        console.log("Adding Component Catalogue to Location")
     })
 }

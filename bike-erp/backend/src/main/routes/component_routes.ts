@@ -31,5 +31,12 @@ router.put('/updateQuantity', (req, res) => {
     });
 });
 
+router.get('/componentLocation/:component_id', (req, res) => {
+    inventoryManagementService.getComponentLocation(req.params.component_id).then((response) => {
+        res.json(response)
+    }).catch((error) => {
+        res.status(error.status).send(error.message)
+    });
+});
 
 export default router;
