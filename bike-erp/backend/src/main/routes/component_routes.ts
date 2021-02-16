@@ -4,6 +4,7 @@ import { InventoryManagementService } from '../services/inventoryManagementServi
 
 const router = express();
 const inventoryManagementService = new InventoryManagementService();
+const orderService = new OrderService();
 
 router.get('/', (req, res) => {
     inventoryManagementService.getAllComponents().then((response) => {

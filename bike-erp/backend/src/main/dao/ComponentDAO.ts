@@ -1,6 +1,6 @@
 import { JsonObjectExpression } from 'typescript';
 import db from '../helpers/db';
-import {Component} from '../models/Component'
+import {Component, Status} from '../models/Component'
 
 export const fetchAllComponents = () => {
     return new Promise<Array<any>>((resolve, reject) => {
@@ -37,18 +37,30 @@ export const updateComponent = (id: string, quantity: string) => {
     });
 }
 
-export const addComponent = (component : Component) => {
-    return new Promise((resolve, reject) =>{
-        const query = "INSERT INTO component VALUES (?, ?, ?, ?, ? ,?)";
-        db.query(query, [component.getComponent_id, component.getPrice, component.getQuantity, component.getComponent_type, component.getComponent_status, component.getSize]), (err, rows)=>{
-            if(err) return reject(err);
+export const updateComponentStatus = (id: string, status: Status) => {
+    return new Promise((resolve, reject) => {
+        const query = 'UPDATE component SET status=? WHERE component_id=?'; 
+        db.query(query,[status.toString(), id], (err, rows) => {
+            console.log(status);
+            if (err) return reject(err);
             resolve(JSON.parse(JSON.stringify(rows)));
-        }
+        });
     });
 }
+
 export const fetchComponentLocation = (id: string) => {
     return new Promise((resolve, reject) => {
         const query = 'SELECT * FROM component_location WHERE component_id = ?'; 
+        db.query(query, [id], (err, rows) => {
+            if (err) return reject(err);
+            resolve(JSON.parse(JSON.stringify(rows)));
+        });
+    });
+}
+
+export const fetchComponentStatus = (id: string) => {
+    return new Promise((resolve, reject) =>{
+        const query = 'SELECT * FROM component_status WHERE component_id = ?'
         db.query(query, [id], (err, rows) => {
             if (err) return reject(err);
             resolve(JSON.parse(JSON.stringify(rows)));

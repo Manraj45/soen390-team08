@@ -1,5 +1,5 @@
 import * as ComponentDAO from '../../dao/ComponentDAO'
-import {Component} from '../../models/Component'
+import {Component, Status} from '../../models/Component'
 
 export class OrderService {
     public getAllComponents = () =>{
@@ -10,11 +10,30 @@ export class OrderService {
         return ComponentDAO.fetchComponent(id);
     }
 
-    public setComponent = (id : string, quantity) =>{
+    private setComponentQuantity = (id : string, quantity: string) =>{
         return ComponentDAO.updateComponent(id, quantity);
     }
 
-    public addComponent = (component : Component) =>{
-        return ComponentDAO.addComponent(component);
+    private setComponentStatus = (id: string, status: Status) =>{
+        return ComponentDAO.updateComponentStatus(id, status);
+    }
+
+    public getComponentStatus = (id: string) =>{
+        return ComponentDAO.fetchComponentStatus(id);
+    }
+
+    public setComponent = async (id: string, quantity: string) =>{
+        const currentStatus = await this.getComponentStatus(id);
+        switch (currentStatus){
+            case 'AVAILABLE':
+                if(parseInt(quantity) == 0){
+                    this.setComponentStatus(id, Status.UNAVAILABLE);
+                }
+            case 'UNAVAILABLE':
+                if(parseInt(quantity) > 0){
+                    this.setComponentStatus(id, Status.AVAILABLE);
+                }
+        }
+        return this.setComponentQuantity(id, quantity);
     }
 }
