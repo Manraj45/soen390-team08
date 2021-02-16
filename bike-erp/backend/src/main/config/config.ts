@@ -11,6 +11,6 @@ export const DB_PORT: number = 3306*/
 //Local database
 export const DB_HOST: string = "localhost"
 export const DB_USER: string = "root"
-export const DB_PASSWORD: string = "Parkminyoung898!"
+export const DB_PASSWORD: string = "Enter your password"
 export const DB_DATABASE: string = "bike_erp"
 export const DB_PORT: number = 3306
