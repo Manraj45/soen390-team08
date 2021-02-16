@@ -13,7 +13,7 @@ const LoginPage = (props: any) => {
         event.preventDefault()
         const email: string = event.currentTarget.email.value
         const password: string = event.currentTarget.password.value
-        props.login({ email: email, password:password })
+        props.login({ email: email, password: password })
     }
     return (
         <div>
@@ -34,20 +34,16 @@ const LoginPage = (props: any) => {
                             <TextField type="password" name="password" label="Password" className={classes.textfield} ></TextField>
                             <br />
                             <Button type="submit" variant="contained" color="primary" className={classes.button}>Login</Button>
-                            
-                            
-                            
                             {
-                                props.account.access_token ?<Typography>Login Success</Typography>:<></>
+                                props.account.access_token ? <Typography>Login Success</Typography> : <></>
                             }
-                            
                         </form>
                     </div>
                 </Grid>
                 <Grid item xs={12} md={4} className={classes.grid}>
                     <div className={classes.register}>
                         <Typography variant="h5">Don't have an account?</Typography>
-                        <Button variant="contained" color="primary" className={classes.button}><Link to="/register" style={{textDecoration: "none", color:"white"}}>Register</Link></Button>
+                        <Link to="/register" style={{ textDecoration: "none", color: "white" }}><Button variant="contained" color="primary" className={classes.button}>Register</Button></Link>
                     </div>
                 </Grid>
             </Grid>

@@ -12,7 +12,7 @@ interface RegistrationData {
     password: string
     firstName: string
     lastName: string
-    role:string
+    role: string
     recovery_question1: string
     recovery_question2: string
     recovery_question1_answer: string
@@ -34,7 +34,7 @@ const RegistrationPage = () => {
         }).catch((error) => {
             console.log(error.data)
         })
-    }, [])
+    }, [url])
 
     const handleQuestion1 = (event: React.ChangeEvent<{ value: unknown }>) => {
         setQuestion1(event.target.value as string)
@@ -52,21 +52,18 @@ const RegistrationPage = () => {
             password: event.currentTarget.password.value,
             firstName: event.currentTarget.firstName.value,
             lastName: event.currentTarget.lastName.value,
-            role:"ADMIN",
+            role: "ADMIN",
             recovery_question1: question1,
             recovery_question2: question2,
             recovery_question1_answer: event.currentTarget.answer1.value,
             recovery_question2_answer: event.currentTarget.answer2.value
         }
 
-        axios.post(`${url}/register/submission`, registrationData).then(response=>{
+        axios.post(`${url}/register/submission`, registrationData).then(response => {
             history.push("/login")
-            console.log(response)
-        }).catch(error=>{
+        }).catch(error => {
             console.log(error)
         })
-
-        console.log(registrationData)
     }
     return (
         <div>
