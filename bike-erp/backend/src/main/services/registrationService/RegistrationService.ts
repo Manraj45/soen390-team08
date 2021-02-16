@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { createAcccount } from '../../dao/AccountDAO';
+import { AccountDao } from '../../dao/AccountDAO';
 
 export class RegistrationService {
 
@@ -7,6 +7,8 @@ export class RegistrationService {
 
     //restrict so that the service cannot be constructed outside of the class
     private constructor() { };
+
+    private static accountDao = new AccountDao();
 
     public static getRegistrationService() {
         if (this.registrationService === undefined) {
@@ -20,7 +22,7 @@ export class RegistrationService {
         try {
             //encrypt the password for security
             const hashedPassword = await bcrypt.hash(password, 10);
-            await createAcccount(firstName, lastName, role, hashedPassword, email, recovery_question1, recovery_question1_answer, recovery_question2, recovery_question2_answer, organization);
+            await RegistrationService.accountDao.createAcccount(firstName, lastName, role, hashedPassword, email, recovery_question1, recovery_question1_answer, recovery_question2, recovery_question2_answer, organization);
         } catch {
             throw { status: 500, message: "Error with registration." };
         }

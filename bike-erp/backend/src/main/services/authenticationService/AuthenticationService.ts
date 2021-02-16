@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { fetchAccount } from '../../dao/AccountDAO';
+import { AccountDao } from '../../dao/AccountDAO';
 import bcrypt from 'bcrypt';
 
 export class AuthenticationService {
@@ -18,8 +18,14 @@ export class AuthenticationService {
         }
     }
 
+    private static accountDao = new AccountDao();
+
+    public static getAccountDao = () => {
+        return AuthenticationService.accountDao;
+    }
+
     public static login = async (email: string, password: string) => {
-        const account = await fetchAccount(email);
+        const account = await AuthenticationService.accountDao.fetchAccount(email);
 
         //Verifying if there was any account with the same email in the database
         if (account.length == 0) {
@@ -29,6 +35,7 @@ export class AuthenticationService {
         try {
             //Verifying if the encrypted password is the same as the one in the database
             if (await bcrypt.compare(password, account[0].password)) {
+
                 const accessToken = AuthenticationService.generateAccessToken(email);
 
                 //serializing refresh token with the user email
@@ -37,11 +44,16 @@ export class AuthenticationService {
 
                 return { accessToken: accessToken, refreshToken: refreshToken };
             } else {
-                throw { status: 401, message: "Incorrect password" };
+                throw new Error("invPass");
             }
         }
-        catch {
-            throw { status: 500, message: "Oups! Unexpected error" };
+        catch (error) {
+            if (error.message == 'invPass') {
+                throw { status: 401, message: "Incorrect password" };
+            }
+            else {
+                throw { status: 500, message: "Oups! Unexpected error" };
+            }
         }
     }
 
