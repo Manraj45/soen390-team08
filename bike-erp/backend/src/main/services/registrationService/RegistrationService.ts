@@ -17,12 +17,20 @@ export class RegistrationService {
     }
 
     public static register = async (firstName: string, lastName: string, role: string, password: string, email: string, recovery_question1: string, recovery_question1_answer: string, recovery_question2: string, recovery_question2_answer: string, organization: string) => {
-        try {
+        return new Promise(async (resolve, reject) => {
             //encrypt the password for security
             const hashedPassword = await bcrypt.hash(password, 10);
-            await createAcccount(firstName, lastName, role, hashedPassword, email, recovery_question1, recovery_question1_answer, recovery_question2, recovery_question2_answer, organization);
-        } catch {
-            throw { status: 500, message: "Error with registration." };
-        }
+            createAcccount(firstName, lastName, role, hashedPassword, email, recovery_question1, recovery_question1_answer, recovery_question2, recovery_question2_answer, organization).then(
+                response => {
+                    resolve({ status: 201, message: response.message })
+                }
+            ).catch(error => {
+                if (error.sqlMessage.includes("Duplicate")) {
+                    reject({ status: 404, message: "Email already exist" });
+                } else {
+                    reject({ status: 404, message: error.sqlMessage });
+                }
+            })
+        })
     }
 } 

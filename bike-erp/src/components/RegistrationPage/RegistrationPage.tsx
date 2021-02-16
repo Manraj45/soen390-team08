@@ -26,6 +26,8 @@ const RegistrationPage = () => {
     const [question1, setQuestion1] = useState('')
     const [question2, setQuestion2] = useState('')
 
+    const [registrationErrorMessage, setRegistrationErrorMessage] = useState("")
+
     const history = useHistory();
 
     useEffect(() => {
@@ -62,9 +64,10 @@ const RegistrationPage = () => {
         axios.post(`${url}/register/submission`, registrationData).then(response => {
             history.push("/login")
         }).catch(error => {
-            console.log(error)
+            setRegistrationErrorMessage(error.response.data.message)
         })
     }
+    
     return (
         <div>
             <Grid container spacing={0} direction="row" className={classes.registrationPageWrapper}>
@@ -118,6 +121,9 @@ const RegistrationPage = () => {
                         <br />
                         <TextField name="answer2" label="Answer Question 2" className={classes.textfield}></TextField>
                         <br />
+                        {
+                            registrationErrorMessage ? <Typography className={classes.error}>{registrationErrorMessage}</Typography>:<></>
+                        }
                         <Button variant="contained" color="primary" className={classes.button} type="submit">Register</Button>
                     </form>
                 </Grid>
