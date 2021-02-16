@@ -39,7 +39,7 @@ export const updateComponent = (id: string, quantity: string) => {
 
 export const updateComponentStatus = (id: string, status: Status) => {
     return new Promise((resolve, reject) => {
-        const query = 'UPDATE component SET status=? WHERE component_id=?'; 
+        const query = 'UPDATE component SET component_status=? WHERE component_id=?'; 
         db.query(query,[status.toString(), id], (err, rows) => {
             console.log(status);
             if (err) return reject(err);
@@ -60,7 +60,7 @@ export const fetchComponentLocation = (id: string) => {
 
 export const fetchComponentStatus = (id: string) => {
     return new Promise((resolve, reject) =>{
-        const query = 'SELECT * FROM component_status WHERE component_id = ?'
+        const query = 'SELECT component_status FROM component WHERE component_id = ?'
         db.query(query, [id], (err, rows) => {
             if (err) return reject(err);
             resolve(JSON.parse(JSON.stringify(rows)));
