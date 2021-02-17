@@ -2,7 +2,7 @@ import db from '../helpers/db'
 
 export const initialize_db = (): void => {
     const createAccountQuery: string = `
-    CREATE TABLE IF NOT EXISTS Account(
+    CREATE TABLE IF NOT EXISTS account(
         account_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         first_name TINYTEXT NOT NULL,
         last_name TINYTEXT NOT NULL,
@@ -17,7 +17,7 @@ export const initialize_db = (): void => {
     );`
 
     const createComponentQuery: string = `
-    CREATE TABLE IF NOT EXISTS Component(
+    CREATE TABLE IF NOT EXISTS component(
         component_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         price float(24) NOT NULL,
         quantity int NOT NULL DEFAULT 0,
@@ -26,24 +26,24 @@ export const initialize_db = (): void => {
         size ENUM('LARGE','MEDIUM','SMALL') NOT NULL
     );`
 
-    const createComponentLocation:string = `
+    const createComponentLocation: string = `
     CREATE TABLE IF NOT EXISTS component_location(
         location_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         location_name TINYTEXT NOT NULL
     );`
 
-    const createLocatedIn:string = `
+    const createLocatedIn: string = `
     CREATE TABLE IF NOT EXISTS located_in(
         location_id int NOT NULL,
         component_id int NOT NULL,
         PRIMARY KEY(location_id,component_id),
         FOREIGN KEY(location_id) REFERENCES component_location(location_id),
-        FOREIGN KEY(component_id) REFERENCES Component(component_id)
+        FOREIGN KEY(component_id) REFERENCES component(component_id)
     );`
 
 
-    const createBike:string = `
-    CREATE TABLE IF NOT EXISTS Bike(
+    const createBike: string = `
+    CREATE TABLE IF NOT EXISTS bike(
         bike_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         price float(24),
         size ENUM('LARGE','MEDIUM','SMALL') NOT NULL,
@@ -53,43 +53,43 @@ export const initialize_db = (): void => {
         quantity int NOT NULL
     );`
 
-    const createFrame:string = `
-    CREATE TABLE IF NOT EXISTS Frame(
+    const createFrame: string = `
+    CREATE TABLE IF NOT EXISTS frame(
         frame_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         frame_type ENUM('UTILITY', 'TOURING', 'MOUNTAIN') NOT NULL,
-        FOREIGN KEY(frame_id) REFERENCES Component(component_id)
+        FOREIGN KEY(frame_id) REFERENCES component(component_id)
     );`
 
-    const createHandle:string = `
-    CREATE TABLE IF NOT EXISTS Handle(
+    const createHandle: string = `
+    CREATE TABLE IF NOT EXISTS handle(
         handle_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         handle_type ENUM('FLAT', 'BULLHORN','DROP') NOT NULL,
-        FOREIGN KEY(handle_id) REFERENCES Component(component_id)
+        FOREIGN KEY(handle_id) REFERENCES component(component_id)
     );
     `
-    const createWheel:string = `
-    CREATE TABLE IF NOT EXISTS Wheel(
+    const createWheel: string = `
+    CREATE TABLE IF NOT EXISTS wheel(
         wheel_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         wheel_type ENUM('UTILITY', 'TOURING', 'MOUNTAIN') NOT NULL,
-        FOREIGN KEY(wheel_id) REFERENCES Component(component_id)
+        FOREIGN KEY(wheel_id) REFERENCES component(component_id)
     );`
 
-    const createSeat:string = `
-    CREATE TABLE IF NOT EXISTS Seat(
+    const createSeat: string = `
+    CREATE TABLE IF NOT EXISTS seat(
         seat_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         seat_type ENUM('PERFORMANCE', 'CUSHIONED') NOT NULL,
-        FOREIGN KEY(seat_id) REFERENCES Component(component_id)
+        FOREIGN KEY(seat_id) REFERENCES component(component_id)
     );`
 
-    const createDriveTrain:string = `
-    CREATE TABLE IF NOT EXISTS Drive_train(
+    const createDriveTrain: string = `
+    CREATE TABLE IF NOT EXISTS drive_train(
         drive_train_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         drive_train_type ENUM('NOVICE', 'INTERMEDIATE', 'ADVANCED', 'EXPERT'),
-        FOREIGN KEY(drive_train_id) REFERENCES Component(component_id)
+        FOREIGN KEY(drive_train_id) REFERENCES component(component_id)
     );`
 
-    const createComposedOf:string = `
-    CREATE TABLE IF NOT EXISTS Composed_of(
+    const createComposedOf: string = `
+    CREATE TABLE IF NOT EXISTS composed_of(
         bike_id int NOT NULL,
         handle_id int NOT NULL,
         wheel_id int NOT NULL,
@@ -97,45 +97,45 @@ export const initialize_db = (): void => {
         seat_id int NOT NULL,
         drive_train_id int NOT NULL,
         PRIMARY KEY(bike_id,handle_id,wheel_id,frame_id,seat_id,drive_train_id),
-        FOREIGN KEY(bike_id) REFERENCES Bike(bike_id),
-        FOREIGN KEY(handle_id) REFERENCES Handle(handle_id),
-        FOREIGN KEY(wheel_id) REFERENCES Wheel(wheel_id),
-        FOREIGN KEY(frame_id) REFERENCES Frame(frame_id),
-        FOREIGN KEY(seat_id) REFERENCES Seat(seat_id),
-        FOREIGN KEY(drive_train_id) REFERENCES Drive_train(drive_train_id)
+        FOREIGN KEY(bike_id) REFERENCES bike(bike_id),
+        FOREIGN KEY(handle_id) REFERENCES handle(handle_id),
+        FOREIGN KEY(wheel_id) REFERENCES wheel(wheel_id),
+        FOREIGN KEY(frame_id) REFERENCES frame(frame_id),
+        FOREIGN KEY(seat_id) REFERENCES seat(seat_id),
+        FOREIGN KEY(drive_train_id) REFERENCES drive_train(drive_train_id)
     );`
 
-    const createAccountPayable:string = `
-    CREATE TABLE IF NOT EXISTS Account_payable(
+    const createAccountPayable: string = `
+    CREATE TABLE IF NOT EXISTS account_payable(
         account_payable_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         total float(24) NOT NULL,
         payable_date datetime NOT NULL,
         account_id int NOT NULL,
-        FOREIGN KEY(account_id) REFERENCES Account(account_id)
+        FOREIGN KEY(account_id) REFERENCES account(account_id)
     );`
 
-    const createTransactionItem:string = `
-    CREATE TABLE IF NOT EXISTS Transaction_item(
+    const createTransactionItem: string = `
+    CREATE TABLE IF NOT EXISTS transaction_item(
         transaction_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         cost float(24) NOT NULL,
         component_id int NOT NULL,
         quantity_bought int NOT NULL,
-        FOREIGN KEY(component_id) REFERENCES Component(component_id)
+        FOREIGN KEY(component_id) REFERENCES component(component_id)
     );`
 
-    const createConsistOf:string = `
-    CREATE TABLE IF NOT EXISTS Consist_of(
+    const createConsistOf: string = `
+    CREATE TABLE IF NOT EXISTS consist_of(
         account_payable_id int NOT NULL,
         transaction_id int NOT NULL PRIMARY KEY,
-        FOREIGN KEY(account_payable_id) REFERENCES Account_payable(account_payable_id),
-        FOREIGN KEY(transaction_id) REFERENCES Transaction_item(transaction_id)
+        FOREIGN KEY(account_payable_id) REFERENCES account_payable(account_payable_id),
+        FOREIGN KEY(transaction_id) REFERENCES transaction_item(transaction_id)
     );`
 
-    const createAccountReceivable:string = `
-    CREATE TABLE IF NOT EXISTS Account_receivable(
+    const createAccountReceivable: string = `
+    CREATE TABLE IF NOT EXISTS account_receivable(
         account_receivable int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         bike_id int NOT NULL,
-        FOREIGN KEY(bike_id) REFERENCES Bike(bike_id)
+        FOREIGN KEY(bike_id) REFERENCES bike(bike_id)
     );`
 
     db.query(createAccountQuery, (err, result) => {
@@ -171,7 +171,7 @@ export const initialize_db = (): void => {
         if (err) throw err;
         console.log("Seat Tables Created")
     })
-    
+
     db.query(createWheel, (err, result) => {
         if (err) throw err;
         console.log("Wheel Tables Created")
