@@ -7,6 +7,7 @@ import renderer from 'react-test-renderer'
 
 configure({ adapter: new Adapter() });
 
+// Create mock registration page by injecting redux store
 const setUp = () => {
     const wrapper = shallow(<RegistrationPage />)
     return wrapper
@@ -19,11 +20,13 @@ describe('LoginPage Component', () => {
         wrapper = setUp()
     })
 
+    // Search for the html element with an id of "registrationPage". This indicates that the component has rendererd
     it("render registration page without crashing", () => {
         const component = wrapper.find('#registrationPage')
         expect(component.length).toBe(1)
     })
 
+    // Renders the RegistrationPage component and try to match with existing snapshot
     it('match rendered component with snapshot',()=>{
         const tree = renderer.create(<RegistrationPage/>).toJSON();
         expect(tree).toMatchSnapshot()

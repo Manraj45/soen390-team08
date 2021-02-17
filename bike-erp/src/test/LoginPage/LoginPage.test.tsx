@@ -7,6 +7,7 @@ import renderer from 'react-test-renderer'
 import { BrowserRouter, BrowserRouter as Router } from 'react-router-dom';
 configure({ adapter: new Adapter() });
 
+// Create mock login page by injecting redux store
 const setUp = () => {
     const testStore = store
     const wrapper = shallow(<LoginPage store={testStore} />).childAt(0).dive()
@@ -20,10 +21,15 @@ describe('LoginPage Component Test', () => {
     })
 
     it("render login page without crashing", () => {
+        // Search for the html element with an id of "loginPage". This indicates that the component has rendererd
+        
         const component = wrapper.find('#loginPage')
+        
+        // Since their is only 1 html element with id = login page, expect to find 1
         expect(component.length).toBe(1)
     })
 
+    // Renders the LoginPage component and try to match with existing snapshot
     it('match rendered component with snapshot',()=>{
         const tree = renderer.create(
         <BrowserRouter>
