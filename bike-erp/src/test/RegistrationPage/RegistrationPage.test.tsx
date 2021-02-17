@@ -5,6 +5,7 @@ import store from '../../redux/store'
 import Adapter from 'enzyme-adapter-react-16';
 import renderer from 'react-test-renderer'
 
+// Enable enzyme testing
 configure({ adapter: new Adapter() });
 
 // Create mock registration page by injecting redux store
@@ -27,8 +28,8 @@ describe('LoginPage Component', () => {
     })
 
     // Renders the RegistrationPage component and try to match with existing snapshot
-    it('match rendered component with snapshot',()=>{
-        const tree = renderer.create(<RegistrationPage/>).toJSON();
+    it('match rendered component with snapshot', () => {
+        const tree = renderer.create(<RegistrationPage />).toJSON();
         expect(tree).toMatchSnapshot()
     })
 })
