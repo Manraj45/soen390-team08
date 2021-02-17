@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { createAcccount } from '../../dao/AccountDAO';
+import { AccountDao } from '../../dao/AccountDAO';
 
 export class RegistrationService {
 
@@ -7,6 +7,9 @@ export class RegistrationService {
 
     //restrict so that the service cannot be constructed outside of the class. For singleton pattern
     private constructor() { };
+
+    //Creating a static instance of the AccountDao Class
+    private static accountDao = new AccountDao();
 
     // Instantiating the singleton or return it
     public static getRegistrationService() {
@@ -21,7 +24,7 @@ export class RegistrationService {
         return new Promise(async (resolve, reject) => {
             //encrypt the password for security
             const hashedPassword = await bcrypt.hash(password, 10);
-            createAcccount(firstName, lastName, role, hashedPassword, email, recovery_question1, recovery_question1_answer, recovery_question2, recovery_question2_answer, organization).then(
+            await RegistrationService.accountDao.createAcccount(firstName, lastName, role, hashedPassword, email, recovery_question1, recovery_question1_answer, recovery_question2, recovery_question2_answer, organization).then(
                 response => {
                     resolve({ status: 201, message: response.message })
                 }
