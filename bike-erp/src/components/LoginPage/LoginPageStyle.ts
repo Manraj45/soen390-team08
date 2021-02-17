@@ -45,8 +45,8 @@ const useStyles = makeStyles((theme) => ({
             marginTop: "20%"
         },
     },
-    error:{
-        color:"red"
+    error: {
+        color: "red"
     }
 }))
 

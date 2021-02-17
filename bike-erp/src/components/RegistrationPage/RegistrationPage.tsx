@@ -12,20 +12,26 @@ interface RegistrationData {
     password: string
     firstName: string
     lastName: string
-    role:string
+    role: string
     recovery_question1: string
     recovery_question2: string
     recovery_question1_answer: string
     recovery_question2_answer: string
 }
+
 const RegistrationPage = () => {
+    // Object for styling
     const classes = useStyles();
+
     const url = BACKEND_URL
 
     const [recoveryQuestions, setRecoveryQuestions] = useState({})
     const [question1, setQuestion1] = useState('')
     const [question2, setQuestion2] = useState('')
 
+    const [registrationErrorMessage, setRegistrationErrorMessage] = useState("")
+
+    // Hook for redirecting
     const history = useHistory();
 
     useEffect(() => {
@@ -34,12 +40,14 @@ const RegistrationPage = () => {
         }).catch((error) => {
             console.log(error.data)
         })
-    }, [])
+    }, [url])
 
+    // Handle typing of question 1
     const handleQuestion1 = (event: React.ChangeEvent<{ value: unknown }>) => {
         setQuestion1(event.target.value as string)
     }
 
+    // Handle typing of question 2
     const handleQuestion2 = (event: React.ChangeEvent<{ value: unknown }>) => {
         setQuestion2(event.target.value as string)
     }
@@ -52,22 +60,20 @@ const RegistrationPage = () => {
             password: event.currentTarget.password.value,
             firstName: event.currentTarget.firstName.value,
             lastName: event.currentTarget.lastName.value,
-            role:"ADMIN",
+            role: "ADMIN",
             recovery_question1: question1,
             recovery_question2: question2,
             recovery_question1_answer: event.currentTarget.answer1.value,
             recovery_question2_answer: event.currentTarget.answer2.value
         }
 
-        axios.post(`${url}/register/submission`, registrationData).then(response=>{
+        axios.post(`${url}/register/submission`, registrationData).then(response => {
             history.push("/login")
-            console.log(response)
-        }).catch(error=>{
-            console.log(error)
+        }).catch(error => {
+            setRegistrationErrorMessage(error.response.data.message)
         })
-
-        console.log(registrationData)
     }
+
     return (
         <div>
             <Grid container spacing={0} direction="row" className={classes.registrationPageWrapper}>
@@ -121,6 +127,9 @@ const RegistrationPage = () => {
                         <br />
                         <TextField name="answer2" label="Answer Question 2" className={classes.textfield}></TextField>
                         <br />
+                        {
+                            registrationErrorMessage ? <Typography className={classes.error}>{registrationErrorMessage}</Typography>:<></>
+                        }
                         <Button variant="contained" color="primary" className={classes.button} type="submit">Register</Button>
                     </form>
                 </Grid>

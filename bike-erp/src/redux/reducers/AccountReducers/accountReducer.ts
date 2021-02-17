@@ -1,8 +1,9 @@
-import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS } from "../../types/AccountTypes/accountTypes"
+import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT } from "../../types/AccountTypes/accountTypes"
 
+// Reducer for account, it handles the setting of states
 const initialState = {
     loading: false,
-    access_token: undefined,
+    authenticated:false,
     error: ''
 }
 
@@ -16,13 +17,18 @@ const reducer = (state = initialState, action: any) => {
         case LOGIN_SUCCESS:
             return {
                 loading: false,
-                access_token: action.payload
+                authenticated:action.authenticated
             }
         case LOGIN_FAILURE:
             return {
                 loading: false,
-                access_token: undefined,
-                error: action.payload
+                error: action.payload,
+                authenticated:action.authenticated
+            }
+        case LOGOUT:
+            return{
+                loading:false,
+                authenticated:action.authenticated
             }
         default: return state
     }

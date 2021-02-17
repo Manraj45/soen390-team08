@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// LocalStorage service for handling storing, removing or fetching accesstoken
 const localStorageService = (() => {
     return {
         setToken: (token: any) => {
