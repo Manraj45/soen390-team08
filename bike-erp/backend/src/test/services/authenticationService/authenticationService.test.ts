@@ -2,21 +2,26 @@ import { AuthenticationService } from '../../../main/services/authenticationServ
 import { AccountDao } from '../../../main/dao/AccountDAO';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
-
-//Configure dotenv
-dotenv.config();
-
-AuthenticationService.getAuthenticationService();
+import db from '../../../main/helpers/db';
 
 describe("Login test", () => {
 
     beforeAll(async () => {
+        //Configure dotenv
+        dotenv.config();
+
+        AuthenticationService.getAuthenticationService();
+
         //Encrypting password
         const hashedPassword: string = await bcrypt.hash("test", 10);
 
         const accountDao: AccountDao = AuthenticationService.getAccountDao();
 
         accountDao.fetchAccount = jest.fn().mockReturnValue([{ email: 'test@test.com', password: hashedPassword }]);
+    })
+
+    afterAll(() => {
+        db.end();
     })
 
     test("Loging in right password and email", async () => {
