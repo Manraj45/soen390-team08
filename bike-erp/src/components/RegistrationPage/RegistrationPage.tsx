@@ -75,14 +75,12 @@ const RegistrationPage = () => {
     }
 
     return (
-        <div>
+        <div id="registrationPage">
             <Grid container spacing={0} direction="row" className={classes.registrationPageWrapper}>
                 <Grid item xs={12} md={7} className={classes.grid}>
                     <form autoComplete="off" onSubmit={handleRegistration}>
                         <TextField name="email" label="Email" className={classes.textfield} ></TextField>
-
                         <br />
-
                         <TextField name="organization" label="Organization" className={classes.textfield}></TextField>
 
                         <br />
