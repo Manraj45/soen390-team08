@@ -1,14 +1,12 @@
-import express from 'express';
-import db from '../helpers/db';
+// import express from 'express';
+// import db from '../helpers/db';
+// import {OrderService} from '../services/orderService/OrderService';
 
-const router = express();
+// const router = express();
 
-// router.get('/', (req, res) => {
-//     res.send('Yes');
-//     // db.query( 'SELECT * FROM `component`', (err, rows) => {
-//     //     if (err) throw err;
-//     //     res.json(rows);
-//     // });
-// });
+// // router.post('/', (req, res) => {
+// //     res.send('Yes');
+// //     OrderService
+// // });
 
-export default router;
+// export default router;

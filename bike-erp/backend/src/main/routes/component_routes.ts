@@ -1,6 +1,8 @@
 import express from 'express';
 import db from '../helpers/db';
 import { InventoryManagementService } from '../services/inventoryManagementService/InventoryManagementService';
+import {OrderService} from '../services/orderService/OrderService';
+
 
 const router = express();
 const inventoryManagementService = new InventoryManagementService();
@@ -25,7 +27,7 @@ router.get('/:component_id', (req, res) => {
 router.put('/updateQuantity', (req, res) => {
     const id = req.body.id;
     const quantity = req.body.quantity;
-    inventoryManagementService.editComponent(id, quantity).then((response) => {
+    orderService.setComponent(id, quantity).then((response) => {
         res.json(response)
     }).catch((error) => {
         res.status(error.status).send(error.message)
