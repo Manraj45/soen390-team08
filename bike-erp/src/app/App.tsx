@@ -10,6 +10,8 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-d
 import RegistrationPage from '../components/RegistrationPage/RegistrationPage';
 import Home from '../components/Home/Home';
 
+import Inventory from './components/inventory'
+
 function App() {
 
   const [authenticated, setAuthenticated] = useState(false)
@@ -49,15 +51,9 @@ function App() {
   }
 
   return (
-    <Provider store={store}>
-      <Router>
-        <div className="App">
-          <Route exact path="/" render={() => authenticated ? <Home></Home>:<Redirect to="/login"/>} />
-          <Route path="/login" render={() => authenticated ? <Redirect to="/" /> : <LoginPage />} />
-          <Route path="/register" render={() => authenticated ? <Redirect to="/"/>:<RegistrationPage></RegistrationPage>} />
-        </div>
-      </Router>
-    </Provider>
+    <div className="App">
+      <Inventory></Inventory>
+    </div>
   );
 }
 
