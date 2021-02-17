@@ -20,7 +20,7 @@ describe('LoginPage Component', () => {
     })
 
     it("render registration page without crashing", () => {
-        const component = wrapper.find('#test')
+        const component = wrapper.find('#registrationPage')
         expect(component.length).toBe(1)
     })
 
