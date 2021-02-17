@@ -7,7 +7,6 @@ import { credential, login } from '../../redux/actions/AccountActions/accountAct
 import useStyles from './LoginPageStyle'
 
 const LoginPage = (props: any) => {
-    
     // Object for styling
     const classes = useStyles();
 
@@ -15,13 +14,12 @@ const LoginPage = (props: any) => {
         event.preventDefault()
         const email: string = event.currentTarget.email.value
         const password: string = event.currentTarget.password.value
-        
         //Calling the login reducer
         props.login({ email: email, password: password })
     }
 
     return (
-        <div>
+        <div id="loginPage">
             <Grid container spacing={0} direction="row" className={classes.loginPageWrapper}>
                 <Grid item xs={12} md={4} className={classes.grid}>
                     <Typography variant="h3">Badob Inc</Typography>
