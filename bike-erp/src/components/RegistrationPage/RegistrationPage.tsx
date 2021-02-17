@@ -18,8 +18,11 @@ interface RegistrationData {
     recovery_question1_answer: string
     recovery_question2_answer: string
 }
+
 const RegistrationPage = () => {
+    // Object for styling
     const classes = useStyles();
+
     const url = BACKEND_URL
 
     const [recoveryQuestions, setRecoveryQuestions] = useState({})
@@ -28,6 +31,7 @@ const RegistrationPage = () => {
 
     const [registrationErrorMessage, setRegistrationErrorMessage] = useState("")
 
+    // Hook for redirecting
     const history = useHistory();
 
     useEffect(() => {
@@ -38,10 +42,12 @@ const RegistrationPage = () => {
         })
     }, [url])
 
+    // Handle typing of question 1
     const handleQuestion1 = (event: React.ChangeEvent<{ value: unknown }>) => {
         setQuestion1(event.target.value as string)
     }
 
+    // Handle typing of question 2
     const handleQuestion2 = (event: React.ChangeEvent<{ value: unknown }>) => {
         setQuestion2(event.target.value as string)
     }
@@ -67,7 +73,7 @@ const RegistrationPage = () => {
             setRegistrationErrorMessage(error.response.data.message)
         })
     }
-    
+
     return (
         <div>
             <Grid container spacing={0} direction="row" className={classes.registrationPageWrapper}>

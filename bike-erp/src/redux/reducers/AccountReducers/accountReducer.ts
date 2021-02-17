@@ -1,5 +1,6 @@
 import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT } from "../../types/AccountTypes/accountTypes"
 
+// Reducer for account, it handles the setting of states
 const initialState = {
     loading: false,
     authenticated:false,

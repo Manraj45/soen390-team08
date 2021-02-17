@@ -3,6 +3,7 @@ import { AUTH_URL } from "../../../core/utils/config"
 import { IS_AUTHENTICATED_FAILURE, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT } from "../../types/AccountTypes/accountTypes"
 import localStorageService from '../../../core/services/LocalStorageService'
 
+// Redux action for Account. Handles the dispatch phase of redux
 const url = AUTH_URL
 
 export const loginRequest = () => {

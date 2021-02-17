@@ -5,9 +5,10 @@ export class RegistrationService {
 
     private static registrationService: RegistrationService | undefined;
 
-    //restrict so that the service cannot be constructed outside of the class
+    //restrict so that the service cannot be constructed outside of the class. For singleton pattern
     private constructor() { };
 
+    // Instantiating the singleton or return it
     public static getRegistrationService() {
         if (this.registrationService === undefined) {
             this.registrationService = new RegistrationService();
@@ -25,6 +26,8 @@ export class RegistrationService {
                     resolve({ status: 201, message: response.message })
                 }
             ).catch(error => {
+
+                // If the error is of type email duplication, set custom message
                 if (error.sqlMessage.includes("Duplicate")) {
                     reject({ status: 404, message: "Email already exist" });
                 } else {
