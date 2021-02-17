@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
         width: "60%",
         marginTop: "10px"
     },
+    error: {
+        color: "red"
+    }
 }))
 
 export default useStyles
