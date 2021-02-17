@@ -40,14 +40,15 @@ const Inventory : React.FC = () => {
       setInventoryTable(response.data)
       console.log(response.data)
     })
-})
+}, [])
 
-  
 
   const classes = useStyles();
+
   return (
 
     <React.Fragment>
+      <div id="inventoryPageTest">
       <div className="Title"></div>
       <Table size="small" className="Table">
         <TableHead>
@@ -86,6 +87,7 @@ const Inventory : React.FC = () => {
             </h1>
         );
       })}
+      </div>
     </React.Fragment>
 
     
