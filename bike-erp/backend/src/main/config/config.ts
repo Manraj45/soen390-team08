@@ -1,7 +1,7 @@
+
 export const BACKEND_PORT: number = 3001
 export const AUTH_PORT: number = 4000
 
-//External database
 export const DB_HOST: string = "sql5.freemysqlhosting.net"
 export const DB_USER: string = "sql5392428"
 export const DB_PASSWORD: string = "7Vg5f3LF5I"
