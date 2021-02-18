@@ -1,5 +1,5 @@
- export const fillComponentCatalogue:string = `
-    INSERT IGNORE INTO Component (component_id, price, quantity, component_type, component_status, size, specificComponentType)
+export const fillComponentCatalogue: string = `
+    INSERT IGNORE INTO component (component_id, price, quantity, component_type, component_status, size, specificComponentType)
     VALUES (1,0.0,0,'HANDLE','UNAVAILABLE','SMALL','FLAT'),
            (2,0.0,0,'HANDLE','UNAVAILABLE','SMALL','BULLHORN'),
            (3,0.0,0,'HANDLE','UNAVAILABLE','SMALL','DROP'),
@@ -136,8 +136,8 @@
            (134,0.0,0,'FRAME','UNAVAILABLE','LARGE','TOURING'),
            (135,0.0,0,'FRAME','UNAVAILABLE','LARGE','MOUNTAIN');
     `
-    export const fillLocation:string = `
-    INSERT IGNORE INTO Component_location (component_id, location_name)
+export const fillLocation: string = `
+    INSERT IGNORE INTO component_location (component_id, location_name)
     VALUES (1,'MONTREAL'),(2,'MONTREAL'),(3,'MONTREAL'),(4,'TORONTO'),(5,'TORONTO'),(6,'TORONTO'),(7,'OTTAWA'),(8,'OTTAWA'),(9,'OTTAWA'),(10,'MONTREAL'),
            (11,'MONTREAL'),(12,'MONTREAL'),(13,'TORONTO'),(14,'TORONTO'),(15,'TORONTO'),(16,'OTTAWA'),(17,'OTTAWA'),(18,'OTTAWA'),(19,'MONTREAL'),(20,'MONTREAL'),
            (21,'MONTREAL'),(22,'TORONTO'),(23,'TORONTO'),(24,'TORONTO'),(25,'OTTAWA'),(26,'OTTAWA'),(27,'OTTAWA'),(28,'MONTREAL'),(29,'MONTREAL'),(30,'MONTREAL'),
