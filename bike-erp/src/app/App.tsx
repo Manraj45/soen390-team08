@@ -1,26 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
-import { Provider } from 'react-redux';
-import store from '../redux/store';
+import { connect } from 'react-redux';
 import LoginPage from '../components/LoginPage/LoginPage'
 import axios from 'axios';
-import { AUTH_URL } from '../core/utils/config';
 import localStorageService from '../core/services/LocalStorageService'
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import RegistrationPage from '../components/RegistrationPage/RegistrationPage';
 import Home from '../components/Home/Home';
+import { isAuthenticated } from '../redux/actions/AccountActions/accountAction';
 
-import Inventory from './components/inventory'
+const App = ({ account, isAuthenticated }: any) => {
 
-function App() {
-
-  const [authenticated, setAuthenticated] = useState(false)
   useEffect(() => {
     if (localStorageService.getAccessToken()) {
       localStorageService.setBearerToken();
     }
     isAuthenticated()
-  }, [authenticated])
+  }, [account.authenticated, isAuthenticated])
 
   axios.interceptors.response.use(
     (response) => {
@@ -38,23 +34,29 @@ function App() {
       }
     })
 
-  const isAuthenticated = () => {
-    const access_token: any = localStorage.getItem('access_token')
-    axios.get(`${AUTH_URL}/auth/token/validation`).then(response => {
-      if (response.status === 200) {
-        setAuthenticated(true)
-        console.log("authenticated")
-      }
-    }).catch(error => {
-      console.log(error)
-    })
-  }
-
   return (
-    <div className="App">
-      <Inventory></Inventory>
-    </div>
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route exact path="/" render={() => account.authenticated ? <Home></Home> : <Redirect to="/login" />} />
+          <Route path="/login" render={() => account.authenticated ? <Redirect to="/" /> : <LoginPage />} />
+          <Route path="/register" render={() => account.authenticated ? <Redirect to="/" /> : <RegistrationPage></RegistrationPage>} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
-export default App;
+const mapStateToProps = (state: any) => {
+  return {
+    account: state.account
+  }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    isAuthenticated: () => dispatch(isAuthenticated())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
