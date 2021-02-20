@@ -15,7 +15,7 @@ const IdleTimerContainer = ({ account, logout }: any) => {
     const sessionTimeoutRef = useRef<any>(null)
     const sessionTimeIntervalRef = useRef<any>(null)
 
-    // timeout period in ms
+    // timeout period in ms,user will have a timeout period to extend their session
     const timeoutPeriod: number = 10000
     const [timeoutDisplay, settimeoutDisplay] = useState(timeoutPeriod)
 
@@ -66,7 +66,7 @@ const IdleTimerContainer = ({ account, logout }: any) => {
 
     return (
         <div>
-            <IdleTimer ref={idleTimerRef} timeout={timeoutPeriod} onIdle={onIdle}></IdleTimer>
+            <IdleTimer ref={idleTimerRef} timeout={30000 /*after 30 sec -> call onIdle*/} onIdle={onIdle}></IdleTimer>
             <Modal open={modalOpen} aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description">
                 {body}
             </Modal>
