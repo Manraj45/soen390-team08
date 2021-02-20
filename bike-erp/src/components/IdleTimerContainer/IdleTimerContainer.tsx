@@ -15,8 +15,8 @@ const IdleTimerContainer = ({ account, logout }: any) => {
     const sessionTimeoutRef = useRef<any>(null)
     const sessionTimeIntervalRef = useRef<any>(null)
 
-    // timeout period 
-    const timeoutPeriod: number = 5000
+    // timeout period in ms
+    const timeoutPeriod: number = 10000
     const [timeoutDisplay, settimeoutDisplay] = useState(timeoutPeriod)
 
     // Modal state
