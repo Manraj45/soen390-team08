@@ -39,4 +39,3 @@ describe('LoginPage Component Test', () => {
     })
 
 })
-
