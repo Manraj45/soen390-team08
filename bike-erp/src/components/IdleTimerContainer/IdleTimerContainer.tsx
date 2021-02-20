@@ -66,7 +66,7 @@ const IdleTimerContainer = ({ account, logout }: any) => {
 
     return (
         <div id="idleTimerContainer">
-            <IdleTimer ref={idleTimerRef} timeout={30000 /*after 30 sec -> call onIdle*/} onIdle={onIdle}></IdleTimer>
+            <IdleTimer ref={idleTimerRef} timeout={10000 /*after 10 sec -> call onIdle*/} onIdle={onIdle}></IdleTimer>
             <Modal open={modalOpen} aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description">
                 {body}
             </Modal>
