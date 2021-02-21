@@ -7,29 +7,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Axios from "axios";
-
-// Generate fake  data
-function createData(name: string, quantity: number, location: string, cost: number) {
-  return { name, quantity, location, cost };
-}
-
-
-// Temporary
-const rows = [
-  createData('seat', 200, 'Montreal, QC, CA', 112.44),
-  createData('handle', 150, 'Toronto, ON, CA', 50.99),
-  createData('frame', 500, 'Montreal, QC, CA', 300.00),
-];
+import useStyles from './inventoryStyles'
 
 function preventDefault(event: { preventDefault: () => void; }) {
   event.preventDefault();
 }
-
-const useStyles = makeStyles((theme) => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
-}));
 
 const Inventory : React.FC = () => {
 
@@ -48,11 +30,13 @@ const Inventory : React.FC = () => {
   return (
 
     <React.Fragment>
-      <div id="inventoryPageTest">
-      <div className="Title"></div>
-      <Table size="small" className="Table">
-        <TableHead>
-          <TableRow className="tableGrey">
+      <div id="inventoryPageTest" className={classes.background}>
+      <br></br>
+      <div className={classes.title}>Inventory</div>
+      <br></br>
+      <Table size="small" className={classes.tableStyle} >
+        <TableHead className={classes.tableHead}>
+          <TableRow className={classes.topRow}>
             <TableCell/>
             <TableCell>Type</TableCell>
             <TableCell>Price</TableCell>
@@ -64,21 +48,16 @@ const Inventory : React.FC = () => {
         <TableBody>
           {inventoryTable.map((row) => (
             <TableRow key={row.component_id}>
-              <TableCell className="tableGrey"/>
-              <TableCell>{row.component_type}</TableCell>
-              <TableCell>{row.price}</TableCell>
-              <TableCell>{row.quantity}</TableCell>
-              <TableCell>{row.component_status}</TableCell>
-              <TableCell>{row.size}</TableCell>
+              <TableCell className={classes.tableHead}/>
+              <TableCell className={classes.innerTable}>{row.component_type}</TableCell>
+              <TableCell className={classes.innerTable}>{row.price}</TableCell>
+              <TableCell className={classes.innerTable}>{row.quantity}</TableCell>
+              <TableCell className={classes.innerTable}>{row.component_status}</TableCell>
+              <TableCell className={classes.innerTable}>{row.size}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          See more orders
-        </Link>
-      </div>
 
       {inventoryTable.map((val) => {
         return (
