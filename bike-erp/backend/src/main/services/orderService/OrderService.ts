@@ -29,10 +29,12 @@ export class OrderService {
                 if(parseInt(quantity) == 0){
                     this.setComponentStatus(id, Status.UNAVAILABLE);
                 }
+                break;
             case 'UNAVAILABLE':
                 if(parseInt(quantity) > 0){
                     this.setComponentStatus(id, Status.AVAILABLE);
                 }
+                break;
         }
         return this.setComponentQuantity(id, quantity);
     }
