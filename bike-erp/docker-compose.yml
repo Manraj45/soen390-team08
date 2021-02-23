@@ -1,37 +1,44 @@
 version: "3.9"
 services:
-
+  # Creating backend service (runs the backend server)
   backend:
+    # Restarts when it fails
     restart: on-failure
     image: backend
     build:
       context: .
+    # Runs on port 3001
     ports:
       - "3001:3001"
-    environment: 
+    # Environment variable to watch changes in code in realtime
+    environment:
       - CHOKIDAR_USEPOLLING=true
-    command: 
-      bash -c "cd backend && npm run start"
+    # Command to run the backend server
+    command: bash -c "cd backend && npm run start"
 
+  # Creating authentication service (runs the authentication server)
   authentication:
     restart: on-failure
     image: authentication
     build:
       context: .
+    # Runs on port 4000
     ports:
       - "4000:4000"
-    environment: 
+    environment:
       - CHOKIDAR_USEPOLLING=true
-    command: 
-      bash -c "cd backend && npm run auth"
+    # Command to run the authentication server
+    command: bash -c "cd backend && npm run auth"
 
+  # Creating frontend service (runs the frontend)
   frontend:
     image: frontend
     build:
       context: .
+    # Runs on port 3000
     ports:
       - "3000:3000"
-    environment: 
+    environment:
       - CHOKIDAR_USEPOLLING=true
-    command: 
-      "npm start"
+    # Command to run the frontend
+    command: "npm start"
