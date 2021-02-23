@@ -6,10 +6,13 @@ jobs:
   run-linters:
     name: Run linters
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./bike-erp
 
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
+        working-directory: ${{env.working-directory}}
 
       - name: Set up Node.js
         uses: actions/setup-node@v1
@@ -19,9 +22,11 @@ jobs:
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
         run: npm install
+        working-directory: ${{env.working-directory}}
 
       - name: Run linters
         uses: wearerequired/lint-action@v1.7.0
+        working-directory: ${{env.working-directory}}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Enable linters
