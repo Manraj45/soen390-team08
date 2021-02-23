@@ -22,7 +22,6 @@ jobs:
         run: npm install
 
       - name: Run linters
-        working-directory: ./bike-erp
         uses: wearerequired/lint-action@v1.7.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
