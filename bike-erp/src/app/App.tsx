@@ -13,7 +13,6 @@ import OrderComponent from "../pages/OrderComponent";
 
 import './App.css';
 
-
 const App = ({ account, isAuthenticated }: any) => {
 
   useEffect(() => {
