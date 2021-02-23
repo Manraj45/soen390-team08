@@ -1,0 +1,15 @@
+.size, .frame, .saddle, .handlebar, .wheels, .drivetrain {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.frame h2, .saddle h2, .handlebar h2, .wheels h2, .drivetrain h2 {
+  width: 100%;
+}
+
+.size .small, .size .medium, .size .large {
+  padding: 10px;
+  border: 1px solid black;
+  background-color: white;
+}

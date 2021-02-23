@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
-import './App.css';
-import { connect } from 'react-redux';
-import LoginPage from '../components/LoginPage/LoginPage'
 import axios from 'axios';
-import localStorageService from '../core/services/LocalStorageService'
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import { isAuthenticated } from '../redux/actions/AccountActions/accountAction';
+
+import LoginPage from '../components/LoginPage/LoginPage'
 import RegistrationPage from '../components/RegistrationPage/RegistrationPage';
 import Home from '../components/Home/Home';
-import { isAuthenticated } from '../redux/actions/AccountActions/accountAction';
 import IdleTimerContainer from '../components/IdleTimerContainer/IdleTimerContainer';
+import localStorageService from '../core/services/LocalStorageService'
+import OrderComponent from "../pages/OrderComponent";
+
+import './App.css';
+
 
 const App = ({ account, isAuthenticated }: any) => {
 
@@ -38,11 +42,12 @@ const App = ({ account, isAuthenticated }: any) => {
   return (
     <Router>
       <div className="App">
-        <IdleTimerContainer></IdleTimerContainer>
+        {/* <IdleTimerContainer></IdleTimerContainer> */}
         <Switch>
           <Route exact path="/" render={() => account.authenticated ? <Home></Home> : <Redirect to="/login" />} />
           <Route path="/login" render={() => account.authenticated ? <Redirect to="/" /> : <LoginPage />} />
           <Route path="/register" render={() => account.authenticated ? <Redirect to="/" /> : <RegistrationPage></RegistrationPage>} />
+          <Route path="/order" render={() => <OrderComponent></OrderComponent>}/>
         </Switch>
       </div>
     </Router>
