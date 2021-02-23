@@ -39,7 +39,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-throw-literal": 0
+    }
   },
   "browserslist": {
     "production": [
