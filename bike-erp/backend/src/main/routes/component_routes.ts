@@ -1,5 +1,4 @@
 import express from 'express';
-import db from '../helpers/db';
 import { InventoryManagementService } from '../services/inventoryManagementService/InventoryManagementService';
 
 const router = express();

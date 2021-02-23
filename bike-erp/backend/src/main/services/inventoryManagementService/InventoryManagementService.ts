@@ -1,6 +1,4 @@
-import { JsonObjectExpression } from 'typescript';
-import {fetchAllComponents, fetchComponent, updateComponent, fetchComponentLocation} from '../../dao/ComponentDAO';
-import {Component} from '../../models/Component';
+import { fetchAllComponents, fetchComponent, updateComponent, fetchComponentLocation } from '../../dao/ComponentDAO';
 
 export class InventoryManagementService {
 

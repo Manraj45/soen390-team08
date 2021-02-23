@@ -8,19 +8,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Axios from "axios";
 
-// Generate fake  data
-function createData(name: string, quantity: number, location: string, cost: number) {
-  return { name, quantity, location, cost };
-}
-
-
-// Temporary
-const rows = [
-  createData('seat', 200, 'Montreal, QC, CA', 112.44),
-  createData('handle', 150, 'Toronto, ON, CA', 50.99),
-  createData('frame', 500, 'Montreal, QC, CA', 300.00),
-];
-
 function preventDefault(event: { preventDefault: () => void; }) {
   event.preventDefault();
 }
