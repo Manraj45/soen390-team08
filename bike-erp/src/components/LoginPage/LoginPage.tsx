@@ -7,16 +7,19 @@ import { credential, login } from '../../redux/actions/AccountActions/accountAct
 import useStyles from './LoginPageStyle'
 
 const LoginPage = (props: any) => {
+    // Object for styling
     const classes = useStyles();
 
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         const email: string = event.currentTarget.email.value
         const password: string = event.currentTarget.password.value
-        props.login({ email: email, password:password })
+        //Calling the login reducer
+        props.login({ email: email, password: password })
     }
+
     return (
-        <div>
+        <div id="loginPage">
             <Grid container spacing={0} direction="row" className={classes.loginPageWrapper}>
                 <Grid item xs={12} md={4} className={classes.grid}>
                     <Typography variant="h3">Badob Inc</Typography>
@@ -34,20 +37,13 @@ const LoginPage = (props: any) => {
                             <TextField type="password" name="password" label="Password" className={classes.textfield} ></TextField>
                             <br />
                             <Button type="submit" variant="contained" color="primary" className={classes.button}>Login</Button>
-                            
-                            
-                            
-                            {
-                                props.account.access_token ?<Typography>Login Success</Typography>:<></>
-                            }
-                            
                         </form>
                     </div>
                 </Grid>
                 <Grid item xs={12} md={4} className={classes.grid}>
                     <div className={classes.register}>
                         <Typography variant="h5">Don't have an account?</Typography>
-                        <Button variant="contained" color="primary" className={classes.button}><Link to="/register" style={{textDecoration: "none", color:"white"}}>Register</Link></Button>
+                        <Link to="/register" style={{ textDecoration: "none", color: "white" }}><Button variant="contained" color="primary" className={classes.button}>Register</Button></Link>
                     </div>
                 </Grid>
             </Grid>

@@ -8,14 +8,16 @@ RegistrationService.getRegistrationService();
 
 //Post register data
 router.post('/submission', (req, res) => {
-    console.log(req.body)
-    RegistrationService.register(req.body.firstName, req.body.lastName, req.body.role, req.body.password, req.body.email, 
-        req.body.recovery_question1, req.body.recovery_question1_answer, req.body.recovery_question2, req.body.recovery_question2_answer, req.body.organization).then(() => {
-            res.sendStatus(201);
-        });
+    RegistrationService.register(req.body.firstName, req.body.lastName, req.body.role, req.body.password, req.body.email,
+        req.body.recovery_question1, req.body.recovery_question1_answer, req.body.recovery_question2, req.body.recovery_question2_answer, req.body.organization).then((response:any) => {
+            res.status(response.status).send(response)
+        }).catch(error => {
+            res.status(error.status).send(error)
+        })
 });
 
 router.get('/recoveryQuestion', (req, res) => {
     res.status(200).json(recoveryQuestion);
 })
+
 export default router;
