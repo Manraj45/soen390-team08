@@ -36,39 +36,10 @@
     "lint": "eslint --max-warnings 0 \"**/*.ts\""
   },
   "eslintConfig": {
-    "root": true,
     "extends": [
-      "@samuelmeuli/eslint-config",
-      "plugin:jsdoc/recommended"
-    ],
-    "env": {
-      "node": true,
-      "jest": true
-    },
-    "settings": {
-      "jsdoc": {
-        "mode": "typescript"
-      }
-    },
-    "rules": {
-      "no-await-in-loop": "off",
-      "no-unused-vars": [
-        "error",
-        {
-          "args": "none",
-          "varsIgnorePattern": "^_"
-        }
-      ],
-      "jsdoc/check-indentation": "error",
-      "jsdoc/check-syntax": "error",
-      "jsdoc/newline-after-description": [
-        "error",
-        "never"
-      ],
-      "jsdoc/require-description": "error",
-      "jsdoc/require-hyphen-before-param-description": "error",
-      "jsdoc/require-jsdoc": "off"
-    }
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -92,17 +63,6 @@
     "@types/redux-thunk": "^2.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
-    "redux-mock-store": "^1.5.4",
-    "@samuelmeuli/eslint-config": "^6.0.0",
-    "@samuelmeuli/prettier-config": "^2.0.1",
-    "@vercel/ncc": "^0.27.0",
-    "eslint": "7.20.0",
-    "eslint-config-airbnb-base": "14.2.1",
-    "eslint-config-prettier": "^8.0.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsdoc": "^32.1.0",
-    "fs-extra": "^9.1.0",
-    "jest": "^26.6.3",
-    "prettier": "^2.2.1"
+    "redux-mock-store": "^1.5.4"
   }
 }
