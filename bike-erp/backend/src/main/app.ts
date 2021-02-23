@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
 import { initialize_db } from './helpers/db_init';
 import { BACKEND_PORT } from './config/config';

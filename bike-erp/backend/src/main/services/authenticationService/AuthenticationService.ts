@@ -41,7 +41,7 @@ export class AuthenticationService {
         const account = await AuthenticationService.accountDao.fetchAccount(email);
 
         //Verifying if there was any account with the same email in the database
-        if (account.length == 0) {
+        if (account.length === 0) {
             throw { status: 404, message: "Email not found" };
         }
 
@@ -67,7 +67,7 @@ export class AuthenticationService {
         }
         catch (error) {
             //Throwing error deping on the type of error
-            if (error.message == 'invPass') {
+            if (error.message === 'invPass') {
                 throw { status: 401, message: "Incorrect password" };
             } else {
                 throw { status: 500, message: "Oups! Unexpected error" };
