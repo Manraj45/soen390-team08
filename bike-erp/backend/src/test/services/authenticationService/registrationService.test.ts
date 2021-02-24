@@ -1,16 +1,8 @@
 import { RegistrationService } from "../../../main/services/registrationService/RegistrationService";
 import dotenv from "dotenv";
 import db from "../../../main/helpers/db";
-
 //Test for registration method
 describe("Registration test", () => {
-  //mocking Promise returned when createAccount is called
-  RegistrationService.getAccountDao().createAccount = jest.fn().mockReturnValue(
-    Promise.resolve({
-      status: 201,
-      message: "Record inserted successfully.",
-    })
-  );
 
   beforeAll(async () => {
     //Configure dotenv
@@ -24,11 +16,18 @@ describe("Registration test", () => {
     //Closing connection to database
     db.end();
   });
+  //mocking Promise returned when createAccount is called
+  RegistrationService.getAccountDao().createAccount = jest.fn().mockReturnValue(
+    Promise.resolve({
+      status: 201,
+      message: "Record inserted successfully.",
+    })
+  );
 
   //Testing registration with correct information
   // alwaysAwait: true
   test("Register with the correct name, password and email", async () => {
-    return expect(
+    expect(
       RegistrationService.register(
         "First",
         "Last",
@@ -50,7 +49,7 @@ describe("Registration test", () => {
   //Test the case where the name is incorrect
   test("Register with the incorrect name", async () => {
     //Register with the incorrect name format
-    return expect(
+    expect(
       RegistrationService.register(
         "First123",
         "Last",
@@ -72,7 +71,7 @@ describe("Registration test", () => {
   //Test the case where the email is incorrect
   test("Register with the incorrect email", async () => {
     //Register with the incorrect email format
-    return expect(
+    expect(
       RegistrationService.register(
         "First",
         "Last",
@@ -93,7 +92,7 @@ describe("Registration test", () => {
 
   //Test the case where the password is incorrect
   test("Register with the password email", async () => {
-    return expect(
+    expect(
       RegistrationService.register(
         "First",
         "Last",

@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import db from "../../../main/helpers/db";
 import jwt from "jsonwebtoken";
-
 //Test for login method
 describe("Login test", () => {
   beforeAll(async () => {
