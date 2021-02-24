@@ -1,0 +1,31 @@
+name: EsLint
+
+# On push and on pull request run this github workflow
+on: [push, pull_request]
+
+jobs:
+  # Running ESLint on ubuntu
+  run-ESLint:
+    name: Run ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      # Verify the repository
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      # Setting Node
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      # Installing Dependencies
+      - name: Install Node.js dependencies
+        working-directory: ./bike-erp
+        run: npm install
+
+      # Running ESLint
+      - name: Run linters
+        working-directory: ./bike-erp
+        run: npm run lint

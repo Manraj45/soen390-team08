@@ -1,6 +1,8 @@
-import { JsonObjectExpression } from 'typescript';
 import db from '../helpers/db';
+<<<<<<< HEAD
 import { Component } from '../models/Component'
+=======
+>>>>>>> development
 
 export const fetchAllComponents = () => {
     return new Promise<Array<any>>((resolve, reject) => {
