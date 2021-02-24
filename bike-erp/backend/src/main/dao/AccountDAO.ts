@@ -51,7 +51,7 @@ export class AccountDao {
         if (err) {
           rejects(err);
         } else {
-          resolve({ message: "Record inserted successfully." });
+          resolve({ message: "Record inserted succesfully." });
         }
       });
     });
