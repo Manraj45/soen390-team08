@@ -95,48 +95,58 @@ const Components = ({ selectedLocation,
         <div className="large" onClick={() => setSize("LARGE")}>L</div>
       </div>
       <div className="frame">
-        <h2>Frames</h2>
+        <p>Frames</p>
         {
           components.frame.map(frame =>
             <div className={frame.type} key={frame.type}>
-              <img src={frames[frame.img.pos]} alt={frame.img.alt} onClick={() => setComponent("FRAME", frame.type)} width="100px" />
+              <img src={frames[frame.img.pos]} alt={frame.img.alt}
+                onClick={() => setComponent("FRAME", frame.type)}
+              />
             </div>
           )
         }
       </div>
       <div className="saddle">
-        <h2>Saddles</h2>
+        <p>Saddles</p>
         {
           components.saddle.map(saddle =>
             <div className={saddle.type} key={saddle.type}>
-              <img src={saddles[saddle.img.pos]} alt={saddle.img.alt} onClick={() => setComponent("SEAT", saddle.type)} width="100px" />
+              <img src={saddles[saddle.img.pos]} alt={saddle.img.alt}
+                onClick={() => setComponent("SEAT", saddle.type)}
+              />
             </div>)
         }
       </div>
       <div className="handlebar">
-        <h2>Handlebars</h2>
+        <p>Handlebars</p>
         {
           components.handlebar.map(handlebar =>
             <div className={handlebar.type} key={handlebar.type}>
-              <img src={handlebars[handlebar.img.pos]} alt={handlebar.img.alt} onClick={() => setComponent("HANDLE", handlebar.type)} width="100px" />
+              <img src={handlebars[handlebar.img.pos]} alt={handlebar.img.alt}
+                onClick={() => setComponent("HANDLE", handlebar.type)}
+              />
             </div>)
         }
       </div>
       <div className="wheels">
-        <h2>Wheels</h2>
+        <p>Wheels</p>
         {
           components.wheels.map(wheel =>
             <div className={wheel.type} key={wheel.type}>
-              <img src={wheels[wheel.img.pos]} alt={wheel.img.alt} onClick={() => setComponent("WHEEL", wheel.type)} width="100px" />
+              <img src={wheels[wheel.img.pos]} alt={wheel.img.alt}
+                onClick={() => setComponent("WHEEL", wheel.type)}
+              />
             </div>)
         }
       </div>
       <div className="drivetrain">
-        <h2>Drivetrains</h2>
+        <p>Drivetrains</p>
         {
           components.drivetrain.map(drivetrain =>
             <div className={drivetrain.type} key={drivetrain.type}>
-              <img src={drivetrains[drivetrain.img.pos]} alt={drivetrain.img.alt} onClick={() => setComponent("DRIVE_TRAIN", drivetrain.type)} width="100px" />
+              <img src={drivetrains[drivetrain.img.pos]} alt={drivetrain.img.alt}
+                onClick={() => setComponent("DRIVE_TRAIN", drivetrain.type)}
+              />
             </div>)
         }
       </div>
@@ -146,7 +156,11 @@ const Components = ({ selectedLocation,
             Quantity :
             <input type="number" min="0" onChange={event => setQuantity(event.target.value)} />
           </label>
-          <Button variant="contained" color="primary" onClick={() => fillOrderList(size, selectedLocation, componentSelected, componentTypeSelected, quantity)}>Add</Button> <br />
+          <Button variant="contained" color="primary"
+            onClick={() => fillOrderList(size, selectedLocation, componentSelected, componentTypeSelected, quantity)}>
+              Add
+          </Button>
+            <br/>
           {/*p tags for demo purposes*/}
           <p>{size}</p>
           <p>{componentSelected}</p>

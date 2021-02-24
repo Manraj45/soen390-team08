@@ -1,11 +1,22 @@
+.components img {
+  max-width: 75px;
+  max-height: 50px;
+}
+
 .size, .frame, .saddle, .handlebar, .wheels, .drivetrain {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  padding: 5px;
 }
 
-.frame h2, .saddle h2, .handlebar h2, .wheels h2, .drivetrain h2 {
+.frame .TOURING, .frame .MOUNTAIN {
+  padding-left: 10px;
+}
+
+.frame p, .saddle p, .handlebar p, .wheels p, .drivetrain p {
   width: 100%;
+  padding-right: 10px;
 }
 
 .size .small, .size .medium, .size .large {

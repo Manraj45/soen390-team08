@@ -1,0 +1,31 @@
+.componentView {
+  max-width: 800px;
+  object-fit: contain;
+  border: 1px solid black;
+}
+
+.model {
+  width: 500px;
+  height: 500px;
+  box-sizing: border-box;
+}
+
+.model img {
+  object-fit: contain;
+  width: 500px;
+  top: 50%;
+}
+
+.location {
+  display: flex;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+.location .componentLocation, .location option {
+  background-color: white;
+}
+
+.location option {
+  padding: 5px;
+}

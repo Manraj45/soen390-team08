@@ -1,5 +1,7 @@
 import bike_logo from "../../../assets/images/login_bike_logo.png";
 
+import "./ModelView.css";
+
 const ModelView = ({setSelectedLocation} : any) => {
 
   const onSelect=(city : string)=>{
@@ -12,12 +14,12 @@ const ModelView = ({setSelectedLocation} : any) => {
         <p>Lorem ipsum</p>
       </div>
       <div className="model">
-        <img src={bike_logo} width="350px" alt="bike_logo"/>
+        <img src={bike_logo} alt="bike-logo"/>
         {
           /* Dynamically create components from list */
         }
       </div>
-      <div className="location" style={{display: "flex"}}>
+      <div className="location">
         <p>Location</p>
         <select name="componentLocation" id="compLoc"
           onChange={(e) => {
