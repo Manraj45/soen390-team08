@@ -1,5 +1,5 @@
 import db from '../helpers/db'
-import {fillComponentCatalogue,fillLocation} from '../helpers/db_catalog_init'
+import { fillComponentCatalogue, fillLocation } from '../helpers/db_catalog_init'
 
 export const initialize_db = (): void => {
     const createAccountQuery: string = `
@@ -35,8 +35,8 @@ export const initialize_db = (): void => {
         PRIMARY KEY(location_name,component_id)
     );`
 
-    const createBike:string = `
-    CREATE TABLE IF NOT EXISTS Bike(
+    const createBike: string = `
+    CREATE TABLE IF NOT EXISTS bike(
         bike_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         price float(24),
         size ENUM('LARGE','MEDIUM','SMALL') NOT NULL,
@@ -131,10 +131,6 @@ export const initialize_db = (): void => {
         FOREIGN KEY(bike_id) REFERENCES bike(bike_id)
     );`
 
-    
-
-
-
     db.query(createAccountQuery, (err, result) => {
         if (err) throw err;
         console.log("Account Table Created")
@@ -209,7 +205,7 @@ export const initialize_db = (): void => {
         console.log("Filling Component Catalogue")
     })
 
-    db.query(fillLocation, (err,result) => {
+    db.query(fillLocation, (err, result) => {
         if (err) throw err;
         console.log("Adding Component Catalogue to Location")
     })

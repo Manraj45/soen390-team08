@@ -1,175 +1,176 @@
-import { AuthenticationService } from '../../../main/services/authenticationService/AuthenticationService';
-import { AccountDao } from '../../../main/dao/AccountDAO';
-import bcrypt from 'bcrypt';
-import dotenv from 'dotenv';
-import db from '../../../main/helpers/db';
-import jwt from 'jsonwebtoken';
+import { AuthenticationService } from "../../../main/services/authenticationService/AuthenticationService";
+import { AccountDao } from "../../../main/dao/AccountDAO";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+import db from "../../../main/helpers/db";
+import jwt from "jsonwebtoken";
 
 //Test for login method
 describe("Login test", () => {
+  beforeAll(async () => {
+    //Configure dotenv
+    dotenv.config();
 
-    beforeAll(async () => {
-        //Configure dotenv
-        dotenv.config();
+    //Creating the singleton instance of authentication service
+    AuthenticationService.getAuthenticationService();
 
-        //Creating the singleton instance of authentication service
-        AuthenticationService.getAuthenticationService();
+    //Encrypting password
+    const hashedPassword: string = await bcrypt.hash("test", 10);
 
-        //Encrypting password
-        const hashedPassword: string = await bcrypt.hash("test", 10);
+    //Creating instance of AccountDao
+    const accountDao: AccountDao = AuthenticationService.getAccountDao();
 
-        //Creating instance of AccountDao
-        const accountDao: AccountDao = AuthenticationService.getAccountDao();
+    //Mocking fetchAccount function
+    accountDao.fetchAccount = jest
+      .fn()
+      .mockReturnValue([{ email: "test@test.com", password: hashedPassword }]);
+  });
 
-        //Mocking fetchAccount function
-        accountDao.fetchAccount = jest.fn().mockReturnValue([{ email: 'test@test.com', password: hashedPassword }]);
-    })
+  afterAll(() => {
+    //Closing connection to database
+    db.end();
+  });
 
-    afterAll(() => {
-        //Closing connection to database
-        db.end();
-    })
+  test("Login in with the right password and email", async () => {
+    //Calling login method with the right password and email
+    const test = await AuthenticationService.login("test@test.com", "test");
 
-    test("Login in with the right password and email", async () => {
-        //Calling login method with the right password and email
-        const test = await AuthenticationService.login("test@test.com", "test");
+    //Verifying if the access token and the refresh token are created
+    expect(test).toHaveProperty(["accessToken"]);
+    expect(test).toHaveProperty(["refreshToken"]);
+  });
 
-        //Verifying if the access token and the refresh token are created
-        expect(test).toHaveProperty(['accessToken']);
-        expect(test).toHaveProperty(['refreshToken']);
-    })
+  test("Login in with the wrong password and right email", async () => {
+    let errorMessage = "";
 
-    test("Login in with the wrong password and right email", async () => {
-        let errorMessage = '';
+    //Trying to login with the wrong password
+    try {
+      await AuthenticationService.login("test@test.com", "tes");
+    } catch {
+      errorMessage = "Incorrect password";
+    }
 
-        //Trying to login with the wrong password
-        try {
-            await AuthenticationService.login("test@test.com", "tes");
-        }
-        catch {
-            errorMessage = 'Incorrect password';
-        }
+    //Expecting an error message thrown
+    expect(errorMessage).toEqual("Incorrect password");
+  });
 
-        //Expecting an error message thrown
-        expect(errorMessage).toEqual('Incorrect password');
-    })
+  test("Login with the right password and wrong email", async () => {
+    //Getting instance of AccountDao
+    const accountDao: AccountDao = AuthenticationService.getAccountDao();
 
-    test("Login with the right password and wrong email", async () => {
-        //Encrypting password
-        const hashedPassword: string = await bcrypt.hash("test", 10);
+    //Mocking the fetchAccount method to pass the wrong email
+    accountDao.fetchAccount = jest.fn().mockReturnValue([{}]);
 
-        //Getting instance of AccountDao
-        const accountDao: AccountDao = AuthenticationService.getAccountDao();
+    let errorMessage = "";
 
-        //Mocking the fetchAccount method to pass the wrong email
-        accountDao.fetchAccount = jest.fn().mockReturnValue([{}]);
+    //Trying to login with the wrong email
+    try {
+      await AuthenticationService.login("t@test.com", "test");
+    } catch {
+      errorMessage = "Email not found";
+    }
 
-        let errorMessage = '';
-
-        //Trying to login with the wrong email
-        try {
-            await AuthenticationService.login("t@test.com", "test");
-        }
-        catch {
-            errorMessage = 'Email not found';
-        }
-
-        //Expecting an error message thrown
-        expect(errorMessage).toEqual('Email not found');
-    })
-})
+    //Expecting an error message thrown
+    expect(errorMessage).toEqual("Email not found");
+  });
+});
 
 //Test for logout method
 describe("Logout test", () => {
+  //Configure dotenv
+  dotenv.config();
 
-    //Configure dotenv
-    dotenv.config();
+  //Creating refresh token
+  const refreshToken = jwt.sign(
+    "test@test.com",
+    process.env.REFRESH_TOKEN_SECRET
+  );
 
-    //Creating refresh token
-    const refreshToken = jwt.sign("test@test.com", process.env.REFRESH_TOKEN_SECRET);
+  //Creating array to store refresh tokens
+  const refreshTokens: Array<any> = [];
 
-    //Creating array to store refresh tokens
-    const refreshTokens: Array<any> = [];
+  //Pushing a refresh token to the array
+  refreshTokens.push(refreshToken);
 
-    //Pushing a refresh token to the array
-    refreshTokens.push(refreshToken);
+  //Setting the new refresh token array for the authentication service
+  AuthenticationService.setRefreshToken(refreshTokens);
 
-    //Setting the new refresh token array for the authentication service
-    AuthenticationService.setRefreshToken(refreshTokens);
+  afterAll(() => {
+    //Closing the connection to the database
+    db.end();
+  });
 
-    afterAll(() => {
-        //Closing the connection to the database
-        db.end();
-    })
-
-    test("Log out successfully", () => {
-        //Expecting a success json when logging out
-        expect(AuthenticationService.logout(refreshTokens)).toMatchObject({ status: 202, message: "Logout successful" });
-    })
-
-})
+  test("Log out successfully", () => {
+    //Expecting a success json when logging out
+    expect(AuthenticationService.logout(refreshTokens)).toMatchObject({
+      status: 202,
+      message: "Logout successful",
+    });
+  });
+});
 
 describe("Generating new access token", () => {
+  //Configure dotenv
+  dotenv.config();
 
-    //Configure dotenv
-    dotenv.config();
+  //Creating refresh token
+  const refreshToken = jwt.sign(
+    "test@test.com",
+    process.env.REFRESH_TOKEN_SECRET
+  );
 
-    //Creating refresh token
-    const refreshToken = jwt.sign("test@test.com", process.env.REFRESH_TOKEN_SECRET);
+  //Creating array to store refresh tokens
+  const refreshTokens: Array<any> = [];
 
-    //Creating array to store refresh tokens
-    const refreshTokens: Array<any> = [];
+  //Pushing a refresh token to the array
+  refreshTokens.push(refreshToken);
 
-    //Pushing a refresh token to the array
-    refreshTokens.push(refreshToken);
+  //Setting the new refresh token array for the authentication service
+  AuthenticationService.setRefreshToken(refreshTokens);
 
-    //Setting the new refresh token array for the authentication service
-    AuthenticationService.setRefreshToken(refreshTokens);
+  afterAll(() => {
+    //Closing the connection to the database
+    db.end();
+  });
 
-    afterAll(() => {
-        //Closing the connection to the database
-        db.end();
-    })
+  test("Refresh token is null", async () => {
+    let errorMessage = "";
 
-    test("Refresh token is null", async () => {
-        let errorMessage = '';
+    //Trying to generate a new access token with a null refresh token
+    try {
+      await AuthenticationService.generateNewAccessToken(null);
+    } catch {
+      errorMessage = "No refresh token provided";
+    }
 
-        //Trying to generate a new access token with a null refresh token
-        try {
-            await AuthenticationService.generateNewAccessToken(null);
-        }
-        catch {
-            errorMessage = 'No refresh token provided';
-        }
+    //Expecting an error message thrown
+    expect(errorMessage).toEqual("No refresh token provided");
+  });
 
-        //Expecting an error message thrown
-        expect(errorMessage).toEqual('No refresh token provided');
-    })
+  test("Refresh token is invalid", async () => {
+    //Creating a refresh token
+    const refreshToken = jwt.sign(
+      "t@test.com",
+      process.env.REFRESH_TOKEN_SECRET
+    );
 
-    test("Refresh token is invalid", async () => {
-        //Creating a refresh token
-        const refreshToken = jwt.sign("t@test.com", process.env.REFRESH_TOKEN_SECRET);
+    let errorMessage = "";
 
-        let errorMessage = '';
+    //Trying to generate a new access token with an invalid refresh token (not stored in the refresh token array)
+    try {
+      await AuthenticationService.generateNewAccessToken(refreshToken);
+    } catch {
+      errorMessage = "Invalid refresh token";
+    }
 
-        //Trying to generate a new access token with an invalid refresh token (not stored in the refresh token array)
-        try {
-            await AuthenticationService.generateNewAccessToken(refreshToken);
-        }
-        catch {
-            errorMessage = 'Invalid refresh token';
-        }
+    //Expecting an error message thrown
+    expect(errorMessage).toEqual("Invalid refresh token");
+  });
 
-        //Expecting an error message thrown
-        expect(errorMessage).toEqual('Invalid refresh token');
-    })
-
-    test("New access token generated", async () => {
-        //Generating a new access token and excepting it to succeed
-        expect(await AuthenticationService.generateNewAccessToken(refreshToken)).toHaveProperty(['accessToken']);
-    })
-
-})
-
-
-
+  test("New access token generated", async () => {
+    //Generating a new access token and excepting it to succeed
+    expect(
+      await AuthenticationService.generateNewAccessToken(refreshToken)
+    ).toHaveProperty(["accessToken"]);
+  });
+});
