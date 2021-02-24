@@ -1,7 +1,7 @@
 {
   "frame": [
     {
-      "type": "utility",
+      "type": "UTILITY",
       "img": {
         "pos": 0,
         "alt": "utility-frame"
@@ -13,7 +13,7 @@
       }
     },
     {
-      "type": "touring",
+      "type": "TOURING",
       "img": {
         "pos": 1,
         "alt": "touring-frame"
@@ -25,7 +25,7 @@
       }
     },
     {
-      "type": "mountain",
+      "type": "MOUNTAIN",
       "img": {
         "pos": 2,
         "alt": "mountain-frame"
@@ -39,7 +39,7 @@
   ],
   "saddle": [
     {
-      "type": "performance",
+      "type": "PERFORMANCE",
       "img": {
         "pos": 0,
         "alt": "performance-saddle"
@@ -51,7 +51,7 @@
       }
     },
     {
-      "type": "cushioned",
+      "type": "CUSHIONED",
       "img": {
         "pos": 1,
         "alt": "cushioned-saddle"
@@ -65,7 +65,7 @@
   ],
   "handlebar": [
     {
-      "type": "flat",
+      "type": "FLAT",
       "img": {
         "pos": 0,
         "alt": "flat-handlebar"
@@ -77,7 +77,7 @@
       }
     },
     {
-      "type": "bullhorn",
+      "type": "BULLHORN",
       "img": {
         "pos": 1,
         "alt": "bullhorn-handlebar"
@@ -89,7 +89,7 @@
       }
     },
     {
-      "type": "drop",
+      "type": "DROP",
       "img": {
         "pos": 2,
         "alt": "drop-handlebar"
@@ -103,7 +103,7 @@
   ],
   "wheels": [
     {
-      "type": "utility",
+      "type": "UTILITY",
       "img": {
         "pos": 0,
         "alt": "utility-wheels"
@@ -115,7 +115,7 @@
       }
     },
     {
-      "type": "touring",
+      "type": "TOURING",
       "img": {
         "pos": 1,
         "alt": "touring-wheels"
@@ -127,7 +127,7 @@
       }
     },
     {
-      "type": "mountain",
+      "type": "MOUNTAIN",
       "img": {
         "pos": 2,
         "alt": "mountain-wheels"
@@ -141,7 +141,7 @@
   ],
   "drivetrain": [
     {
-      "type": "novice",
+      "type": "NOVICE",
       "img": {
         "pos": 0,
         "alt": "novice-drivetrain"
@@ -153,7 +153,7 @@
       }
     },
     {
-      "type": "intermediate",
+      "type": "INTERMEDIATE",
       "img": {
         "pos": 1,
         "alt": "intermediate-drivetrain"
@@ -165,7 +165,7 @@
       }
     },
     {
-      "type": "advanced",
+      "type": "ADVANCED",
       "img": {
         "pos": 2,
         "alt": "advanced-drivetrain"
@@ -177,7 +177,7 @@
       }
     },
     {
-      "type": "expert",
+      "type": "EXPERT",
       "img": {
         "pos": 3,
         "alt": "expert-drivetrain"
