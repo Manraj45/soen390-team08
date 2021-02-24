@@ -1,0 +1,19 @@
+.components img {
+  max-width: 75px;
+  max-height: 50px;
+}
+
+.frame .TOURING, .frame .MOUNTAIN {
+  padding-left: 10px;
+}
+
+.frame p, .saddle p, .handlebar p, .wheels p, .drivetrain p {
+  width: 100%;
+  padding-right: 10px;
+}
+
+.size .small, .size .medium, .size .large {
+  padding: 10px;
+  border: 1px solid black;
+  background-color: white;
+}
