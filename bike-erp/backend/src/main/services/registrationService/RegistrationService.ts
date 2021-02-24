@@ -24,7 +24,7 @@ export class RegistrationService {
     }
   }
 
-  public static register = async (
+  public static register = (
     firstName: string,
     lastName: string,
     role: string,
@@ -37,32 +37,62 @@ export class RegistrationService {
     organization: string
   ) => {
     return new Promise(async (resolve, reject) => {
-      //encrypt the password for security
-      const hashedPassword = await bcrypt.hash(password, 10);
-      await RegistrationService.accountDao
-        .createAccount(
-          firstName,
-          lastName,
-          role,
-          hashedPassword,
-          email,
-          recovery_question1,
-          recovery_question1_answer,
-          recovery_question2,
-          recovery_question2_answer,
-          organization
-        )
-        .then((response) => {
-          resolve({ status: 201, message: response.message });
-        })
-        .catch((error) => {
-          // If the error is of type email duplication, set custom message
-          if (error.sqlMessage.includes("Duplicate")) {
-            reject({ status: 404, message: "Email already exist" });
+      //verify password requirements
+      var regexPassword = new RegExp(
+        "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).{8,30}$"
+      );
+      var regexName = new RegExp("^([^0-9]*)$");
+      var regexEmail = new RegExp(
+        "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$"
+      );
+      if (regexName.test(firstName) && regexName.test(lastName)) {
+        if (regexEmail.test(email)) {
+          if (regexPassword.test(password)) {
+            //encrypt the password for security
+            const hashedPassword = await bcrypt.hash(password, 10);
+            await RegistrationService.accountDao
+              .createAccount(
+                firstName,
+                lastName,
+                role,
+                hashedPassword,
+                email,
+                recovery_question1,
+                recovery_question1_answer,
+                recovery_question2,
+                recovery_question2_answer,
+                organization
+              )
+              .then((response) => {
+                resolve({ status: 201, message: response.message });
+              })
+              .catch((error) => {
+                // If the error is of type email duplication, set custom message
+                if (error.sqlMessage.includes("Duplicate")) {
+                  reject({ status: 404, message: "Email already exist." });
+                } else {
+                  reject({ status: 404, message: error.sqlMessage });
+                }
+              });
           } else {
-            reject({ status: 404, message: error.sqlMessage });
+            reject({
+              status: 400,
+              message:
+                "Your password must have at least 8 characters. It must also have at least one uppercase letter, one lowercase letter, one numeric digit and one special character.",
+            });
           }
+        } else {
+          reject({
+            status: 400,
+            message: "Your email is not in the correct format.",
+          });
+        }
+      } else {
+        reject({
+          status: 400,
+          message: "Your name is not in the correct format.",
         });
+      }
     });
   };
 }

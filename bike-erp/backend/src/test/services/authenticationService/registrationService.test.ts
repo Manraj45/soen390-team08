@@ -17,7 +17,7 @@ describe("Registration test", () => {
     dotenv.config();
 
     //Creating the singleton instance of registration service
-    RegistrationService.getRegistrationService();
+    await RegistrationService.getRegistrationService();
   });
 
   afterAll(() => {
@@ -26,8 +26,9 @@ describe("Registration test", () => {
   });
 
   //Testing registration with correct information
+  // alwaysAwait: true
   test("Register with the correct name, password and email", async () => {
-    expect(
+    return expect(
       RegistrationService.register(
         "First",
         "Last",
@@ -49,7 +50,7 @@ describe("Registration test", () => {
   //Test the case where the name is incorrect
   test("Register with the incorrect name", async () => {
     //Register with the incorrect name format
-    expect(
+    return expect(
       RegistrationService.register(
         "First123",
         "Last",
@@ -71,7 +72,7 @@ describe("Registration test", () => {
   //Test the case where the email is incorrect
   test("Register with the incorrect email", async () => {
     //Register with the incorrect email format
-    expect(
+    return expect(
       RegistrationService.register(
         "First",
         "Last",
@@ -92,13 +93,13 @@ describe("Registration test", () => {
 
   //Test the case where the password is incorrect
   test("Register with the password email", async () => {
-    expect(
+    return expect(
       RegistrationService.register(
         "First",
         "Last",
         "MANAGER",
-        "Password123!",
-        "firstlastgmail.com",
+        "Password123",
+        "firstlast@gmail.com",
         "Recovery question 1?",
         "Recovery question 1 answer.",
         "Recovery question 2?",
