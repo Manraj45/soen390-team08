@@ -1,4 +1,8 @@
-import React from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+
+import { BACKEND_URL } from "../../../core/utils/config";
+
 import components from "./components.json";
 
 import frame_utility from "../../../assets/images/components/frame_utility.jpg";
@@ -21,15 +25,14 @@ import drivetrain_intermediate from "../../../assets/images/components/drivetrai
 import drivetrain_advanced from "../../../assets/images/components/drivetrain_advanced.jpg";
 import drivetrain_expert from "../../../assets/images/components/drivetrain_expert.jpg";
 
-import "./Components.css";
 import { Button } from "@material-ui/core";
-import { useState } from "react";
-import { useEffect } from "react";
-import axios from "axios";
-import { BACKEND_URL } from "../../../core/utils/config";
+import "./Components.css";
 
-const Components = ({ selectedLocation, setOrderList, orderList, setOrderListQuantity, orderListQuantity, setOrderListInfo, orderListInfo }: any) => {
-
+const Components = ({ selectedLocation,
+  setOrderList, orderList,
+  setOrderListQuantity, orderListQuantity,
+  setOrderListInfo, orderListInfo }: any ) =>
+{
   var frames = [frame_utility, frame_touring, frame_mountain];
   var saddles = [saddle_performance, saddle_cushioned];
   var handlebars = [handlebar_flat, handlebar_bullhorn, handlebar_drop];
@@ -37,7 +40,7 @@ const Components = ({ selectedLocation, setOrderList, orderList, setOrderListQua
   var drivetrains = [drivetrain_novice, drivetrain_intermediate, drivetrain_advanced, drivetrain_expert];
 
   const url = BACKEND_URL;
-  const [size, setSize] = React.useState("");
+  const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState("");
   const [componentSelected, setComponentSelected] = useState("")
   const [componentTypeSelected, setComponentTypeSelected] = useState("")
@@ -50,14 +53,24 @@ const Components = ({ selectedLocation, setOrderList, orderList, setOrderListQua
   }
 
   //filling the order list so we can build a receipt with multiple components
-  const fillOrderList = (size: String, location: String, componentType: String, componentSpecificType: String, quantity: string) => {
+  const fillOrderList = (size: String, location: String,
+    componentType: String, componentSpecificType: String, quantity: string) => 
+  {
     let selectedId = "";
     let quantitySelected = 0;
+
     inventoryTable.forEach(element => {
-      if (element.location_name === location && element.size === size && element.component_type === componentType && element.specificComponentType === componentSpecificType) {
+      if (
+        element.location_name === location &&
+        element.size === size &&
+        element.component_type === componentType &&
+        element.specificComponentType === componentSpecificType
+      ) {
         selectedId = element.component_id;
+
         //making sure that the input for quantity is a valid number
         quantitySelected = parseInt(quantity);
+
         if (!orderList.includes(selectedId) && !isNaN(quantitySelected) && /^\d*$/.test(quantity)) {
           //adding information such as quantity, component id to the orderlist.
           setOrderList([...orderList, selectedId]);
@@ -76,7 +89,6 @@ const Components = ({ selectedLocation, setOrderList, orderList, setOrderListQua
 
   return (
     <div className="components">
-      <p>COMPONENTS</p>
       <div className="size">
         <div className="small" onClick={() => setSize("SMALL")}>S</div>
         <div className="medium" onClick={() => setSize("MEDIUM")}>M</div>
