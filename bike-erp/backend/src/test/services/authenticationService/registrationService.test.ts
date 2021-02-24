@@ -1,7 +1,6 @@
 import { RegistrationService } from "../../../main/services/registrationService/RegistrationService";
 import dotenv from "dotenv";
 import db from "../../../main/helpers/db";
-jest.useFakeTimers();
 
 //Test for registration method
 describe("Registration test", () => {
