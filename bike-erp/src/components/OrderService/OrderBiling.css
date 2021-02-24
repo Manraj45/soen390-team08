@@ -3,6 +3,7 @@
   border: 1px solid black;
   background-color: white;
   box-sizing: border-box;
+  width: 300px;
 }
 
 .total {

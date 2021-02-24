@@ -7,12 +7,13 @@ import { isAuthenticated } from '../redux/actions/AccountActions/accountAction';
 import LoginPage from '../components/LoginPage/LoginPage'
 import RegistrationPage from '../components/RegistrationPage/RegistrationPage';
 import Home from '../components/Home/Home';
+
 import IdleTimerContainer from '../components/IdleTimerContainer/IdleTimerContainer';
+import Inventory from '../components/inventory';
 import localStorageService from '../core/services/LocalStorageService'
 import OrderComponent from "../pages/OrderComponent";
 
 import './App.css';
-import Inventory from '../components/inventory';
 
 const App = ({ account, isAuthenticated }: any) => {
 
@@ -46,9 +47,9 @@ const App = ({ account, isAuthenticated }: any) => {
         <Switch>
           <Route exact path="/" render={() => account.authenticated ? <Home></Home> : <Redirect to="/login" />} />
           <Route path="/login" render={() => account.authenticated ? <Redirect to="/" /> : <LoginPage />} />
-          <Route path="/register" render={() => account.authenticated ? <Redirect to="/" /> : <RegistrationPage></RegistrationPage>} />
-          <Route path="/order" render={() => <OrderComponent></OrderComponent>}/>
-          <Route path="/inventory" render={() => <Inventory></Inventory>}/>
+          <Route path="/register" render={() => account.authenticated ? <Redirect to="/" /> : <RegistrationPage/>} />
+          <Route path="/order" render={() => <OrderComponent/>}/>
+          <Route path="/inventory" render={() => <Inventory/>}/>
         </Switch>
       </div>
     </Router>
