@@ -31,7 +31,7 @@ const Inventory: React.FC = () => {
         <Table size="small" className={classes.tableStyle} >
           <TableHead className={classes.tableHead}>
             <TableRow className={classes.topRow}>
-              <TableCell />
+              <TableCell className={classes.emptyCell}/>
               <TableCell>Type</TableCell>
               <TableCell>Price</TableCell>
               <TableCell>Quantity</TableCell>
@@ -50,20 +50,12 @@ const Inventory: React.FC = () => {
                 <TableCell className={classes.innerTable}>{row.quantity}</TableCell>
                 <TableCell className={classes.innerTable}>{row.component_status}</TableCell>
                 <TableCell className={classes.innerTable}>{row.size}</TableCell>
-                <TableCell className={classes.innerTable}></TableCell>
-                <TableCell className={classes.innerTable}></TableCell>
+                <TableCell className={classes.innerTable}>{row.specificComponentType}</TableCell>
+                <TableCell className={classes.innerTable}>{row.location_name}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-
-        {inventoryTable.map((val) => {
-          return (
-            <h1>
-              Price: {val.price}
-            </h1>
-          );
-        })}
       </div>
     </React.Fragment>
 

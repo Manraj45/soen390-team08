@@ -14,10 +14,9 @@ const useStyles = makeStyles((theme) => ({
         background: "#BFBFBF",
     },
     tableStyle: {
-        width: "90%",
+        width: "60%",
         marginLeft: "auto",
         marginRight: "auto",
-        border: "1px solid black"
     },
     innerTable: {
         background: "#FFFFFF"
@@ -25,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     topRow: {
         fontWeight: "bold",
         fontFamily: "Inter"
+    },
+    emptyCell: {
+        background: "#DDDDDD"
     }
 }))
 
