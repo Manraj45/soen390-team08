@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import db from "../../../main/helpers/db";
 import jwt from "jsonwebtoken";
+jest.useFakeTimers();
 
 //Test for login method
 describe("Login test", () => {
