@@ -55,9 +55,6 @@ describe("Login test", () => {
   });
 
   test("Login with the right password and wrong email", async () => {
-    //Encrypting password
-    const hashedPassword: string = await bcrypt.hash("test", 10);
-
     //Getting instance of AccountDao
     const accountDao: AccountDao = AuthenticationService.getAccountDao();
 

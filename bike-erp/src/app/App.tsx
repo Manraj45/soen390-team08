@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-d
 import RegistrationPage from '../components/RegistrationPage/RegistrationPage';
 import Home from '../components/Home/Home';
 import { isAuthenticated } from '../redux/actions/AccountActions/accountAction';
+import IdleTimerContainer from '../components/IdleTimerContainer/IdleTimerContainer';
 
 const App = ({ account, isAuthenticated }: any) => {
 
@@ -37,6 +38,7 @@ const App = ({ account, isAuthenticated }: any) => {
   return (
     <Router>
       <div className="App">
+        <IdleTimerContainer></IdleTimerContainer>
         <Switch>
           <Route exact path="/" render={() => account.authenticated ? <Home></Home> : <Redirect to="/login" />} />
           <Route path="/login" render={() => account.authenticated ? <Redirect to="/" /> : <LoginPage />} />

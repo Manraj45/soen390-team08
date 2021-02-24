@@ -1,7 +1,6 @@
 import React from 'react'
 import RegistrationPage from '../../components/RegistrationPage/RegistrationPage'
-import { shallow, configure, mount } from 'enzyme'
-import store from '../../redux/store'
+import { shallow, configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16';
 import renderer from 'react-test-renderer'
 
