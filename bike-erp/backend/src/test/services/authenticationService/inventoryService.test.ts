@@ -3,11 +3,13 @@ import db from "../../../main/helpers/db";
 
 describe("Component Fetching", () =>{
 
+    // teardown after tests
     afterAll(() => {
         //Closing connection to database
         db.end();
       });
-
+    
+    // Invalid number input for get component
     test("Get Component with Negative Id", async() =>  {
         const inventoryManagementService: InventoryManagementService = new InventoryManagementService();
         const id: string = '-1223232';
@@ -23,6 +25,7 @@ describe("Component Fetching", () =>{
         expect(errorMessage.message).toEqual('Invalid id');
     })
 
+    // Not a number input for get component
     test("Get Component with Nan Id", async() =>  {
         const inventoryManagementService: InventoryManagementService = new InventoryManagementService();
         const id: string = 'abc';
@@ -38,6 +41,7 @@ describe("Component Fetching", () =>{
         expect(errorMessage.message).toEqual('Invalid id');
     })
 
+    // Invalid number input for id in edit component
     test("Edit Component with Negative Id", async() =>  {
         const inventoryManagementService: InventoryManagementService = new InventoryManagementService();
         const id: string = '-1223232';
@@ -54,6 +58,7 @@ describe("Component Fetching", () =>{
         expect(errorMessage.message).toEqual('Invalid id or quantity');
     })
 
+    // Not a number input for id in edit component
     test("Edit Component with NaN Id", async() =>  {
         const inventoryManagementService: InventoryManagementService = new InventoryManagementService();
         const id: string = 'abc';
@@ -70,6 +75,7 @@ describe("Component Fetching", () =>{
         expect(errorMessage.message).toEqual('Invalid id or quantity');
     })
 
+    // Invalid number input for quantity in edit component
     test("Edit Component with Negative Quantity", async() =>  {
         const inventoryManagementService: InventoryManagementService = new InventoryManagementService();
         const id: string = '1223232';
@@ -86,6 +92,7 @@ describe("Component Fetching", () =>{
         expect(errorMessage.message).toEqual('Invalid id or quantity');
     })
 
+    // Not a number input for quantity in edit component
     test("Edit Component with NaN Quantity", async() =>  {
         const inventoryManagementService: InventoryManagementService = new InventoryManagementService();
         const id: string = '1234345';
@@ -102,6 +109,7 @@ describe("Component Fetching", () =>{
         expect(errorMessage.message).toEqual('Invalid id or quantity');
     })
 
+    // Invalid number input for id in get component location
     test("Get Component Location with Negative Id", async() =>  {
         const inventoryManagementService: InventoryManagementService = new InventoryManagementService();
         const id: string = '-1234345';
@@ -117,6 +125,7 @@ describe("Component Fetching", () =>{
         expect(errorMessage.message).toEqual('Invalid id');
     })
 
+    // Not a number input for id in get component location
     test("Get Component Location with NaN Id", async() =>  {
         const inventoryManagementService: InventoryManagementService = new InventoryManagementService();
         const id: string = 'abc';
