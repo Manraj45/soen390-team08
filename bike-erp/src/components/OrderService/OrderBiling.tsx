@@ -1,8 +1,8 @@
-import Button from "@material-ui/core/Button";
 import axios from "axios";
 import React from "react";
 import { BACKEND_URL } from "../../core/utils/config";
 import "./OrderBiling.css";
+import {Button, Paper} from '@material-ui/core';
 
 const OrderBiling = ({ setOrderList, orderList, setOrderListQuantity, orderListQuantity, setOrderListInfo, orderListInfo }: any) => {
 
@@ -29,10 +29,10 @@ const OrderBiling = ({ setOrderList, orderList, setOrderListQuantity, orderListQ
   }
 
   return (
-    <div className="orderBiling">
-      <div className="header">
+    <Paper className="orderBiling">
+      <h2>
         Biling
-      </div>
+      </h2>
       <div className="contents">
         {orderList.map((element : number) => (
           <div key={element}>{orderListQuantity[orderList.indexOf(element)]} x {orderListInfo[orderList.indexOf(element)]}</div>
@@ -49,7 +49,7 @@ const OrderBiling = ({ setOrderList, orderList, setOrderListQuantity, orderListQ
       <div>
         <Button variant="contained" color="primary" onClick={() => { clearCart() }}>Clear Cart</Button>
       </div>
-    </div>
+    </Paper>
   );
 }
 

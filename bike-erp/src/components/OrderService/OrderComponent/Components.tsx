@@ -25,8 +25,19 @@ import drivetrain_intermediate from "../../../assets/images/components/drivetrai
 import drivetrain_advanced from "../../../assets/images/components/drivetrain_advanced.jpg";
 import drivetrain_expert from "../../../assets/images/components/drivetrain_expert.jpg";
 
-import { Button } from "@material-ui/core";
+import { Button, Grid, TextField, Theme, Typography, withStyles } from "@material-ui/core";
+import { grey } from '@material-ui/core/colors';
 import "./Components.css";
+
+const WhiteButton = withStyles((theme: Theme)=>({
+	root: {
+		color: theme.palette.getContrastText(grey[50]),
+		backgroundColor: "#FFFFFF",
+		'&:hover': {
+      backgroundColor: grey[200],
+    },
+	},
+}))(Button);
 
 const Components = ({ selectedLocation,
   setOrderList, orderList,
@@ -88,87 +99,101 @@ const Components = ({ selectedLocation,
   }, [url])
 
   return (
-    <div className="components">
-      <div className="size">
-        <div className="small" onClick={() => setSize("SMALL")}>S</div>
-        <div className="medium" onClick={() => setSize("MEDIUM")}>M</div>
-        <div className="large" onClick={() => setSize("LARGE")}>L</div>
-      </div>
-      <div className="frame">
-        <p>Frames</p>
+    <Grid container direction="column" justify="center" spacing={5} className="components">
+      <Grid item container justify="flex-start" spacing={1}>
+        <Typography variant="h6">Sizing</Typography>
+        <Grid item>
+          <WhiteButton  variant="contained" onClick={() => setSize("SMALL")}>S</WhiteButton >
+        </Grid>
+        <Grid item>
+          <WhiteButton  variant="contained" onClick={() => setSize("MEDIUM")}>M</WhiteButton >
+        </Grid>
+        <Grid item>
+          <WhiteButton  variant="contained" onClick={() => setSize("LARGE")}>L</WhiteButton >
+        </Grid>
+      </Grid>
+      <Grid item container justify="flex-start" spacing={1}>
+        <Typography variant="h6">Frames</Typography>
         {
           components.frame.map(frame =>
-            <div className={frame.type} key={frame.type}>
-              <img src={frames[frame.img.pos]} alt={frame.img.alt}
-                onClick={() => setComponent("FRAME", frame.type)}
-              />
-            </div>
+            <Grid item key={frame.type}>
+              <WhiteButton className={frame.type} onClick={() => setComponent("FRAME", frame.type)}>
+                <img src={frames[frame.img.pos]} alt={frame.img.alt}
+                />
+              </WhiteButton>
+              
+            </Grid>
           )
         }
-      </div>
-      <div className="saddle">
-        <p>Saddles</p>
+      </Grid>
+      <Grid item container justify="flex-start" spacing={1}>
+        <Typography variant="h6">Saddles</Typography>
         {
           components.saddle.map(saddle =>
-            <div className={saddle.type} key={saddle.type}>
-              <img src={saddles[saddle.img.pos]} alt={saddle.img.alt}
-                onClick={() => setComponent("SEAT", saddle.type)}
-              />
-            </div>)
+            <Grid item key={saddle.type}>
+              <WhiteButton className={saddle.type} onClick={() => setComponent("SEAT", saddle.type)}>
+              <img src={saddles[saddle.img.pos]} alt={saddle.img.alt} />
+              </WhiteButton>
+            </Grid>)
         }
-      </div>
-      <div className="handlebar">
-        <p>Handlebars</p>
+      </Grid>
+      <Grid item container justify="flex-start" spacing={1}>
+        <Typography variant="h6">Handlebars</Typography>
         {
           components.handlebar.map(handlebar =>
-            <div className={handlebar.type} key={handlebar.type}>
-              <img src={handlebars[handlebar.img.pos]} alt={handlebar.img.alt}
-                onClick={() => setComponent("HANDLE", handlebar.type)}
-              />
-            </div>)
+            <Grid item className={handlebar.type} key={handlebar.type}>
+              <WhiteButton onClick={() => setComponent("HANDLE", handlebar.type)}>
+                <img src={handlebars[handlebar.img.pos]} alt={handlebar.img.alt}
+              /></WhiteButton>              
+            </Grid>)
         }
-      </div>
-      <div className="wheels">
-        <p>Wheels</p>
+      </Grid>
+      <Grid item container justify="flex-start" spacing={1}>
+        <Typography variant="h6">Wheels</Typography>
         {
           components.wheels.map(wheel =>
-            <div className={wheel.type} key={wheel.type}>
+            <Grid item className={wheel.type} key={wheel.type}>
+              <WhiteButton onClick={() => setComponent("WHEEL", wheel.type)}>
               <img src={wheels[wheel.img.pos]} alt={wheel.img.alt}
-                onClick={() => setComponent("WHEEL", wheel.type)}
               />
-            </div>)
+              </WhiteButton>
+              
+            </Grid>)
         }
-      </div>
-      <div className="drivetrain">
-        <p>Drivetrains</p>
+      </Grid>
+      <Grid item container justify="flex-start" spacing={1}>
+        <Typography variant="h6">Drivetrains</Typography>
         {
           components.drivetrain.map(drivetrain =>
-            <div className={drivetrain.type} key={drivetrain.type}>
-              <img src={drivetrains[drivetrain.img.pos]} alt={drivetrain.img.alt}
-                onClick={() => setComponent("DRIVE_TRAIN", drivetrain.type)}
-              />
-            </div>)
+            <Grid item className={drivetrain.type} key={drivetrain.type}>
+              <WhiteButton onClick={() => setComponent("DRIVE_TRAIN", drivetrain.type)}>
+              <img src={drivetrains[drivetrain.img.pos]} alt={drivetrain.img.alt}/>
+              </WhiteButton>
+            </Grid>)
         }
-      </div>
-      <div>
-        <form>
-          <label>
-            Quantity :
-            <input type="number" min="0" onChange={event => setQuantity(event.target.value)} />
-          </label>
-          <Button variant="contained" color="primary"
-            onClick={() => fillOrderList(size, selectedLocation, componentSelected, componentTypeSelected, quantity)}>
-              Add
-          </Button>
-            <br/>
+      </Grid>
+        <Grid item container justify="flex-start" spacing={1}>
+				<Typography variant="h6">Quantity : </Typography>
+					<Grid item>
+					
+          	<TextField variant="outlined" type="number" onChange={event => setQuantity(event.target.value)} />
+          
+					</Grid>
+					<Grid item>
+						<Button variant="contained" color="primary"
+							onClick={() => fillOrderList(size, selectedLocation, componentSelected, componentTypeSelected, quantity)}>
+								Add
+						</Button>
+					</Grid>
           {/*p tags for demo purposes*/}
-          <p>{size}</p>
+        </Grid>
+			<Grid item>
+					<p>{size}</p>
           <p>{componentSelected}</p>
           <p>{componentTypeSelected}</p>
           <p>{selectedLocation}</p>
-        </form>
-      </div>
-    </div>
+			</Grid>
+    </Grid>
   );
 }
 

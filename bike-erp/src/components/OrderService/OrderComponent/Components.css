@@ -3,13 +3,6 @@
   max-height: 50px;
 }
 
-.size, .frame, .saddle, .handlebar, .wheels, .drivetrain {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding: 5px;
-}
-
 .frame .TOURING, .frame .MOUNTAIN {
   padding-left: 10px;
 }

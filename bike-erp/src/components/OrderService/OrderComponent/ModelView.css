@@ -16,12 +16,6 @@
   top: 50%;
 }
 
-.location {
-  display: flex;
-  padding: 5px;
-  border: 1px solid black;
-}
-
 .location .componentLocation, .location option {
   background-color: white;
 }
