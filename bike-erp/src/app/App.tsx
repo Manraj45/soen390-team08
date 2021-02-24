@@ -12,6 +12,7 @@ import localStorageService from '../core/services/LocalStorageService'
 import OrderComponent from "../pages/OrderComponent";
 
 import './App.css';
+import Inventory from '../components/inventory';
 
 const App = ({ account, isAuthenticated }: any) => {
 
@@ -41,12 +42,13 @@ const App = ({ account, isAuthenticated }: any) => {
   return (
     <Router>
       <div className="App">
-        {/* <IdleTimerContainer></IdleTimerContainer> */}
+        <IdleTimerContainer></IdleTimerContainer>
         <Switch>
           <Route exact path="/" render={() => account.authenticated ? <Home></Home> : <Redirect to="/login" />} />
           <Route path="/login" render={() => account.authenticated ? <Redirect to="/" /> : <LoginPage />} />
           <Route path="/register" render={() => account.authenticated ? <Redirect to="/" /> : <RegistrationPage></RegistrationPage>} />
           <Route path="/order" render={() => <OrderComponent></OrderComponent>}/>
+          <Route path="/inventory" render={() => <Inventory></Inventory>}/>
         </Switch>
       </div>
     </Router>
