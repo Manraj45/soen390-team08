@@ -37,6 +37,8 @@ const Inventory : React.FC = () => {
             <TableCell>Quantity</TableCell>
             <TableCell>Status</TableCell>
             <TableCell>Size</TableCell>
+            <TableCell>Component Type</TableCell>
+            <TableCell>Location</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -48,6 +50,8 @@ const Inventory : React.FC = () => {
               <TableCell className={classes.innerTable}>{row.quantity}</TableCell>
               <TableCell className={classes.innerTable}>{row.component_status}</TableCell>
               <TableCell className={classes.innerTable}>{row.size}</TableCell>
+              <TableCell className={classes.innerTable}></TableCell>
+              <TableCell className={classes.innerTable}></TableCell>
             </TableRow>
           ))}
         </TableBody>
