@@ -176,7 +176,7 @@ const Components = ({ selectedLocation,
 				<Typography variant="h6">Quantity : </Typography>
 					<Grid item>
 					
-          	<TextField variant="outlined" type="number" onChange={event => setQuantity(event.target.value)} />
+          	<TextField variant="outlined" type="number" InputProps={{inputProps: { min: 0} }} onChange={event => setQuantity(event.target.value)} />
           
 					</Grid>
 					<Grid item>
