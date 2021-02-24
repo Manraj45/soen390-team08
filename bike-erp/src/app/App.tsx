@@ -48,8 +48,8 @@ const App = ({ account, isAuthenticated }: any) => {
           <Route exact path="/" render={() => account.authenticated ? <Home></Home> : <Redirect to="/login" />} />
           <Route path="/login" render={() => account.authenticated ? <Redirect to="/" /> : <LoginPage />} />
           <Route path="/register" render={() => account.authenticated ? <Redirect to="/" /> : <RegistrationPage/>} />
-          <Route exact path="/order" render={() => account.authenticated ? <OrderComponent></OrderComponent> : <Redirect to="/login" />}/>
-          <Route exact path="/inventory" render={() => account.authenticated ? <Inventory></Inventory> : <Redirect to="/login" />}/>
+          <Route path="/order" render={() => <OrderComponent/>}/>
+          <Route path="/inventory" render={() => <Inventory/>}/>
         </Switch>
       </div>
     </Router>
