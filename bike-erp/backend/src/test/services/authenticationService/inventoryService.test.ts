@@ -1,6 +1,12 @@
 import { InventoryManagementService } from '../../../main/services/inventoryManagementService/InventoryManagementService';
+import db from "../../../main/helpers/db";
 
 describe("Component Fetching", () =>{
+
+    afterAll(() => {
+        //Closing connection to database
+        db.end();
+      });
 
     test("Get Component with Negative Id", async() =>  {
         const inventoryManagementService: InventoryManagementService = new InventoryManagementService();
