@@ -34,8 +34,8 @@ const OrderBiling = ({ setOrderList, orderList, setOrderListQuantity, orderListQ
         Biling
       </div>
       <div className="contents">
-        {orderList.map((element: React.ReactNode) => (
-          <div>{orderListQuantity[orderList.indexOf(element)]} x {orderListInfo[orderList.indexOf(element)]}</div>
+        {orderList.map((element : number) => (
+          <div key={element}>{orderListQuantity[orderList.indexOf(element)]} x {orderListInfo[orderList.indexOf(element)]}</div>
         ))}
       </div>
       <div className="total">
