@@ -12,7 +12,7 @@ export class AccountDao {
     });
   };
 
-  public createAcccount = (
+  public createAccount = (
     firstName: string,
     lastName: string,
     role: string,
