@@ -9,7 +9,7 @@ import RegistrationPage from '../components/RegistrationPage/RegistrationPage';
 import Home from '../components/Home/Home';
 
 import IdleTimerContainer from '../components/IdleTimerContainer/IdleTimerContainer';
-import Inventory from '../components/inventory';
+import Inventory from '../components/Inventory/inventory';
 import localStorageService from '../core/services/LocalStorageService'
 import OrderComponent from "../pages/OrderComponent";
 
