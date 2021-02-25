@@ -31,7 +31,7 @@ const OrderBiling = ({ setOrderList, orderList, setOrderListQuantity, orderListQ
   return (
     <Paper className="orderBiling">
       <h2>
-        Biling
+        Billing
       </h2>
       <div className="contents">
         {orderList.map((element : number) => (

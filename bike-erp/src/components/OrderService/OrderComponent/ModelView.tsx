@@ -23,7 +23,7 @@ const ModelView = ({setSelectedLocation} : any) => {
   };
   return (
     <Card>
-      <h2>COMPONENT NAME + MODEL NAME</h2>
+      <h2>MODEL</h2>
       <CardMedia title="bike-logo">
         <img src={bike_logo} style={styles.image} alt="bike-logo"/>
         {
