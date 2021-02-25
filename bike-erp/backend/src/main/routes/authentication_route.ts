@@ -1,31 +1,47 @@
-import express from 'express';
-import { authenticateToken, AuthenticationService } from '../services/authenticationService/AuthenticationService';
+import express from "express";
+import {
+  authenticateToken,
+  AuthenticationService,
+} from "../services/authenticationService/AuthenticationService";
 
 const router = express();
+
+//Creating a singleton instance of the AuthenticationService
 AuthenticationService.getAuthenticationService();
 
-router.post('/login', (req, res) => {
-    AuthenticationService.login(req.body.email, req.body.password).then((response) => {
-        res.status(202).send(response);
-    }).catch((error) => {
-        res.status(error.status).send(error.message);
+//Creating endpoint for login
+router.post("/login", (req, res) => {
+  //Logging in with the given email and password
+  AuthenticationService.login(req.body.email, req.body.password)
+    .then((response) => {
+      res.status(202).send(response);
+    })
+    .catch((error) => {
+      res.status(error.status).send(error.message);
     });
 });
 
-router.get('/token/validation', authenticateToken ,(req, res)=>{
-    res.sendStatus(200)
-})
+//Creating endpoint for token validation
+router.get("/token/validation", authenticateToken, (req, res) => {
+  res.sendStatus(200);
+});
 
-router.post('/token', (req, res) => {
-    AuthenticationService.generateNewAccessToken(req.body.token).then((response) => {
-        res.status(202).send(response);
-    }).catch((error) => {
-        res.status(error.status).send(error.message);
+//Creating endpoint to generate new a new access token
+router.post("/token", (req, res) => {
+  //Generating the new access token by providing an existing refresh token
+  AuthenticationService.generateNewAccessToken(req.body.token)
+    .then((response) => {
+      res.status(202).send(response);
+    })
+    .catch((error) => {
+      res.status(error.status).send(error.message);
     });
 });
 
-router.delete('/logout', (req, res) => {
-    res.json(AuthenticationService.logout(req.body.token));
+//Creating endpoint to logout
+router.delete("/logout", (req, res) => {
+  //Logging out
+  res.json(AuthenticationService.logout(req.body.token));
 });
 
 export default router;

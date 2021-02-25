@@ -20,6 +20,13 @@
 .env.test.local
 .env.production.local
 
+#vscodeSettings
+/.vscode
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.eslintcache
+
+/backend/src/main/config/config.ts
