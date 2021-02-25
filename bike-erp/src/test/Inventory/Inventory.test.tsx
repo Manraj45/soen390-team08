@@ -1,17 +1,17 @@
 import * as React from 'react';
 import Inventory from '../../components/Inventory/inventory';
-import Enzyme, {shallow} from 'enzyme';
+import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-//import renderer from 'react-test-renderer';
+import renderer from 'react-test-renderer';
 
-Enzyme.configure({adapter : new Adapter()});
+Enzyme.configure({ adapter: new Adapter() });
 
-describe('Inventory',() => {
+describe('Inventory', () => {
 
     let wrapper: any;
-    
+
     beforeEach(() => {
-        wrapper = shallow(<Inventory/>);
+        wrapper = shallow(<Inventory />);
     })
 
     it('inventory page should appear', () => {
@@ -26,8 +26,8 @@ describe('Inventory',() => {
         expect(wrapper.exists()).toBe(true);
     })
 
-    // it('matches the snapshot', () => {
-    //     const tree = renderer.create(<Inventory />).toJSON();
-    //     expect(tree).toMatchSnapshot();
-    //   });
+    it('matches the snapshot', () => {
+        const tree = renderer.create(<Inventory />).toJSON();
+        expect(tree).toMatchSnapshot();
+    });
 })
