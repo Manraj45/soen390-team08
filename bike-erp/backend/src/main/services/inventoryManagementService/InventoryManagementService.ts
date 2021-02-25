@@ -6,10 +6,13 @@ import {
 } from "../../dao/ComponentDAO";
 
 export class InventoryManagementService {
+    
+    // retrieve all components from stored in the table
     public getAllComponents = () => {
         return fetchAllComponents();
     };
 
+    // retrieve components identified with a unique id
     public getComponent = (id: string) => {
         const idAsNum: number = Number(id);
         if (isNaN(idAsNum) || idAsNum < 0) {
@@ -19,6 +22,7 @@ export class InventoryManagementService {
         return fetchComponent(id);
     }
 
+    // edit the quantity of a specific component identified by a unique id number
     public editComponent = (id: string, quantity: string) => {
         const idAsNum: number = Number(id);
         const qtyAsNum: number = Number(quantity);
@@ -29,6 +33,7 @@ export class InventoryManagementService {
         return updateComponent(id, quantity);
     }
 
+    // get the location of a component identified by a unique id
     public getComponentLocation = (id: string) => {
         const idAsNum: number = Number(id);
 
