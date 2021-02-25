@@ -46,8 +46,8 @@ describe("Login test", () => {
     //Trying to login with the wrong password
     try {
       await AuthenticationService.login("test@test.com", "tes");
-    } catch {
-      errorMessage = "Incorrect password";
+    } catch (error) {
+      errorMessage = error.message;
     }
 
     //Expecting an error message thrown
@@ -59,15 +59,15 @@ describe("Login test", () => {
     const accountDao: AccountDao = AuthenticationService.getAccountDao();
 
     //Mocking the fetchAccount method to pass the wrong email
-    accountDao.fetchAccount = jest.fn().mockReturnValue([{}]);
+    accountDao.fetchAccount = jest.fn().mockReturnValue([]);
 
     let errorMessage = "";
 
     //Trying to login with the wrong email
     try {
       await AuthenticationService.login("t@test.com", "test");
-    } catch {
-      errorMessage = "Email not found";
+    } catch (error) {
+      errorMessage = error.message;
     }
 
     //Expecting an error message thrown
@@ -139,8 +139,8 @@ describe("Generating new access token", () => {
     //Trying to generate a new access token with a null refresh token
     try {
       await AuthenticationService.generateNewAccessToken(null);
-    } catch {
-      errorMessage = "No refresh token provided";
+    } catch (error) {
+      errorMessage = error.message;
     }
 
     //Expecting an error message thrown
@@ -159,8 +159,8 @@ describe("Generating new access token", () => {
     //Trying to generate a new access token with an invalid refresh token (not stored in the refresh token array)
     try {
       await AuthenticationService.generateNewAccessToken(refreshToken);
-    } catch {
-      errorMessage = "Invalid refresh token";
+    } catch (error) {
+      errorMessage = error.message;
     }
 
     //Expecting an error message thrown
