@@ -1,9 +1,9 @@
-import { AuthenticationService } from "../../../main/services/authenticationService/AuthenticationService";
-import { AccountDao } from "../../../main/dao/AccountDAO";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-import db from "../../../main/helpers/db";
 import jwt from "jsonwebtoken";
+import { AccountDao } from "../../../main/dao/AccountDAO";
+import db from "../../../main/helpers/db";
+import { AuthenticationService } from "../../../main/services/authenticationService/AuthenticationService";
 
 //Test for login method
 describe("Login test", () => {

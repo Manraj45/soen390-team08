@@ -135,7 +135,7 @@ export const fillComponentCatalogue: string = `
            (133,0.0,0,'FRAME','UNAVAILABLE','LARGE','UTILITY'),
            (134,0.0,0,'FRAME','UNAVAILABLE','LARGE','TOURING'),
            (135,0.0,0,'FRAME','UNAVAILABLE','LARGE','MOUNTAIN');
-    `
+    `;
 export const fillLocation: string = `
     INSERT IGNORE INTO component_location (component_id, location_name)
     VALUES (1,'MONTREAL'),(2,'MONTREAL'),(3,'MONTREAL'),(4,'TORONTO'),(5,'TORONTO'),(6,'TORONTO'),(7,'OTTAWA'),(8,'OTTAWA'),(9,'OTTAWA'),(10,'MONTREAL'),
@@ -152,4 +152,4 @@ export const fillLocation: string = `
            (111,'MONTREAL'),(112,'TORONTO'),(113,'TORONTO'),(114,'TORONTO'),(115,'OTTAWA'),(116,'OTTAWA'),(117,'OTTAWA'),(118,'MONTREAL'),(119,'MONTREAL'),(120,'MONTREAL'),
            (121,'TORONTO'),(122,'TORONTO'),(123,'TORONTO'),(124,'OTTAWA'),(125,'OTTAWA'),(126,'OTTAWA'),(127,'MONTREAL'),(128,'MONTREAL'),(129,'MONTREAL'),(130,'TORONTO'),
            (131,'TORONTO'),(132,'TORONTO'),(133,'OTTAWA'),(134,'OTTAWA'),(135,'OTTAWA');
-    `
+    `;

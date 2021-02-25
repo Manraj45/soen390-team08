@@ -1,7 +1,6 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createMuiTheme } from "@material-ui/core/styles";
 
 // Create theme instance for material UI. This is instantiated once only
-const theme = createMuiTheme({
-})
+const theme = createMuiTheme({});
 
-export default theme
+export default theme;
