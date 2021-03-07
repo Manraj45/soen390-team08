@@ -33,10 +33,10 @@ const ModelView = ({setSelectedLocation} : any) => {
       <CardActions >
         <FormControl style={styles.location}>
           <InputLabel>Location</InputLabel>
-          <Select name="componentLocation" id="compLoc"
+          <Select name="componentLocation" id="compLoc" defaultValue={"None"}
             onChange={onSelect}
           >
-            <MenuItem selected disabled value={""}>
+            <MenuItem selected disabled value={"None"}>
                 <em>None</em>
             </MenuItem>
             <MenuItem value={"MONTREAL"}>Montreal</MenuItem>
