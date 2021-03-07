@@ -5,4 +5,10 @@
 
 .total {
   display: flex;
+  padding-top: 50px;
+}
+
+.item {
+  float:left;
+  color: red;
 }
