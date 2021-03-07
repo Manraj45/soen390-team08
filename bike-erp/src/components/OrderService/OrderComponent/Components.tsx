@@ -35,6 +35,8 @@ import {
 } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 import "./Components.css";
+import { addItem, Order } from "../../../redux/actions/OrderListActions/orderListAction";
+import { connect } from "react-redux";
 
 const WhiteButton = withStyles((theme: Theme) => ({
   root: {
@@ -48,12 +50,8 @@ const WhiteButton = withStyles((theme: Theme) => ({
 
 const Components = ({
   selectedLocation,
-  setOrderList,
-  orderList,
-  setOrderListQuantity,
-  orderListQuantity,
-  setOrderListInfo,
-  orderListInfo,
+  addItem,
+  orderList
 }: any) => {
   var frames = [frame_utility, frame_touring, frame_mountain];
   var saddles = [saddle_performance, saddle_cushioned];
@@ -106,34 +104,40 @@ const Components = ({
         quantitySelected = parseInt(quantity);
 
         if (
-          !orderList.includes(selectedId) &&
+          orderList.orderList.every((order: any) => checkForDuplicateItem(order, parseInt(selectedId))) &&
           !isNaN(quantitySelected) &&
           /^\d*$/.test(quantity)
         ) {
-          //adding information such as quantity, component id to the orderlist.
-          setOrderList([...orderList, selectedId]);
-          setOrderListQuantity([...orderListQuantity, quantitySelected]);
-          setOrderListInfo([
-            ...orderListInfo,
-            element.size +
-              " " +
-              element.component_type +
-              " " +
-              element.specificComponentType +
-              " (" +
-              element.location_name +
-              ") ",
-          ]);
+          const info = element.size +
+            " " +
+            element.component_type +
+            " " +
+            element.specificComponentType +
+            " (" +
+            element.location_name +
+            ") "
+          addItem({ id: selectedId, quantity: quantitySelected, info: info, price: element.price })
+
         }
       }
     });
   };
 
+  const checkForDuplicateItem = (order: Order, selectedId: number) => {
+    if (order.id !== selectedId) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   useEffect(() => {
     axios.get(`${url}/components/`).then((response) => {
       setInventoryTable(response.data);
     });
-  }, [url]);
+
+    console.log(orderList)
+  }, [url, orderList]);
 
   return (
     <Grid
@@ -264,4 +268,16 @@ const Components = ({
   );
 };
 
-export default Components;
+const mapStateToProps = (state: any) => {
+  return {
+    orderList: state.orderList
+  }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    addItem: (order: Order) => dispatch(addItem(order))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Components);
