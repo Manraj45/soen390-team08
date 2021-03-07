@@ -32,6 +32,7 @@ export class InventoryManagementService {
     return updateComponent(id, quantity);
   };
 
+  // edits the quantity of components based on order list provided
   public orderComponents = (orderList: Array<any>) => {
     return new Promise(async (resolve, rejects) => {
       orderList.forEach(order => {

@@ -28,6 +28,7 @@ const reducer = (state = initialState, action: any) => {
     }
 }
 
+// Helper function to determine which item to remove from array. (Used for filter function)
 const remove_by_id = (order: Order, id_to_remove: number) => {
     if (order.id !== id_to_remove) {
         return true

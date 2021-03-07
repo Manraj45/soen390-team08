@@ -39,6 +39,8 @@ router.put("/updateQuantity", (req, res) => {
     });
 });
 
+// API endpoint for ordering new components
+// Requires a orderList in body
 router.put("/orderComponents", (req, res) => {
   const orderList: Array<any> = req.body.orderList.orderList
 
