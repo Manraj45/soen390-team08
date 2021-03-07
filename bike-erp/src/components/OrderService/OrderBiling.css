@@ -1,6 +1,8 @@
 .orderBiling {
   padding: 10px;
-  height: 100%;
+  height: 750px;
+  position: relative;
+
 }
 
 .total {
@@ -11,4 +13,15 @@
 .item {
   float:left;
   color: red;
+}
+
+.total {
+  padding-top: 50px;
+  position: absolute;
+  bottom: 0;
+}
+
+.contents {
+  overflow-y:auto;
+  height: 650px;
 }
