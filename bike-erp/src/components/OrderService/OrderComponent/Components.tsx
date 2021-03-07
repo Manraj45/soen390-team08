@@ -90,6 +90,7 @@ const Components = ({
   ) => {
     let selectedId = "";
     let quantitySelected = 0;
+    let totalQuantity = 0;
 
     inventoryTable.forEach((element) => {
       if (
@@ -102,6 +103,7 @@ const Components = ({
 
         //making sure that the input for quantity is a valid number
         quantitySelected = parseInt(quantity);
+        totalQuantity = quantitySelected + element.quantity;
 
         if (
           orderList.orderList.every((order: any) => checkForDuplicateItem(order, parseInt(selectedId))) &&
@@ -116,7 +118,7 @@ const Components = ({
             " (" +
             element.location_name +
             ") "
-          addItem({ id: selectedId, quantity: quantitySelected, info: info, price: element.price })
+          addItem({ id: selectedId, quantity: totalQuantity, info: info, price: element.price, selectedQuantity : quantitySelected })
 
         }
       }

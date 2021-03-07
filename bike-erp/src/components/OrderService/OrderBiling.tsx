@@ -5,6 +5,9 @@ import { BACKEND_URL } from "../../core/utils/config";
 import "./OrderBiling.css";
 import { Order, removeAllItem, removeItem } from "../../redux/actions/OrderListActions/orderListAction";
 import { connect } from "react-redux";
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import { Box } from "@material-ui/core";
+
 const OrderBiling = ({
   orderList,
   removeItem,
@@ -26,9 +29,15 @@ const OrderBiling = ({
   };
   const [cartTotal, setCartTotal] = useState(0)
 
+  const removeItemFromCart = (id : number) => {
+    console.log(id)
+    removeItem(id)
+    console.log(orderList.orderList)
+  }
+
   useEffect(() => {
     orderList.orderList.forEach((order: Order) => {
-      setCartTotal(cartTotal => cartTotal + order.price * order.quantity)
+      setCartTotal(cartTotal => cartTotal + order.price * order.selectedQuantity)
     })
     return () => {
       setCartTotal(0)
@@ -38,11 +47,14 @@ const OrderBiling = ({
 
   return (
     <Paper className="orderBiling">
-      <h2>Billing</h2>
+      <h2>Order</h2>
       <div className="contents">
         {
           orderList.orderList.map((order: Order) => (
-            <Typography key={order.id}>{order.quantity} x {order.info} = ${order.quantity * order.price} </Typography>
+            <Box key={order.id}>
+              <RemoveCircleOutlineIcon className="item" onClick={() => {removeItemFromCart(order.id)}}></RemoveCircleOutlineIcon>
+              <Typography>{order.selectedQuantity} x {order.info} = ${order.selectedQuantity * order.price} </Typography>
+            </Box>
           ))
         }
 
