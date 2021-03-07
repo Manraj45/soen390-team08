@@ -39,6 +39,16 @@ router.put("/updateQuantity", (req, res) => {
     });
 });
 
+router.put("/orderComponents", (req, res) => {
+  const orderList: Array<any> = req.body.orderList.orderList
+
+  inventoryManagementService.orderComponents(orderList).then(response => {
+    res.json(response)
+  }).catch(error => {
+    res.status(error.status).send(error.message);
+  })
+})
+
 router.get("/componentLocation/:component_id", (req, res) => {
   inventoryManagementService
     .getComponentLocation(req.params.component_id)

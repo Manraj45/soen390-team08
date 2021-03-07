@@ -32,6 +32,18 @@ export class InventoryManagementService {
     return updateComponent(id, quantity);
   };
 
+  public orderComponents = (orderList: Array<any>) => {
+    return new Promise(async (resolve, rejects) => {
+      orderList.forEach(order => {
+        this.editComponent(order.id, order.quantity).catch(error => {
+          rejects(error)
+        })
+      })
+
+      resolve({ status: 201, message: "Components have been ordered successfully" })
+    })
+  }
+
   // get the location of a component identified by a unique id
   public getComponentLocation = (id: string) => {
     const idAsNum: number = Number(id);
