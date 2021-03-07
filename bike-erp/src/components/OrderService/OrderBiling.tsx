@@ -46,44 +46,47 @@ const OrderBiling = ({
 
 
   return (
-    <Paper className="orderBiling">
-      <h2>Order</h2>
-      <div className="contents">
-        {
-          orderList.orderList.map((order: Order) => (
-            <Box key={order.id}>
-              <RemoveCircleOutlineIcon className="item" onClick={() => {removeItemFromCart(order.id)}}></RemoveCircleOutlineIcon>
-              <Typography>{order.selectedQuantity} x {order.info} = ${order.selectedQuantity * order.price} </Typography>
-            </Box>
-          ))
-        }
-
-      </div>
-      <div className="total">
-        <Typography>Total: $ {cartTotal} </Typography>
-      </div>
-      <div>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={updateQuantityOfListOrder}
-        >
-          Proceed
-        </Button>
-      </div>
-      <br></br>
-      <div>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            clearCart();
-          }}
-        >
-          Clear Cart
-        </Button>
-      </div>
-    </Paper>
+    <Box>
+      <Paper className="orderBiling">
+        <h2>Order</h2>
+        <Box className="contents">
+          {
+            orderList.orderList.map((order: Order) => (
+              <Box className="billingBox" key={order.id}>
+                <RemoveCircleOutlineIcon className="item" onClick={() => {removeItemFromCart(order.id)}}></RemoveCircleOutlineIcon>
+                <Typography>{order.selectedQuantity} x {order.info} = ${order.selectedQuantity * order.price} </Typography>
+              </Box>
+            ))
+          }
+        </Box>
+        <Box className="total">
+              <Typography>Total: $ {cartTotal}</Typography>
+        </Box>
+      </Paper>
+      <Box>
+        <div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={updateQuantityOfListOrder}
+            >
+              Proceed
+            </Button>
+        </div>
+        <br></br>
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              clearCart();
+            }}
+          >
+            Clear Cart
+          </Button>
+        </div>
+      </Box>
+    </Box>
   );
 };
 
