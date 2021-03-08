@@ -1,4 +1,5 @@
 import db from "../helpers/db";
+import { Role } from "../models/Account";
 
 export class AccountDao {
   public fetchAccount = (email: string) => {
@@ -53,6 +54,17 @@ export class AccountDao {
         } else {
           resolve({ message: "Record inserted succesfully." });
         }
+      });
+    });
+  };
+
+  public updateAccountRole = (email: string, role: Role) => {
+    //Updating the user role in the database
+    return new Promise<any>((resolve, reject) => {
+      const query = 'UPDATE `account` SET role = "' + role + '" WHERE email="' + email + `"`;
+      db.query(query, (err, rows) => {
+        if (err) return reject(err);
+        resolve("Account role updated successfully.");
       });
     });
   };
