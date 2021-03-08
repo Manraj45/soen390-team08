@@ -123,6 +123,20 @@ export class AuthenticationService {
       );
     });
   };
+
+  // method to retrieve the user's email through his token using jwt
+  public static retrieveAccountFromToken(token: string | undefined): string {
+    let userEmail = "";
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      if (err) {
+        throw ({ status: 403, message: "Invalid refresh token" });
+      } else {
+        // return user email
+        userEmail = user.data;
+      }
+    });
+    return userEmail;
+  }
 }
 
 //Method to authenticate a token
