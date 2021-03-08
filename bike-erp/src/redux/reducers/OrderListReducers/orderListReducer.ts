@@ -16,12 +16,11 @@ const reducer = (state = initialState, action: any) => {
         case REMOVE_ITEM:
             return {
                 ...state,
-         //       ...state.orderList.filter(order => remove_by_id(order, action.payload))
-                orderList: state.orderList.filter((order : Order) => order.id !== action.payload) 
+                orderList: state.orderList.filter((order: Order) => order.id !== action.payload)
             };
         case REMOVE_ALL_ITEMS:
             return {
-                error:"",
+                error: "",
                 orderList: []
             };
         default:
@@ -29,16 +28,4 @@ const reducer = (state = initialState, action: any) => {
     }
 }
 
-// Helper function to determine which item to remove from array. (Used for filter function)
-// const remove_by_id = (order: Order, id_to_remove: number) => {
-//     console.log(order.id)
-//     console.log(id_to_remove)
-//     if (order.id !== id_to_remove) {
-//         console.log("false")
-//         return false
-//     } else {
-//         console.log("true")
-//         return true
-//     }
-// }
 export default reducer;
