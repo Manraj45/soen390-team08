@@ -12,7 +12,6 @@ import useStyles from "./LoginPageStyle";
 const LoginPage = (props: any) => {
   // Object for styling
   const classes = useStyles();
-
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email: string = event.currentTarget.email.value;

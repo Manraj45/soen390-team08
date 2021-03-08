@@ -12,6 +12,7 @@
 
 .item {
   float:left;
+  left:0;
   color: red;
 }
 
@@ -24,4 +25,8 @@
 .contents {
   overflow-y:auto;
   height: 650px;
+}
+
+.billingBox {
+  margin: 20px;
 }
