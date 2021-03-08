@@ -1,13 +1,13 @@
 import express from "express";
 import { AccountingService } from "../services/accountingService/AccountingService";
-import { AuthenticationService } from "../services/authenticationService/AuthenticationService";
+import { authenticateToken, AuthenticationService } from "../services/authenticationService/AuthenticationService";
 
 const router = express();
 
 //Creating a singleton instance of the AccountingService
 AccountingService.getAccountingService()
 
-router.get('/accountPayables', (req, res) => {
+router.get('/accountPayables', authenticateToken, (req, res) => {
     //Setting the endpoint header to authorization
     const authHeader = req.headers["authorization"];
 
@@ -22,7 +22,7 @@ router.get('/accountPayables', (req, res) => {
     })
 })
 
-router.get('/accountPayables/:id/transactionItem', (req, res) => {
+router.get('/accountPayables/:id/transactionItem', authenticateToken, (req, res) => {
     const id = Number(req.params.id)
     // Check for validity of account payable id passed. Must be an int
     if (!Number.isInteger(id)) {
