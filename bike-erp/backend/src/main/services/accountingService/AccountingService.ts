@@ -22,9 +22,9 @@ export class AccountingService {
 
         // Calculate total
         orderList.forEach((order) => {
-            total = order.price * order.quantity;
+            total = total + order.price * order.quantity;
         })
-
+        
         try {
             // Creating account payable in db
             const accountPayableId = await AccountingService.accountPayableDAO?.createAccountPayable(total, new Date().toISOString().slice(0, 19).replace('T', ' '), email) as number;
