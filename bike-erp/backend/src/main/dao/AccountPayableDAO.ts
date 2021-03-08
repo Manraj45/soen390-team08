@@ -15,9 +15,8 @@ export class AccountPayableDAO {
 
     // Insert a new row to database (account_payable)
     public createAccountPayable(total: number, payableDate: string, email: string) {
-        console.log(payableDate)
         return new Promise((resolve, rejects) => {
-            const query = `insert into account_payable(total,payable_date,email) values (${total},'${payableDate}','${email})`;
+            const query = `insert into account_payable(total,payable_date,email) values (${total},'${payableDate}','${email}')`;
             db.query(query, (err, rows) => {
                 if (err) return rejects(err);
                 resolve(JSON.parse(JSON.stringify(rows)).insertId);
