@@ -1,6 +1,7 @@
 import db from "../helpers/db";
 
 export class BikeDao {
+    //Posting a bike in the database
     public createBike = (
         price: number,
         size: string,

@@ -9,12 +9,12 @@ export class BikeOrderService {
     //Creating statuc instance of the BikeDao Class
     private static bikeDao = new BikeDao();
 
-    //Getter for the accountDao instance variable
+    //Getting the bikeDao
     public static getBikeDao = () => {
         return BikeOrderService.bikeDao;
     };
 
-    // Instantiating the singleton or return it
+    // Create/verify the existence of an instance of the bikeOrderService
     public static getBikeOrderService() {
         if (this.bikeOrderService === undefined) {
         this.bikeOrderService = new BikeOrderService();
@@ -26,9 +26,11 @@ export class BikeOrderService {
     public static addBike = (bikeOrderList: Array<any>) => {
         return new Promise(async (resolve, rejects) => {
             bikeOrderList.forEach(bike => {
+                //verifying the data meets the requirements for the price
                 if (isNaN(bike.price) || bike.price < 0) {
                     return rejects({ status: 400, message: "Invalid price format, price must be a number data type and a positive number" });
                 }
+                //verifying the data meets the requirements for the quanity
                 else if (isNaN(bike.quantity) || bike.quantity < 0) {
                     return rejects({ status: 400, message: "Invalid quantity format, quantity must be a number data type and a positive number" });
                 }

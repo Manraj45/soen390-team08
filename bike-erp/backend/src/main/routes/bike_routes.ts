@@ -6,7 +6,7 @@ const router = express();
 BikeOrderService.getBikeOrderService();
 
 router.post("/createBikes", (req, res) => {
-    //Redux (bikeOrderList)
+    //Providing the bikeOrderList to the BikeOrderService
     const bikeOrderList: Array<any> = req.body.bikeOrderList;
     BikeOrderService.addBike(bikeOrderList).then(response => {
         res.json(response)
