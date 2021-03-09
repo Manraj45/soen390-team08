@@ -24,11 +24,11 @@ export class BikeDao {
                 "', '" +
                 quantity +
                 "');";
-            db.query(insert, (err) => {
+            db.query(insert, (err, rows) => {
                 if (err) {
                     rejects(err);
                 } else {
-                    resolve({ message: "Bike inserted succesfully." });
+                    resolve({ message: "Bike inserted succesfully.", bikeId: JSON.parse(JSON.stringify(rows)).insertId });
                 }
             });
         })

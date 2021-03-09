@@ -30,9 +30,7 @@ const OrderBiling = ({
   const [cartTotal, setCartTotal] = useState(0)
 
   const removeItemFromCart = (id : number) => {
-    console.log(id)
     removeItem(id)
-    console.log(orderList.orderList)
   }
 
   useEffect(() => {
