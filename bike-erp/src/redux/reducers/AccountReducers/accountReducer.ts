@@ -1,4 +1,5 @@
 import {
+  IS_AUTHENTICATED_FAILURE,
   LOGIN_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -7,7 +8,7 @@ import {
 
 // Reducer for account, it handles the setting of states
 const initialState = {
-  loading: false,
+  loading: true,
   authenticated: false,
   error: "",
 };
@@ -34,6 +35,11 @@ const reducer = (state = initialState, action: any) => {
       return {
         loading: false,
         authenticated: action.authenticated,
+      };
+    case IS_AUTHENTICATED_FAILURE:
+      return {
+        loading: false,
+        authenticated: action.authenticated
       };
     default:
       return state;

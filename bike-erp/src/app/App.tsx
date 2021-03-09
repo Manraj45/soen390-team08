@@ -26,7 +26,7 @@ const App = ({ account, isAuthenticated }: any) => {
       localStorageService.setBearerToken();
     }
     isAuthenticated();
-  }, [account.authenticated, isAuthenticated]);
+  }, [account.authenticated, isAuthenticated, account.loading]);
 
   axios.interceptors.response.use(
     (response) => {
@@ -60,17 +60,21 @@ const App = ({ account, isAuthenticated }: any) => {
           <Route
             path="/login"
             render={() =>
-              account.authenticated ? <Redirect to="/" /> : <LoginPage />
+              account.loading ? (<></>) :
+                account.authenticated ? <Redirect to="/" /> : <LoginPage />
             }
           />
           <Route
             path="/register"
             render={() =>
-              account.authenticated ? <Redirect to="/" /> : <RegistrationPage />
+              account.loading ? (<></>) :
+                account.authenticated ? <Redirect to="/" /> : <RegistrationPage />
             }
           />
-          <Route path="/order" render={() => <OrderComponent />} />
-          <Route path="/inventory" render={() => <Inventory />} />
+
+          <Route path="/order" render={() => account.loading ? (<></>) : account.authenticated ? <OrderComponent /> : <Redirect to="/login" />} />
+          <Route path="/inventory" render={() => account.loading ? (<></>) : account.authenticated ? <Inventory /> : <Redirect to="login" />} />
+          <Route exact path="*" render={() => <Redirect to="/" />} />
         </Switch>
       </div>
     </Router>
