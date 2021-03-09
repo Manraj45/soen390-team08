@@ -31,7 +31,6 @@ export class BikeDao {
                     resolve({ message: "Bike inserted succesfully." });
                 }
             });
-        }
-        )
+        })
     };
 }
