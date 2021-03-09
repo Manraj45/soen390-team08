@@ -135,8 +135,6 @@ const Components = ({
     axios.get(`${url}/components/`).then((response) => {
       setInventoryTable(response.data);
     });
-
-    console.log(orderList)
   }, [url, orderList]);
 
   return (
