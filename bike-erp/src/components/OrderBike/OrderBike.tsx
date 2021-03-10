@@ -29,7 +29,7 @@ import drivetrain_intermediate from "../../assets/images/components/drivetrain_i
 import drivetrain_advanced from "../../assets/images/components/drivetrain_advanced.jpg";
 import drivetrain_expert from "../../assets/images/components/drivetrain_expert.jpg";
 
-import { addItem, Order, removeAllItem, removeItem } from "../../redux/actions/OrderListActions/orderListAction";
+import { Order, addItem, removeAllItem, removeItem } from "../../redux/actions/OrderBikeActions/orderBikeActions";
 import { 
   CardMedia, 
   Card, 
@@ -61,6 +61,7 @@ const ModelView = ({setSelectedLocation, mostRecentType, modelView, mostRecentPi
       },
       image:{
         width:500,
+        maxHeight:500
       }
     };
     return (
@@ -68,9 +69,6 @@ const ModelView = ({setSelectedLocation, mostRecentType, modelView, mostRecentPi
         <Typography style={{ textTransform: 'capitalize'}} variant="h3">{mostRecentType}</Typography>
         <CardMedia title="bike-logo">
           <img src={mostRecentPicture} style={styles.image} alt="bike-logo"/>
-          {
-          /* Dynamically create components from list */
-          }
         </CardMedia>
         <CardActions>
           <FormControl style={styles.location}>
@@ -141,8 +139,8 @@ const Components = ({
       if (
         element.location_name === selectedLocation &&
         element.size === size &&
-        element.component_type === componentType &&
-        element.specificComponentType === componentSpecificType
+        element.component_type === componentType.toUpperCase() &&
+        element.specificComponentType === componentSpecificType.toUpperCase()
       ) {
         selectedId = element.component_id;
         if (
@@ -155,7 +153,7 @@ const Components = ({
             " (" +
             element.location_name +
             ") "
-          // addItem({ id: selectedId, quantity: 1, info: info, price: element.price })
+            addItem({ id: selectedId, quantity: 1, info: info, price: element.price })
         }
       }
     });
@@ -179,7 +177,7 @@ const Components = ({
       case 'saddle':
         setSaddleType(componentSpecificType);
         break;
-      case 'handlebar':
+      case 'handle':
         setHandleType(componentSpecificType);
         break;
       case 'wheel':
@@ -193,7 +191,7 @@ const Components = ({
     if(picture){
       setMostRecentPicture(picture)
     }
-    // fillBilling(componentType, componentSpecificType);
+    fillBilling(componentType, componentSpecificType);
   }
 
   const WhiteButton = withStyles((theme: Theme) => ({
@@ -307,7 +305,7 @@ const Components = ({
         <Typography variant="h6">Handlebars</Typography>
         {components.handlebar.map((handlebar) => (
           <Grid item className={handlebar.type} key={handlebar.type}>
-            <WhiteButton onClick={() => setComponentType("handlebar", handlebar.type, handlebars[handlebar.img.pos])}>
+            <WhiteButton onClick={() => setComponentType("handle", handlebar.type, handlebars[handlebar.img.pos])}>
               <img
                 src={handlebars[handlebar.img.pos]}
                 alt={handlebar.img.alt}
@@ -351,36 +349,68 @@ const Components = ({
   );
 };
 
-const OrderBike = ({
-  orderList,
-  removeItem,
-  removeAllItems
-}: any) => {
-  const url = BACKEND_URL;
+const Billing = (
+  {
+    orderList,
+    removeItem,
+    removeAllItems
+  }: any) =>{
+    const url = BACKEND_URL;
 
-  const proceed = () => {
-    if (orderList.orderList.length > 0) {
-      axios.put(`${url}/components/orderComponents`, {
-        orderList: orderList
+    const proceed = () => {
+      if (orderList.orderList.length > 0) {
+        axios.put(`${url}/components/orderComponents`, {
+          orderList: orderList
+        })
+        clearCart();
+      }
+    };
+  
+    const clearCart = () => {
+      removeAllItems()
+    };
+    const [cartTotal, setCartTotal] = useState(0)
+  
+    useEffect(() => {
+      orderList.orderList.forEach((order: Order) => {
+        setCartTotal(cartTotal => cartTotal + order.price * order.quantity)
       })
-      clearCart();
-    }
-  };
+      return () => {
+        setCartTotal(0)
+      }
+    }, [orderList.orderList]) 
+     
+  return (
+    <div>
+      <Paper className="orderBiling">
+        <h2>Billing</h2>
+        <div className="contents">
+          {
+            orderList.orderList.map((order: Order) => (
+              <Typography key={order.id}>{order.quantity} x {order.info} = ${order.quantity * order.price} </Typography>
+            ))
+          }
 
-  const clearCart = () => {
-    removeAllItems()
-  };
-  const [cartTotal, setCartTotal] = useState(0)
+        </div>
+        <div className="total">
+          <Typography>Total: $ {cartTotal} </Typography>
+        </div>
+      </Paper>
+      <br/><br/>
+      <div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={proceed}
+          >
+            Proceed
+          </Button>
+        </div>
+    </div>
+  )
+}
 
-  useEffect(() => {
-    orderList.orderList.forEach((order: Order) => {
-      setCartTotal(cartTotal => cartTotal + order.price * order.quantity)
-    })
-    return () => {
-      setCartTotal(0)
-    }
-  }, [orderList.orderList])
-
+const OrderBike = () => {
   const [selectedLocation, setSelectedLocation] = useState("None");
   const [mostRecentType, setMostRecent] = useState("None Selected");
   const [mostRecentPicture, setMostRecentPicture] = useState(bike_logo);
@@ -394,30 +424,7 @@ const OrderBike = ({
           <Components setMostRecentPicture={setMostRecentPicture} setMostRecent={setMostRecent} selectedLocation={selectedLocation}></Components>
         </Grid>
         <Grid item xs={2}>
-          <Paper className="orderBiling">
-            <h2>Billing</h2>
-            <div className="contents">
-              {
-                orderList.orderList.map((order: Order) => (
-                  <Typography key={order.id}>{order.quantity} x {order.info} = ${order.quantity * order.price} </Typography>
-                ))
-              }
-
-            </div>
-            <div className="total">
-              <Typography>Total: $ {cartTotal} </Typography>
-            </div>
-          </Paper>
-          <br/><br/>
-          <div>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={proceed}
-              >
-                Proceed
-              </Button>
-            </div>
+          <Billing />
         </Grid>
       </Grid>
     </div>
