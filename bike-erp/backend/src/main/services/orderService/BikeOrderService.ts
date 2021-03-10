@@ -34,7 +34,10 @@ export class BikeOrderService {
                 else if (isNaN(bike.quantity) || bike.quantity < 0) {
                     return rejects({ status: 400, message: "Invalid quantity format, quantity must be a number data type and a positive number" });
                 }
-                    BikeOrderService.getBikeDao().createBike(bike.price, bike.size, bike.color, bike.description, bike.grade, bike.quantity)
+                //Posting all the bikes created with their components Id.
+                    BikeOrderService.getBikeDao().createBike(bike.price, bike.size, bike.color, bike.description, bike.grade, bike.quantity).then((response) => {
+                        BikeOrderService.getBikeDao().linkBikeToComponents(response.bikeId, bike.handle_id, bike.wheel_id, bike.frame_id, bike.seat_id, bike.drive_train_id);
+                    })
                     .catch(error => {
                         return rejects(error.message)
                     })

@@ -27,6 +27,7 @@ router.get("/:component_id", (req, res) => {
     });
 });
 
+//Edit the quantity depending on the Id of the component
 router.put("/updateQuantity", (req, res) => {
   const id = req.body.id;
   const quantity = req.body.quantity;
@@ -39,6 +40,16 @@ router.put("/updateQuantity", (req, res) => {
       res.status(error.status).send(error.message);
     });
 });
+
+//API used to modify the quantity of each components that are sold
+router.put("/sellComponents", (req,res) => {
+  const componentSaleList: Array<any> = req.body.componentSaleList;
+  inventoryManagementService.editComponentQuantitySale(componentSaleList).then(response => {
+    res.json(response);
+  }).catch(error => {
+    res.status(error.status).send(error.message);
+  })
+})
 
 // API endpoint for ordering new components
 // Requires a orderList in body
