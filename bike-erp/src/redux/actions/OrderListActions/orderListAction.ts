@@ -5,6 +5,7 @@ export interface Order{
     quantity:number
     info:string,
     price:number
+    selectedQuantity:number
 }
 
 export const addItem = (order:Order)=>{

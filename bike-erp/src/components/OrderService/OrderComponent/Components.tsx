@@ -80,6 +80,7 @@ const Components = ({
     setComponentTypeSelected(componentTypeSelected);
   };
 
+
   //filling the order list so we can build a receipt with multiple components
   const fillOrderList = (
     size: String,
@@ -90,6 +91,7 @@ const Components = ({
   ) => {
     let selectedId = "";
     let quantitySelected = 0;
+    let totalQuantity = 0;
 
     inventoryTable.forEach((element) => {
       if (
@@ -102,6 +104,7 @@ const Components = ({
 
         //making sure that the input for quantity is a valid number
         quantitySelected = parseInt(quantity);
+        totalQuantity = quantitySelected + element.quantity;
 
         if (
           orderList.orderList.every((order: any) => checkForDuplicateItem(order, parseInt(selectedId))) &&
@@ -116,7 +119,7 @@ const Components = ({
             " (" +
             element.location_name +
             ") "
-          addItem({ id: selectedId, quantity: quantitySelected, info: info, price: element.price })
+          addItem({ id: selectedId, quantity: totalQuantity, info: info, price: element.price, selectedQuantity: quantitySelected })
 
         }
       }
@@ -145,90 +148,128 @@ const Components = ({
       spacing={5}
       className="components"
     >
-      <Grid item container justify="flex-start" spacing={1}>
-        <Typography variant="h6">Sizing</Typography>
+      <Grid item container justify="flex-start" spacing={2}>
+        <Typography id="size" variant="h6">Sizing</Typography>
         <Grid item>
-          <WhiteButton variant="contained" onClick={() => setSize("SMALL")}>
+          <WhiteButton id="frames" variant="contained" onClick={() => setSize("SMALL")}>
             S
           </WhiteButton>
         </Grid>
         <Grid item>
-          <WhiteButton variant="contained" onClick={() => setSize("MEDIUM")}>
+          <WhiteButton id="frames" variant="contained" onClick={() => setSize("MEDIUM")}>
             M
           </WhiteButton>
         </Grid>
         <Grid item>
-          <WhiteButton variant="contained" onClick={() => setSize("LARGE")}>
+          <WhiteButton id="frames" variant="contained" onClick={() => setSize("LARGE")}>
             L
           </WhiteButton>
         </Grid>
       </Grid>
-      <Grid item container justify="flex-start" spacing={1}>
-        <Typography variant="h6">Frames</Typography>
+      <Grid id="" item container justify="flex-start" spacing={2}>
+        <Typography id="componentTitle" variant="h6">Frames</Typography>
         {components.frame.map((frame) => (
           <Grid item key={frame.type}>
             <WhiteButton
+              id="frames"
               className={frame.type}
               onClick={() => setComponent("FRAME", frame.type)}
             >
               <img src={frames[frame.img.pos]} alt={frame.img.alt} />
+              <span className="prices">
+                <Typography>Prices</Typography>
+                <Typography>S: {frame.price.S} $</Typography>
+                <Typography>M: {frame.price.M} $</Typography>
+                <Typography>L: {frame.price.L} $</Typography>
+              </span>
             </WhiteButton>
+            <Typography>{frame.type}</Typography>
           </Grid>
         ))}
       </Grid>
-      <Grid item container justify="flex-start" spacing={1}>
-        <Typography variant="h6">Saddles</Typography>
+      <Grid item container justify="flex-start" spacing={2}>
+        <Typography id="componentTitle" variant="h6">Saddles</Typography>
         {components.saddle.map((saddle) => (
           <Grid item key={saddle.type}>
             <WhiteButton
+              id="frames"
               className={saddle.type}
               onClick={() => setComponent("SEAT", saddle.type)}
             >
               <img src={saddles[saddle.img.pos]} alt={saddle.img.alt} />
+              <span className="prices">
+                <Typography>Prices</Typography>
+                <Typography>S: {saddle.price.S} $</Typography>
+                <Typography>M: {saddle.price.M} $</Typography>
+                <Typography>L: {saddle.price.L} $</Typography>
+              </span>
             </WhiteButton>
+            <Typography>{saddle.type}</Typography>
           </Grid>
         ))}
       </Grid>
-      <Grid item container justify="flex-start" spacing={1}>
-        <Typography variant="h6">Handlebars</Typography>
+      <Grid item container justify="flex-start" spacing={2}>
+        <Typography id="componentTitle" variant="h6">Handlebars</Typography>
         {components.handlebar.map((handlebar) => (
           <Grid item className={handlebar.type} key={handlebar.type}>
-            <WhiteButton onClick={() => setComponent("HANDLE", handlebar.type)}>
+            <WhiteButton id="frames" onClick={() => setComponent("HANDLE", handlebar.type)}>
               <img
                 src={handlebars[handlebar.img.pos]}
                 alt={handlebar.img.alt}
               />
+              <span className="prices">
+                <Typography>Prices</Typography>
+                <Typography>S: {handlebar.price.S} $</Typography>
+                <Typography>M: {handlebar.price.M} $</Typography>
+                <Typography>L: {handlebar.price.L} $</Typography>
+              </span>
             </WhiteButton>
+            <Typography>{handlebar.type}</Typography>
           </Grid>
         ))}
       </Grid>
-      <Grid item container justify="flex-start" spacing={1}>
-        <Typography variant="h6">Wheels</Typography>
+      <Grid item container justify="flex-start" spacing={2}>
+        <Typography id="componentTitle" variant="h6">Wheels</Typography>
         {components.wheels.map((wheel) => (
           <Grid item className={wheel.type} key={wheel.type}>
-            <WhiteButton onClick={() => setComponent("WHEEL", wheel.type)}>
+            <WhiteButton id="frames" onClick={() => setComponent("WHEEL", wheel.type)}>
               <img src={wheels[wheel.img.pos]} alt={wheel.img.alt} />
+              <span className="prices">
+                <Typography>Prices</Typography>
+                <Typography>S: {wheel.price.S} $</Typography>
+                <Typography>M: {wheel.price.M} $</Typography>
+                <Typography>L: {wheel.price.L} $</Typography>
+              </span>
             </WhiteButton>
+            <Typography>{wheel.type}</Typography>
           </Grid>
         ))}
       </Grid>
-      <Grid item container justify="flex-start" spacing={1}>
-        <Typography variant="h6">Drivetrains</Typography>
+      <Grid item container justify="flex-start" spacing={2}>
+        <Typography id="componentTitle" variant="h6">Drivetrains</Typography>
         {components.drivetrain.map((drivetrain) => (
           <Grid item className={drivetrain.type} key={drivetrain.type}>
             <WhiteButton
+              id="frames"
               onClick={() => setComponent("DRIVE_TRAIN", drivetrain.type)}
             >
               <img
                 src={drivetrains[drivetrain.img.pos]}
                 alt={drivetrain.img.alt}
               />
+              <span className="prices">
+                <Typography>Prices</Typography>
+                <Typography>S: {drivetrain.price.S} $</Typography>
+                <Typography>M: {drivetrain.price.M} $</Typography>
+                <Typography>L: {drivetrain.price.L} $</Typography>
+              </span>
             </WhiteButton>
+            <Typography>{drivetrain.type}</Typography>
           </Grid>
         ))}
       </Grid>
-      <Grid item container justify="flex-start" spacing={1}>
-        <Typography variant="h6">Quantity : </Typography>
+      <Grid item container justify="flex-start" spacing={2}>
+        <Typography id="componentTitle" variant="h6">Quantity : </Typography>
         <Grid item>
           <TextField
             variant="outlined"
@@ -254,13 +295,6 @@ const Components = ({
             Add
           </Button>
         </Grid>
-        {/*p tags for demo purposes*/}
-      </Grid>
-      <Grid item>
-        <p>{size}</p>
-        <p>{componentSelected}</p>
-        <p>{componentTypeSelected}</p>
-        <p>{selectedLocation}</p>
       </Grid>
     </Grid>
   );

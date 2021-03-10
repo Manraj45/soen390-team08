@@ -10,6 +10,8 @@ import componentRouter from "./routes/component_routes";
 import indexRouter from "./routes/index";
 import registrationRouter from "./routes/registration_route";
 import accountingRouter from "./routes/accouting_routes"
+import bikeRouter from "./routes/bike_routes";
+
 //Configure dotenv
 dotenv.config();
 
@@ -27,6 +29,7 @@ app.use("/account_receivable", accountReceivableRouter);
 app.use("/register", registrationRouter);
 app.use("/components", componentRouter);
 app.use("/finance", accountingRouter);
+app.use("/bike", bikeRouter);
 
 const port = process.env.PORT || BACKEND_PORT;
 app.listen(port, () => console.log(`Server started on port ${port}`));
