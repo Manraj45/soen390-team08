@@ -25,8 +25,9 @@ const App = ({ account, isAuthenticated }: any) => {
     if (localStorageService.getAccessToken()) {
       localStorageService.setBearerToken();
     }
+    console.log(account)
     isAuthenticated();
-  }, [account.authenticated, isAuthenticated]);
+  }, [account.authenticated, isAuthenticated, account.loading]);
 
   axios.interceptors.response.use(
     (response) => {

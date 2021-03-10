@@ -3,6 +3,7 @@ import localStorageService from "../../../core/services/LocalStorageService";
 import { AUTH_URL } from "../../../core/utils/config";
 import {
   IS_AUTHENTICATED_FAILURE,
+  IS_AUTHENTICATED_SUCCESS,
   LOGIN_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -18,12 +19,14 @@ export const loginRequest = () => {
   };
 };
 
-export const loginSuccess = () => {
+export const loginSuccess = (account: Account) => {
   return {
     type: LOGIN_SUCCESS,
     authenticated: true,
+    payload: account
   };
 };
+
 
 export const loginFailure = (error: any) => {
   return {
@@ -40,6 +43,13 @@ export const logoutSuccess = () => {
   };
 };
 
+export const isAuthenticatedSuccess = () => {
+  return {
+    type: IS_AUTHENTICATED_SUCCESS,
+    authenticated: true
+  };
+};
+
 export const isAuthenticatedFailure = () => {
   return {
     type: IS_AUTHENTICATED_FAILURE,
@@ -52,6 +62,20 @@ export interface credential {
   password: string;
 }
 
+export enum Role {
+  ADMIN,
+  MANAGER,
+  EMPLOYEE,
+  CUSTOMER,
+}
+
+export interface Account {
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: Role
+}
+
 export const login = (credential: credential) => {
   return (dispatch: any) => {
     dispatch(loginRequest);
@@ -60,7 +84,7 @@ export const login = (credential: credential) => {
       .then((response) => {
         localStorageService.setToken(response.data);
         localStorageService.setBearerToken();
-        dispatch(loginSuccess());
+        dispatch(loginSuccess(response.data.account));
       })
       .catch((error) => {
         const errorMsg = error.response.data;
@@ -76,7 +100,7 @@ export const isAuthenticated = () => {
       .get(`${url}/auth/token/validation`)
       .then((response) => {
         if (response.status === 200) {
-          dispatch(loginSuccess());
+          dispatch(isAuthenticatedSuccess());
         }
       })
       .catch(() => {

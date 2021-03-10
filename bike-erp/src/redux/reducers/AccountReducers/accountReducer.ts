@@ -1,4 +1,5 @@
 import {
+  IS_AUTHENTICATED_SUCCESS,
   LOGIN_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -10,6 +11,7 @@ const initialState = {
   loading: false,
   authenticated: false,
   error: "",
+  account: undefined
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -23,6 +25,7 @@ const reducer = (state = initialState, action: any) => {
       return {
         loading: false,
         authenticated: action.authenticated,
+        account: action.payload
       };
     case LOGIN_FAILURE:
       return {
@@ -32,6 +35,12 @@ const reducer = (state = initialState, action: any) => {
       };
     case LOGOUT:
       return {
+        loading: false,
+        authenticated: action.authenticated,
+      };
+    case IS_AUTHENTICATED_SUCCESS:
+      return {
+        ...state,
         loading: false,
         authenticated: action.authenticated,
       };

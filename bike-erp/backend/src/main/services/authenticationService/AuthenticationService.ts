@@ -58,8 +58,16 @@ export class AuthenticationService {
         //pushing the refresh token to the refresh token array
         AuthenticationService.refreshTokens.push(refreshToken);
 
+        //Saving account information
+        const accountDTO = {
+          email: email,
+          firstName: account[0].first_name,
+          lastName: account[0].last_name,
+          role: account[0].role
+        }
+
         //returning the access token and the refresh token
-        return { accessToken: accessToken, refreshToken: refreshToken };
+        return { accessToken: accessToken, refreshToken: refreshToken, account: accountDTO };
       } else {
         //throwing an error if the password is invalid
         throw new Error("invPass");
