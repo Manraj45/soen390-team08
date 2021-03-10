@@ -14,7 +14,7 @@ router.patch("/admin/update", authenticateToken, (req, res) => {
             res.status(202).send(response);
         })
         .catch((error) => {
-            res.status(error.status).send(error.message);
+            res.status(error.status).send(error);
         });
 });
 

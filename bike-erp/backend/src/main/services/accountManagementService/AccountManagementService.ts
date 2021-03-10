@@ -28,13 +28,28 @@ export class AccountManagementService {
 
     //Method to update the role of the user
     public static updateRole = (email: string, role: Role) => {
-        return new Promise<any>((resolve, reject) => {
+        return new Promise<any>(async (resolve, reject) => {
+            let error: boolean = false;
+
             //Verifying if the role given is valid
             if (Role[role] === undefined) {
-                reject({ status: 400, message: "Invalid role." })
+                //returns role that is invalid and the account related
+                reject({ status: 400, message: "Invalid role.", email: email, role: role })
+                error = true;
             }
-            else {
-                //Updating the user role
+
+            //fetching email account
+            const account = await AccountManagementService.accountDao.fetchAccount(email)
+
+            //Verifying if the email is in the database
+            if (account.length === 0) {
+                //returns email that is invalid 
+                reject({ status: 400, message: "Invalid email.", email: email })
+                error = true
+            }
+
+            //Updating the user role
+            if (!error) {
                 AccountManagementService.accountDao.updateAccountRole(email, role)
                     .then((response) => {
                         resolve({ status: 202, message: response });
