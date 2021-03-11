@@ -106,8 +106,8 @@ export const initialize_db = (): void => {
         account_payable_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         total float(24) NOT NULL,
         payable_date datetime NOT NULL,
-        account_id int NOT NULL,
-        FOREIGN KEY(account_id) REFERENCES account(account_id)
+        email varchar(255) NOT NULL,
+        FOREIGN KEY(email) REFERENCES account(email)
     );`;
 
   const createTransactionItem: string = `
