@@ -13,7 +13,6 @@ const Inventory: React.FC = () => {
   useEffect(() => {
     Axios.get("http://localhost:3001/components/").then((response) => {
       setInventoryTable(response.data);
-      console.log(response.data);
     });
   }, []);
 

@@ -13,7 +13,8 @@ router.get('/accountPayables', authenticateToken, (req, res) => {
 
     //setting token header
     const token = authHeader && authHeader.split(" ")[1];
-    const userEmail = AuthenticationService.retrieveAccountFromToken(token);
+    const userAccount = AuthenticationService.retrieveAccountFromToken(token);
+    const userEmail: string = userAccount.data
 
     AccountingService.getAccountPayablesForUser(userEmail).then((response) => {
         res.json(response);

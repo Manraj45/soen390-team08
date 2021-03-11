@@ -10,6 +10,7 @@ export const REGISTER_REQUEST: string = "REGISTER_REQUEST";
 export const REGISTER_SUCCESS: string = "REGISTER_SUCCESS";
 export const REGISTER_FAILURE: string = "REGISTER_FAILURE";
 
+export const IS_AUTHENTICATED_SUCCESS: string = "IS_AUTHENTICATED_SUCCESS";
 export const IS_AUTHENTICATED_FAILURE: string = "IS_AUTHENTICATED";
 
 export const LOGOUT: string = "LOGOUT";

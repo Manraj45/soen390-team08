@@ -50,7 +50,8 @@ router.put("/orderComponents", (req, res) => {
 
   //setting token header
   const token = authHeader && authHeader.split(" ")[1];
-  const userEmail = AuthenticationService.retrieveAccountFromToken(token);
+  const userAccount = AuthenticationService.retrieveAccountFromToken(token)
+  const userEmail: string = userAccount.data;
 
   inventoryManagementService.orderComponents(orderList, userEmail).then(response => {
     res.json(response);

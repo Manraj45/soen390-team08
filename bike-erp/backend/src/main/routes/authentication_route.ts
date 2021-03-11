@@ -23,7 +23,21 @@ router.post("/login", (req, res) => {
 
 //Creating endpoint for token validation
 router.get("/token/validation", authenticateToken, (req, res) => {
-  res.sendStatus(200);
+  //Setting the endpoint header to authorization
+  const authHeader = req.headers["authorization"];
+
+  //setting token header
+  const token = authHeader && authHeader.split(" ")[1];
+  const userAccount = AuthenticationService.retrieveAccountFromToken(token);
+
+  const accountDTO = {
+    email: userAccount.data,
+    role: userAccount.role,
+    firstName: userAccount.firstName,
+    lastName: userAccount.lastName
+  }
+
+  res.status(200).send(accountDTO);
 });
 
 //Creating endpoint to generate new a new access token
