@@ -12,6 +12,17 @@ export class AccountDao {
     });
   };
 
+  public fetchAccountTableSize = () => {
+    //Getting all the user information from the database
+    return new Promise<Array<any>>((resolve, reject) => {
+      const query = "SELECT COUNT(*) as number_of_accounts FROM `account`";
+      db.query(query, (err, rows) => {
+        if (err) return reject(err);
+        resolve(JSON.parse(JSON.stringify(rows)));
+      });
+    });
+  };
+
   public createAccount = (
     firstName: string,
     lastName: string,
