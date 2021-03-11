@@ -175,7 +175,7 @@ const Components = ({
 
         <Grid item container xs={9}>
           {components.frame.map((frame) => (
-            <Grid item xs={4} key={frame.type}>
+            <Grid item xs={6} md={4} key={frame.type}>
               <WhiteButton
                 id="frames"
                 className={frame.type}
@@ -200,7 +200,7 @@ const Components = ({
 
         <Grid item container xs={9}>
           {components.saddle.map((saddle) => (
-            <Grid item xs={6} key={saddle.type}>
+            <Grid item xs={6} md={4} key={saddle.type}>
               <WhiteButton
                 id="frames"
                 className={saddle.type}
@@ -226,7 +226,7 @@ const Components = ({
         </Grid>
         <Grid item container xs={9}>
           {components.handlebar.map((handlebar) => (
-            <Grid item className={handlebar.type} key={handlebar.type} xs={4}>
+            <Grid item className={handlebar.type} key={handlebar.type} xs={6} md={4}>
               <WhiteButton id="frames" onClick={() => setComponent("HANDLE", handlebar.type)}>
                 <img
                   src={handlebars[handlebar.img.pos]}
@@ -249,7 +249,7 @@ const Components = ({
         <Grid item xs={3}><Typography id="componentTitle" variant="h6">Wheels</Typography></Grid>
         <Grid item container xs={9}>
           {components.wheels.map((wheel) => (
-            <Grid item xs={4} className={wheel.type} key={wheel.type}>
+            <Grid item xs={6} md={4} className={wheel.type} key={wheel.type}>
               <WhiteButton id="frames" onClick={() => setComponent("WHEEL", wheel.type)}>
                 <img src={wheels[wheel.img.pos]} alt={wheel.img.alt} />
                 <span className="prices">
@@ -271,7 +271,7 @@ const Components = ({
         </Grid>
         <Grid item container xs={9}>
           {components.drivetrain.map((drivetrain) => (
-            <Grid item xs={4} className={drivetrain.type} key={drivetrain.type}>
+            <Grid item xs={6} md={4} className={drivetrain.type} key={drivetrain.type}>
               <WhiteButton
                 id="frames"
                 onClick={() => setComponent("DRIVE_TRAIN", drivetrain.type)}
