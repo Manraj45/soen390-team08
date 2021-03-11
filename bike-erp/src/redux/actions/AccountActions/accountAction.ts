@@ -27,7 +27,6 @@ export const loginSuccess = (account: Account) => {
   };
 };
 
-
 export const loginFailure = (error: any) => {
   return {
     type: LOGIN_FAILURE,
@@ -43,10 +42,11 @@ export const logoutSuccess = () => {
   };
 };
 
-export const isAuthenticatedSuccess = () => {
+export const isAuthenticatedSuccess = (account: Account) => {
   return {
     type: IS_AUTHENTICATED_SUCCESS,
-    authenticated: true
+    authenticated: true,
+    payload: account
   };
 };
 
@@ -100,7 +100,7 @@ export const isAuthenticated = () => {
       .get(`${url}/auth/token/validation`)
       .then((response) => {
         if (response.status === 200) {
-          dispatch(isAuthenticatedSuccess());
+          dispatch(isAuthenticatedSuccess(response.data));
         }
       })
       .catch(() => {

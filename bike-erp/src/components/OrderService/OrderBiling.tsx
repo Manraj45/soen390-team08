@@ -5,6 +5,9 @@ import { BACKEND_URL } from "../../core/utils/config";
 import "./OrderBiling.css";
 import { Order, removeAllItem, removeItem } from "../../redux/actions/OrderListActions/orderListAction";
 import { connect } from "react-redux";
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import { Box } from "@material-ui/core";
+
 const OrderBiling = ({
   orderList,
   removeItem,
@@ -26,9 +29,13 @@ const OrderBiling = ({
   };
   const [cartTotal, setCartTotal] = useState(0)
 
+  const removeItemFromCart = (id : number) => {
+    removeItem(id)
+  }
+
   useEffect(() => {
     orderList.orderList.forEach((order: Order) => {
-      setCartTotal(cartTotal => cartTotal + order.price * order.quantity)
+      setCartTotal(cartTotal => cartTotal + order.price * order.selectedQuantity)
     })
     return () => {
       setCartTotal(0)
@@ -37,41 +44,48 @@ const OrderBiling = ({
 
 
   return (
-    <Paper className="orderBiling">
-      <h2>Billing</h2>
-      <div className="contents">
-        {
-          orderList.orderList.map((order: Order) => (
-            <Typography key={order.id}>{order.quantity} x {order.info} = ${order.quantity * order.price} </Typography>
-          ))
-        }
-
-      </div>
-      <div className="total">
-        <Typography>Total: $ {cartTotal} </Typography>
-      </div>
-      <div>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={updateQuantityOfListOrder}
-        >
-          Proceed
-        </Button>
-      </div>
-      <br></br>
-      <div>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            clearCart();
-          }}
-        >
-          Clear Cart
-        </Button>
-      </div>
-    </Paper>
+    <Box>
+      <Paper className="orderBiling">
+        <h2>Order</h2>
+        <Box className="contents">
+          {
+            orderList.orderList.map((order: Order) => (
+              <Box className="billingBox" key={order.id}>
+                <RemoveCircleOutlineIcon className="item" onClick={() => {removeItemFromCart(order.id)}}></RemoveCircleOutlineIcon>
+                <Typography>{order.selectedQuantity} x {order.info} = ${order.selectedQuantity * order.price} </Typography>
+              </Box>
+            ))
+          }
+        </Box>
+        <Box className="total">
+              <Typography>Total: $ {cartTotal}</Typography>
+        </Box>
+      </Paper>
+      <Box>
+        <div>
+          <br></br>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={updateQuantityOfListOrder}
+            >
+              Proceed
+            </Button>
+        </div>
+        <br></br>
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              clearCart();
+            }}
+          >
+            Clear Cart
+          </Button>
+        </div>
+      </Box>
+    </Box>
   );
 };
 
