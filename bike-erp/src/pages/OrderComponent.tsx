@@ -11,15 +11,15 @@ const OrderComponent = () => {
   return (
     <div>
       <Grid container spacing={4} justify="space-evenly" alignItems="stretch">
-        <Grid item xs={5}>
+        <Grid item md={5} xs={12}>
           <ModelView setSelectedLocation={setSelectedLocation}></ModelView>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item md={4} xs={12}>
           <Components
             selectedLocation={selectedLocation}
           ></Components>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item md={3} xs={12}>
           <OrderBiling></OrderBiling>
         </Grid>
       </Grid>
