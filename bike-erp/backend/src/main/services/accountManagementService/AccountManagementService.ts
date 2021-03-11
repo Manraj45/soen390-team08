@@ -60,4 +60,17 @@ export class AccountManagementService {
             }
         })
     }
+
+    //Method to fetch the account from database
+    public static getAccounts = () => {
+        return new Promise<any>((resolve, reject) => {
+            AccountManagementService.accountDao.fetchAccountTable()
+                .then((response) => {
+                    resolve({ status: 202, accounts: response });
+                })
+                .catch((error) => {
+                    reject({ status: error.status, message: error.message });
+                });
+        })
+    };
 }

@@ -18,4 +18,15 @@ router.patch("/admin/update", authenticateToken, (req, res) => {
         });
 });
 
+//Creating endpoint to fetch account from database
+router.get("/admin/accounts", authenticateToken, (req, res) => {
+    AccountManagementService.getAccounts()
+        .then((response) => {
+            res.status(202).send(response);
+        })
+        .catch((error) => {
+            res.status(error.status).send(error);
+        });
+});
+
 export default router;
