@@ -294,7 +294,7 @@ const Components = ({
       </Grid>
 
       <Grid item xs={12} container justify="flex-start" spacing={2}>
-        <Grid item xs={4}><Typography id="componentTitle" variant="h6">Quantity : </Typography></Grid>
+        <Grid item xs={4}><Typography id="componentTitle" variant="h6">Quantity: </Typography></Grid>
 
         <Grid item xs={4}>
           <TextField
