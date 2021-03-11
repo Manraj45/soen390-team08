@@ -1,23 +1,73 @@
-import { JsonObjectExpression } from 'typescript';
-import {fetchAllComponents, fetchComponent, updateComponent, fetchComponentLocation} from '../../dao/ComponentDAO';
-import {Component} from '../../models/Component';
+import {
+  fetchAllComponents,
+  fetchComponent,
+  updateComponent,
+  fetchComponentLocation,
+} from "../../dao/ComponentDAO";
+import { AccountingService } from "../accountingService/AccountingService";
 
 export class InventoryManagementService {
 
-    public getAllComponents = () => {
-        return fetchAllComponents();
+  private static accountingService: AccountingService | undefined;
+
+  public constructor() {
+    AccountingService.getAccountingService();
+  }
+  // retrieve all components from stored in the table
+  public getAllComponents = () => {
+    return fetchAllComponents();
+  };
+
+  // retrieve components identified with a unique id
+  public getComponent = (id: string) => {
+    const idAsNum: number = Number(id);
+    if (isNaN(idAsNum) || idAsNum < 0) {
+      throw { status: 400, message: "Invalid id" };
     }
 
-    public getComponent = (id: string) => {
-        return fetchComponent(id);
+    return fetchComponent(id);
+  };
+
+  // edit the quantity of a specific component identified by a unique id number
+  public editComponent = (id: string, quantity: string) => {
+    const idAsNum: number = Number(id);
+    const qtyAsNum: number = Number(quantity);
+    if (isNaN(idAsNum) || isNaN(qtyAsNum) || qtyAsNum < 0 || idAsNum < 0) {
+      throw { status: 400, message: "Invalid id or quantity" };
     }
 
-    public editComponent = (id: string, quantity: string) => {
-        return updateComponent(id, quantity);
+    return updateComponent(id, quantity);
+  };
+
+  // edits the quantity of components based on order list provided
+  public orderComponents = (orderList: Array<any>, userEmail: string) => {
+    return new Promise((resolve, rejects) => {
+      const updateQuantityInDB = new Promise(async (resolve, rejects) => {
+        orderList.forEach(order => {
+          this.editComponent(order.id, order.quantity).catch(error => {
+            rejects(error);
+          })
+        })
+        resolve({ status: 201, message: "Components have been ordered successfully" });
+      })
+
+      updateQuantityInDB.then(async () => {
+        const response = await AccountingService.createAccountPayable(orderList, userEmail);
+        resolve(response);
+      }).catch(error => {
+        rejects(error);
+      })
+    })
+  }
+
+  // get the location of a component identified by a unique id
+  public getComponentLocation = (id: string) => {
+    const idAsNum: number = Number(id);
+
+    if (isNaN(idAsNum) || idAsNum < 0) {
+      throw { status: 400, message: "Invalid id" };
     }
 
-    public getComponentLocation = (id: string) => {
-        return fetchComponentLocation(id);
-    }
-
+    return fetchComponentLocation(id);
+  };
 }

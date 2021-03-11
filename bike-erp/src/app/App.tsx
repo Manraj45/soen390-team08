@@ -1,60 +1,96 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import { Provider } from 'react-redux';
-import store from '../redux/store';
-import LoginPage from '../components/LoginPage/LoginPage'
-import axios from 'axios';
-import { AUTH_URL } from '../core/utils/config';
-import localStorageService from '../core/services/LocalStorageService'
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import RegistrationPage from '../components/RegistrationPage/RegistrationPage';
-import Home from '../components/Home/Home';
+import axios from "axios";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
+import { isAuthenticated } from "../redux/actions/AccountActions/accountAction";
 
-import Inventory from './components/inventory'
+import LoginPage from "../components/LoginPage/LoginPage";
+import RegistrationPage from "../components/RegistrationPage/RegistrationPage";
+import Home from "../components/Home/Home";
 
-function App() {
+import IdleTimerContainer from "../components/IdleTimerContainer/IdleTimerContainer";
+import Inventory from "../components/Inventory/inventory";
+import localStorageService from "../core/services/LocalStorageService";
+import OrderComponent from "../pages/OrderComponent";
 
-  const [authenticated, setAuthenticated] = useState(false)
+import "./App.css";
+
+const App = ({ account, isAuthenticated }: any) => {
   useEffect(() => {
     if (localStorageService.getAccessToken()) {
       localStorageService.setBearerToken();
     }
-    isAuthenticated()
-  }, [authenticated])
+    isAuthenticated();
+  }, [account.authenticated, isAuthenticated, account.loading]);
 
   axios.interceptors.response.use(
     (response) => {
       return response; // no need to refresh token if successful
     },
-    error => {
+    (error) => {
       if (error.response.data.message === "invalid_token") {
         const request = error.config;
         delete axios.defaults.headers.common.Authorization;
         delete request.headers.Authorization;
-        localStorage.removeItem('access_token');
+        localStorage.removeItem("access_token");
       } else {
         // error from backend, but not because of invalid token
         return Promise.reject(error);
       }
-    })
-
-  const isAuthenticated = () => {
-    const access_token: any = localStorage.getItem('access_token')
-    axios.get(`${AUTH_URL}/auth/token/validation`).then(response => {
-      if (response.status === 200) {
-        setAuthenticated(true)
-        console.log("authenticated")
-      }
-    }).catch(error => {
-      console.log(error)
-    })
-  }
+    }
+  );
 
   return (
-    <div className="App">
-      <Inventory></Inventory>
-    </div>
-  );
-}
+    <Router>
+      <div className="App">
+        <IdleTimerContainer></IdleTimerContainer>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() =>
+              account.authenticated ? <Home></Home> : <Redirect to="/login" />
+            }
+          />
+          <Route
+            path="/login"
+            render={() =>
+              account.loading ? (<></>) :
+                account.authenticated ? <Redirect to="/" /> : <LoginPage />
+            }
+          />
+          <Route
+            path="/register"
+            render={() =>
+              account.loading ? (<></>) :
+                account.authenticated ? <Redirect to="/" /> : <RegistrationPage />
+            }
+          />
 
-export default App;
+          <Route path="/order" render={() => account.loading ? (<></>) : account.authenticated ? <OrderComponent /> : <Redirect to="/login" />} />
+          <Route path="/inventory" render={() => account.loading ? (<></>) : account.authenticated ? <Inventory /> : <Redirect to="login" />} />
+          <Route exact path="*" render={() => <Redirect to="/" />} />
+        </Switch>
+      </div>
+    </Router>
+  );
+};
+
+const mapStateToProps = (state: any) => {
+  return {
+    account: state.account,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    isAuthenticated: () => dispatch(isAuthenticated()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

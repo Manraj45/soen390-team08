@@ -1,25 +1,28 @@
-import { Button, Typography } from '@material-ui/core'
-import axios from 'axios'
-import React from 'react'
-import localStorageService from '../../core/services/LocalStorageService'
-import { AUTH_URL } from '../../core/utils/config'
+import { Button, Typography } from "@material-ui/core";
+import React from "react";
+import { connect } from "react-redux";
+import { logout } from "../../redux/actions/AccountActions/accountAction";
 
+const Home = (props: any) => {
+  return (
+    <div>
+      <Typography variant="h1">Welcome</Typography>
+      <Button variant="contained" color="primary" onClick={props.logout}>
+        Logout
+      </Button>
+    </div>
+  );
+};
 
-const Home = () => {
-    const url = AUTH_URL
+const mapStateToProps = (state: any) => {
+  return {
+    account: state.account,
+  };
+};
 
-    const handleLogout = () => {
-        axios.delete(`${url}/auth/logout`).then(() => {
-            localStorageService.clearAllTokens()
-        })
-    }
-    
-    return (
-        <div>
-            <Typography variant="h1">Welcome</Typography>
-            <Button variant="contained" color="primary" onClick={handleLogout}>Logout</Button>
-        </div>
-    )
-}
-
-export default Home
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    logout: () => dispatch(logout()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

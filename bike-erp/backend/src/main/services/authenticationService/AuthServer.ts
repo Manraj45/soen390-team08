@@ -1,8 +1,8 @@
-import express, { Application, Request, Response } from 'express';
-import cors from 'cors';
-import { AUTH_PORT } from '../../config/config';
-import authentication_route from '../../routes/authentication_route';
-import dotenv from 'dotenv';
+import cors from "cors";
+import dotenv from "dotenv";
+import express, { Application } from "express";
+import { AUTH_PORT } from "../../config/config";
+import authentication_route from "../../routes/authentication_route";
 
 //Configure dotenv
 dotenv.config();
@@ -16,7 +16,8 @@ app.use(cors());
 app.use(express.json());
 
 //Setup routes
-app.use('/auth', authentication_route);
+app.use("/auth", authentication_route);
 
+//Starting authentication server on defined port
 const port = process.env.PORT || AUTH_PORT;
 app.listen(port, () => console.log(`Auth Server started on port ${port}`));
