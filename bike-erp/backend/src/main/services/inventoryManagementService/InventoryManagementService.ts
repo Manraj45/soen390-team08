@@ -4,8 +4,15 @@ import {
   updateComponent,
   fetchComponentLocation,
 } from "../../dao/ComponentDAO";
+import { AccountingService } from "../accountingService/AccountingService";
 
 export class InventoryManagementService {
+
+  private static accountingService: AccountingService | undefined;
+
+  public constructor() {
+    AccountingService.getAccountingService();
+  }
   // retrieve all components from stored in the table
   public getAllComponents = () => {
     return fetchAllComponents();
@@ -33,15 +40,23 @@ export class InventoryManagementService {
   };
 
   // edits the quantity of components based on order list provided
-  public orderComponents = (orderList: Array<any>) => {
-    return new Promise(async (resolve, rejects) => {
-      orderList.forEach(order => {
-        this.editComponent(order.id, order.quantity).catch(error => {
-          rejects(error)
+  public orderComponents = (orderList: Array<any>, userEmail: string) => {
+    return new Promise((resolve, rejects) => {
+      const updateQuantityInDB = new Promise(async (resolve, rejects) => {
+        orderList.forEach(order => {
+          this.editComponent(order.id, order.quantity).catch(error => {
+            rejects(error);
+          })
         })
+        resolve({ status: 201, message: "Components have been ordered successfully" });
       })
 
-      resolve({ status: 201, message: "Components have been ordered successfully" })
+      updateQuantityInDB.then(async () => {
+        const response = await AccountingService.createAccountPayable(orderList, userEmail);
+        resolve(response);
+      }).catch(error => {
+        rejects(error);
+      })
     })
   }
 

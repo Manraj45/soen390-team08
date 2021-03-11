@@ -1,4 +1,5 @@
 import express from "express";
+import { AuthenticationService } from "../services/authenticationService/AuthenticationService";
 import { InventoryManagementService } from "../services/inventoryManagementService/InventoryManagementService";
 
 const router = express();
@@ -22,7 +23,7 @@ router.get("/:component_id", (req, res) => {
       res.json(response);
     })
     .catch((error) => {
-      res.status(error.status).send(error.message);
+      res.status(error.status).send(error.messages);
     });
 });
 
@@ -44,8 +45,16 @@ router.put("/updateQuantity", (req, res) => {
 router.put("/orderComponents", (req, res) => {
   const orderList: Array<any> = req.body.orderList.orderList
 
-  inventoryManagementService.orderComponents(orderList).then(response => {
-    res.json(response)
+  //Setting the endpoint header to authorization
+  const authHeader = req.headers["authorization"];
+
+  //setting token header
+  const token = authHeader && authHeader.split(" ")[1];
+  const userAccount = AuthenticationService.retrieveAccountFromToken(token)
+  const userEmail: string = userAccount.data;
+
+  inventoryManagementService.orderComponents(orderList, userEmail).then(response => {
+    res.json(response);
   }).catch(error => {
     res.status(error.status).send(error.message);
   })
@@ -61,5 +70,6 @@ router.get("/componentLocation/:component_id", (req, res) => {
       res.status(error.status).send(error.message);
     });
 });
+
 
 export default router;
