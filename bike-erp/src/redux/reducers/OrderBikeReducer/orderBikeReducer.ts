@@ -1,27 +1,42 @@
-import { ADD_ITEM, REMOVE_ALL_ITEMS, REMOVE_ITEM } from "../../types/OrderBikeTypes/orderBikeTypes";
-import { Order } from "../../actions/OrderBikeActions/orderBikeActions"
+import { ADD_BIKE, REMOVE_BIKE, REMOVE_ALL_BIKES, ADD_COMPONENT, REMOVE_COMPONENT, REMOVE_ALL_COMPONENTS } from '../../types/OrderBikeTypes/orderBikeTypes'
+import { BikeSold, ComponentUpdated } from "../../actions/OrderBikeActions/orderBikeActions"
 const initialState = {
     error: "",
-    orderList: []
+    bikeOrderList: [],
+    componentOrderList: []
 }
 
 const reducer = (state = initialState, action: any) => {
     switch (action.type) {
-        case ADD_ITEM:
+        case ADD_BIKE:
             return {
                 ...state,
-                orderList: [...state.orderList, action.payload]
+                bikeOrderList: [...state.bikeOrderList, action.payload]
             };
-
-        case REMOVE_ITEM:
+        case REMOVE_BIKE:
             return {
                 ...state,
-                ...state.orderList.filter(order => remove_by_id(order, action.payload))
+                ...state.bikeOrderList.filter(bikeOrder => remove_by_id(bikeOrder, action.payload))
             };
-        case REMOVE_ALL_ITEMS:
+        case REMOVE_ALL_BIKES:
             return {
                 error:"",
-                orderList: []
+                bikeOrderList: []
+            };
+        case ADD_COMPONENT:
+            return {
+                ...state,
+                componentOrderList: [...state.componentOrderList, action.payload]
+            };
+        case REMOVE_COMPONENT:
+            return {
+                ...state,
+                ...state.componentOrderList.filter(component => remove_by_id(component, action.payload))
+            };
+        case REMOVE_ALL_COMPONENTS:
+            return {
+                error:"",
+                componentOrderList: []
             };
         default:
             return state;
@@ -29,7 +44,7 @@ const reducer = (state = initialState, action: any) => {
 }
 
 // Helper function to determine which item to remove from array. (Used for filter function)
-const remove_by_id = (order: Order, id_to_remove: number) => {
+const remove_by_id = (order: BikeSold, id_to_remove: number) => {
     if (order.id !== id_to_remove) {
         return true
     } else {

@@ -1,28 +1,54 @@
-import {ADD_ITEM, REMOVE_ALL_ITEMS, REMOVE_ITEM} from '../../types/OrderListTypes/orderListTypes'
+import { ADD_BIKE, REMOVE_BIKE, REMOVE_ALL_BIKES, ADD_COMPONENT, REMOVE_COMPONENT, REMOVE_ALL_COMPONENTS } from '../../types/OrderBikeTypes/orderBikeTypes'
 
-export interface Order{
-    id:number
-    quantity:number
-    info:string,
-    price:number
+export interface BikeSold {
+    id: number,
+    quantity: number,
+    info: string,
+    price: number,
+    selectedQuantity: number
 }
 
-export const addItem = (order:Order)=>{
+export interface ComponentUpdated {
+    id: number,
+    quantity: number
+}
+
+export const addBike = (bikeSold: BikeSold) => {
     return {
-        type: ADD_ITEM,
-        payload:order
+        type: ADD_BIKE,
+        payload: bikeSold
     }
 }
 
-export const removeItem = (index:number)=>{
+export const addComponentSold = (componentUpdated: ComponentUpdated) => {
     return {
-        type:REMOVE_ITEM,
-        payload:index
+        type: ADD_COMPONENT,
+        payload: componentUpdated
     }
 }
 
-export const removeAllItem = ()=>{
+export const removeBike = (index: number) => {
     return {
-        type:REMOVE_ALL_ITEMS
+        type: REMOVE_BIKE,
+        payload: index
+    }
+}
+
+export const removeComponentSold = (id: number) => {
+    return {
+        type: REMOVE_COMPONENT,
+        payload: id
+    }
+}
+
+export const removeAllBikes = () => {
+    return {
+        type: REMOVE_ALL_BIKES
+    }
+}
+
+export const removeAllComponents = () => {
+    return {
+        type: REMOVE_ALL_COMPONENTS
     }
 }

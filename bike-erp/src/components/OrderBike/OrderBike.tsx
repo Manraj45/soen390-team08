@@ -29,12 +29,6 @@ import drivetrain_advanced from "../../assets/images/components/drivetrain_advan
 import drivetrain_expert from "../../assets/images/components/drivetrain_expert.jpg";
 
 import {
-    Order,
-    addItem,
-    removeAllItem,
-    removeItem,
-} from "../../redux/actions/OrderBikeActions/orderBikeActions";
-import {
     CardMedia,
     Card,
     Select,
@@ -450,21 +444,21 @@ const OrderBike = () => {
                 justify="space-evenly"
                 alignItems="center"
             >
-                <Grid item xs={5}>
+                <Grid item xs={12} md={5}>
                     <ModelView
                         mostRecentPicture={mostRecentPicture}
                         mostRecentType={mostRecentType}
                         setSelectedLocation={setSelectedLocation}
                     ></ModelView>
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={12} md={5}>
                     <Components
                         setMostRecentPicture={setMostRecentPicture}
                         setMostRecent={setMostRecent}
                         selectedLocation={selectedLocation}
                     ></Components>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={12} md={2}>
                     <Billing />
                 </Grid>
             </Grid>
