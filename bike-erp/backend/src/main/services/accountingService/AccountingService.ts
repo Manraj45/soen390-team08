@@ -2,6 +2,7 @@ import { AccountPayableDAO } from "../../dao/AccountPayableDAO"
 import { AccountReceivableDAO } from "../../dao/AccountReceivableDAO";
 import { BikeOrder } from "../../models/interfaces/BikeOrder";
 
+// This class handles all finance related features such as account receivable and payable
 export class AccountingService {
 
     private static accountingService: AccountingService | undefined;
@@ -9,8 +10,8 @@ export class AccountingService {
     private static accountReceivableDAO: AccountReceivableDAO | undefined
 
     private constructor() {
-        AccountingService.accountPayableDAO = new AccountPayableDAO()
-        AccountingService.accountReceivableDAO = new AccountReceivableDAO()
+        AccountingService.accountPayableDAO = new AccountPayableDAO();
+        AccountingService.accountReceivableDAO = new AccountReceivableDAO();
     }
 
     // Instanciating singleton
@@ -48,6 +49,7 @@ export class AccountingService {
         }
     }
 
+    // Method for handling the creating of a account receivable
     public static async createAccountReceivable(bikeOrderList: Array<BikeOrder>, bikeIdList: Array<number>, userEmail: string) {
         let total = 0;
 
@@ -66,6 +68,7 @@ export class AccountingService {
         }
     }
 
+    // Method for getting account receivables based on user who request it
     public static async getAccountReceivable(email: string) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -77,10 +80,12 @@ export class AccountingService {
         })
     }
 
+    // Method for getting bikes based on the account receivable 
     public static getBikesByAccountReceivable(accountReceivableId: number) {
         return AccountingService.accountReceivableDAO?.fetchBikesByAccountReceivableId(accountReceivableId);
     }
 
+    // Method for getting account payables based on user who request it
     public static getAccountPayablesForUser(email: string) {
         return new Promise((resolve, rejects) => {
             try {
@@ -92,6 +97,7 @@ export class AccountingService {
         })
     }
 
+    // Method for getting transaction items based on the account receivable 
     public static getTransactionItemsByAccountPayable(accountPayableId: number) {
         return AccountingService.accountPayableDAO?.getTransactionByAccountPayableID(accountPayableId);
     }

@@ -5,7 +5,7 @@ import { authenticateToken, AuthenticationService } from "../services/authentica
 const router = express();
 
 //Creating a singleton instance of the AccountingService
-AccountingService.getAccountingService()
+AccountingService.getAccountingService();
 
 router.get('/accountPayables', authenticateToken, (req, res) => {
     const userEmail: string = fetchUserEmail(req);
@@ -21,7 +21,7 @@ router.get('/accountPayables/:id/transactionItem', authenticateToken, (req, res)
     const id = Number(req.params.id)
     // Check for validity of account payable id passed. Must be an int
     if (!Number.isInteger(id)) {
-        res.status(400).send({ message: "Invalid Account Payable ID" })
+        res.status(400).send({ message: "Invalid Account Payable ID" });
     } else {
         AccountingService.getTransactionItemsByAccountPayable(id)?.then(response => {
             res.json(response);
@@ -41,7 +41,7 @@ router.get('/accountReceivables', authenticateToken, (req, res) => {
 })
 
 router.get('/accountReceivables/:id/bikes', authenticateToken,(req, res) => {
-    const id = Number(req.params.id)
+    const id = Number(req.params.id);
 
     if (!Number.isInteger(id)) {
         res.status(400).send({ message: "Invalid Account Receivable ID" })
