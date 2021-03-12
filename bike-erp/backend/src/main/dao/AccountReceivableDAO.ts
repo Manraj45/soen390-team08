@@ -1,5 +1,6 @@
 import db from "../helpers/db"
 
+// This class is a DAO that handle manipulating the database table account_receivable
 export class AccountReceivableDAO {
 
     // Insert a new row to database (account receivable)
