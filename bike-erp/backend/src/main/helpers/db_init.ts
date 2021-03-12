@@ -129,10 +129,21 @@ export const initialize_db = (): void => {
 
   const createAccountReceivable: string = `
     CREATE TABLE IF NOT EXISTS account_receivable(
-        account_receivable int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        bike_id int NOT NULL,
-        FOREIGN KEY(bike_id) REFERENCES bike(bike_id)
+        account_receivable_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        email varchar(255) NOT NULL,
+        total float(24) NOT NULL,
+        payable_date datetime NOT NULL,
+        FOREIGN KEY(email) REFERENCES account(email)
     );`;
+
+  const createBikeInAccountReceivable: string = `
+      CREATE TABLE IF NOT EXISTS bike_in_account_receivable(
+        account_receivable_id  int NOT NULL,
+        bike_id int NOT NULL PRIMARY KEY,
+        FOREIGN KEY(account_receivable_id) REFERENCES account_receivable(account_receivable_id),
+        FOREIGN KEY(bike_id) REFERENCES bike(bike_id)
+      )
+  `
 
   db.query(createAccountQuery, (err, result) => {
     if (err) throw err;
@@ -202,6 +213,11 @@ export const initialize_db = (): void => {
     if (err) throw err;
     console.log("Account_receivable Tables Created");
   });
+
+  db.query(createBikeInAccountReceivable, (err) => {
+    if (err) throw err;
+    console.log("Bike_In_Account_Receivable Tables Created");
+  })
 
   db.query(fillComponentCatalogue, (err, result) => {
     if (err) throw err;
