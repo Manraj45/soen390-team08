@@ -1,11 +1,17 @@
 import { AccountPayableDAO } from "../../dao/AccountPayableDAO"
+import { AccountReceivableDAO } from "../../dao/AccountReceivableDAO";
+import { BikeOrder } from "../../models/interfaces/BikeOrder";
 
 export class AccountingService {
 
     private static accountingService: AccountingService | undefined;
     private static accountPayableDAO: AccountPayableDAO | undefined;
+    private static accountReceivableDAO: AccountReceivableDAO | undefined
 
-    private constructor() { AccountingService.accountPayableDAO = new AccountPayableDAO() }
+    private constructor() {
+        AccountingService.accountPayableDAO = new AccountPayableDAO()
+        AccountingService.accountReceivableDAO = new AccountReceivableDAO()
+    }
 
     // Instanciating singleton
     public static getAccountingService() {
@@ -24,11 +30,11 @@ export class AccountingService {
         orderList.forEach((order) => {
             total = total + order.price * order.quantity;
         })
-        
+
         try {
             // Creating account payable in db
             const accountPayableId = await AccountingService.accountPayableDAO?.createAccountPayable(total, new Date().toISOString().slice(0, 19).replace('T', ' '), email) as number;
-            
+
             // Create transaction item in db for each item in order list
             orderList.forEach(async (order) => {
                 const transactionItemId = await AccountingService.accountPayableDAO?.createTransactionItems(order.price * order.quantity, order.id, order.quantity) as number;
@@ -40,6 +46,39 @@ export class AccountingService {
         catch (error) {
             throw { status: 500, message: error.sqlMessage };
         }
+    }
+
+    public static async createAccountReceivable(bikeOrderList: Array<BikeOrder>, bikeIdList: Array<number>, userEmail: string) {
+        let total = 0;
+
+        bikeOrderList.forEach(order => {
+            total = total + order.price;
+        })
+
+        try {
+            const accountReceivableId = await AccountingService.accountReceivableDAO?.createAccountReceivable(total, new Date().toISOString().slice(0, 19).replace('T', ' '), userEmail) as number;
+
+            bikeIdList.forEach(async bikeId => {
+                await AccountingService.accountReceivableDAO?.createBikeInAccountReceivable(accountReceivableId, bikeId);
+            })
+        } catch (error) {
+            throw { status: 500, message: error.sqlMessage };
+        }
+    }
+
+    public static async getAccountReceivable(email: string) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const accountReceivableList = await AccountingService.accountReceivableDAO?.fetchAllAccountReceivableByUser(email);
+                resolve(accountReceivableList)
+            } catch (error) {
+                reject({ status: 500, message: error.sqlMessage });
+            }
+        })
+    }
+
+    public static getBikesByAccountReceivable(accountReceivableId: number) {
+        return AccountingService.accountReceivableDAO?.fetchBikesByAccountReceivableId(accountReceivableId);
     }
 
     public static getAccountPayablesForUser(email: string) {
