@@ -145,6 +145,12 @@ const Components = ({
     const [quantity, setQuantity] = useState("");
     const [allFieldSelected, setAllFieldSelected] = useState(false)
 
+    const [frameInvent, setFrameInvent] = useState()
+    const [handleInvent, setHandleInvent] = useState()
+    const [seatInvent, setSeatInvent] = useState()
+    const [wheelInvent, setWheelInvent] = useState()
+    const [dtInvent, setDtIvent] = useState()
+
     const fillBikeOrder = (
         location: string,
         size: string,
