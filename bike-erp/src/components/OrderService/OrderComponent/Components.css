@@ -57,10 +57,11 @@
 #componentTitle {
   padding-top: 3%;
   padding-right: 25px;
-
+  text-align: left;
 }
 
 #size {
   padding-top: 1%;
   padding-right: 25px;
+  text-align: left;
 }

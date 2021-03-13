@@ -2,7 +2,8 @@ import { Role } from "../models/Account";
 
 //Add the path of the endpoints and the roles allowed to access them. Do not add a path if all roles can access that endpoint
 export const pathAutorization = {
-    "/auth/test": [Role.ADMIN, Role.CUSTOMER]
+    "/auth/test": [Role.ADMIN, Role.CUSTOMER],
+    "/account_management/admin/update": [Role.ADMIN]
 };
 
 
