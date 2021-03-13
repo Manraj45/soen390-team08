@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { connect } from "react-redux";
 
 import { BACKEND_URL } from "../../core/utils/config";
 
@@ -28,6 +27,8 @@ import drivetrain_intermediate from "../../assets/images/components/drivetrain_i
 import drivetrain_advanced from "../../assets/images/components/drivetrain_advanced.jpg";
 import drivetrain_expert from "../../assets/images/components/drivetrain_expert.jpg";
 
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+
 import {
     CardMedia,
     Card,
@@ -42,10 +43,18 @@ import {
     withStyles,
     Paper,
     CardActions,
-	makeStyles,
+    makeStyles,
+    TextField,
+    Box
 } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
-import {ToggleButton, ToggleButtonGroup} from '@material-ui/lab';
+import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+import { ContactSupportOutlined } from "@material-ui/icons";
+
+import { addBike, BikeSold, removeBike, removeAllBikes } from "../../redux/actions/OrderBikeActions/orderBikeActions";
+import { connect } from "react-redux";
+import React from "react";
+import { isConstructorDeclaration } from "typescript";
 
 const ModelView = ({
     setSelectedLocation,
@@ -106,9 +115,11 @@ const ModelView = ({
 
 const Components = ({
     selectedLocation,
-    addItem,
     setMostRecent,
     setMostRecentPicture,
+    inventoryTable,
+    addBike,
+    bikeOrderList
 }: any) => {
     var frames = [frame_utility, frame_touring, frame_mountain];
     var colours = [];
@@ -121,7 +132,8 @@ const Components = ({
         drivetrain_advanced,
         drivetrain_expert,
     ];
-    const url = BACKEND_URL;
+
+    const [colour, setColour] = useState("");
     const [size, setSize] = useState("SMALL");
     const [frameTypeSelected, setFrameType] = useState("");
     const [finishSelected, setFinishType] = useState("");
@@ -130,8 +142,92 @@ const Components = ({
     const [handleSelected, setHandleType] = useState("");
     const [wheelSelected, setWheelType] = useState("");
     const [trainType, setTrainType] = useState("");
-    const [inventoryTable, setInventoryTable] = useState<any[]>([]);
+    const [quantity, setQuantity] = useState("");
+    const [allFieldSelected, setAllFieldSelected] = useState(false)
 
+    const fillBikeOrder = (
+        location: string,
+        size: string,
+        frameTypeSelected: string,
+        finishSelected: string,
+        gradeSelected: string,
+        saddleSelected: string,
+        handleSelected: string,
+        wheelSelected: string,
+        trainType: string,
+        quantity: string,
+        colour: string
+    ) => {
+
+        let totalPrice = 0;
+        //price to build 1 bike
+        let priceUnit = 0;
+        let handleId = 0;
+        let wheelId = 0;
+        let driveTrainId = 0;
+        let frameId = 0;
+        let seatId = 0;
+
+        setAllFieldSelected(false)
+
+        if(location !== "None" && 
+            frameTypeSelected !== "" && 
+            finishSelected !== "" && 
+            gradeSelected !== "" && 
+            saddleSelected !== "" && 
+            handleSelected !== "" && 
+            wheelSelected !== "" && 
+            trainType !== "" &&
+            quantity !== "" &&
+            colour !== ""){
+                setAllFieldSelected(true)
+                inventoryTable.forEach((element: any) => {
+                    if (element.location_name === location && element.size === size) {
+                        if (element.component_type === "FRAME" && element.specificComponentType === frameTypeSelected) {
+                            priceUnit = priceUnit + element.price;
+                            frameId = element.component_id;
+                        }
+                        if (element.component_type === "HANDLE" && element.specificComponentType === handleSelected) {
+                            priceUnit = priceUnit + element.price;
+                            handleId = element.component_id;
+                        }
+                        if (element.component_type === "SEAT" && element.specificComponentType === saddleSelected) {
+                            priceUnit = priceUnit + element.price;
+                            seatId = element.component_id;
+                        }
+                        if (element.component_type === "WHEEL" && element.specificComponentType === wheelSelected) {
+                            // *2 here because we need 2 wheels to build a bike
+                            priceUnit = priceUnit + (element.price) * 2;
+                            wheelId = element.component_id;
+                        }
+                        if (element.component_type === "DRIVE_TRAIN" && element.specificComponentType === trainType) {
+                            priceUnit = priceUnit + element.price;
+                            driveTrainId = element.component_id;
+                        }
+                    }
+                });
+                totalPrice = priceUnit * parseInt(quantity);
+            }
+            console.log(allFieldSelected)
+ 
+        if (!isNaN(parseInt(quantity))) {
+            addBike({
+                price: totalPrice,
+                size: size,
+                color: colour,
+                description: +quantity+" x "+size +" "+ colour +" "+ frameTypeSelected +" "+ finishSelected +" "+ gradeSelected + " BIKE",
+                grade: gradeSelected,
+                quantity: parseInt(quantity),
+                handle_id: handleId,
+                wheel_id: wheelId,
+                frame_id: frameId,
+                seat_id: seatId,
+                drive_train_id: driveTrainId
+            })
+        }
+        
+        //console.log(bikeOrderList)
+    }
 
     const setComponentType = (
         componentType: string,
@@ -160,6 +256,9 @@ const Components = ({
             case "drivetrain":
                 setTrainType(componentSpecificType);
                 break;
+            case "colour":
+                setColour(componentSpecificType);
+                break;
         }
         setMostRecent(componentSpecificType + " " + componentType);
         if (picture) {
@@ -180,12 +279,6 @@ const Components = ({
         },
     }))(ToggleButton);
 
-    // useEffect(() => {
-    //     axios.get(`${url}/components/`).then((response) => {
-    //         setInventoryTable(response.data);
-    //     });
-    // }, [url, orderList]);
-
     return (
         <Grid
             container
@@ -196,33 +289,33 @@ const Components = ({
         >
             <Grid item container justify="flex-start" spacing={1}>
                 <Grid item xs={2} >
-					<Typography variant="h6">Frame Size</Typography>
-				</Grid>
-				<ToggleButtonGroup
-					value={size}
-					exclusive>
-						<WhiteButton 
-						value="SMALL"
-						onClick={() => setSize("SMALL")}>
-						S
+                    <Typography variant="h6">Frame Size</Typography>
+                </Grid>
+                <ToggleButtonGroup
+                    value={size}
+                    exclusive>
+                    <WhiteButton
+                        value="SMALL"
+                        onClick={() => setSize("SMALL")}>
+                        S
 						</WhiteButton>
-						<WhiteButton
-						value="MEDIUM"
-						onClick={() => setSize("MEDIUM")}>
-							M
+                    <WhiteButton
+                        value="MEDIUM"
+                        onClick={() => setSize("MEDIUM")}>
+                        M
 						</WhiteButton>
-						<WhiteButton
-						value="LARGE"
-						onClick={() => setSize("LARGE")}>
-							L
+                    <WhiteButton
+                        value="LARGE"
+                        onClick={() => setSize("LARGE")}>
+                        L
 						</WhiteButton>
-					
-				</ToggleButtonGroup>
+
+                </ToggleButtonGroup>
             </Grid>
             <Grid item container justify="flex-start" spacing={1}>
-				<Grid item xs={2} >
-					<Typography variant="h6">Frames</Typography>
-				</Grid>
+                <Grid item xs={2} >
+                    <Typography variant="h6">Frames</Typography>
+                </Grid>
                 {components.frame.map((frame) => (
                     <Grid item key={frame.type}>
                         <WhiteButton
@@ -254,9 +347,9 @@ const Components = ({
         ))}
       </Grid> */}
             <Grid item container justify="flex-start" spacing={1}>
-				<Grid item xs={2} >
-					<Typography variant="h6">Finish</Typography>
-				</Grid>
+                <Grid item xs={2} >
+                    <Typography variant="h6">Finish</Typography>
+                </Grid>
                 {components.finish.map((finish) => (
                     <Grid item key={finish.type}>
                         <WhiteButton
@@ -274,8 +367,8 @@ const Components = ({
             </Grid>
             <Grid item container justify="flex-start" spacing={1}>
                 <Grid item xs={2} >
-					<Typography variant="h6">Grade</Typography>
-					</Grid>
+                    <Typography variant="h6">Grade</Typography>
+                </Grid>
                 {components.grade.map((grade) => (
                     <Grid item key={grade.type}>
                         <WhiteButton
@@ -293,8 +386,27 @@ const Components = ({
             </Grid>
             <Grid item container justify="flex-start" spacing={1}>
                 <Grid item xs={2} >
-					<Typography variant="h6">Saddles</Typography>
-					</Grid>
+                    <Typography variant="h6">Colour</Typography>
+                </Grid>
+                {components.colour.map((colour) => (
+                    <Grid item key={colour}>
+                        <WhiteButton
+                            className="colour"
+                            onClick={() =>
+                                setComponentType("colour", colour)
+                            }
+                        >
+                            <Typography variant="subtitle1">
+                                {colour}
+                            </Typography>
+                        </WhiteButton>
+                    </Grid>
+                ))}
+            </Grid>
+            <Grid item container justify="flex-start" spacing={1}>
+                <Grid item xs={2} >
+                    <Typography variant="h6">Saddles</Typography>
+                </Grid>
                 {components.saddle.map((saddle) => (
                     <Grid item key={saddle.type}>
                         <WhiteButton
@@ -317,8 +429,8 @@ const Components = ({
             </Grid>
             <Grid item container justify="flex-start" spacing={1}>
                 <Grid item xs={2} >
-					<Typography variant="h6">Handlebars</Typography>
-					</Grid>
+                    <Typography variant="h6">Handlebars</Typography>
+                </Grid>
                 {components.handlebar.map((handlebar) => (
                     <Grid item key={handlebar.type}>
                         <WhiteButton
@@ -341,8 +453,8 @@ const Components = ({
             </Grid>
             <Grid item container justify="flex-start" spacing={1}>
                 <Grid item xs={2} >
-					<Typography variant="h6">Wheels</Typography>
-					</Grid>
+                    <Typography variant="h6">Wheels</Typography>
+                </Grid>
                 {components.wheels.map((wheel) => (
                     <Grid item key={wheel.type}>
                         <WhiteButton
@@ -365,8 +477,8 @@ const Components = ({
             </Grid>
             <Grid item container justify="flex-start" spacing={1}>
                 <Grid item xs={2} >
-					<Typography variant="h6">Drivetrains</Typography>
-					</Grid>
+                    <Typography variant="h6">Drivetrains</Typography>
+                </Grid>
                 {components.drivetrain.map((drivetrain) => (
                     <Grid item key={drivetrain.type}>
                         <WhiteButton
@@ -387,55 +499,131 @@ const Components = ({
                     </Grid>
                 ))}
             </Grid>
+            <Grid item container justify="flex-start" spacing={1}>
+                <Grid item xs={2} >
+                    <Typography variant="h6">Quantity</Typography>
+                </Grid>
+                <Grid item>
+                    <TextField
+                        variant="outlined"
+                        type="number"
+                        InputProps={{ inputProps: { min: 1 } }}
+                        onChange={(event) => setQuantity(event.target.value)}
+                    />
+                </Grid>
+            </Grid>
+
+            <Button variant="contained" color="primary"
+                onClick={() => fillBikeOrder(
+                    selectedLocation,
+                    size,
+                    frameTypeSelected,
+                    finishSelected,
+                    gradeSelected,
+                    saddleSelected,
+                    handleSelected,
+                    wheelSelected,
+                    trainType,
+                    quantity,
+                    colour)}>Add</Button>
+
+            {allFieldSelected ? null : <Typography>You must select an option for each categories, a valid location and enter a valid quantity.</Typography>}
+            
+            <p>{frameTypeSelected} and {selectedLocation}</p>
+            <p>{handleSelected} and {size}</p>
+            <p>{wheelSelected} and {finishSelected}</p>
+            <p>{saddleSelected} and {gradeSelected}</p>
+            <p>{trainType} and {colour}</p>
         </Grid>
     );
 };
 
-const Billing = ({}: any) => {
+const Billing = ({ bikeOrderList, removeBike, removeAllBikes }: any) => {
     const url = BACKEND_URL;
+    const [cartTotal, setCartTotal] = useState(0)
 
-    // useEffect(() => {
-    //     orderList.orderList.forEach((order: Order) => {
-    //         setCartTotal(
-    //             (cartTotal) => cartTotal + order.price * order.quantity
-    //         );
-    //     });
-    //     return () => {
-    //         setCartTotal(0);
-    //     };
-    // }, [orderList.orderList]);
+    useEffect(() => {
+        console.log(bikeOrderList.bikeOrderList)
+        bikeOrderList.bikeOrderList.forEach((bikeSold: BikeSold) => {
+            setCartTotal(
+                (cartTotal) => cartTotal + bikeSold.price
+            );
+        });
+        return () => {
+            setCartTotal(0);
+        };
+    }, [bikeOrderList]);
+
+    const removeBikeOrderFromCart = (bikeSold: BikeSold) => {
+        removeBike(bikeSold)
+    }
+
+    const clearCart = () => {
+        removeAllBikes()
+    }
+
+    const proceedToSell = () => {
+        axios.post(`${url}/bike/createBikes`, {
+            bikeOrderList: bikeOrderList
+        })
+        clearCart();
+    }
 
     return (
         <div>
             <Paper className="orderBiling">
                 <h2>Billing</h2>
                 <div className="contents">
-                    {/* {orderList.orderList.map((order: Order) => (
-                        <Typography key={order.id}>
-                            {order.quantity} x {order.info} = $
-                            {order.quantity * order.price}{" "}
-                        </Typography>
-                    ))} */}
+                    {bikeOrderList.bikeOrderList.map((bikeSold: BikeSold) => (
+                        <Box key={bikeSold.description}>
+                            <RemoveCircleOutlineIcon onClick={() => { removeBikeOrderFromCart(bikeSold) }}></RemoveCircleOutlineIcon>
+                            <Typography key={bikeOrderList.bikeOrderList.indexOf(bikeSold)}>
+                                {bikeSold.description} = $
+                                {bikeSold.price}{" "}
+                            </Typography>
+                        </Box>
+                    ))}
                 </div>
                 <div className="total">
-                    <Typography>Total: $ {/*{cartTotal}*/} </Typography>
+                    <Typography>Total: $ {cartTotal} </Typography>
                 </div>
             </Paper>
             <br />
             <br />
-            <div>
-                <Button variant="contained" color="primary" >
+            <Box>
+                <Button variant="contained" color="primary" onClick={proceedToSell}>
                     Proceed
                 </Button>
-            </div>
+            </Box>
+            <br />
+            <Box>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                        clearCart();
+                    }}>
+                    Clear Cart
+            </Button>
+            </Box>
         </div>
     );
 };
 
-const OrderBike = () => {
+const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes }: any) => {
     const [selectedLocation, setSelectedLocation] = useState("None");
     const [mostRecentType, setMostRecent] = useState("None Selected");
     const [mostRecentPicture, setMostRecentPicture] = useState(bike_logo);
+    const [inventoryTable, setInventoryTable] = useState<any[]>([]);
+    const url = BACKEND_URL;
+
+    useEffect(() => {
+        axios.get(`${url}/components/`).then((response) => {
+            setInventoryTable(response.data);
+            console.log(bikeOrderList)
+        });
+    }, [url, bikeOrderList]);
+
     return (
         <div>
             <Grid
@@ -453,17 +641,41 @@ const OrderBike = () => {
                 </Grid>
                 <Grid item xs={12} md={5}>
                     <Components
+                        bikeOrderList={bikeOrderList}
+                        addBike={addBike}
                         setMostRecentPicture={setMostRecentPicture}
                         setMostRecent={setMostRecent}
                         selectedLocation={selectedLocation}
+                        inventoryTable={inventoryTable}
                     ></Components>
                 </Grid>
                 <Grid item xs={12} md={2}>
-                    <Billing />
+                    <Billing
+                        bikeOrderList={bikeOrderList}
+                        removeBike={removeBike}
+                        removeAllBikes={removeAllBikes}
+                    ></Billing>
                 </Grid>
             </Grid>
         </div>
     );
 };
 
-export default (OrderBike);
+
+const mapStateToProps = (state: any) => {
+    return {
+        bikeOrderList: state.bikeOrderList,
+        componentOrderList: state.componentOrderList
+    }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        addBike: (bikeSold: BikeSold) => dispatch(addBike(bikeSold)),
+        removeBike: (bikeSold: BikeSold) => dispatch(removeBike(bikeSold)),
+        removeAllBikes: () => dispatch(removeAllBikes())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderBike);
+

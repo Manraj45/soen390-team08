@@ -6,7 +6,7 @@ import orderBikeReducer from "./reducers/OrderBikeReducer/orderBikeReducer"
 const rootReducer = combineReducers({
   account: accountReducer,
   orderList: orderListReducer,
-  bikeList: orderBikeReducer,
+  bikeOrderList: orderBikeReducer,
 });
 
 export default rootReducer;

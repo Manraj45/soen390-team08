@@ -4,7 +4,7 @@ export class BikeOrderService {
     private static bikeOrderService: BikeOrderService | undefined;
 
     //restrict so that the service cannot be constructed outside of the class. For singleton pattern
-    private constructor() {}
+    private constructor() { }
 
     //Creating statuc instance of the BikeDao Class
     private static bikeDao = new BikeDao();
@@ -17,15 +17,16 @@ export class BikeOrderService {
     // Create/verify the existence of an instance of the bikeOrderService
     public static getBikeOrderService() {
         if (this.bikeOrderService === undefined) {
-        this.bikeOrderService = new BikeOrderService();
+            this.bikeOrderService = new BikeOrderService();
         } else {
-        return this.bikeOrderService;
+            return this.bikeOrderService;
         }
     }
 
-    public static addBike = (bikeOrderList: Array<any>) => {
+    public static addBike = async (bikeOrderList: Array<any>) => {
         return new Promise(async (resolve, rejects) => {
-            bikeOrderList.forEach(bike => {
+            let bikeIdList: number[] = []
+            bikeOrderList.forEach(async bike => {
                 //verifying the data meets the requirements for the price
                 if (isNaN(bike.price) || bike.price < 0) {
                     return rejects({ status: 400, message: "Invalid price format, price must be a number data type and a positive number" });
@@ -35,12 +36,14 @@ export class BikeOrderService {
                     return rejects({ status: 400, message: "Invalid quantity format, quantity must be a number data type and a positive number" });
                 }
                 //Posting all the bikes created with their components Id.
-                    BikeOrderService.getBikeDao().createBike(bike.price, bike.size, bike.color, bike.description, bike.grade, bike.quantity).then((response) => {
-                        BikeOrderService.getBikeDao().linkBikeToComponents(response.bikeId, bike.handle_id, bike.wheel_id, bike.frame_id, bike.seat_id, bike.drive_train_id);
-                    })
-                    .catch(error => {
-                        return rejects(error.message)
-                    })
+                try {
+                    const response = await BikeOrderService.getBikeDao().createBike(bike.price, bike.size, bike.color, bike.description, bike.grade, bike.quantity);
+                    await BikeOrderService.getBikeDao().linkBikeToComponents(response.bikeId, bike.handle_id, bike.wheel_id, bike.frame_id, bike.seat_id, bike.drive_train_id);
+                    bikeIdList.push(response.bikeId);
+                }
+                catch (error) {
+                    return rejects({ status: 500, message: error.sqlMessage })
+                }
             })
             return resolve({ status: 201, message: "Bike was sold succesfully" })
         })

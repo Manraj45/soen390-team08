@@ -7,7 +7,7 @@ BikeOrderService.getBikeOrderService();
 
 router.post("/createBikes", (req, res) => {
     //Providing the bikeOrderList to the BikeOrderService
-    const bikeOrderList: Array<any> = req.body.bikeOrderList;
+    const bikeOrderList: Array<any> = req.body.bikeOrderList.bikeOrderList;
     BikeOrderService.addBike(bikeOrderList).then(response => {
         res.json(response)
     }).catch(error => {
