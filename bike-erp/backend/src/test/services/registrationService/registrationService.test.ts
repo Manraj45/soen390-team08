@@ -1,16 +1,8 @@
 import dotenv from "dotenv";
 import db from "../../../main/helpers/db";
 import { RegistrationService } from "../../../main/services/registrationService/RegistrationService";
-
 //Test for registration method
 describe("Registration test", () => {
-  //mocking Promise returned when createAccount is called
-  RegistrationService.getAccountDao().createAccount = jest.fn().mockReturnValue(
-    Promise.resolve({
-      status: 201,
-      message: "Record inserted successfully.",
-    })
-  );
 
   beforeAll(async () => {
     //Configure dotenv
@@ -18,6 +10,15 @@ describe("Registration test", () => {
 
     //Creating the singleton instance of registration service
     await RegistrationService.getRegistrationService();
+
+    //mocking Promise returned when createAccount is called
+    RegistrationService.getAccountDao().createAccount = jest.fn().mockReturnValue(
+      Promise.resolve({
+        status: 201,
+        message: "Record inserted successfully.",
+      })
+    );
+    RegistrationService.getAccountDao().fetchAccountTableSize = jest.fn().mockReturnValue(Promise.resolve([{ number_of_accounts: 1 }]))
   });
 
   afterAll(() => {

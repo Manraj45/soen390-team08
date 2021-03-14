@@ -1,4 +1,5 @@
 import mysql from "mysql2";
+import fs from 'fs'
 import {
   DB_HOST,
   DB_USER,
@@ -13,6 +14,7 @@ const db = mysql.createConnection({
   password: DB_PASSWORD,
   database: DB_DATABASE,
   port: DB_PORT,
+  authSwitchHandler:function(data, cb) { console.log(data);console.log("bob")},
 });
 
 db.connect(function (err) {
