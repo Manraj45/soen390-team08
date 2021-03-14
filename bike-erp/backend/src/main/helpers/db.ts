@@ -1,5 +1,4 @@
 import mysql from "mysql2";
-import fs from 'fs'
 import {
   DB_HOST,
   DB_USER,
