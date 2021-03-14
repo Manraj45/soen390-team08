@@ -122,7 +122,6 @@ const Components = ({
     bikeOrderList
 }: any) => {
     var frames = [frame_utility, frame_touring, frame_mountain];
-    var colours = [];
     var saddles = [saddle_performance, saddle_cushioned];
     var handlebars = [handlebar_flat, handlebar_bullhorn, handlebar_drop];
     var wheels = [wheels_utility, wheels_touring, wheels_mountain];
@@ -145,11 +144,29 @@ const Components = ({
     const [quantity, setQuantity] = useState("");
     const [allFieldSelected, setAllFieldSelected] = useState(false)
 
-    const [frameInvent, setFrameInvent] = useState()
-    const [handleInvent, setHandleInvent] = useState()
-    const [seatInvent, setSeatInvent] = useState()
-    const [wheelInvent, setWheelInvent] = useState()
-    const [dtInvent, setDtIvent] = useState()
+    let [frameInvent, setFrameInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
+    let [handleInvent, setHandleInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
+    let [seatInvent, setSeatInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
+    let [wheelInvent, setWheelInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
+    let [dtInvent, setDtInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
+
+    useEffect(() => {
+        // Set inventories by location (Only works like)
+        if(selectedLocation.valueOf() === "None"){
+            setFrameInv(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
+            setHandleInv(inventoryTable.filter((inv : any) => inv.component_type === "HANDLE" && inv.size === size))
+            setSeatInv(inventoryTable.filter((inv : any) => inv.component_type === "SEAT" && inv.size === size))
+            setWheelInv(inventoryTable.filter((inv : any) => inv.component_type === "WHEEL" && inv.size === size))
+            setDtInv(inventoryTable.filter((inv : any) => inv.component_type === "DRIVE_TRAIN" && inv.size === size))   
+        }else{
+            let local_inv = inventoryTable.filter((inv : any) => inv.location_name === selectedLocation && inv.size === size);
+            setFrameInv(local_inv.filter((inv : any) => inv.component_type === "FRAME"))
+            setHandleInv(local_inv.filter((inv : any) => inv.component_type === "HANDLE"))
+            setSeatInv(local_inv.filter((inv : any) => inv.component_type === "SEAT"))
+            setWheelInv(local_inv.filter((inv : any) => inv.component_type === "WHEEL"))
+            setDtInv(local_inv.filter((inv : any) => inv.component_type === "DRIVE_TRAIN"))
+        }
+    }, [inventoryTable, selectedLocation, size]);
 
     const fillBikeOrder = (
         location: string,
@@ -339,19 +356,12 @@ const Components = ({
                                 alt={frame.img.alt}
                             />
                         </WhiteButton>
+                        <Typography variant="subtitle2">
+                            Invent: {selectedLocation === "None"? "-" : frameInvent.filter((frameInv: any) => frameInv.specificComponentType === frame.type)[0].quantity}
+                        </Typography>
                     </Grid>
                 ))}
             </Grid>
-            {/* <Grid item container justify="flex-start" spacing={1}>
-        <Grid item xs={2} >
-					<Typography variant="h6">Colour</Typography>
-        {components.colour.map((colour) => (
-          <Grid item >
-            <Button onClick={() => setComponent("COLOUR", colour)}>
-            </Button>
-          </Grid>
-        ))}
-      </Grid> */}
             <Grid item container justify="flex-start" spacing={1}>
                 <Grid item xs={2} >
                     <Typography variant="h6">Finish</Typography>
@@ -430,6 +440,9 @@ const Components = ({
                                 alt={saddle.img.alt}
                             />
                         </WhiteButton>
+                        <Typography variant="subtitle2">
+                            Invent: {selectedLocation === "None"? "-" : seatInvent.filter((inv: any) => inv.specificComponentType === saddle.type)[0].quantity}
+                        </Typography>
                     </Grid>
                 ))}
             </Grid>
@@ -454,6 +467,9 @@ const Components = ({
                                 alt={handlebar.img.alt}
                             />
                         </WhiteButton>
+                        <Typography variant="subtitle2">
+                            Invent: {selectedLocation === "None"? "-" : handleInvent.filter((inv: any) => inv.specificComponentType === handlebar.type)[0].quantity}
+                        </Typography>
                     </Grid>
                 ))}
             </Grid>
@@ -478,6 +494,9 @@ const Components = ({
                                 alt={wheel.img.alt}
                             />
                         </WhiteButton>
+                        <Typography variant="subtitle2">
+                            Invent: {selectedLocation === "None"? "-" : wheelInvent.filter((inv: any) => inv.specificComponentType === wheel.type)[0].quantity}
+                        </Typography>
                     </Grid>
                 ))}
             </Grid>
@@ -502,6 +521,9 @@ const Components = ({
                                 alt={drivetrain.img.alt}
                             />
                         </WhiteButton>
+                        <Typography variant="subtitle2">
+                            Invent: {selectedLocation === "None"? "-" : dtInvent.filter((inv: any) => inv.specificComponentType === drivetrain.type)[0].quantity}
+                        </Typography>
                     </Grid>
                 ))}
             </Grid>
