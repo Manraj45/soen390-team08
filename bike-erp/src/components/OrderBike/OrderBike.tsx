@@ -43,18 +43,17 @@ import {
     withStyles,
     Paper,
     CardActions,
-    makeStyles,
     TextField,
     Box
 } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { ContactSupportOutlined } from "@material-ui/icons";
+// import { ContactSupportOutlined } from "@material-ui/icons";
 
 import { addBike, BikeSold, removeBike, removeAllBikes } from "../../redux/actions/OrderBikeActions/orderBikeActions";
 import { connect } from "react-redux";
 import React from "react";
-import { isConstructorDeclaration } from "typescript";
+// import { isConstructorDeclaration } from "typescript";
 
 const ModelView = ({
     setSelectedLocation,
@@ -151,7 +150,7 @@ const Components = ({
     let [dtInvent, setDtInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
 
     useEffect(() => {
-        // Set inventories by location (Only works like)
+        // Set inventories by location
         if(selectedLocation.valueOf() === "None"){
             setFrameInv(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
             setHandleInv(inventoryTable.filter((inv : any) => inv.component_type === "HANDLE" && inv.size === size))
@@ -181,7 +180,6 @@ const Components = ({
         quantity: string,
         colour: string
     ) => {
-
         let totalPrice = 0;
         //price to build 1 bike
         let priceUnit = 0;
@@ -190,66 +188,60 @@ const Components = ({
         let driveTrainId = 0;
         let frameId = 0;
         let seatId = 0;
+        if(allFieldSelected && selectedLocation !== "None"){
+            const local_inv = inventoryTable.filter((inv : any) => inv.location_name === selectedLocation && inv.size === size);
+            local_inv.forEach((element: any) => {
+                if (element.component_type === "FRAME" && element.specificComponentType === frameTypeSelected) {
+                    priceUnit = priceUnit + element.price;
+                    frameId = element.component_id;
+                }
+                if (element.component_type === "HANDLE" && element.specificComponentType === handleSelected) {
+                    priceUnit = priceUnit + element.price;
+                    handleId = element.component_id;
+                }
+                if (element.component_type === "SEAT" && element.specificComponentType === saddleSelected) {
+                    priceUnit = priceUnit + element.price;
+                    seatId = element.component_id;
+                }
+                if (element.component_type === "WHEEL" && element.specificComponentType === wheelSelected) {
+                    // *2 here because we need 2 wheels to build a bike
+                    priceUnit = priceUnit + (element.price) * 2;
+                    wheelId = element.component_id;
+                }
+                if (element.component_type === "DRIVE_TRAIN" && element.specificComponentType === trainType) {
+                    priceUnit = priceUnit + element.price;
+                    driveTrainId = element.component_id;
+                }
+            });
+            const frameQuantity = frameInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === frameTypeSelected).quantity
+            const handleQuantity = handleInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === handleSelected).quantity
+            const seatQuantity = seatInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === saddleSelected).quantity
+            const wheelQuantity = wheelInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === wheelSelected).quantity
+            const drivetrainQuantity= dtInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === trainType).quantity
+            const listQuantity = [frameQuantity, handleQuantity, seatQuantity, wheelQuantity, drivetrainQuantity]
+            const exceeded =  listQuantity.find(qty => qty < quantity)
 
-        setAllFieldSelected(false)
-
-        if(location !== "None" && 
-            frameTypeSelected !== "" && 
-            finishSelected !== "" && 
-            gradeSelected !== "" && 
-            saddleSelected !== "" && 
-            handleSelected !== "" && 
-            wheelSelected !== "" && 
-            trainType !== "" &&
-            quantity !== "" &&
-            colour !== ""){
-                setAllFieldSelected(true)
-                inventoryTable.forEach((element: any) => {
-                    if (element.location_name === location && element.size === size) {
-                        if (element.component_type === "FRAME" && element.specificComponentType === frameTypeSelected) {
-                            priceUnit = priceUnit + element.price;
-                            frameId = element.component_id;
-                        }
-                        if (element.component_type === "HANDLE" && element.specificComponentType === handleSelected) {
-                            priceUnit = priceUnit + element.price;
-                            handleId = element.component_id;
-                        }
-                        if (element.component_type === "SEAT" && element.specificComponentType === saddleSelected) {
-                            priceUnit = priceUnit + element.price;
-                            seatId = element.component_id;
-                        }
-                        if (element.component_type === "WHEEL" && element.specificComponentType === wheelSelected) {
-                            // *2 here because we need 2 wheels to build a bike
-                            priceUnit = priceUnit + (element.price) * 2;
-                            wheelId = element.component_id;
-                        }
-                        if (element.component_type === "DRIVE_TRAIN" && element.specificComponentType === trainType) {
-                            priceUnit = priceUnit + element.price;
-                            driveTrainId = element.component_id;
-                        }
-                    }
-                });
+            const bikeExists = 0 <  bikeOrderList.bikeOrderList.filter((bike: { drive_train_id: number; wheel_id: number; seat_id: number; handle_id: number; frame_id: number; }) => bike.drive_train_id === driveTrainId && bike.wheel_id === wheelId && bike.seat_id === seatId && bike.handle_id === handleId && bike.frame_id === frameId).length
+            console.log(frameQuantity);
+            if (bikeExists || exceeded){
+                console.log("Temp console alert");
+            }else{
+                addBike({
+                    price: totalPrice,
+                    size: size,
+                    color: colour,
+                    description: +quantity+" x "+size +" "+ colour +" "+ frameTypeSelected +" "+ finishSelected +" "+ gradeSelected + " BIKE",
+                    grade: gradeSelected,
+                    quantity: parseInt(quantity),
+                    handle_id: handleId,
+                    wheel_id: wheelId,
+                    frame_id: frameId,
+                    seat_id: seatId,
+                    drive_train_id: driveTrainId
+                })
                 totalPrice = priceUnit * parseInt(quantity);
             }
-            console.log(allFieldSelected)
- 
-        if (!isNaN(parseInt(quantity))) {
-            addBike({
-                price: totalPrice,
-                size: size,
-                color: colour,
-                description: +quantity+" x "+size +" "+ colour +" "+ frameTypeSelected +" "+ finishSelected +" "+ gradeSelected + " BIKE",
-                grade: gradeSelected,
-                quantity: parseInt(quantity),
-                handle_id: handleId,
-                wheel_id: wheelId,
-                frame_id: frameId,
-                seat_id: seatId,
-                drive_train_id: driveTrainId
-            })
         }
-        
-        //console.log(bikeOrderList)
     }
 
     const setComponentType = (
@@ -282,10 +274,24 @@ const Components = ({
             case "colour":
                 setColour(componentSpecificType);
                 break;
+            case "quantity":
+                setQuantity(componentSpecificType);
+                break;
         }
-        setMostRecent(componentSpecificType + " " + componentType);
-        if (picture) {
+        if (componentType !== "quantity")
+            setMostRecent(componentSpecificType + " " + componentType);
+        if (picture) 
             setMostRecentPicture(picture);
+        if( frameTypeSelected !== "" && 
+            finishSelected !== "" && 
+            gradeSelected !== "" && 
+            saddleSelected !== "" && 
+            handleSelected !== "" && 
+            wheelSelected !== "" && 
+            trainType !== "" &&
+            quantity !== "" &&
+            colour !== ""){
+                setAllFieldSelected(true)
         }
     };
 
@@ -300,14 +306,14 @@ const Components = ({
         label: {
             textTransform: "capitalize",
         },
-    }))(ToggleButton);
+    }))(Button);
 
     return (
         <Grid
             container
             direction="column"
             justify="center"
-            spacing={5}
+            spacing={3}
             className="components"
         >
             <Grid item container justify="flex-start" spacing={1}>
@@ -317,21 +323,21 @@ const Components = ({
                 <ToggleButtonGroup
                     value={size}
                     exclusive>
-                    <WhiteButton
+                    <ToggleButton
                         value="SMALL"
                         onClick={() => setSize("SMALL")}>
                         S
-						</WhiteButton>
-                    <WhiteButton
+						</ToggleButton>
+                    <ToggleButton
                         value="MEDIUM"
                         onClick={() => setSize("MEDIUM")}>
                         M
-						</WhiteButton>
-                    <WhiteButton
+						</ToggleButton>
+                    <ToggleButton
                         value="LARGE"
                         onClick={() => setSize("LARGE")}>
                         L
-						</WhiteButton>
+						</ToggleButton>
 
                 </ToggleButtonGroup>
             </Grid>
@@ -357,7 +363,7 @@ const Components = ({
                             />
                         </WhiteButton>
                         <Typography variant="subtitle2">
-                            Invent: {selectedLocation === "None"? "-" : frameInvent.filter((frameInv: any) => frameInv.specificComponentType === frame.type)[0].quantity}
+                            Inventory: {selectedLocation === "None"? "-" : frameInvent.filter((frameInv: any) => frameInv.specificComponentType === frame.type)[0].quantity}
                         </Typography>
                     </Grid>
                 ))}
@@ -441,7 +447,7 @@ const Components = ({
                             />
                         </WhiteButton>
                         <Typography variant="subtitle2">
-                            Invent: {selectedLocation === "None"? "-" : seatInvent.filter((inv: any) => inv.specificComponentType === saddle.type)[0].quantity}
+                            Inventory: {selectedLocation === "None"? "-" : seatInvent.filter((inv: any) => inv.specificComponentType === saddle.type)[0].quantity}
                         </Typography>
                     </Grid>
                 ))}
@@ -468,7 +474,7 @@ const Components = ({
                             />
                         </WhiteButton>
                         <Typography variant="subtitle2">
-                            Invent: {selectedLocation === "None"? "-" : handleInvent.filter((inv: any) => inv.specificComponentType === handlebar.type)[0].quantity}
+                            Inventory: {selectedLocation === "None"? "-" : handleInvent.filter((inv: any) => inv.specificComponentType === handlebar.type)[0].quantity}
                         </Typography>
                     </Grid>
                 ))}
@@ -495,7 +501,7 @@ const Components = ({
                             />
                         </WhiteButton>
                         <Typography variant="subtitle2">
-                            Invent: {selectedLocation === "None"? "-" : wheelInvent.filter((inv: any) => inv.specificComponentType === wheel.type)[0].quantity}
+                            Inventory: {selectedLocation === "None"? "-" : wheelInvent.filter((inv: any) => inv.specificComponentType === wheel.type)[0].quantity}
                         </Typography>
                     </Grid>
                 ))}
@@ -522,7 +528,7 @@ const Components = ({
                             />
                         </WhiteButton>
                         <Typography variant="subtitle2">
-                            Invent: {selectedLocation === "None"? "-" : dtInvent.filter((inv: any) => inv.specificComponentType === drivetrain.type)[0].quantity}
+                            Inventory: {selectedLocation === "None"? "-" : dtInvent.filter((inv: any) => inv.specificComponentType === drivetrain.type)[0].quantity}
                         </Typography>
                     </Grid>
                 ))}
@@ -536,24 +542,26 @@ const Components = ({
                         variant="outlined"
                         type="number"
                         InputProps={{ inputProps: { min: 1 } }}
-                        onChange={(event) => setQuantity(event.target.value)}
+                        onChange={(event) => setComponentType("quantity", event.target.value)}
                     />
                 </Grid>
             </Grid>
-
-            <Button variant="contained" color="primary"
-                onClick={() => fillBikeOrder(
-                    selectedLocation,
-                    size,
-                    frameTypeSelected,
-                    finishSelected,
-                    gradeSelected,
-                    saddleSelected,
-                    handleSelected,
-                    wheelSelected,
-                    trainType,
-                    quantity,
-                    colour)}>Add</Button>
+            <Grid item>
+                <Button variant="contained" color="primary"
+                    onClick={() => fillBikeOrder(
+                        selectedLocation,
+                        size,
+                        frameTypeSelected,
+                        finishSelected,
+                        gradeSelected,
+                        saddleSelected,
+                        handleSelected,
+                        wheelSelected,
+                        trainType,
+                        quantity,
+                        colour)}>Add</Button>
+            </Grid>
+            
 
             {allFieldSelected ? null : <Typography>You must select an option for each categories, a valid location and enter a valid quantity.</Typography>}
             
