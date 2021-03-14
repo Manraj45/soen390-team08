@@ -13,8 +13,7 @@ const db = mysql.createConnection({
   user: DB_USER,
   password: DB_PASSWORD,
   database: DB_DATABASE,
-  port: DB_PORT,
-  authSwitchHandler:function(data, cb) { console.log(data);console.log("bob")},
+  port: DB_PORT
 });
 
 db.connect(function (err) {
