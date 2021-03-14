@@ -6,12 +6,10 @@ import { BikeOrder } from "../../models/interfaces/BikeOrder";
 export class AccountingService {
 
     private static accountingService: AccountingService | undefined;
-    private static accountPayableDAO: AccountPayableDAO | undefined;
-    private static accountReceivableDAO: AccountReceivableDAO | undefined
+    private static accountPayableDAO: AccountPayableDAO = new AccountPayableDAO()
+    private static accountReceivableDAO: AccountReceivableDAO = new AccountReceivableDAO();
 
     private constructor() {
-        AccountingService.accountPayableDAO = new AccountPayableDAO();
-        AccountingService.accountReceivableDAO = new AccountReceivableDAO();
     }
 
     // Instanciating singleton
@@ -23,6 +21,13 @@ export class AccountingService {
         }
     }
 
+    public static getAccountPayableDAO() {
+        return AccountingService.accountPayableDAO;
+    }
+
+    public static getAccountReceivableDAO(){
+        return AccountingService.accountReceivableDAO;
+    }
     // Method for handling the creating of a account payable
     public static async createAccountPayable(orderList: Array<Order>, email: string) {
         let total = 0;
@@ -31,11 +36,10 @@ export class AccountingService {
         orderList.forEach((order) => {
             total = total + order.price * order.quantity;
         })
-
+        
         try {
             // Creating account payable in db
             const accountPayableId = await AccountingService.accountPayableDAO?.createAccountPayable(total, new Date().toISOString().slice(0, 19).replace('T', ' '), email) as number;
-
             // Create transaction item in db for each item in order list
             orderList.forEach(async (order) => {
                 const transactionItemId = await AccountingService.accountPayableDAO?.createTransactionItems(order.price * order.quantity, order.id, order.quantity) as number;
@@ -63,6 +67,7 @@ export class AccountingService {
             bikeIdList.forEach(async bikeId => {
                 await AccountingService.accountReceivableDAO?.createBikeInAccountReceivable(accountReceivableId, bikeId);
             })
+            return true;
         } catch (error) {
             throw { status: 500, message: error.sqlMessage };
         }
@@ -87,7 +92,7 @@ export class AccountingService {
 
     // Method for getting account payables based on user who request it
     public static getAccountPayablesForUser(email: string) {
-        return new Promise((resolve, rejects) => {
+        return new Promise(async (resolve, rejects) => {
             try {
                 const accountPayableList = AccountingService.accountPayableDAO?.getAccountPayableByEmail(email);
                 resolve(accountPayableList);
