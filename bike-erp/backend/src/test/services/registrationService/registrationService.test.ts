@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import db from "../../../main/helpers/db";
 import { RegistrationService } from "../../../main/services/registrationService/RegistrationService";
+
 //Test for registration method
 describe("Registration test", () => {
 
