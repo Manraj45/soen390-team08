@@ -44,10 +44,11 @@ import {
     Paper,
     CardActions,
     TextField,
-    Box
+    Box,
+    Snackbar,
 } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+import { ToggleButton, ToggleButtonGroup, Alert } from '@material-ui/lab';
 // import { ContactSupportOutlined } from "@material-ui/icons";
 
 import { addBike, BikeSold, removeBike, removeAllBikes } from "../../redux/actions/OrderBikeActions/orderBikeActions";
@@ -130,6 +131,8 @@ const Components = ({
         drivetrain_advanced,
         drivetrain_expert,
     ];
+    const [snackOpen, setSnackOpen] = useState(false);
+    const [snackMessage, setSnackMessage] = useState("")
 
     const [colour, setColour] = useState("");
     const [size, setSize] = useState("SMALL");
@@ -143,11 +146,11 @@ const Components = ({
     const [quantity, setQuantity] = useState("");
     const [allFieldSelected, setAllFieldSelected] = useState(false)
 
-    let [frameInvent, setFrameInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
-    let [handleInvent, setHandleInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
-    let [seatInvent, setSeatInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
-    let [wheelInvent, setWheelInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
-    let [dtInvent, setDtInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
+    const [frameInvent, setFrameInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
+    const [handleInvent, setHandleInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
+    const [seatInvent, setSeatInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
+    const [wheelInvent, setWheelInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
+    const [dtInvent, setDtInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
 
     useEffect(() => {
         // Set inventories by location
@@ -166,6 +169,14 @@ const Components = ({
             setDtInv(local_inv.filter((inv : any) => inv.component_type === "DRIVE_TRAIN"))
         }
     }, [inventoryTable, selectedLocation, size]);
+
+    const handleClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setSnackOpen(false);
+      };
 
     const fillBikeOrder = (
         location: string,
@@ -216,15 +227,20 @@ const Components = ({
             const frameQuantity = frameInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === frameTypeSelected).quantity
             const handleQuantity = handleInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === handleSelected).quantity
             const seatQuantity = seatInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === saddleSelected).quantity
-            const wheelQuantity = wheelInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === wheelSelected).quantity
+            // Not sure if math is correct for wheels
+            const wheelQuantity = Math.floor(wheelInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === wheelSelected).quantity/2)
             const drivetrainQuantity= dtInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === trainType).quantity
             const listQuantity = [frameQuantity, handleQuantity, seatQuantity, wheelQuantity, drivetrainQuantity]
-            const exceeded =  listQuantity.find(qty => qty < quantity)
+            const exceeded =  listQuantity.indexOf((qty: number) => qty < parseInt(quantity))
 
             const bikeExists = 0 <  bikeOrderList.bikeOrderList.filter((bike: { drive_train_id: number; wheel_id: number; seat_id: number; handle_id: number; frame_id: number; }) => bike.drive_train_id === driveTrainId && bike.wheel_id === wheelId && bike.seat_id === seatId && bike.handle_id === handleId && bike.frame_id === frameId).length
-            console.log(frameQuantity);
-            if (bikeExists || exceeded){
-                console.log("Temp console alert");
+            console.log(exceeded)
+            if (bikeExists){
+                setSnackMessage("The bike with the parts you've chosen already exists")
+                setSnackOpen(true)
+            }else if (exceeded < 0){
+                setSnackMessage("There are not enough parts in the inventory, try decreasing the quantity of bikes")
+                setSnackOpen(true)
             }else{
                 addBike({
                     price: totalPrice,
@@ -560,6 +576,17 @@ const Components = ({
                         trainType,
                         quantity,
                         colour)}>Add</Button>
+                        <Snackbar
+                            anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                            }}
+                            open={snackOpen}
+                            autoHideDuration={6000}
+                            onClose={handleClose}
+                        >
+                            <Alert severity="error" onClose={handleClose}>{snackMessage}</Alert>
+                        </Snackbar>
             </Grid>
             
 
