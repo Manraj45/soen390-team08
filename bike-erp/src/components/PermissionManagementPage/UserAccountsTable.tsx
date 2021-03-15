@@ -4,12 +4,11 @@ import { BACKEND_URL } from "../../core/utils/config";
 import PermissionDropdown from "./PermissionDropdown";
 
 const UserAccountsTable = () => {
-  const url = BACKEND_URL;
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
     axios
-      .get(`${url}/account_management/admin/accounts`)
+      .get(`${BACKEND_URL}/account_management/admin/accounts`)
       .then((res) => {
         console.log(res.data.accounts);
         setData(res.data.accounts);

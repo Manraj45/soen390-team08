@@ -12,7 +12,6 @@ import registrationRouter from "./routes/registration_route";
 import accountManagementService from "./routes/account_management_route";
 import accountingRouter from "./routes/accouting_routes";
 import bikeRouter from "./routes/bike_routes";
-import accountManagementRouter from "./routes/account_management_route";
 
 //Configure dotenv
 dotenv.config();
