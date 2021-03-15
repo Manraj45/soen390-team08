@@ -46,20 +46,31 @@ export class AuthenticationService {
       throw { status: 404, message: "Email not found" };
     }
 
+    //Fetching account information object
+    const accountInfo = account[0];
+
     try {
       //Verifying if the encrypted password is the same as the one in the database
-      if (await bcrypt.compare(password, account[0].password)) {
+      if (await bcrypt.compare(password, accountInfo.password)) {
         //Generating access token
-        const accessToken = AuthenticationService.generateAccessToken(email, account[0].role);
+        const accessToken = AuthenticationService.generateAccessToken(email, accountInfo.role, accountInfo.first_name, accountInfo.last_name);
 
         //serializing refresh token with the user email and role
-        const refreshToken = jwt.sign({ data: email, role: account[0].role }, process.env.REFRESH_TOKEN_SECRET);
+        const refreshToken = jwt.sign({ data: email, role: accountInfo.role, firstName: accountInfo.first_name, lastName: accountInfo.last_name }, process.env.REFRESH_TOKEN_SECRET);
 
         //pushing the refresh token to the refresh token array
         AuthenticationService.refreshTokens.push(refreshToken);
 
+        //Saving account information
+        const accountDTO = {
+          email: email,
+          firstName: account[0].first_name,
+          lastName: account[0].last_name,
+          role: account[0].role
+        }
+
         //returning the access token and the refresh token
-        return { accessToken: accessToken, refreshToken: refreshToken };
+        return { accessToken: accessToken, refreshToken: refreshToken, account: accountDTO };
       } else {
         //throwing an error if the password is invalid
         throw new Error("invPass");
@@ -86,8 +97,8 @@ export class AuthenticationService {
   };
 
   //Method to generating access token
-  public static generateAccessToken = (email: string, role: Role) => {
-    return jwt.sign({ data: email, role: role }, process.env.ACCESS_TOKEN_SECRET, {
+  public static generateAccessToken = (email: string, role: Role, firstName: string, lastName: string) => {
+    return jwt.sign({ data: email, role: role, firstName: firstName, lastName: lastName }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "1h",
     });
   };
@@ -115,7 +126,7 @@ export class AuthenticationService {
             return reject({ status: 403, message: "Invalid refresh token" });
           }
 
-          const accessToken = AuthenticationService.generateAccessToken(user.data, user.role);
+          const accessToken = AuthenticationService.generateAccessToken(user.data, user.role, user.firstName, user.lastName);
 
           //returning the access token
           resolve({ accessToken: accessToken });
@@ -124,18 +135,18 @@ export class AuthenticationService {
     });
   };
 
-  // method to retrieve the user's email through his token using jwt
-  public static retrieveAccountFromToken(token: string | undefined): string {
-    let userEmail = "";
+  // method to retrieve the user's account through his token using jwt
+  public static retrieveAccountFromToken(token: string | undefined) {
+    let userAccount;
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
       if (err) {
         throw ({ status: 403, message: "Invalid refresh token" });
       } else {
-        // return user email
-        userEmail = user.data;
+        // return user account
+        userAccount = user;
       }
     });
-    return userEmail;
+    return userAccount;
   }
 }
 

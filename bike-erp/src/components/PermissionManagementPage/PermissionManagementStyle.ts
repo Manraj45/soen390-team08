@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: "10px",
       alignItems: "flex-end",
       textAlign: "right",
-      
     },
     [theme.breakpoints.up("md")]: {
       marginLeft: "10px",
@@ -40,16 +39,15 @@ const useStyles = makeStyles((theme) => ({
   },
   avatarName: {
     [theme.breakpoints.down("sm")]: {
-      display: 'flex',
-      flexWrap: 'wrap',
+      display: "flex",
+      flexWrap: "wrap",
       alignItems: "center",
       float: "right",
-      
     },
     [theme.breakpoints.up("md")]: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: "center",      
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "center",
       float: "right",
     },
   },
@@ -59,15 +57,14 @@ const useStyles = makeStyles((theme) => ({
       maxHeight: "50px",
       maxWeidth: "50px",
       minHeight: "400px",
-      overflow: 'auto',
-      
+      overflow: "auto",
     },
     [theme.breakpoints.up("md")]: {
       marginTop: "10px",
       maxHeight: "50px",
-      maxWeidth: "50px", 
+      maxWeidth: "50px",
       minHeight: "600px",
-      overflow: 'auto',
+      overflow: "auto",
     },
   },
   grid: {

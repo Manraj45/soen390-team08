@@ -60,7 +60,7 @@ export class AccountPayableDAO {
                 if (response.length === 0) {
                     rejects({ status: 400, message: "Account Payable Not Found" });
                 }
-                resolve(JSON.parse(JSON.stringify(rows)));
+                resolve(response);
             })
         })
     }

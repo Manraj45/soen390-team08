@@ -27,7 +27,6 @@
 
 #frames:focus {
   background-color: #3f51b5;
-  ;
 }
 
 #frames {
@@ -39,7 +38,7 @@
 #frames .prices {
   visibility: hidden;
   width: 90px;
-  background-color: #C2C2C2;
+  background-color: #c2c2c2;
   text-align: center;
   border-radius: 6px;
   padding: 0;
@@ -57,10 +56,11 @@
 #componentTitle {
   padding-top: 3%;
   padding-right: 25px;
-
+  text-align: left;
 }
 
 #size {
   padding-top: 1%;
   padding-right: 25px;
+  text-align: left;
 }

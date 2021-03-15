@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import PermissionManagementPage from "../components/PermissionManagementPage/PermissionManagementPage";
 import { connect } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -12,6 +11,7 @@ import { isAuthenticated } from "../redux/actions/AccountActions/accountAction";
 
 import LoginPage from "../components/LoginPage/LoginPage";
 import RegistrationPage from "../components/RegistrationPage/RegistrationPage";
+import PermissionManagementPage from "../components/PermissionManagementPage/PermissionManagementPage";
 import Home from "../components/Home/Home";
 
 import IdleTimerContainer from "../components/IdleTimerContainer/IdleTimerContainer";
@@ -61,21 +61,67 @@ const App = ({ account, isAuthenticated }: any) => {
           <Route
             path="/login"
             render={() =>
-              account.loading ? (<></>) :
-                account.authenticated ? <Redirect to="/" /> : <LoginPage />
-            }
-          />
-          <Route
-            path="/register"
-            render={() =>
-              account.loading ? (<></>) :
-                account.authenticated ? <Redirect to="/" /> : <RegistrationPage />
+              account.loading ? (
+                <></>
+              ) : account.authenticated ? (
+                <Redirect to="/" />
+              ) : (
+                <LoginPage />
+              )
             }
           />
 
-          <Route path="/order" render={() => account.loading ? (<></>) : account.authenticated ? <OrderComponent /> : <Redirect to="/login" />} />
-          <Route path="/inventory" render={() => account.loading ? (<></>) : account.authenticated ? <Inventory /> : <Redirect to="login" />} />
-          <Route path="/admin" render={() => account.loading ? (<></>) : account.authenticated ? <PermissionManagementPage /> : <Redirect to="login" />} />
+          <Route
+            path="/register"
+            render={() =>
+              account.loading ? (
+                <></>
+              ) : account.authenticated ? (
+                <Redirect to="/" />
+              ) : (
+                <RegistrationPage />
+              )
+            }
+          />
+
+          <Route
+            path="/order"
+            render={() =>
+              account.loading ? (
+                <></>
+              ) : account.authenticated ? (
+                <OrderComponent />
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/inventory"
+            render={() =>
+              account.loading ? (
+                <></>
+              ) : account.authenticated ? (
+                <Inventory />
+              ) : (
+                <Redirect to="login" />
+              )
+            }
+          />
+
+          <Route
+            path="/admin"
+            render={() =>
+              account.loading ? (
+                <></>
+              ) : account.authenticated ? (
+                <PermissionManagementPage />
+              ) : (
+                <Redirect to="login" />
+              )
+            }
+          />
+
           <Route exact path="*" render={() => <Redirect to="/" />} />
         </Switch>
       </div>
