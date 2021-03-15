@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import PermissionManagementPage from "../components/PermissionManagementPage/PermissionManagementPage";
 import { connect } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -74,6 +75,7 @@ const App = ({ account, isAuthenticated }: any) => {
 
           <Route path="/order" render={() => account.loading ? (<></>) : account.authenticated ? <OrderComponent /> : <Redirect to="/login" />} />
           <Route path="/inventory" render={() => account.loading ? (<></>) : account.authenticated ? <Inventory /> : <Redirect to="login" />} />
+          <Route path="/admin" render={() => account.loading ? (<></>) : account.authenticated ? <PermissionManagementPage /> : <Redirect to="login" />} />
           <Route exact path="*" render={() => <Redirect to="/" />} />
         </Switch>
       </div>
