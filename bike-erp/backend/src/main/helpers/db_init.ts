@@ -93,12 +93,7 @@ export const initialize_db = (): void => {
         seat_id int NOT NULL,
         drive_train_id int NOT NULL,
         PRIMARY KEY(bike_id,handle_id,wheel_id,frame_id,seat_id,drive_train_id),
-        FOREIGN KEY(bike_id) REFERENCES bike(bike_id),
-        FOREIGN KEY(handle_id) REFERENCES handle(handle_id),
-        FOREIGN KEY(wheel_id) REFERENCES wheel(wheel_id),
-        FOREIGN KEY(frame_id) REFERENCES frame(frame_id),
-        FOREIGN KEY(seat_id) REFERENCES seat(seat_id),
-        FOREIGN KEY(drive_train_id) REFERENCES drive_train(drive_train_id)
+        FOREIGN KEY(bike_id) REFERENCES bike(bike_id)
     );`;
 
   const createAccountPayable: string = `

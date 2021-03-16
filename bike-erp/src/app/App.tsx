@@ -18,6 +18,7 @@ import IdleTimerContainer from "../components/IdleTimerContainer/IdleTimerContai
 import Inventory from "../components/Inventory/inventory";
 import localStorageService from "../core/services/LocalStorageService";
 import OrderComponent from "../pages/OrderComponent";
+import OrderBike from "../components/OrderBike/OrderBike";
 
 import "./App.css";
 
@@ -122,6 +123,42 @@ const App = ({ account, isAuthenticated }: any) => {
             }
           />
 
+          <Route
+            path="/order"
+            render={() =>
+              account.loading ? (
+                <></>
+              ) : account.authenticated ? (
+                <OrderComponent />
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/inventory"
+            render={() =>
+              account.loading ? (
+                <></>
+              ) : account.authenticated ? (
+                <Inventory />
+              ) : (
+                <Redirect to="login" />
+              )
+            }
+          />
+          <Route
+            path="/orderbike"
+            render={() =>
+              account.loading ? (
+                <></>
+              ) : account.authenticated ? (
+                <OrderBike />
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
+          />
           <Route exact path="*" render={() => <Redirect to="/" />} />
         </Switch>
       </div>

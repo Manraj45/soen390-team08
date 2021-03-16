@@ -35,9 +35,20 @@ export class InventoryManagementService {
     if (isNaN(idAsNum) || isNaN(qtyAsNum) || qtyAsNum < 0 || idAsNum < 0) {
       throw { status: 400, message: "Invalid id or quantity" };
     }
-
     return updateComponent(id, quantity);
   };
+
+  //edit component quantity when used to build a bike that was sold
+  public editComponentQuantitySale = (componentSaleList: Array<any>) => {
+    return new Promise((resolve, rejects) => {
+      componentSaleList.forEach(component => {
+          this.editComponent(component.id, component.quantity).catch(error => {
+            rejects(error);
+          })
+        })
+        resolve({ status: 201, message: "Components have been sold succesfully" });
+    })
+  }
 
   // edits the quantity of components based on order list provided
   public orderComponents = (orderList: Array<any>, userEmail: string) => {

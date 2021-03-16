@@ -5,13 +5,10 @@ import { BikeOrder } from "../../models/interfaces/BikeOrder";
 // This class handles all finance related features such as account receivable and payable
 export class AccountingService {
   private static accountingService: AccountingService | undefined;
-  private static accountPayableDAO: AccountPayableDAO | undefined;
-  private static accountReceivableDAO: AccountReceivableDAO | undefined;
+  private static accountPayableDAO: AccountPayableDAO = new AccountPayableDAO();
+  private static accountReceivableDAO: AccountReceivableDAO = new AccountReceivableDAO();
 
-  private constructor() {
-    AccountingService.accountPayableDAO = new AccountPayableDAO();
-    AccountingService.accountReceivableDAO = new AccountReceivableDAO();
-  }
+  private constructor() {}
 
   // Instanciating singleton
   public static getAccountingService() {

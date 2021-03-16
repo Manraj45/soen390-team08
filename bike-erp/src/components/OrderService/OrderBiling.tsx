@@ -15,6 +15,7 @@ const OrderBiling = ({
 }: any) => {
   const url = BACKEND_URL;
 
+  //updating the list of order in the backend
   const updateQuantityOfListOrder = () => {
     if (orderList.orderList.length > 0) {
       axios.put(`${url}/components/orderComponents`, {
@@ -24,15 +25,18 @@ const OrderBiling = ({
     }
   };
 
+  //clear the order if the users wants to
   const clearCart = () => {
     removeAllItems()
   };
   const [cartTotal, setCartTotal] = useState(0)
 
+  //removing a single items from the cart
   const removeItemFromCart = (id : number) => {
     removeItem(id)
   }
 
+  //loading the catalog of inventory at the beginning
   useEffect(() => {
     orderList.orderList.forEach((order: Order) => {
       setCartTotal(cartTotal => cartTotal + order.price * order.selectedQuantity)
