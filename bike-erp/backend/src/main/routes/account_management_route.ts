@@ -9,7 +9,7 @@ AccountManagementService.getAccountManagementService();
 
 //Creating endpoint to allow the admins to update the role of other users
 router.patch("/admin/update", authenticateToken, (req, res) => {
-    AccountManagementService.updateRole(req.body.email, req.body.role)
+    AccountManagementService.updateRole(req.body.currentUserEmail, req.body.email, req.body.role)
         .then((response) => {
             res.status(202).send(response);
         })
@@ -20,7 +20,7 @@ router.patch("/admin/update", authenticateToken, (req, res) => {
 
 //Creating endpoint to fetch account from database
 router.get("/admin/accounts", authenticateToken, (req, res) => {
-    AccountManagementService.getAccounts()
+    AccountManagementService.getAccounts(req.body.currentUserEmail)
         .then((response) => {
             res.status(202).send(response);
         })

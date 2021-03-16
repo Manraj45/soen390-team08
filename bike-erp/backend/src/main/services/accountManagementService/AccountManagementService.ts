@@ -1,5 +1,6 @@
 import { AccountDao } from "../../dao/AccountDAO";
 import { Role } from "../../models/Account";
+import { UserLogService } from "../userlogService/UserLogService";
 
 export class AccountManagementService {
 
@@ -27,7 +28,7 @@ export class AccountManagementService {
     };
 
     //Method to update the role of the user
-    public static updateRole = (email: string, role: Role) => {
+    public static updateRole = (currentUserEmail: string, email: string, role: Role) => {
         return new Promise<any>(async (resolve, reject) => {
             let error: boolean = false;
 
@@ -48,10 +49,18 @@ export class AccountManagementService {
                 error = true
             }
 
+            //Verifying if the current user is trying to changer their own role
+            if (currentUserEmail === email) {
+                //returns error message, role and the account related
+                reject({ status: 400, message: "You cannot change the role of your own account.", email: email, role: role })
+                error = true;
+            }
+
             //Updating the user role
             if (!error) {
                 AccountManagementService.accountDao.updateAccountRole(email, role)
                     .then((response) => {
+                        UserLogService.addLog(email, "Updated role");
                         resolve({ status: 202, message: response });
                     })
                     .catch((error) => {
@@ -62,9 +71,9 @@ export class AccountManagementService {
     }
 
     //Method to fetch the account from database
-    public static getAccounts = () => {
+    public static getAccounts = (currentUserEmail: string) => {
         return new Promise<any>((resolve, reject) => {
-            AccountManagementService.accountDao.fetchAccountTable()
+            AccountManagementService.accountDao.fetchAccountTable(currentUserEmail)
                 .then((response) => {
                     resolve({ status: 202, accounts: response });
                 })
