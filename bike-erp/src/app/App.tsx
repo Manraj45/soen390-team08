@@ -56,10 +56,10 @@ const App = ({ account, isAuthenticated }: any) => {
     <Router>
       <Box>
         <Box className="App">
-        <Box>
-          {account.authenticated ? <ERPMenu setMenuIsOpen={setMenuIsOpen} menuIsOpen={menuIsOpen}></ERPMenu> : <></>}
-          {menuIsOpen ? <SideDrawer></SideDrawer> : <></>}
-        </Box>
+          <Box>
+            {account.authenticated ? <ERPMenu setMenuIsOpen={setMenuIsOpen} menuIsOpen={menuIsOpen}></ERPMenu> : <></>}
+            {menuIsOpen ? <SideDrawer></SideDrawer> : <></>}
+          </Box>
           <IdleTimerContainer></IdleTimerContainer>
           <Switch>
             <Route
@@ -86,8 +86,7 @@ const App = ({ account, isAuthenticated }: any) => {
 
             <Route path="/order" render={() => account.loading ? (<></>) : account.authenticated ? <OrderComponent /> : <Redirect to="/login" />} />
             <Route path="/inventory" render={() => account.loading ? (<></>) : account.authenticated ? <Inventory /> : <Redirect to="login" />} />
-            {/* <Route path="/orderbike" render={() => account.loading ? (<></>) : account.authenticated ? <OrderBike /> : <Redirect to="/login" />}/> */}
-            <Route path="/orderbike" render={() => <OrderBike />} />
+            <Route path="/orderbike" render={() => account.loading ? (<></>) : account.authenticated ? <OrderBike /> : <Redirect to="/login" />} />
             <Route exact path="*" render={() => <Redirect to="/" />} />
           </Switch>
         </Box>
