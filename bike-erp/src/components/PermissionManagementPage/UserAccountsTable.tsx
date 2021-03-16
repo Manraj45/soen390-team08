@@ -1,16 +1,18 @@
-import { Button } from "@material-ui/core";
-import { Table, TableBody, TableRow } from "@material-ui/core";
+import { Button, Table, TableBody, TableRow } from "@material-ui/core";
+import SaveIcon from "@material-ui/icons/Save";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../../core/utils/config";
 import PermissionDropdown from "./PermissionDropdown";
 import useStyles from "./UserAccountsTableStyle";
-import SaveIcon from "@material-ui/icons/Save";
 
-const UserAccountsTable = () => {
+//Table that contains the users' accounts information
+const UserAccountsTable = (props) => {
   const [data, setData] = useState<any[]>([]);
   const [initialState] = useState(new Map());
   const classes = useStyles();
+
+  //fetch the accounts from the database
   useEffect(() => {
     axios
       .get(`${BACKEND_URL}/account_management/admin/accounts`)
@@ -25,6 +27,7 @@ const UserAccountsTable = () => {
       });
   }, [initialState]);
 
+  //update the roles in the database
   const updateRoles = (event) => {
     event.preventDefault();
     var table: any = document.getElementById("accounts");
@@ -54,10 +57,10 @@ const UserAccountsTable = () => {
       }
     }
     /*eslint-enable */
-
-    alert("Roles udpated successfully!");
+    props.setDialogOpen(true);
   };
 
+  //display the accounts information in a table
   const renderAccountsData = () => {
     return data.map((account: any, key: any) => {
       return (
@@ -77,6 +80,7 @@ const UserAccountsTable = () => {
     });
   };
 
+  //render all the headers for the table
   const renderTableHeader = () => {
     const header = [
       "Account ID",

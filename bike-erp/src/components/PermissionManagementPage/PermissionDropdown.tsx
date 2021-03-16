@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { useState } from "react";
 
 //style for the dropdown
 const useStyles = makeStyles((theme: Theme) =>

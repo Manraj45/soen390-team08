@@ -1,10 +1,26 @@
 import { Avatar, Grid, Paper, Typography } from "@material-ui/core";
+import { useState } from "react";
+import { connect } from "react-redux";
 import useStyles from "./PermissionManagementStyle";
 import UserAccountsTable from "./UserAccountsTable";
-import { connect } from "react-redux";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@material-ui/core";
+import CheckIcon from "@material-ui/icons/Check";
 
+//Management page where users will go to manage user permissions
 const PermissionManagementPage = ({ account }: any) => {
   const classes = useStyles();
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
 
   return (
     <div id="permissionPage">
@@ -27,11 +43,22 @@ const PermissionManagementPage = ({ account }: any) => {
 
           <Grid wrap="nowrap" item xs={12} md={12}>
             <Paper className={classes.place}>
-              <UserAccountsTable />
+              <UserAccountsTable setDialogOpen={setDialogOpen} />
             </Paper>
           </Grid>
         </Grid>
       </div>
+      <Dialog open={dialogOpen} onClose={handleDialogClose}>
+        <DialogTitle id="alert-dialog-title">
+          {"Role(s) updated successfully."}
+        </DialogTitle>
+        <DialogContent></DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="primary">
+            <CheckIcon />
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
