@@ -9,20 +9,23 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
+
+/* Menu bar on top the page */
+
 const ERPMenu = ({ setMenuIsOpen, menuIsOpen, logout, account }: any) => {
 
     const menuToggleClickHandler = () => {
         if (menuIsOpen) {
-            setMenuIsOpen(false)
+            setMenuIsOpen(false);
         }
         else {
-            setMenuIsOpen(true)
+            setMenuIsOpen(true);
         }
     }
 
     const closeMenuLogout = () => {
         logout();
-        setMenuIsOpen(false)
+        setMenuIsOpen(false);
     }
 
     return (

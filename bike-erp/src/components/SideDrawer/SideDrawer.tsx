@@ -2,6 +2,8 @@ import { List, ListItem, Typography } from '@material-ui/core';
 import "./SideDrawer.css"
 import { Link } from "react-router-dom";
 
+/*Drawer on the left side that appears when we open the menu*/
+
 const sideDrawer = () => {
 
     return (
