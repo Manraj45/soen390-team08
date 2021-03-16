@@ -1,4 +1,4 @@
-import { Avatar, Button, Grid, Paper, Typography } from "@material-ui/core";
+import { Avatar, Grid, Paper, Typography } from "@material-ui/core";
 import useStyles from "./PermissionManagementStyle";
 import UserAccountsTable from "./UserAccountsTable";
 import { connect } from "react-redux";
@@ -27,17 +27,6 @@ const PermissionManagementPage = ({ account }: any) => {
             <Paper className={classes.table}>
               <UserAccountsTable />
             </Paper>
-          </Grid>
-
-          <Grid item xs={12} md={12} className={classes.name}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.button}
-            >
-              Save
-            </Button>
           </Grid>
         </Grid>
       </div>

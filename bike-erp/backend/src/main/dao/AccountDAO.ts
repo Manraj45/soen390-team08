@@ -24,11 +24,13 @@ export class AccountDao {
     });
   };
 
-  public fetchAccountTable = () => {
+  public fetchAccountTable = (currentUserEmail: string) => {
     //Getting all the user information from the database
     return new Promise<Array<any>>((resolve, reject) => {
       const query =
-        "SELECT account_id, first_name, last_name, role, email, organization FROM `account`";
+        'SELECT `first_name`, `last_name`, `role`, `email`, `organization` FROM `account` where email<>"' +
+        currentUserEmail +
+        `"`;
       db.query(query, (err, rows) => {
         if (err) return reject(err);
         resolve(JSON.parse(JSON.stringify(rows)));
