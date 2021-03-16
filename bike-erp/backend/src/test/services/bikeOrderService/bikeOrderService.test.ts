@@ -13,6 +13,7 @@ describe("Bike Order Test", () => {
         db.end();
     });
 
+    //creation test of a bike
     test("Order a bike", async () => {
         let arrayOrder: any[] = [];
         let email = "test@test.com";
@@ -28,6 +29,7 @@ describe("Bike Order Test", () => {
         });
     });
 
+    //testing negative quantity of bike
     test("Negative quantity", async () => {
         let arrayOrder: any[] = [];
         let email = "test@test.com";
@@ -43,6 +45,7 @@ describe("Bike Order Test", () => {
         });
     });
 
+    //testing data type of quantity
     test("Not an integer quantity", async () => {
         let arrayOrder: any[] = [];
         let email = "test@test.com";
@@ -58,6 +61,7 @@ describe("Bike Order Test", () => {
         });
     });
 
+    //testing negative price of bike
     test("Negative price", async () => {
         let arrayOrder: any[] = [];
         let email = "test@test.com";
@@ -73,6 +77,7 @@ describe("Bike Order Test", () => {
         });
     });
 
+    //testing data type of price
     test("Not an integer price", async () => {
         let arrayOrder: any[] = [];
         let email = "test@test.com";

@@ -11,11 +11,12 @@ Enzyme.configure({ adapter: new Adapter() });
 const setUp = () => {
     const testStore = store;
     const wrapper = shallow(<OrderBike store={testStore} />)
-      .childAt(0)
-      .dive();
+        .childAt(0)
+        .dive();
     return wrapper;
-  };
+};
 
+//snapshot and shallow testing of the orderBike page
 describe("Order Bike", () => {
     let wrapper: any;
 
@@ -29,12 +30,12 @@ describe("Order Bike", () => {
 
     it("match rendered component with snapshot", () => {
         const tree = renderer.create(
-          <BrowserRouter>
-            <OrderBike store={store} />
+            <BrowserRouter>
+                <OrderBike store={store} />
             ).toJSON();
           </BrowserRouter>
         );
         expect(tree).toMatchSnapshot();
-      });
+    });
 
 });
