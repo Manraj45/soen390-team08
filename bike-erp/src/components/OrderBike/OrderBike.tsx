@@ -617,6 +617,8 @@ const Billing = ({ bikeOrderList, removeBike, removeAllBikes, removeComponentSol
     const [cartTotal, setCartTotal] = useState(0);
     const [dialogOpen, setDialogOpen] = React.useState(false);
 
+    const style = useStyles();
+
     const handleDialogClose = () => {
         setDialogOpen(false);
     };
@@ -665,8 +667,8 @@ const Billing = ({ bikeOrderList, removeBike, removeAllBikes, removeComponentSol
                 <h2>Billing</h2>
                 <div className="contents">
                     {bikeOrderList.bikeOrderList.map((bikeSold: BikeSold) => (
-                        <Box key={bikeSold.description}>
-                            <RemoveCircleOutlineIcon onClick={() => { removeBikeOrderFromCart(bikeSold) }}></RemoveCircleOutlineIcon>
+                        <Box key={bikeSold.description} className={style.billingBox}>
+                            <RemoveCircleOutlineIcon onClick={() => { removeBikeOrderFromCart(bikeSold) }} className={style.item}></RemoveCircleOutlineIcon>
                             <Typography key={bikeOrderList.bikeOrderList.indexOf(bikeSold)}>
                                 {bikeSold.description} = $
                                 {bikeSold.price}{" "}

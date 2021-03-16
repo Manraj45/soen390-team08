@@ -17,6 +17,14 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
         fontWeight: "bold",
         fontSize: "200%",
+    },
+    billingBox: {
+        margin: "20px"
+    },
+    item: {
+        float:"left",
+        left:0,
+        color: "red",
     }
 }));
 
