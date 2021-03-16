@@ -24,7 +24,7 @@ describe("Order Bike", () => {
         wrapper = setUp();
     });
 
-    it("inventory render", () => {
+    it("bike Order Page render", () => {
         expect(wrapper.exists()).toBe(true);
     });
 
