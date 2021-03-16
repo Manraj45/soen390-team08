@@ -84,14 +84,6 @@ const App = ({ account, isAuthenticated }: any) => {
               }
             />
 
-<<<<<<< HEAD
-          <Route path="/order" render={() => account.loading ? (<></>) : account.authenticated ? <OrderComponent /> : <Redirect to="/login" />} />
-          <Route path="/inventory" render={() => account.loading ? (<></>) : account.authenticated ? <Inventory /> : <Redirect to="login" />} />
-          <Route path="/orderbike" render={() => account.loading ? (<></>) : account.authenticated ? <OrderBike /> : <Redirect to="/login" />}/>
-          <Route exact path="*" render={() => <Redirect to="/" />} />
-        </Switch>
-      </div>
-=======
             <Route path="/order" render={() => account.loading ? (<></>) : account.authenticated ? <OrderComponent /> : <Redirect to="/login" />} />
             <Route path="/inventory" render={() => account.loading ? (<></>) : account.authenticated ? <Inventory /> : <Redirect to="login" />} />
             <Route path="/orderbike" render={() => account.loading ? (<></>) : account.authenticated ? <OrderBike /> : <Redirect to="/login" />} />
@@ -99,7 +91,6 @@ const App = ({ account, isAuthenticated }: any) => {
           </Switch>
         </Box>
       </Box>
->>>>>>> development
     </Router>
   );
 };
