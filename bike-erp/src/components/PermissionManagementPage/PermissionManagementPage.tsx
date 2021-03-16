@@ -24,7 +24,7 @@ const PermissionManagementPage = ({ account }: any) => {
           </Grid>
 
           <Grid wrap="nowrap" item xs={12} md={12}>
-            <Paper className={classes.table}>
+            <Paper className={classes.place}>
               <UserAccountsTable />
             </Paper>
           </Grid>

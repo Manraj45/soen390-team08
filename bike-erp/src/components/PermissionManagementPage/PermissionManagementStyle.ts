@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
       float: "right",
     },
   },
-  table: {
+  place: {
     [theme.breakpoints.down("sm")]: {
       marginTop: "50px",
       maxHeight: "50px",

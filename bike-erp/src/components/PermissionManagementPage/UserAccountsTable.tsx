@@ -1,10 +1,14 @@
+import { Table, TableBody, TableRow } from "@material-ui/core";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BACKEND_URL } from "../../core/utils/config";
 import PermissionDropdown from "./PermissionDropdown";
+import useStyles from "./UserAccountsTableStyle";
 
 const UserAccountsTable = () => {
   const [data, setData] = useState<any[]>([]);
+
+  const classes = useStyles();
 
   useEffect(() => {
     axios
@@ -22,13 +26,12 @@ const UserAccountsTable = () => {
     return data.map((account, key) => {
       return (
         <tr key={key}>
-          <td>{account.account_id}</td>
-          <td>{account.first_name}</td>
-          <td>{account.last_name}</td>
-          <td>{account.email}</td>
-          <td>{account.organization}</td>
-          <td>
-            {" "}
+          <td className={classes.bord}>{account.account_id}</td>
+          <td className={classes.bord}>{account.first_name}</td>
+          <td className={classes.bord}>{account.last_name}</td>
+          <td className={classes.bord}>{account.email}</td>
+          <td className={classes.bord}>{account.organization}</td>
+          <td className={classes.drop}>
             <PermissionDropdown permission={account.role} />
           </td>
         </tr>
@@ -46,17 +49,17 @@ const UserAccountsTable = () => {
       "Role",
     ];
     return header.map((title, index) => {
-      return <th key={index}>{title.toUpperCase()}</th>;
+      return <th className={classes.tableHeader} key={index}>{title.toUpperCase()}</th>;
     });
   };
 
   return (
     <>
       <div>
-        <table id="accounts">
-          <tr> {renderTableHeader()} </tr>
-          <tbody>{renderAccountsData()}</tbody>
-        </table>
+        <Table stickyHeader id="accounts">
+          <TableRow> {renderTableHeader()} </TableRow>
+          <TableBody>{renderAccountsData()}</TableBody>
+        </Table>
       </div>
     </>
   );
