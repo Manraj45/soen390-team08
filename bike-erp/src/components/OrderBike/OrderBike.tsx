@@ -28,6 +28,7 @@ import drivetrain_advanced from "../../assets/images/components/drivetrain_advan
 import drivetrain_expert from "../../assets/images/components/drivetrain_expert.jpg";
 
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import CheckIcon from '@material-ui/icons/Check';
 
 import {
     CardMedia,
@@ -46,15 +47,20 @@ import {
     TextField,
     Box,
     Snackbar,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
 } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 import { ToggleButton, ToggleButtonGroup, Alert } from '@material-ui/lab';
 // import { ContactSupportOutlined } from "@material-ui/icons";
 
-import { addBike, BikeSold, removeBike, removeAllBikes } from "../../redux/actions/OrderBikeActions/orderBikeActions";
+import { addBike, BikeSold, removeBike, removeAllBikes, addComponentSold, removeComponentSold, removeAllComponents, ComponentUpdated } from "../../redux/actions/OrderBikeActions/orderBikeActions";
 import { connect } from "react-redux";
 import React from "react";
 // import { isConstructorDeclaration } from "typescript";
+import useStyles from "./OrderBikeStyle";
 
 const ModelView = ({
     setSelectedLocation,
@@ -65,20 +71,7 @@ const ModelView = ({
     const onSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
         setSelectedLocation(event.target.value as string);
     };
-    const styles = {
-        media: {
-            height: 0,
-            paddingTop: "60%",
-            marginTop: "30",
-        },
-        location: {
-            minWidth: 200,
-        },
-        image: {
-            width: 500,
-            height: 305,
-        },
-    };
+    const styles= useStyles();
     return (
         <Card>
             <Typography style={{ textTransform: "capitalize" }} variant="h4">
@@ -87,12 +80,12 @@ const ModelView = ({
             <CardMedia title="bike-logo">
                 <img
                     src={mostRecentPicture}
-                    style={styles.image}
+                    className={styles.image}
                     alt="bike-logo"
                 />
             </CardMedia>
             <CardActions>
-                <FormControl style={styles.location}>
+                <FormControl className={styles.location}>
                     <InputLabel>Location</InputLabel>
                     <Select
                         name="componentLocation"
@@ -119,7 +112,8 @@ const Components = ({
     setMostRecentPicture,
     inventoryTable,
     addBike,
-    bikeOrderList
+    bikeOrderList,
+    addComponentSold
 }: any) => {
     var frames = [frame_utility, frame_touring, frame_mountain];
     var saddles = [saddle_performance, saddle_cushioned];
@@ -174,7 +168,6 @@ const Components = ({
         if (reason === 'clickaway') {
           return;
         }
-    
         setSnackOpen(false);
       };
 
@@ -228,20 +221,24 @@ const Components = ({
             const handleQuantity = handleInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === handleSelected).quantity
             const seatQuantity = seatInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === saddleSelected).quantity
             // Not sure if math is correct for wheels
-            const wheelQuantity = Math.floor(wheelInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === wheelSelected).quantity/2)
+            const wheelQuantity = wheelInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === wheelSelected).quantity
             const drivetrainQuantity= dtInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === trainType).quantity
-            const listQuantity = [frameQuantity, handleQuantity, seatQuantity, wheelQuantity, drivetrainQuantity]
-            const exceeded =  listQuantity.indexOf((qty: number) => qty < parseInt(quantity))
+            const listQuantity = [frameQuantity, handleQuantity, seatQuantity, Math.floor(wheelQuantity/2), drivetrainQuantity]
+            const exceeded = listQuantity.some((qty: number) => qty < parseInt(quantity))
 
             const bikeExists = 0 <  bikeOrderList.bikeOrderList.filter((bike: { drive_train_id: number; wheel_id: number; seat_id: number; handle_id: number; frame_id: number; }) => bike.drive_train_id === driveTrainId && bike.wheel_id === wheelId && bike.seat_id === seatId && bike.handle_id === handleId && bike.frame_id === frameId).length
-            console.log(exceeded)
             if (bikeExists){
                 setSnackMessage("The bike with the parts you've chosen already exists")
                 setSnackOpen(true)
-            }else if (exceeded < 0){
+            }else if (exceeded){
                 setSnackMessage("There are not enough parts in the inventory, try decreasing the quantity of bikes")
                 setSnackOpen(true)
             }else{
+                addComponentSold({id: frameId, quantity: frameQuantity-parseInt(quantity)})
+                addComponentSold({id: seatId, quantity: seatQuantity-parseInt(quantity)})
+                addComponentSold({id: driveTrainId, quantity: drivetrainQuantity - parseInt(quantity)})
+                addComponentSold({id: handleId, quantity: handleQuantity - parseInt(quantity)})
+                addComponentSold({id: wheelId, quantity: wheelQuantity - parseInt(quantity)*2})
                 addBike({
                     price: totalPrice,
                     size: size,
@@ -256,6 +253,16 @@ const Components = ({
                     drive_train_id: driveTrainId
                 })
                 totalPrice = priceUnit * parseInt(quantity);
+                setFrameType("");
+                setFinishType("");
+                setGradeType("");
+                setSaddleType("");
+                setHandleType("");
+                setWheelType("");
+                setTrainType("");
+                setColour("");
+                setQuantity("0");
+                setAllFieldSelected(false);
             }
         }
     }
@@ -305,7 +312,7 @@ const Components = ({
             handleSelected !== "" && 
             wheelSelected !== "" && 
             trainType !== "" &&
-            quantity !== "" &&
+            parseInt(quantity) > 0 &&
             colour !== ""){
                 setAllFieldSelected(true)
         }
@@ -324,6 +331,19 @@ const Components = ({
         },
     }))(Button);
 
+    const WhiteToggleButton = withStyles((theme: Theme) => ({
+        root: {
+            color: theme.palette.getContrastText(grey[50]),
+            backgroundColor: "#FFFFFF",
+            "&:hover": {
+                backgroundColor: grey[200],
+            },
+        },
+        label: {
+            textTransform: "capitalize",
+        },
+    }))(ToggleButton);
+
     return (
         <Grid
             container
@@ -339,21 +359,21 @@ const Components = ({
                 <ToggleButtonGroup
                     value={size}
                     exclusive>
-                    <ToggleButton
+                    <WhiteToggleButton
                         value="SMALL"
                         onClick={() => setSize("SMALL")}>
                         S
-						</ToggleButton>
-                    <ToggleButton
+					</WhiteToggleButton>
+                    <WhiteToggleButton
                         value="MEDIUM"
                         onClick={() => setSize("MEDIUM")}>
                         M
-						</ToggleButton>
-                    <ToggleButton
+					</WhiteToggleButton>
+                    <WhiteToggleButton
                         value="LARGE"
                         onClick={() => setSize("LARGE")}>
                         L
-						</ToggleButton>
+					</WhiteToggleButton>
 
                 </ToggleButtonGroup>
             </Grid>
@@ -364,7 +384,8 @@ const Components = ({
                 {components.frame.map((frame) => (
                     <Grid item key={frame.type}>
                         <WhiteButton
-                            className="frame"
+                            value={frame.type}
+                            className="frame "
                             onClick={() =>
                                 setComponentType(
                                     "frame",
@@ -391,6 +412,7 @@ const Components = ({
                 {components.finish.map((finish) => (
                     <Grid item key={finish.type}>
                         <WhiteButton
+                            value={finish.type}
                             className="finish"
                             onClick={() =>
                                 setComponentType("finish", finish.type)
@@ -410,6 +432,7 @@ const Components = ({
                 {components.grade.map((grade) => (
                     <Grid item key={grade.type}>
                         <WhiteButton
+                            value={grade.type}
                             className="grade"
                             onClick={() =>
                                 setComponentType("grade", grade.type)
@@ -429,6 +452,7 @@ const Components = ({
                 {components.colour.map((colour) => (
                     <Grid item key={colour}>
                         <WhiteButton
+                            value={colour}
                             className="colour"
                             onClick={() =>
                                 setComponentType("colour", colour)
@@ -448,6 +472,7 @@ const Components = ({
                 {components.saddle.map((saddle) => (
                     <Grid item key={saddle.type}>
                         <WhiteButton
+                            value={saddle.type}
                             className="saddle"
                             onClick={() =>
                                 setComponentType(
@@ -475,6 +500,7 @@ const Components = ({
                 {components.handlebar.map((handlebar) => (
                     <Grid item key={handlebar.type}>
                         <WhiteButton
+                            value={handlebar.type}
                             className="handlebar"
                             onClick={() =>
                                 setComponentType(
@@ -502,6 +528,7 @@ const Components = ({
                 {components.wheels.map((wheel) => (
                     <Grid item key={wheel.type}>
                         <WhiteButton
+                            value={wheel.type}
                             className="wheel"
                             onClick={() =>
                                 setComponentType(
@@ -529,6 +556,7 @@ const Components = ({
                 {components.drivetrain.map((drivetrain) => (
                     <Grid item key={drivetrain.type}>
                         <WhiteButton
+                            value={drivetrain.type}
                             className="drivetrain"
                             onClick={() =>
                                 setComponentType(
@@ -555,9 +583,11 @@ const Components = ({
                 </Grid>
                 <Grid item>
                     <TextField
+                        size="small"
                         variant="outlined"
                         type="number"
-                        InputProps={{ inputProps: { min: 1 } }}
+                        value={quantity}
+                        InputProps={{ inputProps: { min: 0 } }}
                         onChange={(event) => setComponentType("quantity", event.target.value)}
                     />
                 </Grid>
@@ -601,12 +631,16 @@ const Components = ({
     );
 };
 
-const Billing = ({ bikeOrderList, removeBike, removeAllBikes }: any) => {
+const Billing = ({ bikeOrderList, removeBike, removeAllBikes, removeComponentSold, removeAllComponents, setInventoryTable }: any) => {
     const url = BACKEND_URL;
     const [cartTotal, setCartTotal] = useState(0)
+    const [dialogOpen, setDialogOpen] = React.useState(false);
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+    };
 
     useEffect(() => {
-        console.log(bikeOrderList.bikeOrderList)
         bikeOrderList.bikeOrderList.forEach((bikeSold: BikeSold) => {
             setCartTotal(
                 (cartTotal) => cartTotal + bikeSold.price
@@ -618,18 +652,30 @@ const Billing = ({ bikeOrderList, removeBike, removeAllBikes }: any) => {
     }, [bikeOrderList]);
 
     const removeBikeOrderFromCart = (bikeSold: BikeSold) => {
+        removeComponentSold(bikeSold.drive_train_id)
+        removeComponentSold(bikeSold.frame_id)
+        removeComponentSold(bikeSold.handle_id)
+        removeComponentSold(bikeSold.seat_id)
+        removeComponentSold(bikeSold.wheel_id)
         removeBike(bikeSold)
     }
 
     const clearCart = () => {
+        removeAllComponents()
         removeAllBikes()
     }
 
     const proceedToSell = () => {
-        axios.post(`${url}/bike/createBikes`, {
-            bikeOrderList: bikeOrderList
-        })
-        clearCart();
+        if(bikeOrderList.bikeOrderList.length > 0){
+            axios.post(`${url}/bike/createBikes`, {
+                bikeOrderList: bikeOrderList
+            })
+            axios.put(`${url}/components/sellComponents`,{
+                componentSaleList: bikeOrderList.componentOrderList
+            })
+            clearCart();
+            setDialogOpen(true);
+        }
     }
 
     return (
@@ -669,11 +715,24 @@ const Billing = ({ bikeOrderList, removeBike, removeAllBikes }: any) => {
                     Clear Cart
             </Button>
             </Box>
+            <Dialog
+                open={dialogOpen}
+                onClose={handleDialogClose}
+            >
+                <DialogTitle id="alert-dialog-title">{"Transaction Successful!"}</DialogTitle>
+                <DialogContent>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDialogClose} color="primary">
+                        <CheckIcon />
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };
 
-const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes }: any) => {
+const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes, addComponentSold, removeComponentSold, removeAllComponents }: any) => {
     const [selectedLocation, setSelectedLocation] = useState("None");
     const [mostRecentType, setMostRecent] = useState("None Selected");
     const [mostRecentPicture, setMostRecentPicture] = useState(bike_logo);
@@ -683,7 +742,6 @@ const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes }: any) 
     useEffect(() => {
         axios.get(`${url}/components/`).then((response) => {
             setInventoryTable(response.data);
-            console.log(bikeOrderList)
         });
     }, [url, bikeOrderList]);
 
@@ -706,6 +764,7 @@ const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes }: any) 
                     <Components
                         bikeOrderList={bikeOrderList}
                         addBike={addBike}
+                        addComponentSold = {addComponentSold}
                         setMostRecentPicture={setMostRecentPicture}
                         setMostRecent={setMostRecent}
                         selectedLocation={selectedLocation}
@@ -717,6 +776,9 @@ const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes }: any) 
                         bikeOrderList={bikeOrderList}
                         removeBike={removeBike}
                         removeAllBikes={removeAllBikes}
+                        removeComponentSold = {removeComponentSold}
+                        removeAllComponents = {removeAllComponents}
+                        setInventoryTable = {setInventoryTable}
                     ></Billing>
                 </Grid>
             </Grid>
@@ -736,7 +798,10 @@ const mapDispatchToProps = (dispatch: any) => {
     return {
         addBike: (bikeSold: BikeSold) => dispatch(addBike(bikeSold)),
         removeBike: (bikeSold: BikeSold) => dispatch(removeBike(bikeSold)),
-        removeAllBikes: () => dispatch(removeAllBikes())
+        removeAllBikes: () => dispatch(removeAllBikes()),
+        addComponentSold: (componentUpdated: ComponentUpdated) => dispatch(addComponentSold(componentUpdated)),
+        removeComponentSold: (id: number) => dispatch(removeComponentSold(id)),
+        removeAllComponents: () => dispatch(removeAllComponents())
     }
 }
 

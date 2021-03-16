@@ -21,23 +21,25 @@ const reducer = (state = initialState, action: any) => {
         case REMOVE_ALL_BIKES:
             return {
                 error:"",
-                bikeOrderList: []
+                bikeOrderList: [],
+                componentOrderList: [...state.componentOrderList]
             };
-        // case ADD_COMPONENT:
-        //     return {
-        //         ...state,
-        //         componentOrderList: [...state.componentOrderList, action.payload]
-        //     };
-        // case REMOVE_COMPONENT:
-        //     return {
-        //         ...state,
-        //         ...state.componentOrderList.filter(component => remove_by_id(component, action.payload))
-        //     };
-        // case REMOVE_ALL_COMPONENTS:
-        //     return {
-        //         error:"",
-        //         componentOrderList: []
-        //     };
+        case ADD_COMPONENT:
+            return {
+                ...state,
+                componentOrderList: [...state.componentOrderList, action.payload]
+            };
+        case REMOVE_COMPONENT:
+            return {
+                ...state,
+                componentOrderList: state.componentOrderList.filter((comp: ComponentUpdated) => comp.id !== action.payload)
+            };
+        case REMOVE_ALL_COMPONENTS:
+            return {
+                error:"",
+                bikeOrderList: [...state.bikeOrderList],
+                componentOrderList: []
+            };
         default:
             return state;
     }
