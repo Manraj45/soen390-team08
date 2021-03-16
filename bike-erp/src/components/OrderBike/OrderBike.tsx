@@ -49,12 +49,10 @@ import {
 } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { ContactSupportOutlined } from "@material-ui/icons";
 
 import { addBike, BikeSold, removeBike, removeAllBikes } from "../../redux/actions/OrderBikeActions/orderBikeActions";
 import { connect } from "react-redux";
 import React from "react";
-import { isConstructorDeclaration } from "typescript";
 
 const ModelView = ({
     setSelectedLocation,
@@ -176,52 +174,52 @@ const Components = ({
 
         setAllFieldSelected(false)
 
-        if(location !== "None" && 
-            frameTypeSelected !== "" && 
-            finishSelected !== "" && 
-            gradeSelected !== "" && 
-            saddleSelected !== "" && 
-            handleSelected !== "" && 
-            wheelSelected !== "" && 
+        if (location !== "None" &&
+            frameTypeSelected !== "" &&
+            finishSelected !== "" &&
+            gradeSelected !== "" &&
+            saddleSelected !== "" &&
+            handleSelected !== "" &&
+            wheelSelected !== "" &&
             trainType !== "" &&
             quantity !== "" &&
-            colour !== ""){
-                setAllFieldSelected(true)
-                inventoryTable.forEach((element: any) => {
-                    if (element.location_name === location && element.size === size) {
-                        if (element.component_type === "FRAME" && element.specificComponentType === frameTypeSelected) {
-                            priceUnit = priceUnit + element.price;
-                            frameId = element.component_id;
-                        }
-                        if (element.component_type === "HANDLE" && element.specificComponentType === handleSelected) {
-                            priceUnit = priceUnit + element.price;
-                            handleId = element.component_id;
-                        }
-                        if (element.component_type === "SEAT" && element.specificComponentType === saddleSelected) {
-                            priceUnit = priceUnit + element.price;
-                            seatId = element.component_id;
-                        }
-                        if (element.component_type === "WHEEL" && element.specificComponentType === wheelSelected) {
-                            // *2 here because we need 2 wheels to build a bike
-                            priceUnit = priceUnit + (element.price) * 2;
-                            wheelId = element.component_id;
-                        }
-                        if (element.component_type === "DRIVE_TRAIN" && element.specificComponentType === trainType) {
-                            priceUnit = priceUnit + element.price;
-                            driveTrainId = element.component_id;
-                        }
+            colour !== "") {
+            setAllFieldSelected(true)
+            inventoryTable.forEach((element: any) => {
+                if (element.location_name === location && element.size === size) {
+                    if (element.component_type === "FRAME" && element.specificComponentType === frameTypeSelected) {
+                        priceUnit = priceUnit + element.price;
+                        frameId = element.component_id;
                     }
-                });
-                totalPrice = priceUnit * parseInt(quantity);
-            }
-            console.log(allFieldSelected)
- 
+                    if (element.component_type === "HANDLE" && element.specificComponentType === handleSelected) {
+                        priceUnit = priceUnit + element.price;
+                        handleId = element.component_id;
+                    }
+                    if (element.component_type === "SEAT" && element.specificComponentType === saddleSelected) {
+                        priceUnit = priceUnit + element.price;
+                        seatId = element.component_id;
+                    }
+                    if (element.component_type === "WHEEL" && element.specificComponentType === wheelSelected) {
+                        // *2 here because we need 2 wheels to build a bike
+                        priceUnit = priceUnit + (element.price) * 2;
+                        wheelId = element.component_id;
+                    }
+                    if (element.component_type === "DRIVE_TRAIN" && element.specificComponentType === trainType) {
+                        priceUnit = priceUnit + element.price;
+                        driveTrainId = element.component_id;
+                    }
+                }
+            });
+            totalPrice = priceUnit * parseInt(quantity);
+        }
+        console.log(allFieldSelected)
+
         if (!isNaN(parseInt(quantity))) {
             addBike({
                 price: totalPrice,
                 size: size,
                 color: colour,
-                description: +quantity+" x "+size +" "+ colour +" "+ frameTypeSelected +" "+ finishSelected +" "+ gradeSelected + " BIKE",
+                description: +quantity + " x " + size + " " + colour + " " + frameTypeSelected + " " + finishSelected + " " + gradeSelected + " BIKE",
                 grade: gradeSelected,
                 quantity: parseInt(quantity),
                 handle_id: handleId,
@@ -231,7 +229,7 @@ const Components = ({
                 drive_train_id: driveTrainId
             })
         }
-        
+
         //console.log(bikeOrderList)
     }
 
@@ -534,7 +532,7 @@ const Components = ({
                     colour)}>Add</Button>
 
             {allFieldSelected ? null : <Typography>You must select an option for each categories, a valid location and enter a valid quantity.</Typography>}
-            
+
             <p>{frameTypeSelected} and {selectedLocation}</p>
             <p>{handleSelected} and {size}</p>
             <p>{wheelSelected} and {finishSelected}</p>

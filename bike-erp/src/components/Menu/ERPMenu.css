@@ -1,0 +1,43 @@
+.navbar {
+    position:fixed;
+    width:100%;
+    background: rgba(0, 0, 0, 0.95);
+    height: 40px;
+    top: 0;
+    left : 0;
+    z-index: 200;
+}
+
+.menuIcon {
+    display: flex;
+    color: white;
+    padding-left: 10px;
+}
+
+.navbar_Navigation {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.logo {
+    color:white;
+    padding-left: 25px;
+}
+
+.exitLogo {
+    color: white;
+    padding-right: 20px;
+}
+
+.userName{
+    color:white;
+    padding-right: 20px;
+}
+
+.logoutId{
+    right : 0;
+    position: absolute;
+    display: flex;
+}
+
