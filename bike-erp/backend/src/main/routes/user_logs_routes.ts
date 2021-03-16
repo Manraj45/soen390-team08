@@ -16,4 +16,17 @@ router.post("/userLogRegistration", (req, res ) => {
         });
 });
 
+router.get("/userLogs/:user_id", (req, res) => {
+    const id = Number(req.params.user_id);
+
+    UserLogService
+      .getLog(id)
+      .then((response) => {
+        res.json(response);
+      })
+      .catch((error) => {
+        res.status(error.status).send(error.messages);
+      });
+  });
+
 UserLogService.getUserLogService();

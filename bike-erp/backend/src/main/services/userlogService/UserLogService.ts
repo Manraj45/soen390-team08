@@ -36,8 +36,20 @@ export class UserLogService{
               .then((response) => {
                 resolve({ status: 201, message: response.message });
               })
-    }
-    )
+        })}
 
+  public static getLog = (
+    id : Number
+    ) => {
+      return new Promise(async (resolve, reject) => {
+        await UserLogService.userLogDao
+                .fetchUserLog(
+                  id
+                )
+                .then((response) => {
+                  resolve({ status: 201, message: response.message });
+                })
+          })
     }
+    
 }
