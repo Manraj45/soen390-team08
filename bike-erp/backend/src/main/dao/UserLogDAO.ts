@@ -2,11 +2,11 @@ import db from "../helpers/db";
 
 export class UserLogDAO{
 
-    public fetchUserLog = (id : Number) => {
+    public fetchUserLog = (email : string) => {
         return new Promise<Array<any>>((resolve, reject) => {
-          const query = `SELECT u.account_id, u.timestamp, u.activity
+          const query = `SELECT u.email u.timestamp, u.activity
                          FROM user_logs u
-                         WHERE user_logs.account_id = `+ id.toString() ;
+                         WHERE user_logs.account_id = `+ email + `;` ;
           db.query(query, (err, rows) => {
             if (err) return reject(err);
             resolve(JSON.parse(JSON.stringify(rows)));
@@ -14,11 +14,11 @@ export class UserLogDAO{
         });
       };
 
-      public addToUserLog = (id : Number, activity: string) =>{
+      public addToUserLog = (email : string, activity: string) =>{
           return new Promise<any>((resolve, rejects) => {
             const insert =
-              "INSERT INTO `account` (`account_id`, `activity`, `timestamp`) VALUES ('" +
-              id +
+              "INSERT INTO `account` (`email`, `activity`, `timestamp`) VALUES ('" +
+              email +
               "', '" +
               activity +
               "', NOW());";

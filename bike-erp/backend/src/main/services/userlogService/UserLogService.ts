@@ -24,13 +24,13 @@ export class UserLogService{
     }
 
     public static addLog = (
-        id: Number,
+        email: string,
         activity: string
     ) => {
     return new Promise(async (resolve, reject) => {
       await UserLogService.userLogDao
               .addToUserLog(
-                id,
+                email,
                 activity
               )
               .then((response) => {
@@ -39,12 +39,12 @@ export class UserLogService{
         })}
 
   public static getLog = (
-    id : Number
+    email : string
     ) => {
       return new Promise(async (resolve, reject) => {
         await UserLogService.userLogDao
                 .fetchUserLog(
-                  id
+                  email
                 )
                 .then((response) => {
                   resolve({ status: 201});

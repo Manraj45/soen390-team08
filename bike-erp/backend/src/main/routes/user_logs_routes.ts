@@ -17,10 +17,9 @@ router.post("/userLogRegistration", (req, res ) => {
 });
 
 router.get("/userLogs/:user_id", (req, res) => {
-    const id = Number(req.params.user_id);
-
+    const email = req.params.email;
     UserLogService
-      .getLog(id)
+      .getLog(email)
       .then((response) => {
         res.json(response);
       })
