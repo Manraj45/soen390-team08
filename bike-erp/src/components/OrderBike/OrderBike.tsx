@@ -51,9 +51,10 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
+    CardContent,
 } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
-import { ToggleButton, ToggleButtonGroup, Alert } from '@material-ui/lab';
+import { ToggleButton, Alert, AlertTitle } from '@material-ui/lab';
 // import { ContactSupportOutlined } from "@material-ui/icons";
 
 import { addBike, BikeSold, removeBike, removeAllBikes, addComponentSold, removeComponentSold, removeAllComponents, ComponentUpdated } from "../../redux/actions/OrderBikeActions/orderBikeActions";
@@ -73,36 +74,41 @@ const ModelView = ({
     };
     const styles= useStyles();
     return (
-        <Card>
-            <Typography style={{ textTransform: "capitalize" }} variant="h4">
-                {mostRecentType}
-            </Typography>
-            <CardMedia title="bike-logo">
-                <img
-                    src={mostRecentPicture}
-                    className={styles.image}
-                    alt="bike-logo"
-                />
-            </CardMedia>
-            <CardActions>
-                <FormControl className={styles.location}>
-                    <InputLabel>Location</InputLabel>
-                    <Select
-                        name="componentLocation"
-                        id="compLoc"
-                        defaultValue={"None"}
-                        onChange={onSelect}
-                    >
-                        <MenuItem selected disabled value={"None"}>
-                            <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={"MONTREAL"}>Montreal</MenuItem>
-                        <MenuItem value={"TORONTO"}>Toronto</MenuItem>
-                        <MenuItem value={"OTTAWA"}>Ottawa</MenuItem>
-                    </Select>
-                </FormControl>
-            </CardActions>
-        </Card>
+        <div>
+            <Card>
+                <CardContent>
+                    <Typography style={{ textTransform: "capitalize" }} variant="h4">
+                        {mostRecentType}
+                    </Typography>
+                    <CardMedia title="bike-logo">
+                        <img
+                            src={mostRecentPicture}
+                            className={styles.image}
+                            alt="bike-logo"
+                        />
+                    </CardMedia>
+                </CardContent>
+                <CardActions>
+                    <FormControl className={styles.location}>
+                        <InputLabel>Location</InputLabel>
+                        <Select
+                            name="componentLocation"
+                            id="compLoc"
+                            defaultValue={"None"}
+                            onChange={onSelect}
+                        >
+                            <MenuItem selected disabled value={"None"}>
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={"MONTREAL"}>Montreal</MenuItem>
+                            <MenuItem value={"TORONTO"}>Toronto</MenuItem>
+                            <MenuItem value={"OTTAWA"}>Ottawa</MenuItem>
+                        </Select>
+                    </FormControl>
+                </CardActions>
+            </Card>
+        </div>
+        
     );
 };
 
@@ -128,7 +134,7 @@ const Components = ({
     const [snackOpen, setSnackOpen] = useState(false);
     const [snackMessage, setSnackMessage] = useState("")
 
-    const [colour, setColour] = useState("");
+    const [colourSelected, setColour] = useState("");
     const [size, setSize] = useState("SMALL");
     const [frameTypeSelected, setFrameType] = useState("");
     const [finishSelected, setFinishType] = useState("");
@@ -164,26 +170,11 @@ const Components = ({
         }
     }, [inventoryTable, selectedLocation, size]);
 
-    const handleClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
-        if (reason === 'clickaway') {
-          return;
-        }
+    const handleClose = () => {
         setSnackOpen(false);
       };
 
-    const fillBikeOrder = (
-        location: string,
-        size: string,
-        frameTypeSelected: string,
-        finishSelected: string,
-        gradeSelected: string,
-        saddleSelected: string,
-        handleSelected: string,
-        wheelSelected: string,
-        trainType: string,
-        quantity: string,
-        colour: string
-    ) => {
+    const fillBikeOrder = () => {
         let totalPrice = 0;
         //price to build 1 bike
         let priceUnit = 0;
@@ -225,7 +216,6 @@ const Components = ({
             const drivetrainQuantity= dtInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === trainType).quantity
             const listQuantity = [frameQuantity, handleQuantity, seatQuantity, Math.floor(wheelQuantity/2), drivetrainQuantity]
             const exceeded = listQuantity.some((qty: number) => qty < parseInt(quantity))
-
             const bikeExists = 0 <  bikeOrderList.bikeOrderList.filter((bike: { drive_train_id: number; wheel_id: number; seat_id: number; handle_id: number; frame_id: number; }) => bike.drive_train_id === driveTrainId && bike.wheel_id === wheelId && bike.seat_id === seatId && bike.handle_id === handleId && bike.frame_id === frameId).length
             if (bikeExists){
                 setSnackMessage("The bike with the parts you've chosen already exists")
@@ -239,11 +229,12 @@ const Components = ({
                 addComponentSold({id: driveTrainId, quantity: drivetrainQuantity - parseInt(quantity)})
                 addComponentSold({id: handleId, quantity: handleQuantity - parseInt(quantity)})
                 addComponentSold({id: wheelId, quantity: wheelQuantity - parseInt(quantity)*2})
+                totalPrice = priceUnit * parseInt(quantity);
                 addBike({
                     price: totalPrice,
                     size: size,
-                    color: colour,
-                    description: +quantity+" x "+size +" "+ colour +" "+ frameTypeSelected +" "+ finishSelected +" "+ gradeSelected + " BIKE",
+                    color: colourSelected,
+                    description: +quantity+" x "+size +" "+ colourSelected +" "+ frameTypeSelected +" "+ finishSelected +" "+ gradeSelected + " BIKE",
                     grade: gradeSelected,
                     quantity: parseInt(quantity),
                     handle_id: handleId,
@@ -252,7 +243,6 @@ const Components = ({
                     seat_id: seatId,
                     drive_train_id: driveTrainId
                 })
-                totalPrice = priceUnit * parseInt(quantity);
                 setFrameType("");
                 setFinishType("");
                 setGradeType("");
@@ -264,6 +254,10 @@ const Components = ({
                 setQuantity("0");
                 setAllFieldSelected(false);
             }
+        }
+        else{
+            setSnackMessage("You must select an option for each categories, a valid location and enter a valid quantity.")
+            setSnackOpen(true)
         }
     }
 
@@ -313,23 +307,10 @@ const Components = ({
             wheelSelected !== "" && 
             trainType !== "" &&
             parseInt(quantity) > 0 &&
-            colour !== ""){
+            colourSelected !== ""){
                 setAllFieldSelected(true)
         }
     };
-
-    const WhiteButton = withStyles((theme: Theme) => ({
-        root: {
-            color: theme.palette.getContrastText(grey[50]),
-            backgroundColor: "#FFFFFF",
-            "&:hover": {
-                backgroundColor: grey[200],
-            },
-        },
-        label: {
-            textTransform: "capitalize",
-        },
-    }))(Button);
 
     const WhiteToggleButton = withStyles((theme: Theme) => ({
         root: {
@@ -353,29 +334,33 @@ const Components = ({
             className="components"
         >
             <Grid item container justify="flex-start" spacing={1}>
-                <Grid item xs={2} >
+                <Grid item xs={2}>
                     <Typography variant="h6">Frame Size</Typography>
                 </Grid>
-                <ToggleButtonGroup
-                    value={size}
-                    exclusive>
+                <Grid item>
                     <WhiteToggleButton
                         value="SMALL"
+                        selected={size==="SMALL"}
                         onClick={() => setSize("SMALL")}>
                         S
 					</WhiteToggleButton>
-                    <WhiteToggleButton
+                </Grid>
+                <Grid item>
+                        <WhiteToggleButton
                         value="MEDIUM"
+                        selected={size==="MEDIUM"}
                         onClick={() => setSize("MEDIUM")}>
                         M
 					</WhiteToggleButton>
+                </Grid>
+                <Grid item>
                     <WhiteToggleButton
                         value="LARGE"
+                        selected={size==="LARGE"}
                         onClick={() => setSize("LARGE")}>
                         L
 					</WhiteToggleButton>
-
-                </ToggleButtonGroup>
+                </Grid>                
             </Grid>
             <Grid item container justify="flex-start" spacing={1}>
                 <Grid item xs={2} >
@@ -383,9 +368,10 @@ const Components = ({
                 </Grid>
                 {components.frame.map((frame) => (
                     <Grid item key={frame.type}>
-                        <WhiteButton
+                        <WhiteToggleButton
                             value={frame.type}
-                            className="frame "
+                            selected={frameTypeSelected===frame.type}
+                            className="frame"
                             onClick={() =>
                                 setComponentType(
                                     "frame",
@@ -398,7 +384,7 @@ const Components = ({
                                 src={frames[frame.img.pos]}
                                 alt={frame.img.alt}
                             />
-                        </WhiteButton>
+                        </WhiteToggleButton>
                         <Typography variant="subtitle2">
                             Inventory: {selectedLocation === "None"? "-" : frameInvent.filter((frameInv: any) => frameInv.specificComponentType === frame.type)[0].quantity}
                         </Typography>
@@ -411,9 +397,10 @@ const Components = ({
                 </Grid>
                 {components.finish.map((finish) => (
                     <Grid item key={finish.type}>
-                        <WhiteButton
+                        <WhiteToggleButton
                             value={finish.type}
                             className="finish"
+                            selected={finishSelected===finish.type}
                             onClick={() =>
                                 setComponentType("finish", finish.type)
                             }
@@ -421,7 +408,7 @@ const Components = ({
                             <Typography variant="subtitle1">
                                 {finish.type}
                             </Typography>
-                        </WhiteButton>
+                        </WhiteToggleButton>
                     </Grid>
                 ))}
             </Grid>
@@ -431,9 +418,10 @@ const Components = ({
                 </Grid>
                 {components.grade.map((grade) => (
                     <Grid item key={grade.type}>
-                        <WhiteButton
+                        <WhiteToggleButton
                             value={grade.type}
                             className="grade"
+                            selected={gradeSelected===grade.type}
                             onClick={() =>
                                 setComponentType("grade", grade.type)
                             }
@@ -441,7 +429,7 @@ const Components = ({
                             <Typography variant="subtitle1">
                                 {grade.type}
                             </Typography>
-                        </WhiteButton>
+                        </WhiteToggleButton>
                     </Grid>
                 ))}
             </Grid>
@@ -451,9 +439,10 @@ const Components = ({
                 </Grid>
                 {components.colour.map((colour) => (
                     <Grid item key={colour}>
-                        <WhiteButton
+                        <WhiteToggleButton
                             value={colour}
                             className="colour"
+                            selected={colourSelected===colour}
                             onClick={() =>
                                 setComponentType("colour", colour)
                             }
@@ -461,7 +450,7 @@ const Components = ({
                             <Typography variant="subtitle1">
                                 {colour}
                             </Typography>
-                        </WhiteButton>
+                        </WhiteToggleButton>
                     </Grid>
                 ))}
             </Grid>
@@ -471,9 +460,10 @@ const Components = ({
                 </Grid>
                 {components.saddle.map((saddle) => (
                     <Grid item key={saddle.type}>
-                        <WhiteButton
+                        <WhiteToggleButton
                             value={saddle.type}
                             className="saddle"
+                            selected={saddleSelected===saddle.type}
                             onClick={() =>
                                 setComponentType(
                                     "saddle",
@@ -486,7 +476,7 @@ const Components = ({
                                 src={saddles[saddle.img.pos]}
                                 alt={saddle.img.alt}
                             />
-                        </WhiteButton>
+                        </WhiteToggleButton>
                         <Typography variant="subtitle2">
                             Inventory: {selectedLocation === "None"? "-" : seatInvent.filter((inv: any) => inv.specificComponentType === saddle.type)[0].quantity}
                         </Typography>
@@ -499,9 +489,10 @@ const Components = ({
                 </Grid>
                 {components.handlebar.map((handlebar) => (
                     <Grid item key={handlebar.type}>
-                        <WhiteButton
+                        <WhiteToggleButton
                             value={handlebar.type}
                             className="handlebar"
+                            selected={handleSelected===handlebar.type}
                             onClick={() =>
                                 setComponentType(
                                     "handle",
@@ -514,7 +505,7 @@ const Components = ({
                                 src={handlebars[handlebar.img.pos]}
                                 alt={handlebar.img.alt}
                             />
-                        </WhiteButton>
+                        </WhiteToggleButton>
                         <Typography variant="subtitle2">
                             Inventory: {selectedLocation === "None"? "-" : handleInvent.filter((inv: any) => inv.specificComponentType === handlebar.type)[0].quantity}
                         </Typography>
@@ -527,9 +518,10 @@ const Components = ({
                 </Grid>
                 {components.wheels.map((wheel) => (
                     <Grid item key={wheel.type}>
-                        <WhiteButton
+                        <WhiteToggleButton
                             value={wheel.type}
                             className="wheel"
+                            selected={wheelSelected === wheel.type}
                             onClick={() =>
                                 setComponentType(
                                     "wheel",
@@ -542,7 +534,7 @@ const Components = ({
                                 src={wheels[wheel.img.pos]}
                                 alt={wheel.img.alt}
                             />
-                        </WhiteButton>
+                        </WhiteToggleButton>
                         <Typography variant="subtitle2">
                             Inventory: {selectedLocation === "None"? "-" : wheelInvent.filter((inv: any) => inv.specificComponentType === wheel.type)[0].quantity}
                         </Typography>
@@ -555,9 +547,10 @@ const Components = ({
                 </Grid>
                 {components.drivetrain.map((drivetrain) => (
                     <Grid item key={drivetrain.type}>
-                        <WhiteButton
+                        <WhiteToggleButton
                             value={drivetrain.type}
                             className="drivetrain"
+                            selected={trainType === drivetrain.type}
                             onClick={() =>
                                 setComponentType(
                                     "drivetrain",
@@ -570,7 +563,7 @@ const Components = ({
                                 src={drivetrains[drivetrain.img.pos]}
                                 alt={drivetrain.img.alt}
                             />
-                        </WhiteButton>
+                        </WhiteToggleButton>
                         <Typography variant="subtitle2">
                             Inventory: {selectedLocation === "None"? "-" : dtInvent.filter((inv: any) => inv.specificComponentType === drivetrain.type)[0].quantity}
                         </Typography>
@@ -594,18 +587,7 @@ const Components = ({
             </Grid>
             <Grid item>
                 <Button variant="contained" color="primary"
-                    onClick={() => fillBikeOrder(
-                        selectedLocation,
-                        size,
-                        frameTypeSelected,
-                        finishSelected,
-                        gradeSelected,
-                        saddleSelected,
-                        handleSelected,
-                        wheelSelected,
-                        trainType,
-                        quantity,
-                        colour)}>Add</Button>
+                    onClick={() => fillBikeOrder()}>Add</Button>
                         <Snackbar
                             anchorOrigin={{
                             vertical: 'top',
@@ -615,18 +597,12 @@ const Components = ({
                             autoHideDuration={6000}
                             onClose={handleClose}
                         >
-                            <Alert severity="error" onClose={handleClose}>{snackMessage}</Alert>
+                            <Alert severity="error" onClose={handleClose}>
+                                <AlertTitle>Error</AlertTitle>
+                                {snackMessage}
+                            </Alert>
                         </Snackbar>
             </Grid>
-            
-
-            {allFieldSelected ? null : <Typography>You must select an option for each categories, a valid location and enter a valid quantity.</Typography>}
-            
-            <p>{frameTypeSelected} and {selectedLocation}</p>
-            <p>{handleSelected} and {size}</p>
-            <p>{wheelSelected} and {finishSelected}</p>
-            <p>{saddleSelected} and {gradeSelected}</p>
-            <p>{trainType} and {colour}</p>
         </Grid>
     );
 };
