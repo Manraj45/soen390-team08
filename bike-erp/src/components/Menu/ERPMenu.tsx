@@ -1,4 +1,4 @@
-import "./ERPMenu.css"
+import "./ERPMenuStyle.ts"
 import Box from '@material-ui/core/Box';
 import { Typography } from '@material-ui/core';
 import { Link } from "react-router-dom";
@@ -9,10 +9,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
+import useStyles from "./ERPMenuStyle";
 
 /* Menu bar on top the page */
 
 const ERPMenu = ({ setMenuIsOpen, menuIsOpen, logout, account }: any) => {
+
+    const style = useStyles();
 
     const menuToggleClickHandler = () => {
         if (menuIsOpen) {
@@ -30,20 +33,20 @@ const ERPMenu = ({ setMenuIsOpen, menuIsOpen, logout, account }: any) => {
 
     return (
 
-        <Box className="navbar">
-            <nav className="navbar_Navigation">
-                <Box className="menuIcon">
+        <Box className={style.navbar}>
+            <nav className={style.navbar_Navigation}>
+                <Box className={style.menuIcon}>
                     {menuIsOpen ? <></> : <MenuIcon onClick={() => { menuToggleClickHandler() }}></MenuIcon>}
                     {menuIsOpen ? <MenuOpenIcon onClick={() => { menuToggleClickHandler() }}></MenuOpenIcon> : <></>}
                 </Box>
                 <Box>
                     <Link to="/" style={{ textDecoration: 'none' }}>
-                        <Typography className="logo">Bike King</Typography>
+                        <Typography className={style.logo}>Bike King</Typography>
                     </Link>
                 </Box>
-                <Box className="logoutId">
-                    <Typography className="userName">Welcome, {account.account.firstName}</Typography>
-                    <ExitToAppIcon className="exitLogo" onClick={() => { closeMenuLogout() }}></ExitToAppIcon>
+                <Box className={style.logoutId}>
+                    <Typography className={style.userName}>Welcome, {account.account.firstName}</Typography>
+                    <ExitToAppIcon className={style.exitLogo} onClick={() => { closeMenuLogout() }}></ExitToAppIcon>
                 </Box>
             </nav>
         </Box>
