@@ -1,4 +1,4 @@
-import db from "../helpers/db";
+import db from "./db";
 import {
   fillComponentCatalogue,
   fillLocation,
@@ -93,12 +93,7 @@ export const initialize_db = (): void => {
         seat_id int NOT NULL,
         drive_train_id int NOT NULL,
         PRIMARY KEY(bike_id,handle_id,wheel_id,frame_id,seat_id,drive_train_id),
-        FOREIGN KEY(bike_id) REFERENCES bike(bike_id),
-        FOREIGN KEY(handle_id) REFERENCES handle(handle_id),
-        FOREIGN KEY(wheel_id) REFERENCES wheel(wheel_id),
-        FOREIGN KEY(frame_id) REFERENCES frame(frame_id),
-        FOREIGN KEY(seat_id) REFERENCES seat(seat_id),
-        FOREIGN KEY(drive_train_id) REFERENCES drive_train(drive_train_id)
+        FOREIGN KEY(bike_id) REFERENCES bike(bike_id)
     );`;
 
   const createAccountPayable: string = `
@@ -129,10 +124,21 @@ export const initialize_db = (): void => {
 
   const createAccountReceivable: string = `
     CREATE TABLE IF NOT EXISTS account_receivable(
-        account_receivable int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        bike_id int NOT NULL,
-        FOREIGN KEY(bike_id) REFERENCES bike(bike_id)
+        account_receivable_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        email varchar(255) NOT NULL,
+        total float(24) NOT NULL,
+        payable_date datetime NOT NULL,
+        FOREIGN KEY(email) REFERENCES account(email)
     );`;
+
+  const createBikeInAccountReceivable: string = `
+      CREATE TABLE IF NOT EXISTS bike_in_account_receivable(
+        account_receivable_id  int NOT NULL,
+        bike_id int NOT NULL PRIMARY KEY,
+        FOREIGN KEY(account_receivable_id) REFERENCES account_receivable(account_receivable_id),
+        FOREIGN KEY(bike_id) REFERENCES bike(bike_id)
+      )
+  `
 
   db.query(createAccountQuery, (err, result) => {
     if (err) throw err;
@@ -202,6 +208,11 @@ export const initialize_db = (): void => {
     if (err) throw err;
     console.log("Account_receivable Tables Created");
   });
+
+  db.query(createBikeInAccountReceivable, (err) => {
+    if (err) throw err;
+    console.log("Bike_In_Account_Receivable Tables Created");
+  })
 
   db.query(fillComponentCatalogue, (err, result) => {
     if (err) throw err;
