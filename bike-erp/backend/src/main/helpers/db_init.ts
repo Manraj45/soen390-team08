@@ -144,8 +144,8 @@ export const initialize_db = (): void => {
         log_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         email varchar(255) NOT NULL,
         activity varchar(255) NOT NULL,
-        timestamp datetime NOT NULL,
-        FOREIGN KEY(email) REFERENCES account(email),
+        time_stamp datetime NOT NULL,
+        FOREIGN KEY(email) REFERENCES account(email)
       );`;
 
   db.query(createAccountQuery, (err, result) => {
@@ -220,7 +220,7 @@ export const initialize_db = (): void => {
   db.query(createBikeInAccountReceivable, (err) => {
     if (err) throw err;
     console.log("Bike_In_Account_Receivable Tables Created");
-  })
+  });
 
   db.query(createUserLogs, (err, result) => {
     if (err) throw err;
@@ -236,5 +236,4 @@ export const initialize_db = (): void => {
     if (err) throw err;
     console.log("Adding Component Catalogue to Location");
   });
-  
 };
