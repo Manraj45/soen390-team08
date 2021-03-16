@@ -4,9 +4,9 @@ export class UserLogDAO{
 
     public fetchUserLog = (id : Number) => {
         return new Promise<Array<any>>((resolve, reject) => {
-          const query = `SELECT u.id, u.timestamp, u.activity
+          const query = `SELECT u.account_id, u.timestamp, u.activity
                          FROM user_logs u
-                         WHERE user_logs.id = `+ id.toString() ;
+                         WHERE user_logs.account_id = `+ id.toString() ;
           db.query(query, (err, rows) => {
             if (err) return reject(err);
             resolve(JSON.parse(JSON.stringify(rows)));
