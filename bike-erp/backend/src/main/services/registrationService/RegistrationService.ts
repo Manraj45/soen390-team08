@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { AccountDao } from "../../dao/AccountDAO";
+import { UserLogService } from "../userlogService/UserLogService";
 
 export class RegistrationService {
   private static registrationService: RegistrationService | undefined;
@@ -78,6 +79,7 @@ export class RegistrationService {
                 organization
               )
               .then((response) => {
+                UserLogService.addLog(email, "Registered for an account");
                 resolve({ status: 201, message: response.message });
               })
               .catch((error) => {

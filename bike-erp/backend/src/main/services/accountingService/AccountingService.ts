@@ -1,6 +1,7 @@
 import { AccountPayableDAO } from "../../dao/AccountPayableDAO"
 import { AccountReceivableDAO } from "../../dao/AccountReceivableDAO";
 import { BikeOrder } from "../../models/interfaces/BikeOrder";
+import { UserLogService } from "../userlogService/UserLogService";
 
 // This class handles all finance related features such as account receivable and payable
 export class AccountingService {
@@ -45,7 +46,7 @@ export class AccountingService {
                 const transactionItemId = await AccountingService.accountPayableDAO?.createTransactionItems(order.price * order.quantity, order.id, order.quantity) as number;
                 await AccountingService.accountPayableDAO?.createConsistOf(accountPayableId, transactionItemId);
             })
-
+            UserLogService.addLog(email, "Created Account Payable");
             return { status: 201, message: "Order successfully", orderList: orderList };
         }
         catch (error) {
@@ -67,6 +68,7 @@ export class AccountingService {
             bikeIdList.forEach(async bikeId => {
                 await AccountingService.accountReceivableDAO?.createBikeInAccountReceivable(accountReceivableId, bikeId);
             })
+            UserLogService.addLog(userEmail, "Created Account Receivable");
             return true;
         } catch (error) {
             throw { status: 500, message: error.sqlMessage };
@@ -79,6 +81,7 @@ export class AccountingService {
             try {
                 const accountReceivableList = await AccountingService.accountReceivableDAO?.fetchAllAccountReceivableByUser(email);
                 resolve(accountReceivableList)
+                UserLogService.addLog(email, "Retrieved Account Receivable");
             } catch (error) {
                 reject({ status: 500, message: error.sqlMessage });
             }
@@ -96,6 +99,7 @@ export class AccountingService {
             try {
                 const accountPayableList = AccountingService.accountPayableDAO?.getAccountPayableByEmail(email);
                 resolve(accountPayableList);
+                UserLogService.addLog(email, "Retrieved Account Payable");
             } catch (error) {
                 rejects({ status: 500, message: error.sqlMessage });
             }

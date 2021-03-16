@@ -1,5 +1,6 @@
 import { AccountDao } from "../../dao/AccountDAO";
 import { Role } from "../../models/Account";
+import { UserLogService } from "../userlogService/UserLogService";
 
 export class AccountManagementService {
 
@@ -59,6 +60,7 @@ export class AccountManagementService {
             if (!error) {
                 AccountManagementService.accountDao.updateAccountRole(email, role)
                     .then((response) => {
+                        UserLogService.addLog(email, "Updated role");
                         resolve({ status: 202, message: response });
                     })
                     .catch((error) => {
