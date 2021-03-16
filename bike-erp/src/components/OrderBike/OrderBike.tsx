@@ -134,7 +134,7 @@ const Components = ({
         drivetrain_expert,
     ];
     const [snackOpen, setSnackOpen] = useState(false);
-    const [snackMessage, setSnackMessage] = useState("")
+    const [snackMessage, setSnackMessage] = useState("");
 
     //const to save users selection
     const [colourSelected, setColour] = useState("");
@@ -147,13 +147,13 @@ const Components = ({
     const [wheelSelected, setWheelType] = useState("");
     const [trainType, setTrainType] = useState("");
     const [quantity, setQuantity] = useState("");
-    const [allFieldSelected, setAllFieldSelected] = useState(false)
+    const [allFieldSelected, setAllFieldSelected] = useState(false);
 
-    const [frameInvent, setFrameInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size))
-    const [handleInvent, setHandleInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size))
-    const [seatInvent, setSeatInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size))
-    const [wheelInvent, setWheelInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size))
-    const [dtInvent, setDtInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size))
+    const [frameInvent, setFrameInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size));
+    const [handleInvent, setHandleInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size));
+    const [seatInvent, setSeatInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size));
+    const [wheelInvent, setWheelInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size));
+    const [dtInvent, setDtInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size));
 
     useEffect(() => {
         // Set inventories by location
@@ -212,27 +212,27 @@ const Components = ({
                     driveTrainId = element.component_id;
                 }
             });
-            const frameQuantity = frameInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === frameTypeSelected).quantity
-            const handleQuantity = handleInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === handleSelected).quantity
-            const seatQuantity = seatInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === saddleSelected).quantity
-            const wheelQuantity = wheelInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === wheelSelected).quantity
-            const drivetrainQuantity = dtInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === trainType).quantity
-            const listQuantity = [frameQuantity, handleQuantity, seatQuantity, Math.floor(wheelQuantity / 2), drivetrainQuantity]
-            const exceeded = listQuantity.some((qty: number) => qty < parseInt(quantity))
-            const bikeExists = 0 < bikeOrderList.bikeOrderList.filter((bike: { drive_train_id: number; wheel_id: number; seat_id: number; handle_id: number; frame_id: number; }) => bike.drive_train_id === driveTrainId && bike.wheel_id === wheelId && bike.seat_id === seatId && bike.handle_id === handleId && bike.frame_id === frameId).length
+            const frameQuantity = frameInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === frameTypeSelected).quantity;
+            const handleQuantity = handleInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === handleSelected).quantity;
+            const seatQuantity = seatInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === saddleSelected).quantity;
+            const wheelQuantity = wheelInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === wheelSelected).quantity;
+            const drivetrainQuantity = dtInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === trainType).quantity;
+            const listQuantity = [frameQuantity, handleQuantity, seatQuantity, Math.floor(wheelQuantity / 2), drivetrainQuantity];
+            const exceeded = listQuantity.some((qty: number) => qty < parseInt(quantity));
+            const bikeExists = 0 < bikeOrderList.bikeOrderList.filter((bike: { drive_train_id: number; wheel_id: number; seat_id: number; handle_id: number; frame_id: number; }) => bike.drive_train_id === driveTrainId && bike.wheel_id === wheelId && bike.seat_id === seatId && bike.handle_id === handleId && bike.frame_id === frameId).length;
             if (bikeExists) {
-                setSnackMessage("The bike with the parts you've chosen already exists")
-                setSnackOpen(true)
+                setSnackMessage("The bike with the parts you've chosen already exists");
+                setSnackOpen(true);
             } else if (exceeded) {
-                setSnackMessage("There are not enough parts in the inventory, try decreasing the quantity of bikes")
-                setSnackOpen(true)
+                setSnackMessage("There are not enough parts in the inventory, try decreasing the quantity of bikes");
+                setSnackOpen(true);
             } else {
                 //verifying the availability of each components
-                addComponentSold({ id: frameId, quantity: frameQuantity - parseInt(quantity) })
-                addComponentSold({ id: seatId, quantity: seatQuantity - parseInt(quantity) })
-                addComponentSold({ id: driveTrainId, quantity: drivetrainQuantity - parseInt(quantity) })
-                addComponentSold({ id: handleId, quantity: handleQuantity - parseInt(quantity) })
-                addComponentSold({ id: wheelId, quantity: wheelQuantity - parseInt(quantity) * 2 })
+                addComponentSold({ id: frameId, quantity: frameQuantity - parseInt(quantity) });
+                addComponentSold({ id: seatId, quantity: seatQuantity - parseInt(quantity) });
+                addComponentSold({ id: driveTrainId, quantity: drivetrainQuantity - parseInt(quantity) });
+                addComponentSold({ id: handleId, quantity: handleQuantity - parseInt(quantity) });
+                addComponentSold({ id: wheelId, quantity: wheelQuantity - parseInt(quantity) * 2 });
                 totalPrice = priceUnit * parseInt(quantity);
                 addBike({
                     price: totalPrice,
@@ -260,8 +260,8 @@ const Components = ({
             }
         }
         else {
-            setSnackMessage("You must select an option for each categories, a valid location and enter a valid quantity.")
-            setSnackOpen(true)
+            setSnackMessage("You must select an option for each categories, a valid location and enter a valid quantity.");
+            setSnackOpen(true);
         }
     }
 
@@ -313,7 +313,7 @@ const Components = ({
             trainType !== "" &&
             parseInt(quantity) > 0 &&
             colourSelected !== "") {
-            setAllFieldSelected(true)
+            setAllFieldSelected(true);
         }
     };
 
@@ -614,7 +614,7 @@ const Components = ({
 
 const Billing = ({ bikeOrderList, removeBike, removeAllBikes, removeComponentSold, removeAllComponents, setInventoryTable }: any) => {
     const url = BACKEND_URL;
-    const [cartTotal, setCartTotal] = useState(0)
+    const [cartTotal, setCartTotal] = useState(0);
     const [dialogOpen, setDialogOpen] = React.useState(false);
 
     const handleDialogClose = () => {
@@ -633,17 +633,17 @@ const Billing = ({ bikeOrderList, removeBike, removeAllBikes, removeComponentSol
     }, [bikeOrderList]);
 
     const removeBikeOrderFromCart = (bikeSold: BikeSold) => {
-        removeComponentSold(bikeSold.drive_train_id)
-        removeComponentSold(bikeSold.frame_id)
-        removeComponentSold(bikeSold.handle_id)
-        removeComponentSold(bikeSold.seat_id)
-        removeComponentSold(bikeSold.wheel_id)
-        removeBike(bikeSold)
+        removeComponentSold(bikeSold.drive_train_id);
+        removeComponentSold(bikeSold.frame_id);
+        removeComponentSold(bikeSold.handle_id);
+        removeComponentSold(bikeSold.seat_id);
+        removeComponentSold(bikeSold.wheel_id);
+        removeBike(bikeSold);
     }
 
     const clearCart = () => {
-        removeAllComponents()
-        removeAllBikes()
+        removeAllComponents();
+        removeAllBikes();
     }
 
     const proceedToSell = () => {
