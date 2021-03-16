@@ -13,6 +13,12 @@ const useStyles = makeStyles((theme) => ({
         width: 500,
         height: 305,
     },
+    title: {
+        textAlign: "center",
+        fontWeight: "bold",
+        fontFamily: "Inter",
+        fontSize: "64",
+    }
 }));
 
 export default useStyles;

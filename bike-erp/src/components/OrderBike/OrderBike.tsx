@@ -721,8 +721,12 @@ const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes, addComp
         });
     }, [url, bikeOrderList]);
 
+    const styles= useStyles();
+
     return (
         <div>
+            <Typography className={styles.title}>Order Bike</Typography>
+            <br/>
             <Grid
                 container
                 spacing={4}
