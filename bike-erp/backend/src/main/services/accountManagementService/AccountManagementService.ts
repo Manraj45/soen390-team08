@@ -50,7 +50,7 @@ export class AccountManagementService {
 
             //Verifying if the current user is trying to changer their own role
             if (currentUserEmail === email) {
-                //returns role that is invalid and the account related
+                //returns error message, role and the account related
                 reject({ status: 400, message: "You cannot change the role of your own account.", email: email, role: role })
                 error = true;
             }
