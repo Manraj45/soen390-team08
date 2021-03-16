@@ -730,7 +730,7 @@ const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes, addComp
 
     return (
         <div>
-            <Typography className={styles.title}>Order Bike</Typography>
+            <Typography variant="h4" className={styles.title}>Order Bike</Typography>
             <br />
             <Grid
                 container
@@ -745,7 +745,7 @@ const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes, addComp
                         setSelectedLocation={setSelectedLocation}
                     ></ModelView>
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={4}>
                     <Components
                         bikeOrderList={bikeOrderList}
                         addBike={addBike}
@@ -756,7 +756,7 @@ const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes, addComp
                         inventoryTable={inventoryTable}
                     ></Components>
                 </Grid>
-                <Grid item xs={12} md={2}>
+                <Grid item xs={12} md={3}>
                     <Billing
                         bikeOrderList={bikeOrderList}
                         removeBike={removeBike}
