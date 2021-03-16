@@ -17,12 +17,16 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: "50px",
       alignItems: "flex-start",
       textAlign: "left",
+      fontWeight: "bold",
+      fontSize: "200%",
     },
     [theme.breakpoints.up("md")]: {
       marginTop: "10px",
       marginBottom: "10px",
       alignItems: "flex-start",
       textAlign: "left",
+      fontWeight: "bold",
+      fontSize: "200%",
     },
   },
   name: {
@@ -51,19 +55,19 @@ const useStyles = makeStyles((theme) => ({
       float: "right",
     },
   },
-  table: {
+  place: {
     [theme.breakpoints.down("sm")]: {
       marginTop: "50px",
       maxHeight: "50px",
       maxWeidth: "50px",
-      minHeight: "400px",
+      minHeight: "300px",
       overflow: "auto",
     },
     [theme.breakpoints.up("md")]: {
       marginTop: "10px",
       maxHeight: "50px",
       maxWeidth: "50px",
-      minHeight: "600px",
+      minHeight: "500px",
       overflow: "auto",
     },
   },

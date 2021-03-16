@@ -28,7 +28,7 @@ export class AccountDao {
     //Getting all the user information from the database
     return new Promise<Array<any>>((resolve, reject) => {
       const query =
-        'SELECT `first_name`, `last_name`, `role`, `email`, `organization` FROM `account` where email<>"' +
+        'SELECT `account_id`, `first_name`, `last_name`, `role`, `email`, `organization` FROM `account` where email<>"' +
         currentUserEmail +
         `"`;
       db.query(query, (err, rows) => {

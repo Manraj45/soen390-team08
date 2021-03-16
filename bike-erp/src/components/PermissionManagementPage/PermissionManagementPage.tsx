@@ -10,8 +10,10 @@ const PermissionManagementPage = ({ account }: any) => {
     <div id="permissionPage">
       <div id="loginPage">
         <Grid container direction="column" justify="center">
-          <Grid item xs={12} md={12} className={classes.title}>
-            <Typography variant="h2">Permission Management</Typography>
+          <Grid item xs={12} md={12}>
+            <Typography className={classes.title} variant="h4">
+              Permission Management
+            </Typography>
           </Grid>
 
           <Grid item xs={12} md={12} className={classes.name}>
@@ -24,7 +26,7 @@ const PermissionManagementPage = ({ account }: any) => {
           </Grid>
 
           <Grid wrap="nowrap" item xs={12} md={12}>
-            <Paper className={classes.table}>
+            <Paper className={classes.place}>
               <UserAccountsTable />
             </Paper>
           </Grid>
