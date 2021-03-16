@@ -29,6 +29,10 @@ import drivetrain_expert from "../../assets/images/components/drivetrain_expert.
 
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import CheckIcon from '@material-ui/icons/Check';
+/*
+    This is the bike order page. Users can buy/build different bikes based on what they have in the inventory.
+    All bikes must be build with components from the same location and the same size.
+*/
 
 import {
     CardMedia,
@@ -55,12 +59,10 @@ import {
 } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 import { ToggleButton, Alert, AlertTitle } from '@material-ui/lab';
-// import { ContactSupportOutlined } from "@material-ui/icons";
 
 import { addBike, BikeSold, removeBike, removeAllBikes, addComponentSold, removeComponentSold, removeAllComponents, ComponentUpdated } from "../../redux/actions/OrderBikeActions/orderBikeActions";
 import { connect } from "react-redux";
 import React from "react";
-// import { isConstructorDeclaration } from "typescript";
 import useStyles from "./OrderBikeStyle";
 
 const ModelView = ({
@@ -72,7 +74,7 @@ const ModelView = ({
     const onSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
         setSelectedLocation(event.target.value as string);
     };
-    const styles= useStyles();
+    const styles = useStyles();
     return (
         <div>
             <Card>
@@ -108,7 +110,7 @@ const ModelView = ({
                 </CardActions>
             </Card>
         </div>
-        
+
     );
 };
 
@@ -134,6 +136,7 @@ const Components = ({
     const [snackOpen, setSnackOpen] = useState(false);
     const [snackMessage, setSnackMessage] = useState("")
 
+    //const to save users selection
     const [colourSelected, setColour] = useState("");
     const [size, setSize] = useState("SMALL");
     const [frameTypeSelected, setFrameType] = useState("");
@@ -146,34 +149,35 @@ const Components = ({
     const [quantity, setQuantity] = useState("");
     const [allFieldSelected, setAllFieldSelected] = useState(false)
 
-    const [frameInvent, setFrameInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
-    const [handleInvent, setHandleInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
-    const [seatInvent, setSeatInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
-    const [wheelInvent, setWheelInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
-    const [dtInvent, setDtInv] = useState(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
+    const [frameInvent, setFrameInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size))
+    const [handleInvent, setHandleInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size))
+    const [seatInvent, setSeatInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size))
+    const [wheelInvent, setWheelInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size))
+    const [dtInvent, setDtInv] = useState(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size))
 
     useEffect(() => {
         // Set inventories by location
-        if(selectedLocation.valueOf() === "None"){
-            setFrameInv(inventoryTable.filter((inv : any) => inv.component_type === "FRAME" && inv.size === size))
-            setHandleInv(inventoryTable.filter((inv : any) => inv.component_type === "HANDLE" && inv.size === size))
-            setSeatInv(inventoryTable.filter((inv : any) => inv.component_type === "SEAT" && inv.size === size))
-            setWheelInv(inventoryTable.filter((inv : any) => inv.component_type === "WHEEL" && inv.size === size))
-            setDtInv(inventoryTable.filter((inv : any) => inv.component_type === "DRIVE_TRAIN" && inv.size === size))   
-        }else{
-            let local_inv = inventoryTable.filter((inv : any) => inv.location_name === selectedLocation && inv.size === size);
-            setFrameInv(local_inv.filter((inv : any) => inv.component_type === "FRAME"))
-            setHandleInv(local_inv.filter((inv : any) => inv.component_type === "HANDLE"))
-            setSeatInv(local_inv.filter((inv : any) => inv.component_type === "SEAT"))
-            setWheelInv(local_inv.filter((inv : any) => inv.component_type === "WHEEL"))
-            setDtInv(local_inv.filter((inv : any) => inv.component_type === "DRIVE_TRAIN"))
+        if (selectedLocation.valueOf() === "None") {
+            setFrameInv(inventoryTable.filter((inv: any) => inv.component_type === "FRAME" && inv.size === size))
+            setHandleInv(inventoryTable.filter((inv: any) => inv.component_type === "HANDLE" && inv.size === size))
+            setSeatInv(inventoryTable.filter((inv: any) => inv.component_type === "SEAT" && inv.size === size))
+            setWheelInv(inventoryTable.filter((inv: any) => inv.component_type === "WHEEL" && inv.size === size))
+            setDtInv(inventoryTable.filter((inv: any) => inv.component_type === "DRIVE_TRAIN" && inv.size === size))
+        } else {
+            let local_inv = inventoryTable.filter((inv: any) => inv.location_name === selectedLocation && inv.size === size);
+            setFrameInv(local_inv.filter((inv: any) => inv.component_type === "FRAME"))
+            setHandleInv(local_inv.filter((inv: any) => inv.component_type === "HANDLE"))
+            setSeatInv(local_inv.filter((inv: any) => inv.component_type === "SEAT"))
+            setWheelInv(local_inv.filter((inv: any) => inv.component_type === "WHEEL"))
+            setDtInv(local_inv.filter((inv: any) => inv.component_type === "DRIVE_TRAIN"))
         }
     }, [inventoryTable, selectedLocation, size]);
 
     const handleClose = () => {
         setSnackOpen(false);
-      };
+    };
 
+    //Handles the bike components selection
     const fillBikeOrder = () => {
         let totalPrice = 0;
         //price to build 1 bike
@@ -183,8 +187,8 @@ const Components = ({
         let driveTrainId = 0;
         let frameId = 0;
         let seatId = 0;
-        if(allFieldSelected && selectedLocation !== "None"){
-            const local_inv = inventoryTable.filter((inv : any) => inv.location_name === selectedLocation && inv.size === size);
+        if (allFieldSelected && selectedLocation !== "None") {
+            const local_inv = inventoryTable.filter((inv: any) => inv.location_name === selectedLocation && inv.size === size);
             local_inv.forEach((element: any) => {
                 if (element.component_type === "FRAME" && element.specificComponentType === frameTypeSelected) {
                     priceUnit = priceUnit + element.price;
@@ -211,30 +215,30 @@ const Components = ({
             const frameQuantity = frameInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === frameTypeSelected).quantity
             const handleQuantity = handleInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === handleSelected).quantity
             const seatQuantity = seatInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === saddleSelected).quantity
-            // Not sure if math is correct for wheels
             const wheelQuantity = wheelInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === wheelSelected).quantity
-            const drivetrainQuantity= dtInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === trainType).quantity
-            const listQuantity = [frameQuantity, handleQuantity, seatQuantity, Math.floor(wheelQuantity/2), drivetrainQuantity]
+            const drivetrainQuantity = dtInvent.find((inv: { specificComponentType: string; }) => inv.specificComponentType === trainType).quantity
+            const listQuantity = [frameQuantity, handleQuantity, seatQuantity, Math.floor(wheelQuantity / 2), drivetrainQuantity]
             const exceeded = listQuantity.some((qty: number) => qty < parseInt(quantity))
-            const bikeExists = 0 <  bikeOrderList.bikeOrderList.filter((bike: { drive_train_id: number; wheel_id: number; seat_id: number; handle_id: number; frame_id: number; }) => bike.drive_train_id === driveTrainId && bike.wheel_id === wheelId && bike.seat_id === seatId && bike.handle_id === handleId && bike.frame_id === frameId).length
-            if (bikeExists){
+            const bikeExists = 0 < bikeOrderList.bikeOrderList.filter((bike: { drive_train_id: number; wheel_id: number; seat_id: number; handle_id: number; frame_id: number; }) => bike.drive_train_id === driveTrainId && bike.wheel_id === wheelId && bike.seat_id === seatId && bike.handle_id === handleId && bike.frame_id === frameId).length
+            if (bikeExists) {
                 setSnackMessage("The bike with the parts you've chosen already exists")
                 setSnackOpen(true)
-            }else if (exceeded){
+            } else if (exceeded) {
                 setSnackMessage("There are not enough parts in the inventory, try decreasing the quantity of bikes")
                 setSnackOpen(true)
-            }else{
-                addComponentSold({id: frameId, quantity: frameQuantity-parseInt(quantity)})
-                addComponentSold({id: seatId, quantity: seatQuantity-parseInt(quantity)})
-                addComponentSold({id: driveTrainId, quantity: drivetrainQuantity - parseInt(quantity)})
-                addComponentSold({id: handleId, quantity: handleQuantity - parseInt(quantity)})
-                addComponentSold({id: wheelId, quantity: wheelQuantity - parseInt(quantity)*2})
+            } else {
+                //verifying the availability of each components
+                addComponentSold({ id: frameId, quantity: frameQuantity - parseInt(quantity) })
+                addComponentSold({ id: seatId, quantity: seatQuantity - parseInt(quantity) })
+                addComponentSold({ id: driveTrainId, quantity: drivetrainQuantity - parseInt(quantity) })
+                addComponentSold({ id: handleId, quantity: handleQuantity - parseInt(quantity) })
+                addComponentSold({ id: wheelId, quantity: wheelQuantity - parseInt(quantity) * 2 })
                 totalPrice = priceUnit * parseInt(quantity);
                 addBike({
                     price: totalPrice,
                     size: size,
                     color: colourSelected,
-                    description: +quantity+" x "+size +" "+ colourSelected +" "+ frameTypeSelected +" "+ finishSelected +" "+ gradeSelected + " BIKE",
+                    description: +quantity + " x " + size + " " + colourSelected + " " + frameTypeSelected + " " + finishSelected + " " + gradeSelected + " BIKE",
                     grade: gradeSelected,
                     quantity: parseInt(quantity),
                     handle_id: handleId,
@@ -255,12 +259,13 @@ const Components = ({
                 setAllFieldSelected(false);
             }
         }
-        else{
+        else {
             setSnackMessage("You must select an option for each categories, a valid location and enter a valid quantity.")
             setSnackOpen(true)
         }
     }
 
+    //set the image of selected bike component
     const setComponentType = (
         componentType: string,
         componentSpecificType: string,
@@ -297,18 +302,18 @@ const Components = ({
         }
         if (componentType !== "quantity")
             setMostRecent(componentSpecificType + " " + componentType);
-        if (picture) 
+        if (picture)
             setMostRecentPicture(picture);
-        if( frameTypeSelected !== "" && 
-            finishSelected !== "" && 
-            gradeSelected !== "" && 
-            saddleSelected !== "" && 
-            handleSelected !== "" && 
-            wheelSelected !== "" && 
+        if (frameTypeSelected !== "" &&
+            finishSelected !== "" &&
+            gradeSelected !== "" &&
+            saddleSelected !== "" &&
+            handleSelected !== "" &&
+            wheelSelected !== "" &&
             trainType !== "" &&
             parseInt(quantity) > 0 &&
-            colourSelected !== ""){
-                setAllFieldSelected(true)
+            colourSelected !== "") {
+            setAllFieldSelected(true)
         }
     };
 
@@ -340,15 +345,15 @@ const Components = ({
                 <Grid item>
                     <WhiteToggleButton
                         value="SMALL"
-                        selected={size==="SMALL"}
+                        selected={size === "SMALL"}
                         onClick={() => setSize("SMALL")}>
                         S
 					</WhiteToggleButton>
                 </Grid>
                 <Grid item>
-                        <WhiteToggleButton
+                    <WhiteToggleButton
                         value="MEDIUM"
-                        selected={size==="MEDIUM"}
+                        selected={size === "MEDIUM"}
                         onClick={() => setSize("MEDIUM")}>
                         M
 					</WhiteToggleButton>
@@ -356,11 +361,11 @@ const Components = ({
                 <Grid item>
                     <WhiteToggleButton
                         value="LARGE"
-                        selected={size==="LARGE"}
+                        selected={size === "LARGE"}
                         onClick={() => setSize("LARGE")}>
                         L
 					</WhiteToggleButton>
-                </Grid>                
+                </Grid>
             </Grid>
             <Grid item container justify="flex-start" spacing={1}>
                 <Grid item xs={2} >
@@ -370,7 +375,7 @@ const Components = ({
                     <Grid item key={frame.type}>
                         <WhiteToggleButton
                             value={frame.type}
-                            selected={frameTypeSelected===frame.type}
+                            selected={frameTypeSelected === frame.type}
                             className="frame"
                             onClick={() =>
                                 setComponentType(
@@ -386,7 +391,7 @@ const Components = ({
                             />
                         </WhiteToggleButton>
                         <Typography variant="subtitle2">
-                            Inventory: {selectedLocation === "None"? "-" : frameInvent.filter((frameInv: any) => frameInv.specificComponentType === frame.type)[0].quantity}
+                            Inventory: {selectedLocation === "None" ? "-" : frameInvent.filter((frameInv: any) => frameInv.specificComponentType === frame.type)[0].quantity}
                         </Typography>
                     </Grid>
                 ))}
@@ -400,7 +405,7 @@ const Components = ({
                         <WhiteToggleButton
                             value={finish.type}
                             className="finish"
-                            selected={finishSelected===finish.type}
+                            selected={finishSelected === finish.type}
                             onClick={() =>
                                 setComponentType("finish", finish.type)
                             }
@@ -421,7 +426,7 @@ const Components = ({
                         <WhiteToggleButton
                             value={grade.type}
                             className="grade"
-                            selected={gradeSelected===grade.type}
+                            selected={gradeSelected === grade.type}
                             onClick={() =>
                                 setComponentType("grade", grade.type)
                             }
@@ -442,7 +447,7 @@ const Components = ({
                         <WhiteToggleButton
                             value={colour}
                             className="colour"
-                            selected={colourSelected===colour}
+                            selected={colourSelected === colour}
                             onClick={() =>
                                 setComponentType("colour", colour)
                             }
@@ -463,7 +468,7 @@ const Components = ({
                         <WhiteToggleButton
                             value={saddle.type}
                             className="saddle"
-                            selected={saddleSelected===saddle.type}
+                            selected={saddleSelected === saddle.type}
                             onClick={() =>
                                 setComponentType(
                                     "saddle",
@@ -478,7 +483,7 @@ const Components = ({
                             />
                         </WhiteToggleButton>
                         <Typography variant="subtitle2">
-                            Inventory: {selectedLocation === "None"? "-" : seatInvent.filter((inv: any) => inv.specificComponentType === saddle.type)[0].quantity}
+                            Inventory: {selectedLocation === "None" ? "-" : seatInvent.filter((inv: any) => inv.specificComponentType === saddle.type)[0].quantity}
                         </Typography>
                     </Grid>
                 ))}
@@ -492,7 +497,7 @@ const Components = ({
                         <WhiteToggleButton
                             value={handlebar.type}
                             className="handlebar"
-                            selected={handleSelected===handlebar.type}
+                            selected={handleSelected === handlebar.type}
                             onClick={() =>
                                 setComponentType(
                                     "handle",
@@ -507,7 +512,7 @@ const Components = ({
                             />
                         </WhiteToggleButton>
                         <Typography variant="subtitle2">
-                            Inventory: {selectedLocation === "None"? "-" : handleInvent.filter((inv: any) => inv.specificComponentType === handlebar.type)[0].quantity}
+                            Inventory: {selectedLocation === "None" ? "-" : handleInvent.filter((inv: any) => inv.specificComponentType === handlebar.type)[0].quantity}
                         </Typography>
                     </Grid>
                 ))}
@@ -536,7 +541,7 @@ const Components = ({
                             />
                         </WhiteToggleButton>
                         <Typography variant="subtitle2">
-                            Inventory: {selectedLocation === "None"? "-" : wheelInvent.filter((inv: any) => inv.specificComponentType === wheel.type)[0].quantity}
+                            Inventory: {selectedLocation === "None" ? "-" : wheelInvent.filter((inv: any) => inv.specificComponentType === wheel.type)[0].quantity}
                         </Typography>
                     </Grid>
                 ))}
@@ -565,7 +570,7 @@ const Components = ({
                             />
                         </WhiteToggleButton>
                         <Typography variant="subtitle2">
-                            Inventory: {selectedLocation === "None"? "-" : dtInvent.filter((inv: any) => inv.specificComponentType === drivetrain.type)[0].quantity}
+                            Inventory: {selectedLocation === "None" ? "-" : dtInvent.filter((inv: any) => inv.specificComponentType === drivetrain.type)[0].quantity}
                         </Typography>
                     </Grid>
                 ))}
@@ -588,20 +593,20 @@ const Components = ({
             <Grid item>
                 <Button variant="contained" color="primary"
                     onClick={() => fillBikeOrder()}>Add</Button>
-                        <Snackbar
-                            anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                            }}
-                            open={snackOpen}
-                            autoHideDuration={6000}
-                            onClose={handleClose}
-                        >
-                            <Alert severity="error" onClose={handleClose}>
-                                <AlertTitle>Error</AlertTitle>
-                                {snackMessage}
-                            </Alert>
-                        </Snackbar>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={snackOpen}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                >
+                    <Alert severity="error" onClose={handleClose}>
+                        <AlertTitle>Error</AlertTitle>
+                        {snackMessage}
+                    </Alert>
+                </Snackbar>
             </Grid>
         </Grid>
     );
@@ -642,11 +647,11 @@ const Billing = ({ bikeOrderList, removeBike, removeAllBikes, removeComponentSol
     }
 
     const proceedToSell = () => {
-        if(bikeOrderList.bikeOrderList.length > 0){
+        if (bikeOrderList.bikeOrderList.length > 0) {
             axios.post(`${url}/bike/createBikes`, {
                 bikeOrderList: bikeOrderList
             })
-            axios.put(`${url}/components/sellComponents`,{
+            axios.put(`${url}/components/sellComponents`, {
                 componentSaleList: bikeOrderList.componentOrderList
             })
             clearCart();
@@ -721,12 +726,12 @@ const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes, addComp
         });
     }, [url, bikeOrderList]);
 
-    const styles= useStyles();
+    const styles = useStyles();
 
     return (
         <div>
             <Typography className={styles.title}>Order Bike</Typography>
-            <br/>
+            <br />
             <Grid
                 container
                 spacing={4}
@@ -744,7 +749,7 @@ const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes, addComp
                     <Components
                         bikeOrderList={bikeOrderList}
                         addBike={addBike}
-                        addComponentSold = {addComponentSold}
+                        addComponentSold={addComponentSold}
                         setMostRecentPicture={setMostRecentPicture}
                         setMostRecent={setMostRecent}
                         selectedLocation={selectedLocation}
@@ -756,9 +761,9 @@ const OrderBike = ({ bikeOrderList, addBike, removeBike, removeAllBikes, addComp
                         bikeOrderList={bikeOrderList}
                         removeBike={removeBike}
                         removeAllBikes={removeAllBikes}
-                        removeComponentSold = {removeComponentSold}
-                        removeAllComponents = {removeAllComponents}
-                        setInventoryTable = {setInventoryTable}
+                        removeComponentSold={removeComponentSold}
+                        removeAllComponents={removeAllComponents}
+                        setInventoryTable={setInventoryTable}
                     ></Billing>
                 </Grid>
             </Grid>
