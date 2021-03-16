@@ -47,7 +47,7 @@ export class UserLogService{
                   id
                 )
                 .then((response) => {
-                  resolve({ status: 201, message: response.message });
+                  resolve({ status: 201});
                 })
           })
     }
