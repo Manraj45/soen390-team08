@@ -28,4 +28,15 @@ router.get("/userLogs/:user_id", (req, res) => {
       });
   });
 
+  router.get("/userLogs", (req, res) => {
+    UserLogService
+      .getAllLogs()
+      .then((response) => {
+        res.json(response);
+      })
+      .catch((error) => {
+        res.status(error.status).send(error.messages);
+      });
+  });
+  
 UserLogService.getUserLogService();

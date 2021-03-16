@@ -51,5 +51,15 @@ export class UserLogService{
                 })
           })
     }
+
+  public static getAllLogs = () => {
+    return new Promise(async (resolve, reject) => {
+      await UserLogService.userLogDao
+              .fetchAllLogs()
+              .then((response) => {
+                resolve({ status: 201});
+              })
+        })
+  }
     
 }
