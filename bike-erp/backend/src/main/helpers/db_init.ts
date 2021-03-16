@@ -1,4 +1,4 @@
-import db from "../helpers/db";
+import db from "./db";
 import {
   fillComponentCatalogue,
   fillLocation,
