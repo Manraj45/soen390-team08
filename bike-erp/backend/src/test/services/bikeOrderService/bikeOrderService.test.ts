@@ -3,10 +3,6 @@ import { BikeOrderService } from "../../../main/services/orderService/BikeOrderS
 
 describe("Bike Order Test", () => {
 
-    beforeAll(async () => {
-        //Creating the singleton instance of bike order service
-        await BikeOrderService.getBikeOrderService();
-    });
     // destroy connection after the test
     afterAll(() => {
         //Closing database connection
@@ -15,14 +11,14 @@ describe("Bike Order Test", () => {
 
     //creation test of a bike
     test("Order a bike", async () => {
-        let arrayOrder: any[] = [];
-        let email = "test@test.com";
-        arrayOrder.push({
+        const mock_array: any[] = [];
+        const mock_email = "test@test.com";
+        mock_array.push({
             price: 2, size: "MEDIUM", color: "blue", bike_description: "mike", grade: "chrome",
             quantity: 75, handle_id: 35, wheel_id: 41, frame_id: 120, seat_id: 68, drive_train_id: 86
         })
         return expect(
-            BikeOrderService.addBike(arrayOrder, email)
+            BikeOrderService.addBike(mock_array, mock_email)
         ).resolves.toEqual({
             status: 201,
             message: "Bike was sold succesfully",
@@ -31,14 +27,14 @@ describe("Bike Order Test", () => {
 
     //testing negative quantity of bike
     test("Negative quantity", async () => {
-        let arrayOrder: any[] = [];
-        let email = "test@test.com";
-        arrayOrder.push({
+        const mock_array: any[] = [];
+        const mock_email = "test@test.com";
+        mock_array.push({
             price: 2, size: "MEDIUM", color: "blue", bike_description: "mike", grade: "chrome",
             quantity: -23, handle_id: 35, wheel_id: 41, frame_id: 120, seat_id: 68, drive_train_id: 86
         })
         return expect(
-            BikeOrderService.addBike(arrayOrder, email)
+            BikeOrderService.addBike(mock_array, mock_email)
         ).rejects.toEqual({
             status: 400,
             message: "Invalid quantity format, quantity must be a number data type and a positive number",
@@ -47,14 +43,14 @@ describe("Bike Order Test", () => {
 
     //testing data type of quantity
     test("Not an integer quantity", async () => {
-        let arrayOrder: any[] = [];
-        let email = "test@test.com";
-        arrayOrder.push({
+        const mock_array: any[] = [];
+        const mock_email = "test@test.com";
+        mock_array.push({
             price: 25, size: "MEDIUM", color: "blue", bike_description: "mike", grade: "chrome",
             quantity: "asdasd", handle_id: 35, wheel_id: 41, frame_id: 120, seat_id: 68, drive_train_id: 86
         })
         return expect(
-            BikeOrderService.addBike(arrayOrder, email)
+            BikeOrderService.addBike(mock_array, mock_email)
         ).rejects.toEqual({
             status: 400,
             message: "Invalid quantity format, quantity must be a number data type and a positive number",
@@ -63,14 +59,14 @@ describe("Bike Order Test", () => {
 
     //testing negative price of bike
     test("Negative price", async () => {
-        let arrayOrder: any[] = [];
-        let email = "test@test.com";
-        arrayOrder.push({
+        const mock_array: any[] = [];
+        const mock_email = "test@test.com";
+        mock_array.push({
             price: -1230, size: "MEDIUM", color: "blue", bike_description: "mike", grade: "chrome",
             quantity: 2, handle_id: 35, wheel_id: 41, frame_id: 120, seat_id: 68, drive_train_id: 86
         })
         return expect(
-            BikeOrderService.addBike(arrayOrder, email)
+            BikeOrderService.addBike(mock_array, mock_email)
         ).rejects.toEqual({
             status: 400,
             message: "Invalid price format, price must be a number data type and a positive number",
@@ -79,14 +75,14 @@ describe("Bike Order Test", () => {
 
     //testing data type of price
     test("Not an integer price", async () => {
-        let arrayOrder: any[] = [];
-        let email = "test@test.com";
-        arrayOrder.push({
+        const mock_array: any[] = [];
+        const mock_email = "test@test.com";
+        mock_array.push({
             price: "asd", size: "MEDIUM", color: "blue", bike_description: "mike", grade: "chrome",
             quantity: -23, handle_id: 35, wheel_id: 41, frame_id: 120, seat_id: 68, drive_train_id: 86
         })
         return expect(
-            BikeOrderService.addBike(arrayOrder, email)
+            BikeOrderService.addBike(mock_array, mock_email)
         ).rejects.toEqual({
             status: 400,
             message: "Invalid price format, price must be a number data type and a positive number",
