@@ -22,4 +22,22 @@ export class UserLogService{
         return this.userLogService;
       }
     }
+
+    public static addLog = (
+        id: Number,
+        activity: string
+    ) => {
+    return new Promise(async (resolve, reject) => {
+      await UserLogService.userLogDao
+              .addToUserLog(
+                id,
+                activity
+              )
+              .then((response) => {
+                resolve({ status: 201, message: response.message });
+              })
+    }
+    )
+
+    }
 }
