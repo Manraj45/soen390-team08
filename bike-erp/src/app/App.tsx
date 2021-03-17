@@ -11,6 +11,7 @@ import { isAuthenticated } from "../redux/actions/AccountActions/accountAction";
 
 import LoginPage from "../components/LoginPage/LoginPage";
 import RegistrationPage from "../components/RegistrationPage/RegistrationPage";
+import PermissionManagementPage from "../components/PermissionManagementPage/PermissionManagementPage";
 import Home from "../components/Home/Home";
 
 import IdleTimerContainer from "../components/IdleTimerContainer/IdleTimerContainer";
@@ -22,11 +23,10 @@ import UserLogs from "../components/UserLogs/UserLogs"
 
 import "./App.css";
 import ERPMenu from "../components/Menu/ERPMenu";
-import SideDrawer from '../components/SideDrawer/SideDrawer';
+import SideDrawer from "../components/SideDrawer/SideDrawer";
 import { Box } from "@material-ui/core";
 
 const App = ({ account, isAuthenticated }: any) => {
-
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   useEffect(() => {
@@ -58,7 +58,14 @@ const App = ({ account, isAuthenticated }: any) => {
       <Box>
         <Box className="App">
           <Box>
-            {account.authenticated ? <ERPMenu setMenuIsOpen={setMenuIsOpen} menuIsOpen={menuIsOpen}></ERPMenu> : <></>}
+            {account.authenticated ? (
+              <ERPMenu
+                setMenuIsOpen={setMenuIsOpen}
+                menuIsOpen={menuIsOpen}
+              ></ERPMenu>
+            ) : (
+              <></>
+            )}
             {menuIsOpen ? <SideDrawer></SideDrawer> : <></>}
           </Box>
           <IdleTimerContainer></IdleTimerContainer>
@@ -73,22 +80,96 @@ const App = ({ account, isAuthenticated }: any) => {
             <Route
               path="/login"
               render={() =>
-                account.loading ? (<></>) :
-                  account.authenticated ? <Redirect to="/" /> : <LoginPage />
+                account.loading ? (
+                  <></>
+                ) : account.authenticated ? (
+                  <Redirect to="/" />
+                ) : (
+                  <LoginPage />
+                )
               }
             />
             <Route
               path="/register"
               render={() =>
-                account.loading ? (<></>) :
-                  account.authenticated ? <Redirect to="/" /> : <RegistrationPage />
+                account.loading ? (
+                  <></>
+                ) : account.authenticated ? (
+                  <Redirect to="/" />
+                ) : (
+                  <RegistrationPage />
+                )
+              }
+            />
+            <Route
+              path="/admin"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated &&
+                  account.account.role === "ADMIN" ? (
+                  <PermissionManagementPage />
+                ) : (
+                  <Redirect to="/login" />
+                )
               }
             />
 
-            <Route path="/order" render={() => account.loading ? (<></>) : account.authenticated ? <OrderComponent /> : <Redirect to="/login" />} />
-            <Route path="/inventory" render={() => account.loading ? (<></>) : account.authenticated ? <Inventory /> : <Redirect to="login" />} />
-            <Route path="/orderbike" render={() => account.loading ? (<></>) : account.authenticated ? <OrderBike /> : <Redirect to="/login" />} />
-            <Route path="/userlogs" render={() => account.loading ? (<></>) : account.authenticated ? <UserLogs /> : <Redirect to="/login" />} />
+            <Route
+              path="/order"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated &&
+                (account.account.role === "ADMIN" ||
+                account.account.role === "MANAGER" || 
+                account.account.role === "EMPLOYEE")? (
+                  <OrderComponent />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/inventory"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated &&
+                (account.account.role === "ADMIN" ||
+                account.account.role === "MANAGER" || 
+                account.account.role === "EMPLOYEE") ? (
+                  <Inventory />
+                ) : (
+                  <Redirect to="login" />
+                )
+              }
+            />
+            <Route
+              path="/orderbike"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated ? (
+                  <OrderBike />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/userlogs"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated &&
+                  account.account.role === "ADMIN" ? (
+                  <UserLogs />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
             <Route exact path="*" render={() => <Redirect to="/" />} />
           </Switch>
         </Box>
