@@ -120,7 +120,10 @@ const App = ({ account, isAuthenticated }: any) => {
               render={() =>
                 account.loading ? (
                   <></>
-                ) : account.authenticated ? (
+                ) : account.authenticated &&
+                (account.account.role === "ADMIN" ||
+                account.account.role === "MANAGER" || 
+                account.account.role === "EMPLOYEE")? (
                   <OrderComponent />
                 ) : (
                   <Redirect to="/login" />
@@ -132,7 +135,10 @@ const App = ({ account, isAuthenticated }: any) => {
               render={() =>
                 account.loading ? (
                   <></>
-                ) : account.authenticated ? (
+                ) : account.authenticated &&
+                (account.account.role === "ADMIN" ||
+                account.account.role === "MANAGER" || 
+                account.account.role === "EMPLOYEE") ? (
                   <Inventory />
                 ) : (
                   <Redirect to="login" />
