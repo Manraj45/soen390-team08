@@ -8,7 +8,7 @@ import store from "../../redux/store";
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const setUp = () => {
+const setup = () => {
     const testStore = store;
     const wrapper = shallow(<OrderBike store={testStore} />)
         .childAt(0)
@@ -21,7 +21,7 @@ describe("Order Bike", () => {
     let wrapper: any;
 
     beforeEach(() => {
-        wrapper = setUp();
+        wrapper = setup();
     });
 
     it("bike Order Page render", () => {
