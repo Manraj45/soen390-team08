@@ -1,5 +1,8 @@
 import { UserLogDAO } from "../../dao/UserLogDAO";
 
+/**
+ * This class handles handles registering the logs of user actions in order to track audit logs for debugging and tracking purposes
+ */
 export class UserLogService{
     private static userLogService: UserLogService | undefined;
   
