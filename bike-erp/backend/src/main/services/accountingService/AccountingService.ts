@@ -1,6 +1,7 @@
 import { AccountPayableDAO } from "../../dao/AccountPayableDAO";
 import { AccountReceivableDAO } from "../../dao/AccountReceivableDAO";
 import { BikeOrder } from "../../models/interfaces/BikeOrder";
+import { UserLogService } from "../userlogService/UserLogService";
 
 // This class handles all finance related features such as account receivable and payable
 export class AccountingService {
@@ -57,7 +58,7 @@ export class AccountingService {
           transactionItemId
         );
       });
-
+      UserLogService.addLog(email, "Created Account Payable").catch((error)=> {});
       return {
         status: 201,
         message: "Order successfully",
@@ -93,6 +94,7 @@ export class AccountingService {
           bikeId
         );
       });
+      UserLogService.addLog(userEmail, "Created Account Receivable").catch((error)=> {});
       return true;
     } catch (error) {
       throw { status: 500, message: error.sqlMessage };
@@ -106,6 +108,7 @@ export class AccountingService {
         const accountReceivableList = await AccountingService.accountReceivableDAO?.fetchAllAccountReceivableByUser(
           email
         );
+        UserLogService.addLog(email, "Retrieved Account Receivable").catch((error)=> {});
         resolve(accountReceivableList);
       } catch (error) {
         reject({ status: 500, message: error.sqlMessage });
@@ -127,6 +130,7 @@ export class AccountingService {
         const accountPayableList = AccountingService.accountPayableDAO?.getAccountPayableByEmail(
           email
         );
+        UserLogService.addLog(email, "Retrieved Account Payable").catch((error)=> {});
         resolve(accountPayableList);
       } catch (error) {
         rejects({ status: 500, message: error.sqlMessage });

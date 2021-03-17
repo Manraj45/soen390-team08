@@ -1,5 +1,6 @@
 import { AccountDao } from "../../dao/AccountDAO";
 import { Role } from "../../models/Account";
+import { UserLogService } from "../userlogService/UserLogService";
 
 export class AccountManagementService {
   //Creating a static accountManagementService object
@@ -75,6 +76,7 @@ export class AccountManagementService {
         AccountManagementService.accountDao
           .updateAccountRole(email, role)
           .then((response) => {
+             UserLogService.addLog(email, "Updated role").catch((error)=> {});
             resolve({ status: 202, message: response });
           })
           .catch((error) => {
@@ -83,6 +85,7 @@ export class AccountManagementService {
       }
     });
   };
+
 
   //Method to fetch the account from database
   public static getAccounts = (currentUserEmail: string) => {
