@@ -1,12 +1,14 @@
 import { Button, Typography } from "@material-ui/core";
-import React from "react";
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/AccountActions/accountAction";
+
+import ReceivableHistory from "../PaymentHistory/ReceivableHistory";
 
 const Home = (props: any) => {
   return (
     <div>
       <Typography variant="h1">Welcome</Typography>
+      <ReceivableHistory />
       <Button variant="contained" color="primary" onClick={props.logout}>
         Logout
       </Button>

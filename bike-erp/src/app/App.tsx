@@ -12,7 +12,6 @@ import { isAuthenticated } from "../redux/actions/AccountActions/accountAction";
 import LoginPage from "../components/LoginPage/LoginPage";
 import RegistrationPage from "../components/RegistrationPage/RegistrationPage";
 import Home from "../components/Home/Home";
-
 import IdleTimerContainer from "../components/IdleTimerContainer/IdleTimerContainer";
 import Inventory from "../components/Inventory/inventory";
 import localStorageService from "../core/services/LocalStorageService";
