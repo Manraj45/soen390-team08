@@ -2,83 +2,59 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   adminPageWrapper: {
+    margin: "0",
     [theme.breakpoints.down("sm")]: {
-      margin: "0",
       top: "10%",
     },
     [theme.breakpoints.up("md")]: {
-      margin: "0",
       top: "30%",
     },
   },
   title: {
+    alignItems: "center",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: "200%",
     [theme.breakpoints.down("sm")]: {
       marginTop: "50px",
       marginBottom: "50px",
-      alignItems: "center",
-      textAlign: "center",
-      fontWeight: "bold",
-      fontSize: "200%",
     },
     [theme.breakpoints.up("md")]: {
       marginTop: "10px",
       marginBottom: "10px",
-      alignItems: "center",
-      textAlign: "center",
-      fontWeight: "bold",
-      fontSize: "200%",
     },
   },
   name: {
-    [theme.breakpoints.down("sm")]: {
-      marginLeft: "10px",
-      alignItems: "flex-end",
-      textAlign: "right",
-    },
-    [theme.breakpoints.up("md")]: {
-      marginLeft: "10px",
-      alignItems: "flex-end",
-      textAlign: "right",
-    },
+    marginLeft: "10px",
+    alignItems: "flex-end",
+    textAlign: "right",
   },
   avatarName: {
-    [theme.breakpoints.down("sm")]: {
-      display: "flex",
-      flexWrap: "wrap",
-      alignItems: "center",
-      float: "right",
-    },
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
-      flexWrap: "wrap",
-      alignItems: "center",
-      float: "right",
-    },
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    float: "right",
   },
   place: {
+    maxHeight: "50px",
+    maxWeidth: "50px",
+    overflow: "auto",
     [theme.breakpoints.down("sm")]: {
       marginTop: "50px",
-      maxHeight: "50px",
-      maxWeidth: "50px",
       minHeight: "300px",
-      overflow: "auto",
     },
     [theme.breakpoints.up("md")]: {
       marginTop: "10px",
-      maxHeight: "50px",
-      maxWeidth: "50px",
       minHeight: "500px",
-      overflow: "auto",
     },
   },
   grid: {
+    float: "right",
     [theme.breakpoints.down("sm")]: {
       marginTop: "50px",
-      float: "right",
     },
     [theme.breakpoints.up("md")]: {
       marginTop: "10px",
-      float: "right",
     },
   },
   button: {
