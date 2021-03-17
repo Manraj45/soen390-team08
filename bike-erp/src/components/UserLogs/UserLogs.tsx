@@ -7,7 +7,9 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import useStyles from "../Inventory/inventoryStyles";
 
-// Component for UserLogs page
+/*
+    UserLogs page. Admins can view logs and audit trails of all users.
+*/
 const UserLogs: React.FC = () => {
     const [logTable, setlogTable] = useState<any[]>([]);
 
