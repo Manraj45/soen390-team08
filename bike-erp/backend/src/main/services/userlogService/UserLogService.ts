@@ -39,6 +39,9 @@ export class UserLogService{
               .then((response) => {
                 resolve({ status: 201, message: response.message });
               })
+              .catch((error) => {
+                reject({ status: 404, message: "Failed to add log." });
+              });
         })}
 
   public static getLog = (
@@ -52,6 +55,9 @@ export class UserLogService{
                 .then((response) => {
                   resolve({ status: 201});
                 })
+                .catch((error) => {
+                  reject({ status: 404, message: "Failed to get log." });
+                });
           })
     }
 
@@ -62,6 +68,9 @@ export class UserLogService{
               .then((response) => {
                 resolve({ status: 201});
               })
+              .catch((error) => {
+                reject({ status: 404, message: "Failed to get all logs." });
+              });
         })
   }
     
