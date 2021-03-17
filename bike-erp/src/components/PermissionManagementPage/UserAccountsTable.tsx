@@ -30,11 +30,11 @@ const UserAccountsTable = (props) => {
   //update the roles in the database
   const updateRoles = (event) => {
     event.preventDefault();
-    var table: any = document.getElementById("accounts");
+    let table: any = document.getElementById("accounts");
     /*eslint-disable */
-    for (var i = 1, row: any; (row = table.rows[i]); i++) {
-      let userEmail: String = "";
-      for (var j = 0, col: any; (col = row.cells[j]); j++) {
+    for (let i = 1, row: any; (row = table.rows[i]); i++) {
+      let userEmail: string = "";
+      for (let j = 0, col: any; (col = row.cells[j]); j++) {
         if (col.id === "email") {
           userEmail = col.innerText;
         }
