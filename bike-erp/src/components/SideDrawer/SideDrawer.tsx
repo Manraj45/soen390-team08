@@ -11,21 +11,29 @@ const SideDrawer = ({ account }: any) => {
   return (
     <nav className={style.drawer}>
       <List>
-        <Link to="/orderbike" style={{ textDecoration: "none" }}>
-          <ListItem className={style.menuItems}>
-            <Typography>Order Bike</Typography>
-          </ListItem>
-        </Link>
-        <Link to="/order" style={{ textDecoration: "none" }}>
-          <ListItem className={style.menuItems}>
-            <Typography>Order Components</Typography>
-          </ListItem>
-        </Link>
-        <Link to="/inventory" style={{ textDecoration: "none" }}>
-          <ListItem className={style.menuItems}>
-            <Typography>Inventory</Typography>
-          </ListItem>
-        </Link>
+          <Link to="/orderbike" style={{ textDecoration: "none" }}>
+            <ListItem className={style.menuItems}>
+              <Typography>Order Bike</Typography>
+            </ListItem>
+          </Link>
+        {(account.account.role === "ADMIN" || account.account.role === "MANAGER" || account.account.role === "EMPLOYEE") ? (
+          <Link to="/order" style={{ textDecoration: "none" }}>
+            <ListItem className={style.menuItems}>
+              <Typography>Order Components</Typography>
+            </ListItem>
+          </Link>
+        ) : (
+          <></>
+        )}
+        {(account.account.role === "ADMIN" || account.account.role === "MANAGER" || account.account.role === "EMPLOYEE") ? (
+          <Link to="/inventory" style={{ textDecoration: "none" }}>
+            <ListItem className={style.menuItems}>
+              <Typography>Inventory</Typography>
+            </ListItem>
+          </Link>
+        ) : (
+          <></>
+        )}
         {account.account.role === "ADMIN" ? (
           <Link to="/admin" style={{ textDecoration: "none" }}>
             <ListItem className={style.menuItems}>

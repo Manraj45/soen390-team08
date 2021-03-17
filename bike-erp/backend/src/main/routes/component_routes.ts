@@ -1,5 +1,5 @@
 import express from "express";
-import { authenticateToken, AuthenticationService } from "../services/authenticationService/AuthenticationService";
+import { AuthenticationService } from "../services/authenticationService/AuthenticationService";
 import { InventoryManagementService } from "../services/inventoryManagementService/InventoryManagementService";
 
 const router = express();
@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:component_id", authenticateToken, (req, res) => {
+router.get("/:component_id", (req, res) => {
   inventoryManagementService
     .getComponent(req.params.component_id)
     .then((response) => {
@@ -28,7 +28,7 @@ router.get("/:component_id", authenticateToken, (req, res) => {
 });
 
 //Edit the quantity depending on the Id of the component
-router.put("/updateQuantity", authenticateToken, (req, res) => {
+router.put("/updateQuantity", (req, res) => {
   const id = req.body.id;
   const quantity = req.body.quantity;
   inventoryManagementService
@@ -42,7 +42,7 @@ router.put("/updateQuantity", authenticateToken, (req, res) => {
 });
 
 //API used to modify the quantity of each components that are sold
-router.put("/sellComponents", authenticateToken, (req,res) => {
+router.put("/sellComponents", (req,res) => {
   const componentSaleList: Array<any> = req.body.componentSaleList;
   inventoryManagementService.editComponentQuantitySale(componentSaleList).then(response => {
     res.json(response);
@@ -53,7 +53,7 @@ router.put("/sellComponents", authenticateToken, (req,res) => {
 
 // API endpoint for ordering new components
 // Requires a orderList in body
-router.put("/orderComponents", authenticateToken, (req, res) => {
+router.put("/orderComponents", (req, res) => {
   const orderList: Array<any> = req.body.orderList.orderList
 
   //Setting the endpoint header to authorization
@@ -71,7 +71,7 @@ router.put("/orderComponents", authenticateToken, (req, res) => {
   })
 })
 
-router.get("/componentLocation/:component_id", authenticateToken, (req, res) => {
+router.get("/componentLocation/:component_id", (req, res) => {
   inventoryManagementService
     .getComponentLocation(req.params.component_id)
     .then((response) => {
