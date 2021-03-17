@@ -1,5 +1,8 @@
 import db from "../helpers/db";
 
+/**
+ * This class is the Data Access Object for the User Log. It queries the database and is used by the UserLogService
+ */
 export class UserLogDAO{
 
     public fetchAllLogs = () => {

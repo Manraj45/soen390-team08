@@ -3,6 +3,11 @@ import { UserLogService } from "../services/userlogService/UserLogService";
 
 const router = express();
 
+/**
+ * This file provides the rotes for the front end to push or query user logs to the database
+ */
+
+// posts a user log to the database
 router.post("/userLogRegistration", (req, res ) => {
     UserLogService.addLog(
         req.body.id,
@@ -16,6 +21,7 @@ router.post("/userLogRegistration", (req, res ) => {
         });
 });
 
+// retrieves a user log from the user email
 router.get("/userLogs/:user_id", (req, res) => {
     const email = req.params.email;
     UserLogService
@@ -28,6 +34,7 @@ router.get("/userLogs/:user_id", (req, res) => {
       });
   });
 
+  // retrieves all user logs
   router.get("/userLogs", (req, res) => {
     UserLogService
       .getAllLogs()
