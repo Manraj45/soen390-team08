@@ -60,7 +60,7 @@ export class AccountManagementService {
             if (!error) {
                 AccountManagementService.accountDao.updateAccountRole(email, role)
                     .then((response) => {
-                        UserLogService.addLog(email, "Updated role");
+                        UserLogService.addLog(email, "Updated role").catch((error)=> {});
                         resolve({ status: 202, message: response });
                     })
                     .catch((error) => {

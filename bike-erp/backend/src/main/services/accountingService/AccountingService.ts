@@ -46,7 +46,7 @@ export class AccountingService {
                 const transactionItemId = await AccountingService.accountPayableDAO?.createTransactionItems(order.price * order.quantity, order.id, order.quantity) as number;
                 await AccountingService.accountPayableDAO?.createConsistOf(accountPayableId, transactionItemId);
             })
-            UserLogService.addLog(email, "Created Account Payable");
+            UserLogService.addLog(email, "Created Account Payable").catch((error)=> {});
             return { status: 201, message: "Order successfully", orderList: orderList };
         }
         catch (error) {
@@ -68,7 +68,7 @@ export class AccountingService {
             bikeIdList.forEach(async bikeId => {
                 await AccountingService.accountReceivableDAO?.createBikeInAccountReceivable(accountReceivableId, bikeId);
             })
-            UserLogService.addLog(userEmail, "Created Account Receivable");
+            UserLogService.addLog(userEmail, "Created Account Receivable").catch((error)=> {});
             return true;
         } catch (error) {
             throw { status: 500, message: error.sqlMessage };
@@ -81,7 +81,7 @@ export class AccountingService {
             try {
                 const accountReceivableList = await AccountingService.accountReceivableDAO?.fetchAllAccountReceivableByUser(email);
                 resolve(accountReceivableList)
-                UserLogService.addLog(email, "Retrieved Account Receivable");
+                UserLogService.addLog(email, "Retrieved Account Receivable").catch((error)=> {});
             } catch (error) {
                 reject({ status: 500, message: error.sqlMessage });
             }
@@ -99,7 +99,9 @@ export class AccountingService {
             try {
                 const accountPayableList = AccountingService.accountPayableDAO?.getAccountPayableByEmail(email);
                 resolve(accountPayableList);
-                UserLogService.addLog(email, "Retrieved Account Payable");
+
+                UserLogService.addLog(email, "Retrieved Account Payable").catch((error)=> {});
+
             } catch (error) {
                 rejects({ status: 500, message: error.sqlMessage });
             }

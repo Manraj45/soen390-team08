@@ -1,5 +1,8 @@
 import { UserLogDAO } from "../../dao/UserLogDAO";
 
+/**
+ * This class handles handles registering the logs of user actions in order to track audit logs for debugging and tracking purposes
+ */
 export class UserLogService{
     private static userLogService: UserLogService | undefined;
   
@@ -36,6 +39,9 @@ export class UserLogService{
               .then((response) => {
                 resolve({ status: 201, message: response.message });
               })
+              .catch((error) => {
+                reject({ status: 404, message: "Failed to add log." });
+              });
         })}
 
   public static getLog = (
@@ -49,6 +55,9 @@ export class UserLogService{
                 .then((response) => {
                   resolve({ status: 201});
                 })
+                .catch((error) => {
+                  reject({ status: 404, message: "Failed to get log." });
+                });
           })
     }
 
@@ -59,6 +68,9 @@ export class UserLogService{
               .then((response) => {
                 resolve({ status: 201});
               })
+              .catch((error) => {
+                reject({ status: 404, message: "Failed to get all logs." });
+              });
         })
   }
     

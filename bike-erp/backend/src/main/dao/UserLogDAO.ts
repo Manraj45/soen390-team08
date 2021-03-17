@@ -28,7 +28,7 @@ export class UserLogDAO{
       public addToUserLog = (email : string, activity: string) =>{
           return new Promise<any>((resolve, rejects) => {
             const insert =
-              "INSERT INTO `account` (`email`, `activity`, `timestamp`) VALUES ('" +
+              "INSERT INTO `user_logs` (`email`, `activity`, `timestamp`) VALUES ('" +
               email +
               "', '" +
               activity +

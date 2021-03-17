@@ -79,7 +79,7 @@ export class RegistrationService {
                 organization
               )
               .then((response) => {
-                UserLogService.addLog(email, "Registered for an account");
+                UserLogService.addLog(email, "Registered for an account").catch((error)=> {});
                 resolve({ status: 201, message: response.message });
               })
               .catch((error) => {
