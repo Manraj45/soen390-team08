@@ -7,6 +7,7 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import useStyles from "../Inventory/inventoryStyles";
 
+// Component for UserLogs page
 const UserLogs: React.FC = () => {
     const [logTable, setlogTable] = useState<any[]>([]);
 
