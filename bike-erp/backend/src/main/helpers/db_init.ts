@@ -144,7 +144,7 @@ export const initialize_db = (): void => {
         log_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         email varchar(255) NOT NULL,
         activity varchar(255) NOT NULL,
-        time_stamp datetime NOT NULL,
+        timestamp datetime NOT NULL,
         FOREIGN KEY(email) REFERENCES account(email)
       );`;
 
