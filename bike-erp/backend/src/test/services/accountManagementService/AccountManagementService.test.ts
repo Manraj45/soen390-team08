@@ -32,17 +32,22 @@ describe("Update role test", () => {
         db.end();
     });
 
-    test("Updating role of user with valid role and email", async () => {
+    test("Updating role of user with valid role and email and not current user", async () => {
         //Expect the updateRole method to update the role successfully
-        return expect(AccountManagementService.updateRole("test@test.com", Role.ADMIN)).resolves.toEqual({ status: 202, message: "Account role updated successfully." });
+        return expect(AccountManagementService.updateRole("tes@test.com", "test@test.com", Role.ADMIN)).resolves.toEqual({ status: 202, message: "Account role updated successfully." });
     });
 
-    test("Updating role of user with invalid role and valid email", async () => {
+    test("Updating role of user with invalid role and valid email and not current user", async () => {
         //Expect the updateRole method to reject
-        return expect(AccountManagementService.updateRole("test@test.com", "test" as unknown as Role)).rejects.toEqual({ status: 400, message: "Invalid role.", email: "test@test.com", role: "test" });
+        return expect(AccountManagementService.updateRole("tes@test.com", "test@test.com", "test" as unknown as Role)).rejects.toEqual({ status: 400, message: "Invalid role.", email: "test@test.com", role: "test" });
     });
 
-    test("Updating role of user with valid role and invalid email", async () => {
+    test("Updating role of user with valid role and valid email and current user", async () => {
+        //Expect the updateRole method to reject
+        return expect(AccountManagementService.updateRole("test@test.com", "test@test.com", Role.ADMIN)).rejects.toEqual({ status: 400, message: "You cannot change the role of your own account.", email: "test@test.com", role: Role.ADMIN });
+    });
+
+    test("Updating role of user with valid role and invalid email and not current user", async () => {
         //Getting instance of AccountDao
         const accountDao = AccountManagementService.getAccountDao();
 
@@ -50,7 +55,7 @@ describe("Update role test", () => {
         accountDao.fetchAccount = jest.fn().mockReturnValue([]);
 
         //Expect the updateRole method to reject
-        return expect(AccountManagementService.updateRole("t@test.com", Role.ADMIN)).rejects.toEqual({ status: 400, message: "Invalid email.", email: "t@test.com" });
+        return expect(AccountManagementService.updateRole("tes@test.com", "t@test.com", Role.ADMIN)).rejects.toEqual({ status: 400, message: "Invalid email.", email: "t@test.com" });
     });
 
 });
