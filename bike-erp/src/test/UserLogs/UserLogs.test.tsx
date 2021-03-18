@@ -14,7 +14,6 @@ describe("UserLogs", () => {
   });
 
   it("userlogs page should appear", () => {
-    console.log(wrapper);
     const data = wrapper.find("#userLogsPage");
     console.log(wrapper);
     expect(data.length).toBe(1);
