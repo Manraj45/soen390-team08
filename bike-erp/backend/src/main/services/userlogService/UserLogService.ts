@@ -47,31 +47,11 @@ export class UserLogService{
   public static getLog = (
     email : string
     ) => {
-      return new Promise(async (resolve, reject) => {
-        await UserLogService.userLogDao
-                .fetchUserLog(
-                  email
-                )
-                .then((response) => {
-                  resolve({ status: 201});
-                })
-                .catch((error) => {
-                  reject({ status: 404, message: "Failed to get log." });
-                });
-          })
+      return UserLogService.userLogDao.fetchUserLog(email);
     }
 
   public static getAllLogs = () => {
-    return new Promise(async (resolve, reject) => {
-      await UserLogService.userLogDao
-              .fetchAllLogs()
-              .then((response) => {
-                resolve({ status: 201});
-              })
-              .catch((error) => {
-                reject({ status: 404, message: "Failed to get all logs." });
-              });
-        })
+    return UserLogService.userLogDao.fetchAllLogs();
   }
     
 }

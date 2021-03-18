@@ -6,16 +6,17 @@ import TableRow from "@material-ui/core/TableRow";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import useStyles from "../Inventory/inventoryStyles";
-import {USERLOGS_URL} from "../../core/utils/config";
+import {BACKEND_URL} from "../../core/utils/config";
 
 /*
     UserLogs page. Admins can view logs and audit trails of all users.
 */
 const UserLogs: React.FC = () => {
     const [logTable, setlogTable] = useState<any[]>([]);
+    const url = BACKEND_URL;
 
   useEffect(() => {
-    Axios.get(USERLOGS_URL).then((response) => {
+    Axios.get(`${url}/userlogs/`).then((response) => {
         setlogTable(response.data);
     });
   }, []);
@@ -42,10 +43,10 @@ const UserLogs: React.FC = () => {
               <TableRow key={row.log_id}>
                 <TableCell className={classes.tableHead} />
                 <TableCell className={classes.innerTable}>
-                  {row.time}
+                  {row.timestamp}
                 </TableCell>
                 <TableCell className={classes.innerTable}>
-                  {row.user}
+                  {row.email}
                 </TableCell>
                 <TableCell className={classes.innerTable}>
                   {row.activity}

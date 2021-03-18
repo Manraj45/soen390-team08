@@ -35,7 +35,7 @@ router.get("/userLogs/:user_id", (req, res) => {
   });
 
   // retrieves all user logs
-  router.get("/userLogs", (req, res) => {
+  router.get("/", (req, res) => {
     UserLogService
       .getAllLogs()
       .then((response) => {
@@ -47,3 +47,5 @@ router.get("/userLogs/:user_id", (req, res) => {
   });
   
 UserLogService.getUserLogService();
+
+export default router;

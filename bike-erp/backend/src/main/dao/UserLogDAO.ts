@@ -8,7 +8,7 @@ export class UserLogDAO{
   // Retrieves logs from all users
     public fetchAllLogs = () => {
       return new Promise<Array<any>>((resolve, reject) => {
-        const query = `SELECT u.email u.timestamp, u.activity
+        const query = `SELECT u.email, u.timestamp, u.activity
                        FROM user_logs u;` ;
         db.query(query, (err, rows) => {
           if (err) return reject(err);
@@ -21,9 +21,9 @@ export class UserLogDAO{
     // Retrieves logs from a specific user
     public fetchUserLog = (email : string) => {
         return new Promise<Array<any>>((resolve, reject) => {
-          const query = `SELECT u.email u.timestamp, u.activity
+          const query = `SELECT u.email, u.timestamp, u.activity
                          FROM user_logs u
-                         WHERE user_logs.account_id = `+ email + `;` ;
+                         WHERE user_logs.email = `+ email + `;` ;
           db.query(query, (err, rows) => {
             if (err) return reject(err);
             resolve(JSON.parse(JSON.stringify(rows)));
