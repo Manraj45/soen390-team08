@@ -21,6 +21,16 @@ const SideDrawer = () => {
                         <Typography>Order Components</Typography>
                     </ListItem>
                 </Link>
+                <Link to="/accountPayable" style={{ textDecoration: 'none' }}>
+                    <ListItem className={style.menuItems}>
+                        <Typography>Account Payable</Typography>
+                    </ListItem>
+                </Link>
+                <Link to="/accountReceivable" style={{ textDecoration: 'none' }}>
+                    <ListItem className={style.menuItems}>
+                        <Typography>Account Receivable</Typography>
+                    </ListItem>
+                </Link>
                 <Link to="/inventory" style={{ textDecoration: 'none' }}>
                     <ListItem className={style.menuItems}>
                         <Typography>Inventory</Typography>
