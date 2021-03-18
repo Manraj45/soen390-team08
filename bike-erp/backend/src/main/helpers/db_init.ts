@@ -137,8 +137,16 @@ export const initialize_db = (): void => {
         bike_id int NOT NULL PRIMARY KEY,
         FOREIGN KEY(account_receivable_id) REFERENCES account_receivable(account_receivable_id),
         FOREIGN KEY(bike_id) REFERENCES bike(bike_id)
-      )
-  `
+      );`;
+
+  const createUserLogs: string = `
+      CREATE TABLE IF NOT EXISTS user_logs(
+        log_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        email varchar(255) NOT NULL,
+        activity varchar(255) NOT NULL,
+        timestamp datetime NOT NULL,
+        FOREIGN KEY(email) REFERENCES account(email)
+      );`;
 
   db.query(createAccountQuery, (err, result) => {
     if (err) throw err;
@@ -212,7 +220,12 @@ export const initialize_db = (): void => {
   db.query(createBikeInAccountReceivable, (err) => {
     if (err) throw err;
     console.log("Bike_In_Account_Receivable Tables Created");
-  })
+  });
+
+  db.query(createUserLogs, (err, result) => {
+    if (err) throw err;
+    console.log("User_logs Tables Created");
+  });
 
   db.query(fillComponentCatalogue, (err, result) => {
     if (err) throw err;

@@ -1,5 +1,6 @@
 import { BikeDao } from "../../dao/BikeDao";
 import { AccountingService } from "../accountingService/AccountingService";
+import { UserLogService } from "../userlogService/UserLogService";
 
 export class BikeOrderService {
   private static bikeOrderService: BikeOrderService | undefined;
@@ -75,6 +76,7 @@ export class BikeOrderService {
           return rejects({ status: 500, message: error.sqlMessage });
         }
       });
+       UserLogService.addLog(email, "Ordered a bike").catch((error)=> {});;
       return resolve({ status: 201, message: "Bike was sold succesfully" });
     });
   };

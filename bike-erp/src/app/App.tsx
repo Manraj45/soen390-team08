@@ -18,7 +18,8 @@ import IdleTimerContainer from "../components/IdleTimerContainer/IdleTimerContai
 import Inventory from "../components/Inventory/inventory";
 import localStorageService from "../core/services/LocalStorageService";
 import OrderComponent from "../pages/OrderComponent";
-import OrderBike from "../components/OrderBike/OrderBike";
+import OrderBike from "../components/OrderBike/OrderBike"
+import UserLogs from "../components/UserLogs/UserLogs"
 
 import "./App.css";
 import ERPMenu from "../components/Menu/ERPMenu";
@@ -100,7 +101,6 @@ const App = ({ account, isAuthenticated }: any) => {
                 )
               }
             />
-
             <Route
               path="/admin"
               render={() =>
@@ -152,6 +152,19 @@ const App = ({ account, isAuthenticated }: any) => {
                   <></>
                 ) : account.authenticated ? (
                   <OrderBike />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/userlogs"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated &&
+                  account.account.role === "ADMIN" ? (
+                  <UserLogs />
                 ) : (
                   <Redirect to="/login" />
                 )
