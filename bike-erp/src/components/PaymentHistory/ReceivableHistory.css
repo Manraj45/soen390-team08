@@ -4,6 +4,15 @@
   padding: 0px 20px;
 }
 
+.receivableHistory .userDetails {
+  text-align: right;
+  padding: 0px 20px 20px 0px;
+}
+
+.receivableHistory .dataContainer {
+  margin-bottom: 20px;
+}
+
 .orders .MuiTableCell-root, .orderDetails .MuiTableCell-root{
   border: 1px solid black;
 }

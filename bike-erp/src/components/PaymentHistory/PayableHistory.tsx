@@ -38,11 +38,11 @@ const PayableHistory = ({ account }: any) => {
   return (
     <div className="payableHistory">
       <h1>Accounts Payable</h1>
-      <div className="userDetails" style={{ textAlign: "right", padding: "0px 20px 20px 0px" }}>
+      <div className="userDetails">
         <Typography>{account.firstName + " " + account.lastName}</Typography>
         <Typography variant="caption">{account.email}</Typography>
       </div>
-      <div style={{ marginBottom: "20px" }}>
+      <div className="dataContainer">
         <Table size="small" className="orders">
           <TableHead>
             <TableRow>
