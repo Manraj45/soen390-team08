@@ -19,7 +19,7 @@ const UserLogs: React.FC = () => {
     Axios.get(`${url}/userlogs/`).then((response) => {
         setlogTable(response.data);
     });
-  }, []);
+  }, [url]);
 
   const classes = useStyles();
 
