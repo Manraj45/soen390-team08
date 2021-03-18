@@ -6,6 +6,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import useStyles from "../Inventory/inventoryStyles";
+import {USERLOGS_URL} from "../../core/utils/config";
 
 /*
     UserLogs page. Admins can view logs and audit trails of all users.
@@ -14,7 +15,7 @@ const UserLogs: React.FC = () => {
     const [logTable, setlogTable] = useState<any[]>([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/userLogs/").then((response) => {
+    Axios.get(USERLOGS_URL).then((response) => {
         setlogTable(response.data);
     });
   }, []);
