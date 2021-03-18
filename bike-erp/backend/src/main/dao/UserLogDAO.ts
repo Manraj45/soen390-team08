@@ -5,6 +5,7 @@ import db from "../helpers/db";
  */
 export class UserLogDAO{
 
+  // Retrieves logs from all users
     public fetchAllLogs = () => {
       return new Promise<Array<any>>((resolve, reject) => {
         const query = `SELECT u.email u.timestamp, u.activity
@@ -16,6 +17,8 @@ export class UserLogDAO{
       });
 
     };
+
+    // Retrieves logs from a specific user
     public fetchUserLog = (email : string) => {
         return new Promise<Array<any>>((resolve, reject) => {
           const query = `SELECT u.email u.timestamp, u.activity
@@ -28,6 +31,7 @@ export class UserLogDAO{
         });
       };
 
+      // Add a user log associated to a user
       public addToUserLog = (email : string, activity: string) =>{
           return new Promise<any>((resolve, rejects) => {
             const insert =
