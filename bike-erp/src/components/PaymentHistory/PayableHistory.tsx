@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
-
 import { BACKEND_URL } from "../../core/utils/config";
-
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import "./PayableHistory.css";
+
+/* This page pertains to the accounts payable */
 
 const PayableHistory = ({ account }: any) => {
 
