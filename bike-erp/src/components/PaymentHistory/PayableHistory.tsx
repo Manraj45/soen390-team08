@@ -86,7 +86,7 @@ const PayableHistory = ({ account }: any) => {
               <TableCell>Cost</TableCell>
             </TableRow>
             {
-              accountSpecifics != {} && Object.values(accountSpecifics).map((item: any) => (
+              accountSpecifics !== {} && Object.values(accountSpecifics).map((item: any) => (
                 <TableRow key={item.transaction_id}>
                   <TableCell>{item.component_id}</TableCell>
                   <TableCell>{item.quantity_bought}</TableCell>

@@ -87,7 +87,7 @@ const ReceivableHistory = ({ account }: any) => {
               <TableCell>Cost</TableCell>
             </TableRow>
             {
-              accountSpecifics != {} && Object.values(accountSpecifics).map((item: any) => (
+              accountSpecifics !== {} && Object.values(accountSpecifics).map((item: any) => (
                 <TableRow key={item.bike_id}>
                   <TableCell>{item.bike_id}</TableCell>
                   <TableCell>{item.size + " " + item.color + " " + item.grade + " grade bike"}</TableCell>
