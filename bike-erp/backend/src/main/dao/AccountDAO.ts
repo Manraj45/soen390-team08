@@ -27,7 +27,10 @@ export class AccountDao {
   public fetchAccountTable = (currentUserEmail: string) => {
     //Getting all the user information from the database
     return new Promise<Array<any>>((resolve, reject) => {
-      const query = 'SELECT `first_name`, `last_name`, `role`, `email`, `organization` FROM `account` where email<>"' + currentUserEmail + `"`;
+      const query =
+        'SELECT `account_id`, `first_name`, `last_name`, `role`, `email`, `organization` FROM `account` where email<>"' +
+        currentUserEmail +
+        `"`;
       db.query(query, (err, rows) => {
         if (err) return reject(err);
         resolve(JSON.parse(JSON.stringify(rows)));
@@ -83,7 +86,12 @@ export class AccountDao {
   public updateAccountRole = (email: string, role: Role) => {
     //Updating the user role in the database
     return new Promise<any>((resolve, reject) => {
-      const query = 'UPDATE `account` SET role = "' + role + '" WHERE email="' + email + `"`;
+      const query =
+        'UPDATE `account` SET role = "' +
+        role +
+        '" WHERE email="' +
+        email +
+        `"`;
       db.query(query, (err, rows) => {
         if (err) return reject(err);
         resolve("Account role updated successfully.");

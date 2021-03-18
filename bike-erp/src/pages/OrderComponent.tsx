@@ -6,8 +6,6 @@ import Components from "../components/OrderService/OrderComponent/Components";
 import ModelView from "../components/OrderService/OrderComponent/ModelView";
 import useStyles from "./OrderComponentStyle";
 
-
-
 const OrderComponent = () => {
   const [selectedLocation, setSelectedLocation] = useState("None");
   const styles = useStyles();
