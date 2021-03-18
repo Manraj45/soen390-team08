@@ -23,3 +23,7 @@
 .location option {
   padding: 5px;
 }
+
+.message {
+  float: left;
+}

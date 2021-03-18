@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserLogs matches the snapshot 1`] = `
+<div
+  className="makeStyles-background-2"
+  id="userLogsPage"
+>
+  <br />
+  <div
+    className="makeStyles-title-1"
+  >
+    User Logs
+  </div>
+  <br />
+  <table
+    className="MuiTable-root makeStyles-tableStyle-4"
+    role={null}
+  >
+    <thead
+      className="MuiTableHead-root makeStyles-tableHead-3"
+      role={null}
+    >
+      <tr
+        className="MuiTableRow-root makeStyles-topRow-6 MuiTableRow-head"
+        role={null}
+      >
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head makeStyles-emptyCell-7 MuiTableCell-sizeSmall"
+          scope="col"
+        />
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+          scope="col"
+        >
+          Time
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+          scope="col"
+        >
+          User
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+          scope="col"
+        >
+          Activity
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      className="MuiTableBody-root"
+      role={null}
+    />
+  </table>
+</div>
+`;

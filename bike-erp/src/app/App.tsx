@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -11,22 +11,31 @@ import { isAuthenticated } from "../redux/actions/AccountActions/accountAction";
 
 import LoginPage from "../components/LoginPage/LoginPage";
 import RegistrationPage from "../components/RegistrationPage/RegistrationPage";
+import PermissionManagementPage from "../components/PermissionManagementPage/PermissionManagementPage";
 import Home from "../components/Home/Home";
-
 import IdleTimerContainer from "../components/IdleTimerContainer/IdleTimerContainer";
 import Inventory from "../components/Inventory/inventory";
 import localStorageService from "../core/services/LocalStorageService";
 import OrderComponent from "../pages/OrderComponent";
+import OrderBike from "../components/OrderBike/OrderBike";
+import UserLogs from "../components/UserLogs/UserLogs";
+import PayableHistory from "../components/PaymentHistory/PayableHistory";
+import ReceivableHistory from "../components/PaymentHistory/ReceivableHistory";
 
 import "./App.css";
+import ERPMenu from "../components/Menu/ERPMenu";
+import SideDrawer from "../components/SideDrawer/SideDrawer";
+import { Box } from "@material-ui/core";
 
 const App = ({ account, isAuthenticated }: any) => {
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+
   useEffect(() => {
     if (localStorageService.getAccessToken()) {
       localStorageService.setBearerToken();
     }
     isAuthenticated();
-  }, [account.authenticated, isAuthenticated]);
+  }, [account.authenticated, isAuthenticated, account.loading]);
 
   axios.interceptors.response.use(
     (response) => {
@@ -47,32 +56,135 @@ const App = ({ account, isAuthenticated }: any) => {
 
   return (
     <Router>
-      <div className="App">
-        <IdleTimerContainer></IdleTimerContainer>
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() =>
-              account.authenticated ? <Home></Home> : <Redirect to="/login" />
-            }
-          />
-          <Route
-            path="/login"
-            render={() =>
-              account.authenticated ? <Redirect to="/" /> : <LoginPage />
-            }
-          />
-          <Route
-            path="/register"
-            render={() =>
-              account.authenticated ? <Redirect to="/" /> : <RegistrationPage />
-            }
-          />
-          <Route path="/order" render={() => <OrderComponent />} />
-          <Route path="/inventory" render={() => <Inventory />} />
-        </Switch>
-      </div>
+      <Box>
+        <Box className="App">
+          <Box>
+            {account.authenticated ? (
+              <ERPMenu
+                setMenuIsOpen={setMenuIsOpen}
+                menuIsOpen={menuIsOpen}
+              ></ERPMenu>
+            ) : (
+              <></>
+            )}
+            {menuIsOpen ? <SideDrawer></SideDrawer> : <></>}
+          </Box>
+          <IdleTimerContainer></IdleTimerContainer>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() =>
+                account.authenticated ? <Home></Home> : <Redirect to="/login" />
+              }
+            />
+            <Route
+              path="/login"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated ? (
+                  <Redirect to="/" />
+                ) : (
+                  <LoginPage />
+                )
+              }
+            />
+            <Route
+              path="/register"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated ? (
+                  <Redirect to="/" />
+                ) : (
+                  <RegistrationPage />
+                )
+              }
+            />
+            <Route
+              path="/admin"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated &&
+                  account.account.role === "ADMIN" ? (
+                  <PermissionManagementPage />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
+
+            <Route
+              path="/order"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated &&
+                (account.account.role === "ADMIN" ||
+                account.account.role === "MANAGER" || 
+                account.account.role === "EMPLOYEE")? (
+                  <OrderComponent />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/inventory"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated &&
+                (account.account.role === "ADMIN" ||
+                account.account.role === "MANAGER" || 
+                account.account.role === "EMPLOYEE") ? (
+                  <Inventory />
+                ) : (
+                  <Redirect to="login" />
+                )
+              }
+            />
+            <Route
+              path="/orderbike"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated ? (
+                  <OrderBike />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/userlogs"
+              render={() =>
+                account.loading ? (
+                  <></>
+                ) : account.authenticated &&
+                  account.account.role === "ADMIN" ? (
+                  <UserLogs />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/accountPayable"
+              render={() => account.loading
+                ? (<></>)
+                : account.authenticated
+                  ? <PayableHistory />
+                  : <Redirect to="/login"/>
+              }
+            />
+            <Route path="/accountReceivable" render={() => account.loading ? (<></>) : account.authenticated ? <ReceivableHistory /> : <Redirect to="/login" />} />
+            <Route exact path="*" render={() => <Redirect to="/" />} />
+          </Switch>
+        </Box>
+      </Box>
     </Router>
   );
 };

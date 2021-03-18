@@ -3,10 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import bike_logo from "../../assets/images/login_bike_logo.png";
-import {
-  credential,
-  login,
-} from "../../redux/actions/AccountActions/accountAction";
+import { credential, login } from "../../redux/actions/AccountActions/accountAction";
 import useStyles from "./LoginPageStyle";
 
 const LoginPage = (props: any) => {
@@ -18,7 +15,10 @@ const LoginPage = (props: any) => {
     const email: string = event.currentTarget.email.value;
     const password: string = event.currentTarget.password.value;
     //Calling the login reducer
-    props.login({ email: email, password: password });
+    props.login({ 
+      email: email,
+      password: password 
+    });
   };
 
   return (

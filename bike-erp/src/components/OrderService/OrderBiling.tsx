@@ -1,79 +1,109 @@
-import { Button, Paper } from "@material-ui/core";
+import { Button, Paper, Typography } from "@material-ui/core";
 import axios from "axios";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BACKEND_URL } from "../../core/utils/config";
 import "./OrderBiling.css";
+import { Order, removeAllItem, removeItem } from "../../redux/actions/OrderListActions/orderListAction";
+import { connect } from "react-redux";
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import { Box } from "@material-ui/core";
 
 const OrderBiling = ({
-  setOrderList,
   orderList,
-  setOrderListQuantity,
-  orderListQuantity,
-  setOrderListInfo,
-  orderListInfo,
+  removeItem,
+  removeAllItems
 }: any) => {
   const url = BACKEND_URL;
 
+  //updating the list of order in the backend
   const updateQuantityOfListOrder = () => {
-    if (!(orderList == null)) {
-      orderList.forEach((element: any) => {
-        axios
-          .put(`${url}/components/updateQuantity/`, {
-            id: element,
-            quantity: orderListQuantity[orderList.indexOf(element)],
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      });
+    if (orderList.orderList.length > 0) {
+      axios.put(`${url}/components/orderComponents`, {
+        orderList: orderList
+      })
       clearCart();
     }
   };
 
+  //clear the order if the users wants to
   const clearCart = () => {
-    setOrderList([]);
-    setOrderListQuantity([]);
-    setOrderListInfo([]);
+    removeAllItems()
   };
+  const [cartTotal, setCartTotal] = useState(0)
+
+  //removing a single items from the cart
+  const removeItemFromCart = (id : number) => {
+    removeItem(id)
+  }
+
+  //loading the catalog of inventory at the beginning
+  useEffect(() => {
+    orderList.orderList.forEach((order: Order) => {
+      setCartTotal(cartTotal => cartTotal + order.price * order.selectedQuantity)
+    })
+    return () => {
+      setCartTotal(0)
+    }
+  }, [orderList.orderList])
+
 
   return (
-    <Paper className="orderBiling">
-      <h2>Billing</h2>
-      <div className="contents">
-        {orderList.map((element: number) => (
-          <div key={element}>
-            {orderListQuantity[orderList.indexOf(element)]} x{" "}
-            {orderListInfo[orderList.indexOf(element)]}
-          </div>
-        ))}
-      </div>
-      <div className="total">
-        <p>Total: </p>
-        <p>{/* dynamically compute total */}</p>
-      </div>
-      <div>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={updateQuantityOfListOrder}
-        >
-          Proceed
-        </Button>
-      </div>
-      <br></br>
-      <div>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            clearCart();
-          }}
-        >
-          Clear Cart
-        </Button>
-      </div>
-    </Paper>
+    <Box>
+      <Paper className="orderBiling">
+        <h2>Order</h2>
+        <Box className="contents">
+          {
+            orderList.orderList.map((order: Order) => (
+              <Box className="billingBox" key={order.id}>
+                <RemoveCircleOutlineIcon className="item" onClick={() => {removeItemFromCart(order.id)}}></RemoveCircleOutlineIcon>
+                <Typography>{order.selectedQuantity} x {order.info} = ${order.selectedQuantity * order.price} </Typography>
+              </Box>
+            ))
+          }
+        </Box>
+        <Box className="total">
+              <Typography>Total: $ {cartTotal}</Typography>
+        </Box>
+      </Paper>
+      <Box>
+        <div>
+          <br></br>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={updateQuantityOfListOrder}
+            >
+              Proceed
+            </Button>
+        </div>
+        <br></br>
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              clearCart();
+            }}
+          >
+            Clear Cart
+          </Button>
+        </div>
+      </Box>
+    </Box>
   );
 };
 
-export default OrderBiling;
+const mapStateToProps = (state: any) => {
+  return {
+    orderList: state.orderList
+  }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    removeItem: (index: number) => dispatch(removeItem(index)),
+    removeAllItems: () => dispatch(removeAllItem())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderBiling);

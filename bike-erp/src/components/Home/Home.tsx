@@ -1,5 +1,4 @@
 import { Button, Typography } from "@material-ui/core";
-import React from "react";
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/AccountActions/accountAction";
 

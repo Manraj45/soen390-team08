@@ -24,3 +24,43 @@
   border: 1px solid black;
   background-color: white;
 }
+
+#frames:focus {
+  background-color: #3f51b5;
+}
+
+#frames {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+#frames .prices {
+  visibility: hidden;
+  width: 90px;
+  background-color: #c2c2c2;
+  text-align: center;
+  border-radius: 6px;
+  padding: 0;
+  right: 0;
+  top: 90px;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+#frames:hover .prices {
+  visibility: visible;
+}
+
+#componentTitle {
+  padding-top: 3%;
+  padding-right: 25px;
+  text-align: left;
+}
+
+#size {
+  padding-top: 1%;
+  padding-right: 25px;
+  text-align: left;
+}
