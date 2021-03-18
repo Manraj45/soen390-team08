@@ -35,6 +35,15 @@ const SideDrawer = ({ account }: any) => {
           <></>
         )}
         {account.account.role === "ADMIN" ? (
+          <Link to="/userlogs" style={{ textDecoration: "none" }}>
+            <ListItem className={style.menuItems}>
+              <Typography>User Logs</Typography>
+            </ListItem>
+          </Link>
+        ) : (
+          <></>
+        )}
+        {account.account.role === "ADMIN" ? (
           <Link to="/admin" style={{ textDecoration: "none" }}>
             <ListItem className={style.menuItems}>
               <Typography>Permissions</Typography>
