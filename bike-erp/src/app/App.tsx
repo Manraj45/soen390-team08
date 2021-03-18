@@ -13,13 +13,14 @@ import LoginPage from "../components/LoginPage/LoginPage";
 import RegistrationPage from "../components/RegistrationPage/RegistrationPage";
 import PermissionManagementPage from "../components/PermissionManagementPage/PermissionManagementPage";
 import Home from "../components/Home/Home";
-
 import IdleTimerContainer from "../components/IdleTimerContainer/IdleTimerContainer";
 import Inventory from "../components/Inventory/inventory";
 import localStorageService from "../core/services/LocalStorageService";
 import OrderComponent from "../pages/OrderComponent";
-import OrderBike from "../components/OrderBike/OrderBike"
-import UserLogs from "../components/UserLogs/UserLogs"
+import OrderBike from "../components/OrderBike/OrderBike";
+import UserLogs from "../components/UserLogs/UserLogs";
+import PayableHistory from "../components/PaymentHistory/PayableHistory";
+import ReceivableHistory from "../components/PaymentHistory/ReceivableHistory";
 
 import "./App.css";
 import ERPMenu from "../components/Menu/ERPMenu";
@@ -170,6 +171,16 @@ const App = ({ account, isAuthenticated }: any) => {
                 )
               }
             />
+            <Route
+              path="/accountPayable"
+              render={() => account.loading
+                ? (<></>)
+                : account.authenticated
+                  ? <PayableHistory />
+                  : <Redirect to="/login"/>
+              }
+            />
+            <Route path="/accountReceivable" render={() => account.loading ? (<></>) : account.authenticated ? <ReceivableHistory /> : <Redirect to="/login" />} />
             <Route exact path="*" render={() => <Redirect to="/" />} />
           </Switch>
         </Box>

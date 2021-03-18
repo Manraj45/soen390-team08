@@ -5,7 +5,6 @@ import { BACKEND_PORT } from "./config/config";
 import { initialize_db } from "./helpers/db_init";
 
 //import routes
-import accountReceivableRouter from "./routes/account_receivable_route";
 import componentRouter from "./routes/component_routes";
 import indexRouter from "./routes/index";
 import registrationRouter from "./routes/registration_route";
@@ -27,7 +26,6 @@ app.use(express.json());
 
 //Setup routes
 app.use("/", indexRouter);
-app.use("/account_receivable", accountReceivableRouter);
 app.use("/register", registrationRouter);
 app.use("/components", componentRouter);
 app.use("/account_management", accountManagementService);

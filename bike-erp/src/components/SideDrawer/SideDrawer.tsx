@@ -52,6 +52,24 @@ const SideDrawer = ({ account }: any) => {
         ) : (
           <></>
         )}
+        {
+            account.account.role === "ADMIN" || account.account.role === "MANAGER"
+            ? (
+                <Link to="/accountPayable" style={{ textDecoration: 'none' }}>
+                    <ListItem className={style.menuItems}>
+                        <Typography>Account Payable</Typography>
+                    </ListItem>
+                </Link>
+            )
+            : (<></>)
+        }
+        {
+            <Link to="/accountReceivable" style={{ textDecoration: 'none' }}>
+                <ListItem className={style.menuItems}>
+                    <Typography>Account Receivable</Typography>
+                </ListItem>
+            </Link>
+        }
       </List>
     </nav>
   );
