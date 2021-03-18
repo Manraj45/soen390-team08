@@ -2,7 +2,6 @@ import { BikeDao } from "../../dao/BikeDao";
 import { AccountingService } from "../accountingService/AccountingService";
 import { UserLogService } from "../userlogService/UserLogService";
 
-
 export class BikeOrderService {
   private static bikeOrderService: BikeOrderService | undefined;
 
