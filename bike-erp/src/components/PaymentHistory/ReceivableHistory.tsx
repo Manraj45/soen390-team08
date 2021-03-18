@@ -5,28 +5,28 @@ import { connect } from "react-redux";
 import { BACKEND_URL } from "../../core/utils/config";
 
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
-import "./PayableHistory.css";
+import "./ReceivableHistory.css";
 
-const PayableHistory = ({ account }: any) => {
+const ReceivableHistory = ({ account }: any) => {
 
   const backend = BACKEND_URL;
-  const [accountPayables, setAccountPayables] = useState([]);
+  const [accountReceivables, setAccountReceivables] = useState({});
   const [accountSpecifics, setAccountSpecifics] = useState({});
 
   useEffect(() => {
     axios
-    .get(`${backend}/finance/accountPayables`)
+    .get(`${backend}/finance/accountReceivables`)
     .then((response) => {
-      setAccountPayables(response.data);
+      setAccountReceivables(response.data);
     })
     .catch((error) => {
-      console.log(error.data);
+      console.log(error);
     });
   }, [backend]);
 
   const getAccountSpecifics = (id: number) => {
     axios
-    .get(`${backend}/finance/accountPayables/${id}/transactionItem`)
+    .get(`${backend}/finance/accountReceivables/${id}/bikes`)
     .then((response) => {
       setAccountSpecifics(response.data)
     })
@@ -36,8 +36,8 @@ const PayableHistory = ({ account }: any) => {
   }
   
   return (
-    <div className="payableHistory">
-      <h1>Accounts Payable</h1>
+    <div className="receivableHistory">
+      <h1>Receivable History</h1>
       <div className="userDetails" style={{ textAlign: "right", padding: "0px 20px 20px 0px" }}>
         <Typography>{account.firstName + " " + account.lastName}</Typography>
         <Typography variant="caption">{account.email}</Typography>
@@ -54,14 +54,14 @@ const PayableHistory = ({ account }: any) => {
           </TableHead>
           <TableBody>
           {
-             Object.keys(accountPayables).length !== 0 && Object.values(accountPayables).map((order: any) => (
-              <TableRow key={order.account_payable_id}>
-                <TableCell>{order.account_payable_id}</TableCell>
+            Object.keys(accountReceivables).length !== 0 && Object.values(accountReceivables).map((order: any) => (
+              <TableRow key={order.account_receivable_id}>
+                <TableCell>{order.account_receivable_id}</TableCell>
                 <TableCell>{order.payable_date.substring(0, 10)}</TableCell>
                 <TableCell>{"$" +order.total}</TableCell>
                 <TableCell>
                   <Button color="primary" 
-                    onClick={() => getAccountSpecifics(order.account_payable_id)}
+                    onClick={() => getAccountSpecifics(order.account_receivable_id)}
                   >
                     See More
                   </Button>
@@ -76,21 +76,23 @@ const PayableHistory = ({ account }: any) => {
         <Table size="small" className="orderDetails">
           <TableHead>
             <TableRow>
-              <TableCell colSpan={3}>Order Details</TableCell>
+              <TableCell colSpan={4}>Order Details</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
               <TableCell>ID</TableCell>
+              <TableCell>Description</TableCell>
               <TableCell>Quantity</TableCell>
               <TableCell>Cost</TableCell>
             </TableRow>
             {
               accountSpecifics != {} && Object.values(accountSpecifics).map((item: any) => (
-                <TableRow key={item.transaction_id}>
-                  <TableCell>{item.component_id}</TableCell>
-                  <TableCell>{item.quantity_bought}</TableCell>
-                  <TableCell>{"$" + item.cost}</TableCell>
+                <TableRow key={item.bike_id}>
+                  <TableCell>{item.bike_id}</TableCell>
+                  <TableCell>{item.size + " " + item.color + " " + item.grade + " grade bike"}</TableCell>
+                  <TableCell>{item.quantity}</TableCell>
+                  <TableCell>{"$" + item.price}</TableCell>
                 </TableRow>
               ))
             }
@@ -107,4 +109,4 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(PayableHistory);
+export default connect(mapStateToProps)(ReceivableHistory);
