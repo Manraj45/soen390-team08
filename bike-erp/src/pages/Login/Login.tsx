@@ -1,13 +1,15 @@
-import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+
 import bike_logo from "../../assets/images/login_bike_logo.png";
 import { credential, login } from "../../redux/actions/AccountActions/accountAction";
-import useStyles from "./LoginPageStyle";
+
+import { Button, Grid, TextField, Typography } from "@material-ui/core";
+import useStyles from "./LoginStyle";
 
 const LoginPage = (props: any) => {
-  // Object for styling
+
   const classes = useStyles();
 
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
@@ -15,10 +17,7 @@ const LoginPage = (props: any) => {
     const email: string = event.currentTarget.email.value;
     const password: string = event.currentTarget.password.value;
     //Calling the login reducer
-    props.login({ 
-      email: email,
-      password: password 
-    });
+    props.login({ email: email, password: password });
   };
 
   return (
@@ -36,31 +35,23 @@ const LoginPage = (props: any) => {
         <Grid item xs={12} md={4} className={classes.grid}>
           <div className={classes.login}>
             <Typography variant="h5">Already Have An Account</Typography>
-            {props.account.error ? (
-              <Typography className={classes.error}>
-                Incorrect Email or Password
-              </Typography>
-            ) : (
-              <></>
-            )}
+            {
+              props.account.error
+              ? (<Typography className={classes.error}>
+                  Incorrect Email or Password
+                </Typography>)
+              : (<></>)
+            }
             <form autoComplete="off" onSubmit={handleLogin}>
-              <TextField
-                name="email"
-                label="Email"
+              <TextField name="email" label="Email"
                 className={classes.textfield}
-              ></TextField>
+              />
               <br />
-              <TextField
-                type="password"
-                name="password"
-                label="Password"
+              <TextField type="password" name="password" label="Password"
                 className={classes.textfield}
-              ></TextField>
+              />
               <br />
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
+              <Button type="submit" variant="contained" color="primary"
                 className={classes.button}
               >
                 Login
@@ -71,13 +62,9 @@ const LoginPage = (props: any) => {
         <Grid item xs={12} md={4} className={classes.grid}>
           <div className={classes.register}>
             <Typography variant="h5">Don't have an account?</Typography>
-            <Link
-              to="/register"
-              style={{ textDecoration: "none", color: "white" }}
+            <Link to="/register" style={{ textDecoration: "none", color: "white" }}
             >
-              <Button
-                variant="contained"
-                color="primary"
+              <Button variant="contained" color="primary"
                 className={classes.button}
               >
                 Register
@@ -89,6 +76,7 @@ const LoginPage = (props: any) => {
     </div>
   );
 };
+
 const mapStateToProps = (state: any) => {
   return {
     account: state.account,
