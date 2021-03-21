@@ -1,9 +1,9 @@
 import { Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { useState } from "react";
-import OrderBiling from "../components/OrderService/OrderBiling";
-import Components from "../components/OrderService/OrderComponent/Components";
-import ModelView from "../components/OrderService/OrderComponent/ModelView";
+import OrderBiling from "../../../components/OrderService/OrderBiling/OrderBiling";
+import Components from "../../../components/OrderService/Components";
+import ModelView from "../../../components/OrderService/OrderComponent/ModelView";
 import useStyles from "./OrderComponentStyle";
 
 const OrderComponent = () => {

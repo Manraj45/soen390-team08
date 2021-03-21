@@ -1,7 +1,7 @@
 import Enzyme, { shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import renderer from "react-test-renderer";
-import UserLogs from "../../components/UserLogs/UserLogs";
+import UserLogs from "../../pages/UserLogs/UserLogs";
 
 /*Frontend test for user logs page*/
 

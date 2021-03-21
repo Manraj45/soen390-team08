@@ -1,15 +1,15 @@
-import "./ERPMenuStyle.ts"
+import "./HeaderMenuStyle.ts"
 import Box from '@material-ui/core/Box';
 import { Typography } from '@material-ui/core';
 import { Link } from "react-router-dom";
-import { logout } from "../../redux/actions/AccountActions/accountAction";
+import { logout } from "../../../redux/actions/AccountActions/accountAction";
 import { connect } from "react-redux";
 
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-import useStyles from "./ERPMenuStyle";
+import useStyles from "./HeaderMenuStyle";
 
 /* Menu bar on top the page */
 

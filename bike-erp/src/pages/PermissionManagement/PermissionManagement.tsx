@@ -2,7 +2,7 @@ import { Avatar, Grid, Paper, Typography } from "@material-ui/core";
 import { useState } from "react";
 import { connect } from "react-redux";
 import useStyles from "./PermissionManagementStyle";
-import UserAccountsTable from "./UserAccountsTable";
+import UserAccountsTable from "../../components/PermissionManagement/UserAccountsTable";
 import {
   Button,
   Dialog,
@@ -13,7 +13,7 @@ import {
 import CheckIcon from "@material-ui/icons/Check";
 
 //Management page where users will go to manage user permissions
-const PermissionManagementPage = ({ account }: any) => {
+const PermissionManagement = ({ account }: any) => {
   const classes = useStyles();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -69,4 +69,4 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(PermissionManagementPage);
+export default connect(mapStateToProps)(PermissionManagement);

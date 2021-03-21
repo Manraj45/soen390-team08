@@ -3,7 +3,7 @@ import Adapter from "enzyme-adapter-react-16";
 import { BrowserRouter } from "react-router-dom";
 
 import renderer from "react-test-renderer";
-import OrderBike from "../../components/OrderBike/OrderBike";
+import OrderBike from "../../pages/OrderService/OrderBike/OrderBike";
 import store from "../../redux/store";
 
 Enzyme.configure({ adapter: new Adapter() });

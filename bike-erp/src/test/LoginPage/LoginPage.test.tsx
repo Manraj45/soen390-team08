@@ -2,7 +2,7 @@ import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import { BrowserRouter } from "react-router-dom";
 import renderer from "react-test-renderer";
-import LoginPage from "../../components/LoginPage/LoginPage";
+import LoginPage from "../../pages/Login/LoginPage";
 import store from "../../redux/store";
 
 // Enable Enzyme testing

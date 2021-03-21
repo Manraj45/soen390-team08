@@ -9,22 +9,22 @@ import {
 } from "react-router-dom";
 import { isAuthenticated } from "../redux/actions/AccountActions/accountAction";
 
-import LoginPage from "../components/LoginPage/LoginPage";
-import RegistrationPage from "../components/RegistrationPage/RegistrationPage";
-import PermissionManagementPage from "../components/PermissionManagementPage/PermissionManagementPage";
-import Home from "../components/Home/Home";
+import LoginPage from "../pages/Login/LoginPage";
+import RegistrationPage from "../pages/Registration/Registration";
+import PermissionManagement from "../pages/PermissionManagement/PermissionManagement";
+import Home from "../pages/Home/Home";
 import IdleTimerContainer from "../components/IdleTimerContainer/IdleTimerContainer";
-import Inventory from "../components/Inventory/inventory";
+import Inventory from "../pages/Inventory/inventory";
 import localStorageService from "../core/services/LocalStorageService";
-import OrderComponent from "../pages/OrderComponent";
-import OrderBike from "../components/OrderBike/OrderBike";
-import UserLogs from "../components/UserLogs/UserLogs";
-import PayableHistory from "../components/PaymentHistory/PayableHistory";
-import ReceivableHistory from "../components/PaymentHistory/ReceivableHistory";
+import OrderComponent from "../pages/OrderService/OrderComponent/OrderComponent";
+import OrderBike from "../pages/OrderService/OrderBike/OrderBike";
+import UserLogs from "../pages/UserLogs/UserLogs";
+import PayableHistory from "../pages/PaymentHistory/PayableHistory";
+import ReceivableHistory from "../pages/PaymentHistory/ReceivableHistory";
 
 import "./App.css";
-import ERPMenu from "../components/Menu/ERPMenu";
-import SideDrawer from "../components/SideDrawer/SideDrawer";
+import ERPMenu from "../components/Menu/HeaderMenu/HeaderMenu";
+import SideDrawer from "../components/Menu/SideBarMenu/SideBarMenu";
 import { Box } from "@material-ui/core";
 
 const App = ({ account, isAuthenticated }: any) => {
@@ -109,7 +109,7 @@ const App = ({ account, isAuthenticated }: any) => {
                   <></>
                 ) : account.authenticated &&
                   account.account.role === "ADMIN" ? (
-                  <PermissionManagementPage />
+                  <PermissionManagement />
                 ) : (
                   <Redirect to="/login" />
                 )

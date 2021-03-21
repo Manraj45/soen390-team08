@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import bike_logo from "../../assets/images/login_bike_logo.png";
 import { BACKEND_URL } from "../../core/utils/config";
-import useStyles from "./RegistrationPageStyle";
+import useStyles from "./RegistrationStyle";
 
 interface RegistrationData {
   email: string;

@@ -1,9 +1,9 @@
 import { Button, Paper, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { BACKEND_URL } from "../../core/utils/config";
+import { BACKEND_URL } from "../../../core/utils/config";
 import "./OrderBiling.css";
-import { Order, removeAllItem, removeItem } from "../../redux/actions/OrderListActions/orderListAction";
+import { Order, removeAllItem, removeItem } from "../../../redux/actions/OrderListActions/orderListAction";
 import { connect } from "react-redux";
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import { Box } from "@material-ui/core";

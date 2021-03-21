@@ -1,6 +1,6 @@
 import { List, ListItem, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import useStyles from "./SideDrawerStyle";
+import useStyles from "./SideBarMenuStyle";
 import { connect } from "react-redux";
 
 /*Drawer on the left side that appears when we open the menu*/
