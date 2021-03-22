@@ -1,15 +1,19 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
+
 import { BACKEND_URL } from "../../core/utils/config";
+
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
-import "./ReceivableHistory.css";
+import useStyles from "./ReceivableHistoryStyle";
 
 /* This page pertains to the accounts receivable */
 
 const ReceivableHistory = ({ account }: any) => {
 
+  const classes = useStyles();
   const backend = BACKEND_URL;
+
   const [accountReceivables, setAccountReceivables] = useState({});
   const [accountSpecifics, setAccountSpecifics] = useState({});
 
@@ -36,30 +40,30 @@ const ReceivableHistory = ({ account }: any) => {
   }
   
   return (
-    <div className="receivableHistory">
+    <div className={classes.receivableHistory}>
       <h1>Receivable History</h1>
-      <div className="userDetails">
+      <div className={classes.userDetails}>
         <Typography>{account.firstName + " " + account.lastName}</Typography>
         <Typography variant="caption">{account.email}</Typography>
       </div>
-      <div className="dataContainer">
-        <Table size="small" className="orders">
+      <div className={classes.dataContainer}>
+        <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>Order number</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Total</TableCell>
-              <TableCell>Details</TableCell>
+              <TableCell className={classes.orderCell}>Order number</TableCell>
+              <TableCell className={classes.orderCell}>Date</TableCell>
+              <TableCell className={classes.orderCell}>Total</TableCell>
+              <TableCell className={classes.orderCell}>Details</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
           {
             Object.keys(accountReceivables).length !== 0 && Object.values(accountReceivables).map((order: any) => (
               <TableRow key={order.account_receivable_id}>
-                <TableCell>{order.account_receivable_id}</TableCell>
-                <TableCell>{order.payable_date.substring(0, 10)}</TableCell>
-                <TableCell>{"$" +order.total}</TableCell>
-                <TableCell>
+                <TableCell className={classes.orderCell}>{order.account_receivable_id}</TableCell>
+                <TableCell className={classes.orderCell}>{order.payable_date.substring(0, 10)}</TableCell>
+                <TableCell className={classes.orderCell}>{"$" +order.total}</TableCell>
+                <TableCell className={classes.orderCell}>
                   <Button color="primary" 
                     onClick={() => getAccountSpecifics(order.account_receivable_id)}
                   >
@@ -73,26 +77,28 @@ const ReceivableHistory = ({ account }: any) => {
         </Table>
       </div>
       <div>
-        <Table size="small" className="orderDetails">
+        <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell colSpan={4}>Order Details</TableCell>
+              <TableCell colSpan={4} className={classes.orderCell}>Order Details</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Quantity</TableCell>
-              <TableCell>Cost</TableCell>
+              <TableCell className={classes.orderCell}>ID</TableCell>
+              <TableCell className={classes.orderCell}>Description</TableCell>
+              <TableCell className={classes.orderCell}>Quantity</TableCell>
+              <TableCell className={classes.orderCell}>Cost</TableCell>
             </TableRow>
             {
               accountSpecifics !== {} && Object.values(accountSpecifics).map((item: any) => (
                 <TableRow key={item.bike_id}>
-                  <TableCell>{item.bike_id}</TableCell>
-                  <TableCell>{item.size + " " + item.color + " " + item.grade + " grade bike"}</TableCell>
-                  <TableCell>{item.quantity}</TableCell>
-                  <TableCell>{"$" + item.price}</TableCell>
+                  <TableCell className={classes.orderCell}>{item.bike_id}</TableCell>
+                  <TableCell className={classes.orderCell}>
+                    {item.size + " " + item.color + " " + item.grade + " grade bike"}
+                  </TableCell>
+                  <TableCell className={classes.orderCell}>{item.quantity}</TableCell>
+                  <TableCell className={classes.orderCell}>{"$" + item.price}</TableCell>
                 </TableRow>
               ))
             }
