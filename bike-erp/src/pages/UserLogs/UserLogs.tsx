@@ -1,27 +1,24 @@
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import useStyles from "../Inventory/inventoryStyles";
+
 import {BACKEND_URL} from "../../core/utils/config";
 
-/*
-    UserLogs page. Admins can view logs and audit trails of all users.
-*/
+import { Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
+import useStyles from "../Inventory/InventoryStyles";
+
+/* UserLogs page. Admins can view logs and audit trails of all users. */
 const UserLogs: React.FC = () => {
-    const [logTable, setlogTable] = useState<any[]>([]);
-    const url = BACKEND_URL;
+
+  const classes = useStyles();
+  const url = BACKEND_URL;
+
+  const [logTable, setlogTable] = useState<any[]>([]);
 
   useEffect(() => {
     Axios.get(`${url}/userlogs/`).then((response) => {
-        setlogTable(response.data);
+      setlogTable(response.data);
     });
   }, [url]);
-
-  const classes = useStyles();
 
   return (
     <React.Fragment>

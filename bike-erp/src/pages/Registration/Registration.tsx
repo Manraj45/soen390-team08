@@ -1,18 +1,11 @@
-import {
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+
 import bike_logo from "../../assets/images/login_bike_logo.png";
 import { BACKEND_URL } from "../../core/utils/config";
+
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography, } from "@material-ui/core";
 import useStyles from "./RegistrationStyle";
 
 interface RegistrationData {
@@ -29,9 +22,8 @@ interface RegistrationData {
 }
 
 const RegistrationPage = () => {
-  // Object for styling
-  const classes = useStyles();
 
+  const classes = useStyles();
   const url = BACKEND_URL;
 
   const [recoveryQuestions, setRecoveryQuestions] = useState({});
@@ -66,6 +58,7 @@ const RegistrationPage = () => {
 
   const handleRegistration = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    
     const registrationData: RegistrationData = {
       email: event.currentTarget.email.value,
       organization: event.currentTarget.organization.value,
@@ -91,50 +84,19 @@ const RegistrationPage = () => {
 
   return (
     <div id="registrationPage">
-      <Grid
-        container
-        spacing={0}
-        direction="row"
-        className={classes.registrationPageWrapper}
-      >
+      <Grid container spacing={0} direction="row" className={classes.registrationPageWrapper}>
         <Grid item xs={12} md={7} className={classes.grid}>
           <form autoComplete="off" onSubmit={handleRegistration}>
-            <TextField
-              name="email"
-              label="Email"
-              className={classes.textfield}
-            ></TextField>
+            <TextField name="email" label="Email" className={classes.textfield}/>
             <br />
-            <TextField
-              name="organization"
-              label="Organization"
-              className={classes.textfield}
-            ></TextField>
-
+            <TextField name="organization" label="Organization" className={classes.textfield}/>
             <br />
-
-            <TextField
-              type="password"
-              name="password"
-              label="Password"
-              className={classes.textfield}
-            ></TextField>
-
+            <TextField type="password" name="password" label="Password" className={classes.textfield}/>
             <br />
-
             <div>
-              <TextField
-                name="firstName"
-                label="First Name"
-                className={classes.firstName}
-              ></TextField>
-              <TextField
-                name="lastName"
-                label="Last Name"
-                className={classes.lastName}
-              ></TextField>
+              <TextField name="firstName" label="First Name" className={classes.firstName}/>
+              <TextField name="lastName" label="Last Name" className={classes.lastName}/>
             </div>
-
             <br />
             <FormControl className={classes.recoveryQuestion}>
               <InputLabel id="demo-simple-select-filled-label">
@@ -146,24 +108,18 @@ const RegistrationPage = () => {
                 value={question1}
                 onChange={handleQuestion1}
               >
-                {Object.values(recoveryQuestions).map((question: any) => (
-                  <MenuItem key={question} value={question}>
-                    {question}
-                  </MenuItem>
-                ))}
+                {
+                  Object.values(recoveryQuestions).map((question: any) => (
+                    <MenuItem key={question} value={question}>
+                      {question}
+                    </MenuItem>
+                  ))
+                }
               </Select>
             </FormControl>
-
             <br />
-
-            <TextField
-              name="answer1"
-              label="Answer Question 1"
-              className={classes.textfield}
-            ></TextField>
-
+            <TextField name="answer1" label="Answer Question 1" className={classes.textfield}/>
             <br />
-
             <FormControl className={classes.recoveryQuestion}>
               <InputLabel id="demo-simple-select-helper-label">
                 Recovery Question 2
@@ -174,33 +130,27 @@ const RegistrationPage = () => {
                 value={question2}
                 onChange={handleQuestion2}
               >
-                {Object.values(recoveryQuestions).map((question: any) => (
-                  <MenuItem key={question} value={question}>
-                    {question}
-                  </MenuItem>
-                ))}
+                {
+                  Object.values(recoveryQuestions).map((question: any) => (
+                    <MenuItem key={question} value={question}>
+                      {question}
+                    </MenuItem>
+                  ))
+                }
               </Select>
             </FormControl>
             <br />
-            <TextField
-              name="answer2"
-              label="Answer Question 2"
-              className={classes.textfield}
-            ></TextField>
+            <TextField name="answer2" label="Answer Question 2" className={classes.textfield}/>
             <br />
-            {registrationErrorMessage ? (
-              <Typography className={classes.error}>
-                {registrationErrorMessage}
-              </Typography>
-            ) : (
-              <></>
-            )}
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              type="submit"
-            >
+            {
+              registrationErrorMessage
+              ?
+                <Typography className={classes.error}>
+                  {registrationErrorMessage}
+                </Typography>
+              : <></>
+            }
+            <Button variant="contained" color="primary" className={classes.button} type="submit">
               Register
             </Button>
           </form>

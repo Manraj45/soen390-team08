@@ -1,13 +1,11 @@
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import useStyles from "./inventoryStyles";
+
+import { Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core"
+import useStyles from "./InventoryStyles";
 
 const Inventory: React.FC = () => {
+  
   const [inventoryTable, setInventoryTable] = useState<any[]>([]);
 
   useEffect(() => {
