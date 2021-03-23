@@ -6,10 +6,13 @@ import {BACKEND_URL} from "../../core/utils/config";
 import { Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
 import useStyles from "../Inventory/InventoryStyles";
 
-/* UserLogs page. Admins can view logs and audit trails of all users. */
+/*
+  The UserLogs page.
+  Admins can view logs and audit trails of all users.
+*/
 const UserLogs: React.FC = () => {
 
-  const classes = useStyles();
+  const styles = useStyles();
   const url = BACKEND_URL;
 
   const [logTable, setlogTable] = useState<any[]>([]);
@@ -22,14 +25,14 @@ const UserLogs: React.FC = () => {
 
   return (
     <React.Fragment>
-      <div id="userLogsPage" className={classes.background}>
+      <div id="userLogsPage" className={styles.background}>
         <br></br>
-        <div className={classes.title}>User Logs</div>
+        <div className={styles.title}>User Logs</div>
         <br></br>
-        <Table size="small" className={classes.tableStyle}>
-          <TableHead className={classes.tableHead}>
-            <TableRow className={classes.topRow}>
-              <TableCell className={classes.emptyCell} />
+        <Table size="small" className={styles.tableStyle}>
+          <TableHead className={styles.tableHead}>
+            <TableRow className={styles.topRow}>
+              <TableCell className={styles.emptyCell} />
               <TableCell>Time</TableCell>
               <TableCell>User</TableCell>
               <TableCell>Activity</TableCell>
@@ -38,14 +41,14 @@ const UserLogs: React.FC = () => {
           <TableBody>
             {logTable.map((row) => (
               <TableRow key={row.log_id}>
-                <TableCell className={classes.tableHead} />
-                <TableCell className={classes.innerTable}>
+                <TableCell className={styles.tableHead} />
+                <TableCell className={styles.innerTable}>
                   {row.timestamp}
                 </TableCell>
-                <TableCell className={classes.innerTable}>
+                <TableCell className={styles.innerTable}>
                   {row.email}
                 </TableCell>
-                <TableCell className={classes.innerTable}>
+                <TableCell className={styles.innerTable}>
                   {row.activity}
                 </TableCell>
               </TableRow>

@@ -7,8 +7,10 @@ import { BACKEND_URL } from "../../core/utils/config";
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import useStyles from "./ReceivableHistoryStyle";
 
-/* This page pertains to the accounts receivable */
-
+/*
+  This page pertains to the accounts receivable.
+  This page is accessible to users to track their expenses relative to ordering bikes.
+*/
 const ReceivableHistory = ({ account }: any) => {
 
   const classes = useStyles();

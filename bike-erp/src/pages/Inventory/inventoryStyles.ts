@@ -2,12 +2,12 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   title: {
-      marginTop: "10px",
-      marginBottom: "10px",
-      alignItems: "center",
-      textAlign: "center",
-      fontWeight: "bold",
-      fontSize: "200%",
+    marginTop: "10px",
+    marginBottom: "10px",
+    alignItems: "center",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: "200%",
   },
   background: {
     background: "#DDDDDD",

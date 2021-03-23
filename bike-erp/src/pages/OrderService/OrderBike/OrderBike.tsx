@@ -1,19 +1,22 @@
+// DEPENDENCIES
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
+// SERVICES
 import { BACKEND_URL } from "../../../core/utils/config";
 import {
   addBike, removeBike, removeAllBikes,
   BikeSold, addComponentSold, removeComponentSold, removeAllComponents, ComponentUpdated
 } from "../../../redux/actions/OrderBikeActions/orderBikeActions";
 
+// COMPONENTS
 import ModelView from "../../../components/OrderService/OrderBike/BikeModel";
 import Components from "../../../components/OrderService/OrderBike/BikeComponents";
 import Billing from "../../../components/OrderService/OrderBike/BikeBilling";
 
+// STYLING + ASSETS
 import bike_logo from "../../../assets/images/login_bike_logo.png";
-
 import { Grid, Typography } from "@material-ui/core";
 import useStyles from "./OrderBikeStyle";
 
@@ -21,7 +24,6 @@ import useStyles from "./OrderBikeStyle";
   This is the bike order page. Users can buy/build different bikes based on what they have in the inventory.
   All bikes must be build with components from the same location and the same size.
 */
-
 const OrderBike = ({ bikeOrderList }: any) => {
   
   const styles = useStyles();

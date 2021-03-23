@@ -1,15 +1,19 @@
-import Axios from "axios";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 import { Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core"
 import useStyles from "./InventoryStyles";
 
+/*
+  The inventory page.
+  This shows what a logged-in user's inventory contains.
+*/
 const Inventory: React.FC = () => {
   
   const [inventoryTable, setInventoryTable] = useState<any[]>([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/components/").then((response) => {
+    axios.get("http://localhost:3001/components/").then((response) => {
       setInventoryTable(response.data);
     });
   }, []);

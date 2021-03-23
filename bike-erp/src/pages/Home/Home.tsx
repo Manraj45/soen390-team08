@@ -1,7 +1,11 @@
-import { Button, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/AccountActions/accountAction";
 
+import { Button, Typography } from "@material-ui/core";
+
+/*
+  The homepage.
+*/
 const Home = (props: any) => {
   return (
     <div>

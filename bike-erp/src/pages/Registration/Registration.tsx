@@ -8,6 +8,10 @@ import { BACKEND_URL } from "../../core/utils/config";
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography, } from "@material-ui/core";
 import useStyles from "./RegistrationStyle";
 
+/*
+  The registration page.
+  This is where the user creates their account.
+*/
 interface RegistrationData {
   email: string;
   organization: string;
@@ -23,7 +27,7 @@ interface RegistrationData {
 
 const RegistrationPage = () => {
 
-  const classes = useStyles();
+  const styles = useStyles();
   const url = BACKEND_URL;
 
   const [recoveryQuestions, setRecoveryQuestions] = useState({});
@@ -84,21 +88,21 @@ const RegistrationPage = () => {
 
   return (
     <div id="registrationPage">
-      <Grid container spacing={0} direction="row" className={classes.registrationPageWrapper}>
-        <Grid item xs={12} md={7} className={classes.grid}>
+      <Grid container spacing={0} direction="row" className={styles.registrationPageWrapper}>
+        <Grid item xs={12} md={7} className={styles.grid}>
           <form autoComplete="off" onSubmit={handleRegistration}>
-            <TextField name="email" label="Email" className={classes.textfield}/>
+            <TextField name="email" label="Email" className={styles.textfield}/>
             <br />
-            <TextField name="organization" label="Organization" className={classes.textfield}/>
+            <TextField name="organization" label="Organization" className={styles.textfield}/>
             <br />
-            <TextField type="password" name="password" label="Password" className={classes.textfield}/>
+            <TextField type="password" name="password" label="Password" className={styles.textfield}/>
             <br />
             <div>
-              <TextField name="firstName" label="First Name" className={classes.firstName}/>
-              <TextField name="lastName" label="Last Name" className={classes.lastName}/>
+              <TextField name="firstName" label="First Name" className={styles.firstName}/>
+              <TextField name="lastName" label="Last Name" className={styles.lastName}/>
             </div>
             <br />
-            <FormControl className={classes.recoveryQuestion}>
+            <FormControl className={styles.recoveryQuestion}>
               <InputLabel id="demo-simple-select-filled-label">
                 Recovery Question 1
               </InputLabel>
@@ -118,9 +122,9 @@ const RegistrationPage = () => {
               </Select>
             </FormControl>
             <br />
-            <TextField name="answer1" label="Answer Question 1" className={classes.textfield}/>
+            <TextField name="answer1" label="Answer Question 1" className={styles.textfield}/>
             <br />
-            <FormControl className={classes.recoveryQuestion}>
+            <FormControl className={styles.recoveryQuestion}>
               <InputLabel id="demo-simple-select-helper-label">
                 Recovery Question 2
               </InputLabel>
@@ -140,24 +144,24 @@ const RegistrationPage = () => {
               </Select>
             </FormControl>
             <br />
-            <TextField name="answer2" label="Answer Question 2" className={classes.textfield}/>
+            <TextField name="answer2" label="Answer Question 2" className={styles.textfield}/>
             <br />
             {
               registrationErrorMessage
               ?
-                <Typography className={classes.error}>
+                <Typography className={styles.error}>
                   {registrationErrorMessage}
                 </Typography>
               : <></>
             }
-            <Button variant="contained" color="primary" className={classes.button} type="submit">
+            <Button variant="contained" color="primary" className={styles.button} type="submit">
               Register
             </Button>
           </form>
         </Grid>
-        <Grid item xs={12} md={5} className={` ${classes.grid}`}>
+        <Grid item xs={12} md={5} className={` ${styles.grid}`}>
           <Typography variant="h3">Badob Inc</Typography>
-          <img src={bike_logo} alt="bike_logo" className={classes.logo}></img>
+          <img src={bike_logo} alt="bike_logo" className={styles.logo}></img>
         </Grid>
       </Grid>
     </div>

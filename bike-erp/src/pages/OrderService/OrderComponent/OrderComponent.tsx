@@ -7,6 +7,9 @@ import ModelView from "../../../components/OrderService/OrderComponent/Component
 import { Grid, Typography } from "@material-ui/core";
 import useStyles from "./OrderComponentStyle";
 
+/*
+  This is the component order page. Companies can order different components to refurbish their inventory.
+*/
 const OrderComponent = () => {
 
   const styles = useStyles();

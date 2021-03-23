@@ -11,11 +11,12 @@ import CheckIcon from "@material-ui/icons/Check";
 import useStyles from "./PermissionManagementStyle";
 
 
-/* Management page where users will go to manage user permissions */
-
+/*
+  Management page where users will go to manage user permissions
+*/
 const PermissionManagement = ({ account }: any) => {
 
-  const classes = useStyles();
+  const styles = useStyles();
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -28,22 +29,20 @@ const PermissionManagement = ({ account }: any) => {
       <div id="loginPage">
         <Grid container direction="column" justify="center">
           <Grid item xs={12} md={12}>
-            <Typography className={classes.title} variant="h4">
+            <Typography className={styles.title} variant="h4">
               Permission Management
             </Typography>
           </Grid>
-
-          <Grid item xs={12} md={12} className={classes.name}>
-            <div className={classes.avatarName}>
+          <Grid item xs={12} md={12} className={styles.name}>
+            <div className={styles.avatarName}>
               <Avatar src="/broken-image.jpg" />
-              <span className={classes.name}>
+              <span className={styles.name}>
                 {account.account.firstName} {account.account.lastName}
               </span>
             </div>
           </Grid>
-
           <Grid wrap="nowrap" item xs={12} md={12}>
-            <Paper className={classes.place}>
+            <Paper className={styles.place}>
               <UserAccountsTable setDialogOpen={setDialogOpen} />
             </Paper>
           </Grid>

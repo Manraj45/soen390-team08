@@ -7,8 +7,10 @@ import { BACKEND_URL } from "../../core/utils/config";
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import useStyles from "./PayableHistoryStyle";
 
-/* This page pertains to the accounts payable */
-
+/*
+  This page pertains to the accounts payable.
+  This page is accessible to companies to track their expenses relative to ordering components.
+*/
 const PayableHistory = ({ account }: any) => {
 
   const classes = useStyles();
