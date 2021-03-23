@@ -5,7 +5,7 @@ import fetchUserEmail from "../helpers/fetchAccountEmail";
 
 const router = express();
 
-//Creating a singleton instance of the AccountingService
+// Creating a singleton instance of the AccountingService
 AccountingService.getAccountingService();
 
 router.get("/accountPayables", authenticateToken, (req, res) => {

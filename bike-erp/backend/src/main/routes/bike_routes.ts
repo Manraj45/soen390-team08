@@ -8,7 +8,7 @@ const router = express();
 BikeOrderService.getBikeOrderService();
 
 router.post("/createBikes", authenticateToken, (req, res) => {
-    //Providing the bikeOrderList to the BikeOrderService
+    // Providing the bikeOrderList to the BikeOrderService
     const bikeOrderList: Array<any> = req.body.bikeOrderList.bikeOrderList;
     const email = fetchUserEmail(req);
     BikeOrderService.addBike(bikeOrderList, email).then(response => {

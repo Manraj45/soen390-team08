@@ -5,10 +5,10 @@ import fetchUserEmail from "../helpers/fetchAccountEmail";
 
 const router = express();
 
-//Creating a singleton instance of the AccountManagementService
+// Creating a singleton instance of the AccountManagementService
 AccountManagementService.getAccountManagementService();
 
-//Creating endpoint to allow the admins to update the role of other users
+// Creating endpoint to allow the admins to update the role of other users
 router.patch("/admin/update", authenticateToken, (req, res) => {
   AccountManagementService.updateRole(
     fetchUserEmail(req),
@@ -23,7 +23,7 @@ router.patch("/admin/update", authenticateToken, (req, res) => {
     });
 });
 
-//Creating endpoint to fetch account from database
+// Creating endpoint to fetch account from database
 router.get("/admin/accounts", authenticateToken, (req, res) => {
   AccountManagementService.getAccounts(fetchUserEmail(req))
     .then((response) => {

@@ -13,12 +13,12 @@ export class InventoryManagementService {
   public constructor() {
     AccountingService.getAccountingService();
   }
-  // retrieve all components from stored in the table
+  // Retrieve all components from stored in the table
   public getAllComponents = () => {
     return fetchAllComponents();
   };
 
-  // retrieve components identified with a unique id
+  // Retrieve components identified with a unique id
   public getComponent = (id: string) => {
     const idAsNum: number = Number(id);
     if (isNaN(idAsNum) || idAsNum < 0) {
@@ -28,7 +28,7 @@ export class InventoryManagementService {
     return fetchComponent(id);
   };
 
-  // edit the quantity of a specific component identified by a unique id number
+  // Edit the quantity of a specific component identified by a unique id number
   public editComponent = (id: string, quantity: string) => {
     const idAsNum: number = Number(id);
     const qtyAsNum: number = Number(quantity);
@@ -38,7 +38,7 @@ export class InventoryManagementService {
     return updateComponent(id, quantity);
   };
 
-  //edit component quantity when used to build a bike that was sold
+  // Edit component quantity when used to build a bike that was sold
   public editComponentQuantitySale = (componentSaleList: Array<any>) => {
     return new Promise((resolve, rejects) => {
       componentSaleList.forEach(component => {
@@ -50,7 +50,7 @@ export class InventoryManagementService {
     })
   }
 
-  // edits the quantity of components based on order list provided
+  // Edits the quantity of components based on order list provided
   public orderComponents = (orderList: Array<any>, userEmail: string) => {
     return new Promise((resolve, rejects) => {
       const updateQuantityInDB = new Promise(async (resolve, rejects) => {
@@ -71,7 +71,7 @@ export class InventoryManagementService {
     })
   }
 
-  // get the location of a component identified by a unique id
+  // Get the location of a component identified by a unique id
   public getComponentLocation = (id: string) => {
     const idAsNum: number = Number(id);
 

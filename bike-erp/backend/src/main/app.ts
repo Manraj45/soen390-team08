@@ -4,7 +4,7 @@ import express, { Application } from "express";
 import { BACKEND_PORT } from "./config/config";
 import { initialize_db } from "./helpers/db_init";
 
-//import routes
+// Import routes
 import componentRouter from "./routes/component_routes";
 import indexRouter from "./routes/index";
 import registrationRouter from "./routes/registration_route";
@@ -13,18 +13,18 @@ import accountingRouter from "./routes/accouting_routes";
 import bikeRouter from "./routes/bike_routes";
 import userLogsRouter from "./routes/user_logs_routes";
 
-//Configure dotenv
+// Configure dotenv
 dotenv.config();
 
 const app: Application = express();
 
-//Initialize cors
+// Initialize cors
 app.use(cors());
 
-//Initialize json parser
+// Initialize json parser
 app.use(express.json());
 
-//Setup routes
+// Setup routes
 app.use("/", indexRouter);
 app.use("/register", registrationRouter);
 app.use("/components", componentRouter);

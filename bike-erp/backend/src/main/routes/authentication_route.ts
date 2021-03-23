@@ -6,12 +6,12 @@ import {
 
 const router = express();
 
-//Creating a singleton instance of the AuthenticationService
+// Creating a singleton instance of the AuthenticationService
 AuthenticationService.getAuthenticationService();
 
-//Creating endpoint for login
+// Creating endpoint for login
 router.post("/login", (req, res) => {
-  //Logging in with the given email and password
+  // Logging in with the given email and password
   AuthenticationService.login(req.body.email, req.body.password)
     .then((response) => {
       res.status(202).send(response);
@@ -21,12 +21,12 @@ router.post("/login", (req, res) => {
     });
 });
 
-//Creating endpoint for token validation
+// Creating endpoint for token validation
 router.get("/token/validation", authenticateToken, (req, res) => {
-  //Setting the endpoint header to authorization
+  // Setting the endpoint header to authorization
   const authHeader = req.headers["authorization"];
 
-  //setting token header
+  // Setting token header
   const token = authHeader && authHeader.split(" ")[1];
   const userAccount = AuthenticationService.retrieveAccountFromToken(token);
 
@@ -40,9 +40,9 @@ router.get("/token/validation", authenticateToken, (req, res) => {
   res.status(200).send(accountDTO);
 });
 
-//Creating endpoint to generate new a new access token
+// Creating endpoint to generate new a new access token
 router.post("/token", (req, res) => {
-  //Generating the new access token by providing an existing refresh token
+  // Generating the new access token by providing an existing refresh token
   AuthenticationService.generateNewAccessToken(req.body.token)
     .then((response) => {
       res.status(202).send(response);
@@ -52,13 +52,13 @@ router.post("/token", (req, res) => {
     });
 });
 
-//Creating endpoint to logout
+// Creating endpoint to logout
 router.delete("/logout", (req, res) => {
-  //Logging out
+  // Logging out
   res.json(AuthenticationService.logout(req.body.token));
 });
 
-//Example route for role restriction
+// Example route for role restriction
 router.get("/test", authenticateToken, (req, res) => {
   res.sendStatus(202)
 });

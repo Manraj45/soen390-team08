@@ -6,7 +6,7 @@ const router = express();
 
 RegistrationService.getRegistrationService();
 
-//Post register data
+// Post register data
 router.post("/submission", (req, res) => {
   RegistrationService.register(
     req.body.firstName,
