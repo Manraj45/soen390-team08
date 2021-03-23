@@ -22,9 +22,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     fontSize: "20px",
-        '&:hover': {
-            background: "rgba(0, 0, 0, 0.90)",
-        }
+      '&:hover': {
+        background: "rgba(0, 0, 0, 0.90)",
+      }
   }
 }));
 

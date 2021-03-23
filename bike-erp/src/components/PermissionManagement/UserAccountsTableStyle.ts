@@ -6,10 +6,10 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     padding: "7px",
   },
-  bord: {
+  border: {
     borderBottom: "1px solid grey",
   },
-  drop: {
+  dropdown: {
     borderBottom: "1px solid grey",
     paddingBottom: "10px",
   },

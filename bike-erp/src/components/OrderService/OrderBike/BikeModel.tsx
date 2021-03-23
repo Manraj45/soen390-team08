@@ -4,6 +4,9 @@ import {
 } from "@material-ui/core";
 import useStyles from "./BikeModelStyles";
 
+/*
+  The BikeModel component is the component that renders a preview of the selected bike component
+*/
 const BikeModel = ({ mostRecentType, mostRecentPicture, setSelectedLocation }: any) => {
 
   const styles = useStyles();

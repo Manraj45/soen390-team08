@@ -9,12 +9,15 @@ import { Box, Button, Paper, Typography } from "@material-ui/core";
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import useStyles from "./ComponentBillingStyle";
 
+/*
+  The ComponentBilling component is the billing component associated to the orderComponent page.
+*/
 const ComponentBilling = ({ orderList, removeItem, removeAllItems }: any) => {
   
   const styles = useStyles();
   const url = BACKEND_URL;
 
-  //updating the list of order in the backend
+  // Update the list of order in the backend
   const updateQuantityOfListOrder = () => {
     if (orderList.orderList.length > 0) {
       axios.put(`${url}/components/orderComponents`, {
@@ -24,19 +27,17 @@ const ComponentBilling = ({ orderList, removeItem, removeAllItems }: any) => {
     }
   };
 
-  //clear the order if the users wants to
   const clearCart = () => {
     removeAllItems()
   };
 
   const [cartTotal, setCartTotal] = useState(0)
 
-  //removing a single items from the cart
   const removeItemFromCart = (id : number) => {
     removeItem(id)
   }
 
-  //loading the catalog of inventory at the beginning
+  // Load the catalog of inventory at the beginning
   useEffect(() => {
     orderList.orderList.forEach((order: Order) => {
       setCartTotal(cartTotal => cartTotal + order.price * order.selectedQuantity)

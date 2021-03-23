@@ -5,11 +5,6 @@
       "img": {
         "pos": 0,
         "alt": "utility-frame"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     },
     {
@@ -17,11 +12,6 @@
       "img": {
         "pos": 1,
         "alt": "touring-frame"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     },
     {
@@ -29,70 +19,18 @@
       "img": {
         "pos": 2,
         "alt": "mountain-frame"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     }
   ],
   "colour": ["RED", "BLUE", "YELLOW"],
-  "finish": [
-    {
-      "type": "MATTE",
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
-      }
-    },
-    {
-      "type": "CHROME",
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
-      }
-    }
-  ],
-  "grade": [
-    {
-      "type": "ALUMINIUM",
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
-      }
-    },
-    {
-      "type": "STEEL",
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
-      }
-    },
-    {
-      "type": "CARBON",
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
-      }
-    }
-  ],
+  "finish": [{ "type": "MATTE" }, { "type": "CHROME" }],
+  "grade": [{ "type": "ALUMINIUM"}, { "type": "STEEL" }, { "type": "CARBON" }],
   "saddle": [
     {
       "type": "PERFORMANCE",
       "img": {
         "pos": 0,
         "alt": "performance-saddle"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     },
     {
@@ -100,11 +38,6 @@
       "img": {
         "pos": 1,
         "alt": "cushioned-saddle"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     }
   ],
@@ -114,11 +47,6 @@
       "img": {
         "pos": 0,
         "alt": "flat-handlebar"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     },
     {
@@ -126,11 +54,6 @@
       "img": {
         "pos": 1,
         "alt": "bullhorn-handlebar"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     },
     {
@@ -138,11 +61,6 @@
       "img": {
         "pos": 2,
         "alt": "drop-handlebar"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     }
   ],
@@ -152,11 +70,6 @@
       "img": {
         "pos": 0,
         "alt": "utility-wheels"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     },
     {
@@ -164,11 +77,6 @@
       "img": {
         "pos": 1,
         "alt": "touring-wheels"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     },
     {
@@ -176,11 +84,6 @@
       "img": {
         "pos": 2,
         "alt": "mountain-wheels"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     }
   ],
@@ -190,11 +93,6 @@
       "img": {
         "pos": 0,
         "alt": "novice-drivetrain"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     },
     {
@@ -202,11 +100,6 @@
       "img": {
         "pos": 1,
         "alt": "intermediate-drivetrain"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     },
     {
@@ -214,11 +107,6 @@
       "img": {
         "pos": 2,
         "alt": "advanced-drivetrain"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     },
     {
@@ -226,11 +114,6 @@
       "img": {
         "pos": 3,
         "alt": "expert-drivetrain"
-      },
-      "price": {
-        "S": "",
-        "M": "",
-        "L": ""
       }
     }
   ]

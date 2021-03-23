@@ -1,10 +1,11 @@
+// DEPENDENCIES
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
+// SERVICES
 import { BACKEND_URL } from "../../../core/utils/config";
 import { addItem, Order } from "../../../redux/actions/OrderListActions/orderListAction";
-
 import components from "./components.json";
 
 // COMPONENT ASSETS
@@ -43,6 +44,9 @@ const WhiteButton = withStyles((theme: Theme) => ({
   },
 }))(Button);
 
+/*
+  The Components component displays the purchasable components on the orderComponent page
+*/
 const Components = ({ selectedLocation, addItem, orderList }: any) => {
 
   const url = BACKEND_URL;
@@ -65,8 +69,7 @@ const Components = ({ selectedLocation, addItem, orderList }: any) => {
     setComponentTypeSelected(componentTypeSelected);
   };
 
-
-  //filling the order list so we can build a receipt with multiple components
+  // Fills the order list so we can build a receipt with multiple components
   const fillOrderList = (
     size: String,
     location: String,
@@ -87,7 +90,7 @@ const Components = ({ selectedLocation, addItem, orderList }: any) => {
       ) {
         selectedId = element.component_id;
 
-        //making sure that the input for quantity is a valid number
+        // Making sure that the input for quantity is a valid number
         quantitySelected = parseInt(quantity);
         totalQuantity = quantitySelected + element.quantity;
 

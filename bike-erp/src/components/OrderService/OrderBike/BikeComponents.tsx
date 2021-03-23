@@ -1,11 +1,12 @@
-
+// DEPENDENCIES
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import components from "./bikeComponents.json";
-import {
+// SERVICES
+import { 
   addBike, addComponentSold, BikeSold, ComponentUpdated
 } from "../../../redux/actions/OrderBikeActions/orderBikeActions";
+import components from "./bikeComponents.json";
 
 // COMPONENT ASSETS
 import frame_utility from "../../../assets/images/components/frame_utility.jpg";
@@ -33,6 +34,9 @@ import { Button, Grid, TextField, Theme, Typography, withStyles, Snackbar } from
 import { grey } from "@material-ui/core/colors";
 import { ToggleButton, Alert, AlertTitle } from '@material-ui/lab';
 
+/*
+  The BikeComponents component displays all selectable components a user needs to select to order a bike.
+*/
 const BikeComponents = ({
   addBike, addComponentSold, bikeOrderList, setMostRecent, setMostRecentPicture, selectedLocation, inventoryTable
 }: any) => {
@@ -46,7 +50,7 @@ const BikeComponents = ({
   const [snackOpen, setSnackOpen] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
 
-  //User selection
+  // User selection
   const [colourSelected, setColour] = useState("");
   const [size, setSize] = useState("SMALL");
   const [frameTypeSelected, setFrameType] = useState("");
@@ -97,7 +101,7 @@ const BikeComponents = ({
     setSnackOpen(false);
   };
 
-  //Bike component selection
+  // Bike component selection
   const fillBikeOrder = () => {
     let totalPrice = 0;
     let unitPrice = 0, handleId = 0, wheelId = 0, driveTrainId = 0, frameId = 0, seatId = 0;
@@ -202,12 +206,8 @@ const BikeComponents = ({
     }
   }
 
-  //set the image of selected bike component
-  const setComponentType = (
-    componentType: string,
-    componentSpecificType: string,
-    picture?: string
-  ) => {
+  // Set the image of selected bike component
+  const setComponentType = (componentType: string, componentSpecificType: string, picture?: string) => {
     switch (componentType) {
       case "frame":
         setFrameType(componentSpecificType);
@@ -297,9 +297,8 @@ const BikeComponents = ({
           components.frame.map((frame) => (
             <Grid item key={frame.type}>
               <WhiteToggleButton
-                value={frame.type}
+                className="frame" value={frame.type}
                 selected={frameTypeSelected === frame.type}
-                className="frame"
                 onClick={() => setComponentType("frame", frame.type, frames[frame.img.pos])}
               >
                 <img src={frames[frame.img.pos]} alt={frame.img.alt}/>
@@ -323,7 +322,7 @@ const BikeComponents = ({
           components.finish.map((finish) => (
             <Grid item key={finish.type}>
               <WhiteToggleButton
-                value={finish.type} className="finish" 
+                className="finish" value={finish.type}
                 selected={finishSelected === finish.type}
                 onClick={() => setComponentType("finish", finish.type)}
               >
@@ -342,7 +341,8 @@ const BikeComponents = ({
           {
             components.grade.map((grade) => (
               <Grid item key={grade.type}>
-                <WhiteToggleButton value={grade.type} className="grade"
+                <WhiteToggleButton
+                  className="grade" value={grade.type}
                   selected={gradeSelected === grade.type}
                   onClick={() => setComponentType("grade", grade.type)}
                 >
@@ -361,7 +361,8 @@ const BikeComponents = ({
           {
             components.colour.map((colour) => (
               <Grid item key={colour}>
-                <WhiteToggleButton value={colour} className="colour"
+                <WhiteToggleButton
+                  className="colour" value={colour}
                   selected={colourSelected === colour}
                   onClick={() => setComponentType("colour", colour)}
                 >
@@ -381,8 +382,7 @@ const BikeComponents = ({
           components.saddle.map((saddle) => (
             <Grid item key={saddle.type}>
               <WhiteToggleButton
-                value={saddle.type}
-                className="saddle"
+                className="saddle" value={saddle.type}
                 selected={saddleSelected === saddle.type}
                 onClick={() => setComponentType("saddle", saddle.type, saddles[saddle.img.pos])}
               >
@@ -406,7 +406,8 @@ const BikeComponents = ({
           {
             components.handlebar.map((handlebar) => (
               <Grid item key={handlebar.type}>
-                <WhiteToggleButton value={handlebar.type} className="handlebar"
+                <WhiteToggleButton
+                  className="handlebar" value={handlebar.type}
                   selected={handleSelected === handlebar.type}
                   onClick={() => setComponentType("handle", handlebar.type, handlebars[handlebar.img.pos])}
                 >
@@ -430,7 +431,8 @@ const BikeComponents = ({
           {
             components.wheels.map((wheel) => (
               <Grid item key={wheel.type}>
-                <WhiteToggleButton value={wheel.type} className="wheel"
+                <WhiteToggleButton
+                  className="wheel" value={wheel.type}
                   selected={wheelSelected === wheel.type}
                   onClick={() => setComponentType("wheel", wheel.type, wheels[wheel.img.pos])}
                 >
@@ -454,7 +456,8 @@ const BikeComponents = ({
         {
           components.drivetrain.map((drivetrain) => (
             <Grid item key={drivetrain.type}>
-              <WhiteToggleButton value={drivetrain.type} className="drivetrain"
+              <WhiteToggleButton
+                className="drivetrain" value={drivetrain.type}
                 selected={trainType === drivetrain.type}
                 onClick={() => setComponentType("drivetrain", drivetrain.type, drivetrains[drivetrain.img.pos])}
               >

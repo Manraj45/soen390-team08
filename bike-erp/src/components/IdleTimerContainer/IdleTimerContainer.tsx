@@ -1,21 +1,31 @@
-import { Button, Modal, Typography } from "@material-ui/core";
-import WarningIcon from "@material-ui/icons/Warning";
-import React, { useRef, useState } from "react";
+// DEPENDENCIES
+import { useRef, useState } from "react";
 import IdleTimer from "react-idle-timer";
 import { connect } from "react-redux";
+
+// SERVICES
 import { logout } from "../../redux/actions/AccountActions/accountAction";
+
+// STYLING
+import { Button, Modal, Typography } from "@material-ui/core";
+import WarningIcon from "@material-ui/icons/Warning";
 import useStyles from "./IdleTimerContainerStyle";
 
-// Container for handling the inactivity period
+/* 
+  The IdleTimerContainer handles the user's inactivity period.
+  If the user is inactive for a certain period of time, the application will log them out.
+  However, the user has the possibility to extend their current session before the timeout timer runs out.
+*/
+
 const IdleTimerContainer = ({ account, logout }: any) => {
   // Reference to timer binded to react-idle-timer
   const idleTimerRef = useRef(null);
 
-  // Reference to session countdown when prompt for inactivity
+  // Reference to session countdown when prompted for inactivity
   const sessionTimeoutRef = useRef<any>(null);
   const sessionTimeIntervalRef = useRef<any>(null);
 
-  // timeout period in ms,user will have a timeout period to extend their session
+  // Timeout period in ms
   const timeoutPeriod: number = 10000;
   const [timeoutDisplay, settimeoutDisplay] = useState(timeoutPeriod);
 
@@ -23,7 +33,7 @@ const IdleTimerContainer = ({ account, logout }: any) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   // Object for styling
-  const classes = useStyles();
+  const styles = useStyles();
 
   // Function for when there is a period of inactivity
   const onIdle = () => {
@@ -53,21 +63,16 @@ const IdleTimerContainer = ({ account, logout }: any) => {
     settimeoutDisplay(timeoutPeriod);
   };
 
-  // body representing the modal for inactivity
+  // Body representing the modal for inactivity
   const body = (
-    <div className={classes.modal}>
-      <WarningIcon fontSize="large" className={classes.icon} />
-      <Typography className={classes.text}>
+    <div className={styles.modal}>
+      <WarningIcon fontSize="large" className={styles.icon} />
+      <Typography className={styles.text}>
         You have been inactive.
         <br />
         Your session will expire in {timeoutDisplay / 1000}
       </Typography>
-      <Button
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        onClick={setActive}
-      >
+      <Button className={styles.button} variant="contained" color="primary" onClick={setActive}>
         Extend
       </Button>
     </div>
@@ -75,16 +80,8 @@ const IdleTimerContainer = ({ account, logout }: any) => {
 
   return (
     <div id="idleTimerContainer">
-      <IdleTimer
-        ref={idleTimerRef}
-        timeout={3600000 /*after 1h -> call onIdle*/}
-        onIdle={onIdle}
-      ></IdleTimer>
-      <Modal
-        open={modalOpen}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
+      <IdleTimer ref={idleTimerRef} timeout={3600000 /*after 1h -> call onIdle*/} onIdle={onIdle}/>
+      <Modal open={modalOpen} aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description">
         {body}
       </Modal>
     </div>

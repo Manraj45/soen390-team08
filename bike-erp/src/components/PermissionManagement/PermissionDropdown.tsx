@@ -1,9 +1,10 @@
+import { useState } from "react";
+
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { useState } from "react";
 
-//style for the dropdown
+// Dropdown styles
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     selectEmpty: {
@@ -12,23 +13,25 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-//Component for the permission dropdown list
+/*
+  The PermissionDropdown components pertains to the permission dropdown list
+*/
 const PermissionDropdown = (props: any) => {
   const classes = useStyles();
 
   const [permission, setPermission] = useState(props.permission);
 
-  //method to handle when the dropdown list's selection is changed
+  // Hanldes change of dropdown list's selection
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setPermission(event.target.value as string);
   };
 
   return (
     <Select
+      className={classes.selectEmpty}
       value={permission}
       onChange={handleChange}
       displayEmpty
-      className={classes.selectEmpty}
     >
       <MenuItem value="ADMIN">ADMIN</MenuItem>
       <MenuItem value="MANAGER">MANAGER</MenuItem>

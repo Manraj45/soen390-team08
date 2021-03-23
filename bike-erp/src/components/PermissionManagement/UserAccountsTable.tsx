@@ -1,18 +1,24 @@
-import { Button, Table, TableBody, TableRow } from "@material-ui/core";
-import SaveIcon from "@material-ui/icons/Save";
 import axios from "axios";
 import { useEffect, useState } from "react";
+
 import { BACKEND_URL } from "../../core/utils/config";
 import PermissionDropdown from "./PermissionDropdown";
+
+import { Button, Table, TableBody, TableRow } from "@material-ui/core";
+import SaveIcon from "@material-ui/icons/Save";
 import useStyles from "./UserAccountsTableStyle";
 
-//Table that contains the users' accounts information
+/*
+  Table that contains the users' accounts information
+*/
 const UserAccountsTable = (props) => {
+
+  const styles = useStyles();
+
   const [data, setData] = useState<any[]>([]);
   const [initialState] = useState(new Map());
-  const classes = useStyles();
 
-  //fetch the accounts from the database
+  // Fetch the accounts from the database
   useEffect(() => {
     axios
       .get(`${BACKEND_URL}/account_management/admin/accounts`)
@@ -27,7 +33,7 @@ const UserAccountsTable = (props) => {
       });
   }, [initialState]);
 
-  //update the roles in the database
+  // Update the roles in the database
   const updateRoles = (event) => {
     event.preventDefault();
     let table: any = document.getElementById("accounts");
@@ -60,19 +66,19 @@ const UserAccountsTable = (props) => {
     props.setDialogOpen(true);
   };
 
-  //display the accounts information in a table
+  // Display the accounts information in a table
   const renderAccountsData = () => {
     return data.map((account: any, key: any) => {
       return (
         <tr key={key}>
-          <td className={classes.bord}>{account.account_id}</td>
-          <td className={classes.bord}>{account.first_name}</td>
-          <td className={classes.bord}>{account.last_name}</td>
-          <td id="email" className={classes.bord}>
+          <td className={styles.border}>{account.account_id}</td>
+          <td className={styles.border}>{account.first_name}</td>
+          <td className={styles.border}>{account.last_name}</td>
+          <td id="email" className={styles.border}>
             {account.email}
           </td>
-          <td className={classes.bord}>{account.organization}</td>
-          <td id="permission" className={classes.drop}>
+          <td className={styles.border}>{account.organization}</td>
+          <td id="permission" className={styles.dropdown}>
             <PermissionDropdown permission={account.role} />
           </td>
         </tr>
@@ -80,7 +86,7 @@ const UserAccountsTable = (props) => {
     });
   };
 
-  //render all the headers for the table
+  // Render all the headers for the table
   const renderTableHeader = () => {
     const header = [
       "Account ID",
@@ -92,7 +98,7 @@ const UserAccountsTable = (props) => {
     ];
     return header.map((title, index) => {
       return (
-        <th className={classes.tableHeader} key={index}>
+        <th className={styles.tableHeader} key={index}>
           {title.toUpperCase()}
         </th>
       );
@@ -100,26 +106,26 @@ const UserAccountsTable = (props) => {
   };
 
   return (
-    <>
+    <div className="accountsTable">
       <div>
         <Table stickyHeader id="accounts">
           <TableRow> {renderTableHeader()} </TableRow>
           <TableBody>{renderAccountsData()}</TableBody>
         </Table>
       </div>
-      <div className={classes.saveBtnContainer}>
+      <div className={styles.saveBtnContainer}>
         <Button
+          className={styles.saveBtn}
           variant="contained"
           color="primary"
           size="large"
-          className={classes.saveBtn}
           onClick={updateRoles}
           startIcon={<SaveIcon />}
         >
           Save
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 
