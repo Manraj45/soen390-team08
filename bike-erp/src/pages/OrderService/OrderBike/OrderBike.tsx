@@ -5,10 +5,6 @@ import { connect } from "react-redux";
 
 // SERVICES
 import { BACKEND_URL } from "../../../core/utils/config";
-import {
-  addBike, removeBike, removeAllBikes,
-  BikeSold, addComponentSold, removeComponentSold, removeAllComponents, ComponentUpdated
-} from "../../../redux/actions/OrderBikeActions/orderBikeActions";
 
 // COMPONENTS
 import ModelView from "../../../components/OrderService/OrderBike/BikeModel";
@@ -75,15 +71,4 @@ const mapStateToProps = (state: any) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    addBike: (bikeSold: BikeSold) => dispatch(addBike(bikeSold)),
-    removeBike: (bikeSold: BikeSold) => dispatch(removeBike(bikeSold)),
-    removeAllBikes: () => dispatch(removeAllBikes()),
-    addComponentSold: (componentUpdated: ComponentUpdated) => dispatch(addComponentSold(componentUpdated)),
-    removeComponentSold: (id: number) => dispatch(removeComponentSold(id)),
-    removeAllComponents: () => dispatch(removeAllComponents())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(OrderBike);
+export default connect(mapStateToProps)(OrderBike);

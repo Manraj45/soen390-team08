@@ -1,12 +1,13 @@
-import { ThemeProvider } from "@material-ui/core";
-import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+
 import App from "./app/App";
 import theme from "./core/utils/theme";
-import "./index.css";
 import store from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
+
+import { ThemeProvider } from "@material-ui/core";
+import "./index.css";
 
 ReactDOM.render(
   <Provider store={store}>
