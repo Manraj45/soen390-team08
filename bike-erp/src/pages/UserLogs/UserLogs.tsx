@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import {BACKEND_URL} from "../../core/utils/config";
 
 import { Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
-import useStyles from "../Inventory/InventoryStyles";
+import useStyles from "./UserLogsStyles";
 
 /*
   The UserLogs page.

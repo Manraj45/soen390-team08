@@ -1,7 +1,7 @@
 import Enzyme, { shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import * as React from "react";
 import renderer from "react-test-renderer";
+
 import Inventory from "../../pages/Inventory/Inventory";
 
 Enzyme.configure({ adapter: new Adapter() });
