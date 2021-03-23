@@ -70,9 +70,9 @@ const BikeBilling = ({ bikeOrderList, removeBike, removeAllBikes, removeComponen
 
   return (
     <div>
-      <Paper className="orderBiling">
+      <Paper className={styles.bikeBilling}>
         <h2>Billing</h2>
-        <div className="contents">
+        <div className={styles.contents}>
           {
             bikeOrderList.bikeOrderList.map((bikeSold: BikeSold) => (
               <Box key={bikeSold.description} className={styles.billingBox}>
@@ -85,7 +85,7 @@ const BikeBilling = ({ bikeOrderList, removeBike, removeAllBikes, removeComponen
             ))
           }
         </div>
-        <div className="total">
+        <div className={styles.total}>
           <Typography>Total: $ {cartTotal} </Typography>
         </div>
       </Paper>
