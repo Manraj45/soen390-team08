@@ -1,18 +1,17 @@
-import { Button, Paper, Typography } from "@material-ui/core";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { BACKEND_URL } from "../../../core/utils/config";
-import "./OrderBiling.css";
-import { Order, removeAllItem, removeItem } from "../../../redux/actions/OrderListActions/orderListAction";
+import { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import { Box } from "@material-ui/core";
 
-const OrderBiling = ({
-  orderList,
-  removeItem,
-  removeAllItems
-}: any) => {
+import { BACKEND_URL } from "../../../core/utils/config";
+import { Order, removeAllItem, removeItem } from "../../../redux/actions/OrderListActions/orderListAction";
+
+import { Box, Button, Paper, Typography } from "@material-ui/core";
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import useStyles from "./ComponentBillingStyle";
+
+const ComponentBilling = ({ orderList, removeItem, removeAllItems }: any) => {
+  
+  const styles = useStyles();
   const url = BACKEND_URL;
 
   //updating the list of order in the backend
@@ -29,6 +28,7 @@ const OrderBiling = ({
   const clearCart = () => {
     removeAllItems()
   };
+
   const [cartTotal, setCartTotal] = useState(0)
 
   //removing a single items from the cart
@@ -46,45 +46,34 @@ const OrderBiling = ({
     }
   }, [orderList.orderList])
 
-
   return (
     <Box>
-      <Paper className="orderBiling">
+      <Paper className={styles.componentBilling}>
         <h2>Order</h2>
-        <Box className="contents">
+        <Box className={styles.contents}>
           {
             orderList.orderList.map((order: Order) => (
-              <Box className="billingBox" key={order.id}>
-                <RemoveCircleOutlineIcon className="item" onClick={() => {removeItemFromCart(order.id)}}></RemoveCircleOutlineIcon>
-                <Typography>{order.selectedQuantity} x {order.info} = ${order.selectedQuantity * order.price} </Typography>
+              <Box className={styles.billingBox} key={order.id}>
+                <RemoveCircleOutlineIcon className={styles.item} onClick={() => {removeItemFromCart(order.id)}}/>
+                <Typography>{order.selectedQuantity} x {order.info} = ${order.selectedQuantity * order.price}</Typography>
               </Box>
             ))
           }
         </Box>
-        <Box className="total">
-              <Typography>Total: $ {cartTotal}</Typography>
+        <Box className={styles.total}>
+          <Typography>Total: $ {cartTotal}</Typography>
         </Box>
       </Paper>
       <Box>
         <div>
           <br></br>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={updateQuantityOfListOrder}
-            >
+            <Button variant="contained" color="primary" onClick={updateQuantityOfListOrder}>
               Proceed
             </Button>
         </div>
         <br></br>
         <div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              clearCart();
-            }}
-          >
+          <Button variant="contained" color="primary" onClick={() => { clearCart(); }}>
             Clear Cart
           </Button>
         </div>
@@ -106,4 +95,4 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderBiling);
+export default connect(mapStateToProps, mapDispatchToProps)(ComponentBilling);
