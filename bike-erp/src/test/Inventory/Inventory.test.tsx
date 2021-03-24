@@ -16,9 +16,7 @@ describe("Inventory", () => {
   });
 
   it("inventory page should appear", () => {
-    console.log(wrapper);
     const data = wrapper.find("#inventoryPageTest");
-    console.log(wrapper);
     expect(data.length).toBe(1);
   });
 
