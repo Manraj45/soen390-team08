@@ -5,16 +5,16 @@ import { UserLogService } from "../userlogService/UserLogService";
 export class BikeOrderService {
   private static bikeOrderService: BikeOrderService | undefined;
 
-  //restrict so that the service cannot be constructed outside of the class. For singleton pattern
+  // Restrict so that the service cannot be constructed outside of the class. For singleton pattern
   private constructor() {
-    //Calling singleton of accountingService
+    // Calling singleton of accountingService
     AccountingService.getAccountingService();
   }
 
-  //Creating statuc instance of the BikeDao Class
+  // Creating statuc instance of the BikeDao Class
   private static bikeDao = new BikeDao();
 
-  //Getting the bikeDao
+  // Getting the bikeDao
   public static getBikeDao = () => {
     return BikeOrderService.bikeDao;
   };
@@ -32,7 +32,7 @@ export class BikeOrderService {
     return new Promise(async (resolve, rejects) => {
       let bikeIdList: number[] = [];
       bikeOrderList.forEach(async (bike) => {
-        //verifying the data meets the requirements for the price
+        // Verifying the data meets the requirements for the price
         if (isNaN(bike.price) || bike.price < 0) {
           return rejects({
             status: 400,
@@ -40,7 +40,7 @@ export class BikeOrderService {
               "Invalid price format, price must be a number data type and a positive number",
           });
         }
-        //verifying the data meets the requirements for the quanity
+        // Verifying the data meets the requirements for the quanity
         else if (isNaN(bike.quantity) || bike.quantity < 0) {
           return rejects({
             status: 400,
@@ -48,7 +48,7 @@ export class BikeOrderService {
               "Invalid quantity format, quantity must be a number data type and a positive number",
           });
         }
-        //Posting all the bikes created with their components Id.
+        // Posting all the bikes created with their components Id.
         try {
           const response = await BikeOrderService.getBikeDao().createBike(
             bike.price,

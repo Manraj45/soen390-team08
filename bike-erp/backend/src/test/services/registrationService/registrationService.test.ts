@@ -1,4 +1,7 @@
+// DEPENDENCIES
 import dotenv from "dotenv";
+
+// SERVICES
 import db from "../../../main/helpers/db";
 import { RegistrationService } from "../../../main/services/registrationService/RegistrationService";
 import { UserLogService } from "../../../main/services/userlogService/UserLogService";
