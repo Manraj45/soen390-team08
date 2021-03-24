@@ -1,6 +1,8 @@
+// DEPENDENCIES
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/AccountActions/accountAction";
 
+// STYLING
 import { Button, Typography } from "@material-ui/core";
 
 /*

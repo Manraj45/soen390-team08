@@ -1,3 +1,4 @@
+// Dependencies
 import cors from "cors";
 import dotenv from "dotenv";
 import express, { Application } from "express";

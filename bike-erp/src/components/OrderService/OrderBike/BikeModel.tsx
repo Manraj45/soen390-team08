@@ -1,3 +1,4 @@
+// STYLING
 import {
   Card, CardContent, CardMedia, CardActions,
   FormControl, InputLabel, MenuItem, Select, Typography

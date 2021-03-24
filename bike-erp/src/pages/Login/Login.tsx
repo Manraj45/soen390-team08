@@ -1,10 +1,13 @@
+// DEPENDENCIES
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
+// SERVICES
 import bike_logo from "../../assets/images/login_bike_logo.png";
 import { credential, login } from "../../redux/actions/AccountActions/accountAction";
 
+// STYLING
 import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import useStyles from "./LoginStyle";
 

@@ -2,10 +2,7 @@ import { AccountPayableDAO } from "../../../main/dao/AccountPayableDAO";
 import { AccountReceivableDAO } from "../../../main/dao/AccountReceivableDAO";
 import db from "../../../main/helpers/db";
 import { BikeOrder } from "../../../main/models/interfaces/BikeOrder";
-import {
-  AccountingService,
-  Order,
-} from "../../../main/services/accountingService/AccountingService";
+import { AccountingService, Order } from "../../../main/services/accountingService/AccountingService";
 
 // Tests for Accounting Service
 describe("Accounting Service Test", () => {

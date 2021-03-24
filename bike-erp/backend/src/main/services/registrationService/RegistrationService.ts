@@ -1,4 +1,7 @@
+// DEPENDENCIES
 import bcrypt from "bcrypt";
+
+// SERVICES
 import { AccountDao } from "../../dao/AccountDAO";
 import { UserLogService } from "../userlogService/UserLogService";
 

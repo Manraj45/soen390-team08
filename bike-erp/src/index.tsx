@@ -1,11 +1,14 @@
+// DEPENDENCIES
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
+// SERVICES + COMPONENTS
 import App from "./app/App";
 import theme from "./core/utils/theme";
 import store from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
 
+// STYLING
 import { ThemeProvider } from "@material-ui/core";
 import "./index.css";
 

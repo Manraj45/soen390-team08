@@ -2,7 +2,7 @@ import {
   ADD_ITEM,
   REMOVE_ALL_ITEMS,
   REMOVE_ITEM
-} from '../../types/OrderListTypes/orderListTypes'
+} from '../../types/OrderListTypes/orderListTypes';
 
 export interface Order{
   id:number

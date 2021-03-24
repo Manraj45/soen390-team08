@@ -1,10 +1,13 @@
+// DEPENDENCIES
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
+// SERVICES
 import { BACKEND_URL } from "../../../core/utils/config";
 import { Order, removeAllItem, removeItem } from "../../../redux/actions/OrderListActions/orderListAction";
 
+// STYLING
 import { Box, Button, Paper, Typography } from "@material-ui/core";
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import useStyles from "./ComponentBillingStyle";

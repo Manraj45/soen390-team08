@@ -1,4 +1,7 @@
+// DEPENDENCIES
 import express from "express";
+
+// SERVICES
 import { recoveryQuestion } from "../models/RecoveryQuestion";
 import { RegistrationService } from "../services/registrationService/RegistrationService";
 

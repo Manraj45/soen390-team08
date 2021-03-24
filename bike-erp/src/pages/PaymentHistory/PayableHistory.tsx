@@ -1,9 +1,12 @@
+// DEPENDENCIES
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
+// SERVICES
 import { BACKEND_URL } from "../../core/utils/config";
 
+// STYLING
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import useStyles from "./PayableHistoryStyle";
 

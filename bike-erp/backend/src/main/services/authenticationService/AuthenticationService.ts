@@ -1,5 +1,8 @@
+// DEPENDENCIES
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
+// SERVICES
 import { authorizeRequest } from "../../config/webSecurityConfig";
 import { AccountDao } from "../../dao/AccountDAO";
 import { Role } from "../../models/Account";

@@ -5,7 +5,7 @@ import {
   ADD_COMPONENT,
   REMOVE_COMPONENT,
   REMOVE_ALL_COMPONENTS
-} from '../../types/OrderBikeTypes/orderBikeTypes'
+} from '../../types/OrderBikeTypes/orderBikeTypes';
 
 export interface BikeSold {
   price: number,

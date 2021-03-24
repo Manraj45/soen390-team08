@@ -1,6 +1,9 @@
+// DEPENDENCIES
 import cors from "cors";
 import dotenv from "dotenv";
 import express, { Application } from "express";
+
+// SERVICES
 import { AUTH_PORT } from "../../config/config";
 import authentication_route from "../../routes/authentication_route";
 

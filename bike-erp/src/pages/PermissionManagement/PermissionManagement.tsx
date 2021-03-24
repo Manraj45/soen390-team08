@@ -1,8 +1,11 @@
+// DEPENDENCIES
 import { useState } from "react";
 import { connect } from "react-redux";
 
+// SERVICES
 import UserAccountsTable from "../../components/PermissionManagement/UserAccountsTable";
 
+// STYLING
 import {
   Avatar, Grid, Paper, Typography, Button,
   Dialog, DialogTitle, DialogActions,

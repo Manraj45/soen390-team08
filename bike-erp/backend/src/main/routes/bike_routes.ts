@@ -1,4 +1,7 @@
+// DEPENDENCIES
 import express from "express";
+
+// SERVICES
 import fetchUserEmail from "../helpers/fetchAccountEmail";
 import { authenticateToken } from "../services/authenticationService/AuthenticationService";
 import { BikeOrderService } from "../services/orderService/BikeOrderService";

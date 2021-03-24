@@ -1,9 +1,12 @@
+// DEPENDENCIES
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+// SERVICES
 import { BACKEND_URL } from "../../core/utils/config";
 import PermissionDropdown from "./PermissionDropdown";
 
+// STYLING
 import { Button, Table, TableBody, TableRow } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import useStyles from "./UserAccountsTableStyle";

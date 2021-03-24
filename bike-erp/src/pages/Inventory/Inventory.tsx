@@ -1,6 +1,8 @@
+// DEPENDENCIES
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
+// STYLING
 import { Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core"
 import useStyles from "./InventoryStyles";
 

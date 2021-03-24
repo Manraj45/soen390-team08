@@ -1,5 +1,7 @@
+// ASSETS
 import bike_logo from "../../../assets/images/login_bike_logo.png";
 
+// STYLING
 import { Box, CardMedia, Card, CardActions, Select, FormControl, InputLabel, MenuItem, Typography } from "@material-ui/core";
 import useStyles from "./ComponentViewStyles";
 

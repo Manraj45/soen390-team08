@@ -1,7 +1,10 @@
+// DEPENDENCIES
 import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import { BrowserRouter } from "react-router-dom";
 import renderer from "react-test-renderer";
+
+// SERVICES
 import LoginPage from "../../pages/Login/Login";
 import store from "../../redux/store";
 

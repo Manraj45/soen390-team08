@@ -1,5 +1,8 @@
+// DEPENDENCIES
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+
+// SERVICES
 import db from "../../../main/helpers/db";
 import { AccountManagementService } from "../../../main/services/accountManagementService/AccountManagementService";
 import { Role } from "../../../main/models/Account";

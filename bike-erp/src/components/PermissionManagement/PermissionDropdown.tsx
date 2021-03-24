@@ -1,5 +1,7 @@
+// DEPENDENCIES
 import { useState } from "react";
 
+// STYLING
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";

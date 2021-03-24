@@ -1,4 +1,7 @@
+// DEPENDENCIES
 import express from "express";
+
+// SERVICES
 import { AuthenticationService } from "../services/authenticationService/AuthenticationService";
 import { InventoryManagementService } from "../services/inventoryManagementService/InventoryManagementService";
 

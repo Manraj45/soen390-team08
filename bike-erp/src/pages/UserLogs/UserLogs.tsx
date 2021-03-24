@@ -1,8 +1,11 @@
+// DEPENDENCIES
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 
-import {BACKEND_URL} from "../../core/utils/config";
+// SERVICES
+import { BACKEND_URL } from "../../core/utils/config";
 
+// STYLING
 import { Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
 import useStyles from "./UserLogsStyles";
 

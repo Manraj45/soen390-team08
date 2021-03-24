@@ -1,4 +1,7 @@
+// DEPENDENCIES
 import express from "express";
+
+// SERVICES
 import { AccountingService } from "../services/accountingService/AccountingService";
 import { authenticateToken } from "../services/authenticationService/AuthenticationService";
 import fetchUserEmail from "../helpers/fetchAccountEmail";

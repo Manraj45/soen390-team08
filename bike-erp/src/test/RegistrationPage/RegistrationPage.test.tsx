@@ -1,6 +1,9 @@
+// DEPENDENCIES
 import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import renderer from "react-test-renderer";
+
+// PAGES
 import RegistrationPage from "../../pages/Registration/Registration";
 
 // Enable enzyme testing

@@ -1,10 +1,15 @@
+// DEPENDENCIES
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import bike_logo from "../../assets/images/login_bike_logo.png";
+// SERVICES
 import { BACKEND_URL } from "../../core/utils/config";
 
+// ASSETS
+import bike_logo from "../../assets/images/login_bike_logo.png";
+
+// STYLING
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography, } from "@material-ui/core";
 import useStyles from "./RegistrationStyle";
 

@@ -1,9 +1,12 @@
+// DEPENDENCIES
 import { useState } from "react";
 
+// SERVICES
 import OrderBiling from "../../../components/OrderService/OrderComponent/ComponentBilling";
 import Components from "../../../components/OrderService/OrderComponent/Components";
 import ModelView from "../../../components/OrderService/OrderComponent/ComponentView";
 
+// STYLING
 import { Grid, Typography } from "@material-ui/core";
 import useStyles from "./OrderComponentStyle";
 

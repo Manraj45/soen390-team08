@@ -3,7 +3,8 @@ import {
   REMOVE_ALL_ITEMS,
   REMOVE_ITEM
 } from "../../types/OrderListTypes/orderListTypes";
-import { Order } from "../../actions/OrderListActions/orderListAction"
+
+import { Order } from "../../actions/OrderListActions/orderListAction";
 
 const initialState = {
     error: "",

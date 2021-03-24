@@ -5,8 +5,9 @@ import {
   ADD_COMPONENT,
   REMOVE_COMPONENT,
   REMOVE_ALL_COMPONENTS
-} from '../../types/OrderBikeTypes/orderBikeTypes'
-import { BikeSold, ComponentUpdated } from "../../actions/OrderBikeActions/orderBikeActions"
+} from '../../types/OrderBikeTypes/orderBikeTypes';
+
+import { BikeSold, ComponentUpdated } from "../../actions/OrderBikeActions/orderBikeActions";
 
 const initialState = {
   error: "",
