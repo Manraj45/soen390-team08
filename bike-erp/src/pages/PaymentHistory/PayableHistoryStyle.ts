@@ -2,7 +2,6 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   payableHistory: {
-    maxWidth: 800,
     marginTop: 0,
     marginBottom: 0,
     marginLeft: "auto",
@@ -27,7 +26,29 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: 1,
     borderColor: "black",
     borderStyle: "solid"
-  }
+  },
+  tableHeader: {
+    backgroundColor: "black",
+    color: "white",
+    padding: "7px",
+    border: 1,
+    borderWidth: 1,
+    borderColor: "black",
+    borderStyle: "solid",
+  },
+  place: {
+    maxHeight: "50px",
+    maxWeidth: "50px",
+    overflow: "auto",
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "50px",
+      minHeight: "500px",
+    },
+    [theme.breakpoints.up("md")]: {
+      marginTop: "10px",
+      minHeight: "650px",
+    },
+  },
 }));
 
 export default useStyles;
