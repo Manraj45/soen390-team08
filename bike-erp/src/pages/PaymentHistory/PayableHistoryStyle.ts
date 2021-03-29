@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 0,
     paddingBottom: 0,
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
+    maxWidth: "70%",
   },
   userDetails: {
     textAlign: "right",
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 20
   },
   dataContainer: {
-    marginBottom: 20
+    marginBottom: 20,
   },
   orderCell: {
     border: 1,

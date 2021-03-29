@@ -52,8 +52,8 @@ const PayableHistory = ({ account }: any) => {
         <Typography variant="caption">{account.email}</Typography>
       </div>
       <Paper className={classes.place}>
-        <div className={classes.dataContainer}>
-          <Table size="small">
+        <div>
+          <Table size="small" className={classes.dataContainer}>
             <TableHead>
               <TableRow>
                 <TableCell className={classes.tableHeader}>Order number</TableCell>
@@ -81,9 +81,7 @@ const PayableHistory = ({ account }: any) => {
             }
             </TableBody>
           </Table>
-        </div>
-        <div>
-          <Table size="small">
+          <Table size="small" className={classes.dataContainer}>
             <TableHead>
               <TableRow>
                 <TableCell colSpan={3} className={classes.tableHeader}>Order Details</TableCell>
