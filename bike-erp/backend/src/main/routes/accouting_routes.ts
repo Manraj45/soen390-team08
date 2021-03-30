@@ -78,11 +78,12 @@ router.get("/accountReceivables/:id/bikes", authenticateToken, (req, res) => {
   }
 });
 
-router.get("/accountReceivables/:startDate/:endDate/report", authenticateToken, (req, res) => {
+router.get("/accountReceivables/:startDate/:endDate/:myDataOnly/report", authenticateToken, (req, res) => {
   const startDate = req.params.startDate;
   const endDate = req.params.endDate;
+  const myDataOnly = (req.params.myDataOnly === "true");
   const userEmail: string = fetchUserEmail(req);
-  ReportingService.getSalesReportCSVInfo(userEmail, startDate, endDate).then((response) => {
+  ReportingService.getSalesReportCSVInfo(userEmail, startDate, endDate, myDataOnly).then((response) => {
     res.status(202).json(response)
   })
     .catch((error) => {
@@ -90,16 +91,18 @@ router.get("/accountReceivables/:startDate/:endDate/report", authenticateToken, 
     })
 })
 
-router.get("/accountPayables/:startDate/:endDate/report", authenticateToken, (req, res) => {
+router.get("/accountPayables/:startDate/:endDate/:myDataOnly/report", authenticateToken, (req, res) => {
   const startDate = req.params.startDate;
   const endDate = req.params.endDate;
+  const myDataOnly = (req.params.myDataOnly === "true");
   const userEmail: string = fetchUserEmail(req);
-  ReportingService.getExpensesReportCSVInfo(userEmail, startDate, endDate).then((response) => {
+  ReportingService.getExpensesReportCSVInfo(userEmail, startDate, endDate, myDataOnly).then((response) => {
     res.status(202).json(response)
   })
     .catch((error) => {
       res.status(error.status).send(error.sqlMessage ? error.sqlMessage : error.message)
     })
 })
+
 
 export default router;

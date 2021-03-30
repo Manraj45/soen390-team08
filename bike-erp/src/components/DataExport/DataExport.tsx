@@ -36,13 +36,13 @@ const DataExport = (reportType: any) => {
     let data = [];
 
     if (reportType.reportType === "payable" && exportMyDataOnly === false) {
-      await axios.get(`${url}/finance/accountPayables/${formatStartDate + " 00:00:00"}/${formatEndDate + " 23:59:59"}/report`).then((response) => {
+      await axios.get(`${url}/finance/accountPayables/${formatStartDate + " 00:00:00"}/${formatEndDate + " 23:59:59"}/${exportMyDataOnly}/report`).then((response) => {
         data = response.data;
       });
       setReportHeader(expensesHeaders);
     }
     else if (reportType.reportType === "receivable" && exportMyDataOnly === false) {
-      await axios.get(`${url}/finance/accountReceivables/${formatStartDate + " 00:00:00"}/${formatEndDate + " 23:59:59"}/report`).then((response) => {
+      await axios.get(`${url}/finance/accountReceivables/${formatStartDate + " 00:00:00"}/${formatEndDate + " 23:59:59"}/${exportMyDataOnly}/report`).then((response) => {
         data = response.data;
       });
       setReportHeader(salesHeaders);
@@ -157,7 +157,7 @@ const DataExport = (reportType: any) => {
       <Box className={classes.myData}>
         <h3 className={classes.myDataTitle}>Only Export My Transaction</h3>
         &nbsp;
-        <Switch onClick={() => {setExportMyDataOnly(!exportMyDataOnly); console.log(exportMyDataOnly)}}></Switch>
+        <Switch onClick={() => { setExportMyDataOnly(!exportMyDataOnly); console.log(exportMyDataOnly) }}></Switch>
       </Box>
       <Button className={classes.confirmButton} variant="contained" color="primary" onClick={() => { generateReport() }}>Confirm</Button>
       <br />
