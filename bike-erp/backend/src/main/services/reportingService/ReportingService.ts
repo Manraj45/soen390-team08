@@ -1,4 +1,3 @@
-import { rejects } from "assert";
 import { ReportDAO } from "../../dao/ReportDAO";
 import { UserLogService } from "../userlogService/UserLogService";
 
