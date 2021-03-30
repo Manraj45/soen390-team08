@@ -7,9 +7,9 @@ import { connect } from "react-redux";
 import { BACKEND_URL } from "../../core/utils/config";
 
 // STYLING
-import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
+import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, Box } from "@material-ui/core";
 import useStyles from "./PayableHistoryStyle";
-
+import DataExport from "../../components/DataExport/DataExport";
 /*
   This page pertains to the accounts payable.
   This page is accessible to companies to track their expenses relative to ordering components.
@@ -24,26 +24,26 @@ const PayableHistory = ({ account }: any) => {
 
   useEffect(() => {
     axios
-    .get(`${backend}/finance/accountPayables`)
-    .then((response) => {
-      setAccountPayables(response.data);
-    })
-    .catch((error) => {
-      console.log(error.data);
-    });
+      .get(`${backend}/finance/accountPayables`)
+      .then((response) => {
+        setAccountPayables(response.data);
+      })
+      .catch((error) => {
+        console.log(error.data);
+      });
   }, [backend]);
 
   const getAccountSpecifics = (id: number) => {
     axios
-    .get(`${backend}/finance/accountPayables/${id}/transactionItem`)
-    .then((response) => {
-      setAccountSpecifics(response.data)
-    })
-    .catch((error) => {
-      console.log(error.data);
-    });
+      .get(`${backend}/finance/accountPayables/${id}/transactionItem`)
+      .then((response) => {
+        setAccountSpecifics(response.data)
+      })
+      .catch((error) => {
+        console.log(error.data);
+      });
   }
-  
+
   return (
     <div className={classes.payableHistory}>
       <h1>Accounts Payable</h1>
@@ -62,22 +62,22 @@ const PayableHistory = ({ account }: any) => {
             </TableRow>
           </TableHead>
           <TableBody>
-          {
-             Object.keys(accountPayables).length !== 0 && Object.values(accountPayables).map((order: any) => (
-              <TableRow key={order.account_payable_id}>
-                <TableCell className={classes.orderCell}>{order.account_payable_id}</TableCell>
-                <TableCell className={classes.orderCell}>{order.payable_date.substring(0, 10)}</TableCell>
-                <TableCell className={classes.orderCell}>{"$" +order.total}</TableCell>
-                <TableCell className={classes.orderCell}>
-                  <Button color="primary" 
-                    onClick={() => getAccountSpecifics(order.account_payable_id)}
-                  >
-                    See More
+            {
+              Object.keys(accountPayables).length !== 0 && Object.values(accountPayables).map((order: any) => (
+                <TableRow key={order.account_payable_id}>
+                  <TableCell className={classes.orderCell}>{order.account_payable_id}</TableCell>
+                  <TableCell className={classes.orderCell}>{order.payable_date.substring(0, 10)}</TableCell>
+                  <TableCell className={classes.orderCell}>{"$" + order.total}</TableCell>
+                  <TableCell className={classes.orderCell}>
+                    <Button color="primary"
+                      onClick={() => getAccountSpecifics(order.account_payable_id)}
+                    >
+                      See More
                   </Button>
-                </TableCell>
-              </TableRow>
-            ))
-          }
+                  </TableCell>
+                </TableRow>
+              ))
+            }
           </TableBody>
         </Table>
       </div>
@@ -106,6 +106,10 @@ const PayableHistory = ({ account }: any) => {
           </TableBody>
         </Table>
       </div>
+      <br />
+      <Box className={classes.export}>
+        <DataExport></DataExport>
+      </Box>
     </div>
   );
 }
