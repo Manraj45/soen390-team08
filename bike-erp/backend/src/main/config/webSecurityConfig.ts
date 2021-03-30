@@ -5,7 +5,9 @@ export const pathAutorization = {
   "/auth/test": [Role.ADMIN, Role.CUSTOMER],
   "/account_management/admin/update": [Role.ADMIN],
   "/account_management/admin/accounts": [Role.ADMIN],
-  "/components/orderComponents": [Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]
+  "/components/orderComponents": [Role.ADMIN, Role.MANAGER, Role.EMPLOYEE],
+  "/finance/accountPayables/report": [Role.ADMIN, Role.MANAGER],
+  "/finance/accountReceivables/report": [Role.ADMIN, Role.MANAGER]
 };
 
 //Function to verify if the user role is allowed or not to access a endpoint
