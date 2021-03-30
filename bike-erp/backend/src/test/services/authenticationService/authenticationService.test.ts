@@ -1,6 +1,9 @@
+// DEPENDENCIES
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+
+// SERVICES
 import { AccountDao } from "../../../main/dao/AccountDAO";
 import db from "../../../main/helpers/db";
 import { AuthenticationService } from "../../../main/services/authenticationService/AuthenticationService";

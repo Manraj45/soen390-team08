@@ -1,4 +1,7 @@
+// DEPENDENCIES
 import express from "express";
+
+// SERVICES
 import { recoveryQuestion } from "../models/RecoveryQuestion";
 import { RegistrationService } from "../services/registrationService/RegistrationService";
 
@@ -6,7 +9,7 @@ const router = express();
 
 RegistrationService.getRegistrationService();
 
-//Post register data
+// Post register data
 router.post("/submission", (req, res) => {
   RegistrationService.register(
     req.body.firstName,
