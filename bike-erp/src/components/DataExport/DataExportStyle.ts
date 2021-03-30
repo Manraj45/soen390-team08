@@ -45,6 +45,17 @@ const useStyles = makeStyles((theme) => ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)"
+  },
+  confirmButton: {
+    marginTop: "10px"
+  },
+  myData: {
+    display: "flex",
+    paddingTop: "10px",
+    alignItems: "center"
+  },
+  myDataTitle: {
+    paddingTop: "5px"
   }
 }));
 

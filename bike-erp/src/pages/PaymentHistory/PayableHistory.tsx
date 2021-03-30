@@ -18,6 +18,7 @@ const PayableHistory = ({ account }: any) => {
 
   const classes = useStyles();
   const backend = BACKEND_URL;
+  const reportType = "payable";
 
   const [accountPayables, setAccountPayables] = useState([]);
   const [accountSpecifics, setAccountSpecifics] = useState({});
@@ -108,7 +109,7 @@ const PayableHistory = ({ account }: any) => {
       </Paper>
       <br/>
       <Box className={classes.export}>
-        <DataExport></DataExport>
+        <DataExport reportType={reportType}></DataExport>
       </Box>
     </div>
   );

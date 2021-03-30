@@ -78,9 +78,11 @@ router.get("/accountReceivables/:id/bikes", authenticateToken, (req, res) => {
   }
 });
 
-router.get("/accountPayables/report", authenticateToken, (req, res) => {
+router.get("/accountReceivables/:startDate/:endDate/report", authenticateToken, (req, res) => {
+  const startDate = req.params.startDate;
+  const endDate = req.params.endDate;
   const userEmail: string = fetchUserEmail(req);
-  ReportingService.getSalesReportCSVInfo(userEmail, req.body.startDate, req.body.endDate).then((response) => {
+  ReportingService.getSalesReportCSVInfo(userEmail, startDate, endDate).then((response) => {
     res.status(202).json(response)
   })
     .catch((error) => {
@@ -88,9 +90,11 @@ router.get("/accountPayables/report", authenticateToken, (req, res) => {
     })
 })
 
-router.get("/accountReceivables/report", authenticateToken, (req, res) => {
+router.get("/accountPayables/:startDate/:endDate/report", authenticateToken, (req, res) => {
+  const startDate = req.params.startDate;
+  const endDate = req.params.endDate;
   const userEmail: string = fetchUserEmail(req);
-  ReportingService.getExpensesReportCSVInfo(userEmail, req.body.startDate, req.body.endDate).then((response) => {
+  ReportingService.getExpensesReportCSVInfo(userEmail, startDate, endDate).then((response) => {
     res.status(202).json(response)
   })
     .catch((error) => {
