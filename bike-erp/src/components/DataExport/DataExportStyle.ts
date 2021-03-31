@@ -3,7 +3,10 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
-    width: "50%",
+    width: "30%",
+    [theme.breakpoints.down('md')]: {
+      width: "250px"
+    },
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -37,7 +40,10 @@ const useStyles = makeStyles((theme) => ({
   },
   confirmationModal: {
     position: 'absolute',
-    width: "40%",
+    width: "20%",
+    [theme.breakpoints.down('md')]: {
+      width: "200px"
+    },
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],

@@ -13,7 +13,6 @@ export class ReportDAO {
             if (myDataOnly) {
                 query += `AND ar.email="${userEmail}"`
             }
-            console.log(query)
             db.query(query, (err, rows) => {
                 if (err) return reject(err);
                 resolve(JSON.parse(JSON.stringify(rows)));
@@ -29,7 +28,6 @@ export class ReportDAO {
             if (myDataOnly) {
                 query += `AND ap.email="${userEmail}"`
             }
-            console.log(query)
             db.query(query, (err, rows) => {
                 if (err) return reject(err);
                 resolve(JSON.parse(JSON.stringify(rows)));

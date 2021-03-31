@@ -1,49 +1,69 @@
-import React, { useState } from 'react';
-import Modal from '@material-ui/core/Modal';
-import useStyles from './DataExportStyle';
-import CloseIcon from '@material-ui/icons/Close';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { Box, Button, Typography } from '@material-ui/core';
-import { CSVLink } from "react-csv";
-import { BACKEND_URL } from "../../core/utils/config";
+import { useState } from 'react';
 import axios from 'axios';
+
+import Modal from '@material-ui/core/Modal';
+import CloseIcon from '@material-ui/icons/Close';
+import { Box, Button, Typography } from '@material-ui/core';
+
+import DatePicker from 'react-datepicker';
+import { CSVLink } from "react-csv";
 import { Switch } from "antd";
+
+import 'react-datepicker/dist/react-datepicker.css';
 import 'antd/dist/antd.css'
+import useStyles from './DataExportStyle';
+
+import { BACKEND_URL } from "../../core/utils/config";
 
 const DataExport = (reportType: any) => {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [openConfirmation, setOpenConfirmation] = React.useState(false);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [datesAreSelected, setDatesAreSelected] = useState(true);
-  const [noneSensDate, setNoneSenseDate] = useState(false);
-  const [exportMyDataOnly, setExportMyDataOnly] = useState(false);
 
   const url = BACKEND_URL;
+  const classes = useStyles();
 
-  //define csv
+  //verify status of modals
+  const [open, setOpen] = useState(false);
+  const [openConfirmation, setOpenConfirmation] = useState(false);
 
+  //set dates for report generation
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+  //verification of valid dates
+  const [datesAreSelected, setDatesAreSelected] = useState(true);
+  const [noneSensDate, setNoneSenseDate] = useState(false);
+
+  //verify if export all data or only for the logged user
+  const [exportMyDataOnly, setExportMyDataOnly] = useState(false);
+
+  //verify if the users has data
+  const [noData, setNoData] = useState(false);
+
+  //define csv property
   const [data, setData] = useState([]);
   const [reportHeader, setReportHeader] = useState<any[]>([]);
 
+  //fetching data from backend
   const getdata = async () => {
-    //date format : YYYY-MM-DD HH:MM:SS
-    const formatStartDate = convertDate(startDate)
-    const formatEndDate = convertDate(endDate)
+    //Foramting the date: YYYY-MM-DD
+    const formatStartDate = convertDate(startDate);
+    const formatEndDate = convertDate(endDate);
+    let data: any[] = [];
 
-    let data = [];
-
-    if (reportType.reportType === "payable" && exportMyDataOnly === false) {
+    if (reportType.reportType === "payable") {
       await axios.get(`${url}/finance/accountPayables/${formatStartDate + " 00:00:00"}/${formatEndDate + " 23:59:59"}/${exportMyDataOnly}/report`).then((response) => {
         data = response.data;
+        //calculate total price and total quantity of data
+        const { totalQuantity, totalPrice } = calculateTotalExpense(data);
+        data.push({ component_id: "total", cost: totalPrice, quantity_bought: totalQuantity });
       });
       setReportHeader(expensesHeaders);
     }
-    else if (reportType.reportType === "receivable" && exportMyDataOnly === false) {
+    else if (reportType.reportType === "receivable") {
       await axios.get(`${url}/finance/accountReceivables/${formatStartDate + " 00:00:00"}/${formatEndDate + " 23:59:59"}/${exportMyDataOnly}/report`).then((response) => {
         data = response.data;
+        //calculate total price and total quantity of data
+        const { totalQuantity, totalPrice } = calculateTotalSales(data);
+        data.push({ bike_id: "total", price: totalPrice, quantity: totalQuantity });
       });
       setReportHeader(salesHeaders);
     }
@@ -55,26 +75,39 @@ const DataExport = (reportType: any) => {
     handleClose();
   }
 
+  //calculate expenses
+  const calculateTotalExpense = (data: any[]) => {
+    let totalQuantity = 0;
+    let totalPrice = 0;
+    data.forEach((element: any) => {
+      totalQuantity += element.quantity_bought;
+      totalPrice += element.cost;
+    })
+    return { totalQuantity, totalPrice };
+  }
+
+  //calculate sales
+  const calculateTotalSales = (data: any[]) => {
+    let totalQuantity = 0;
+    let totalPrice = 0;
+    data.forEach((element: any) => {
+      totalQuantity += element.quantity;
+      totalPrice += element.price;
+    })
+    return { totalQuantity, totalPrice };
+  }
+
+  //covert date format
   const convertDate = date => {
     date = date.toString();
     let parts = date.split(" ");
     let months = {
-      Jan: "01",
-      Feb: "02",
-      Mar: "03",
-      Apr: "04",
-      May: "05",
-      Jun: "06",
-      Jul: "07",
-      Aug: "08",
-      Sep: "09",
-      Oct: "10",
-      Nov: "11",
-      Dec: "12"
+      Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06", Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
     };
     return parts[3] + "-" + months[parts[1]] + "-" + parts[2];
   };
 
+  //set sales headers
   const salesHeaders = [
     { label: 'Bike_Id', key: 'bike_id' },
     { label: 'Payable_Date', key: 'payable_date' },
@@ -87,22 +120,26 @@ const DataExport = (reportType: any) => {
     { label: 'Grade', key: 'grade' }
   ];
 
+  //set expenses headers
   const expensesHeaders = [
-    { label: 'Component_idke_Id', key: 'component_id' },
+    { label: 'Component_Id', key: 'component_id' },
     { label: 'Payable_Date', key: 'payable_date' },
     { label: 'Email', key: 'email' },
-    { label: 'Bike_description', key: 'bike_description' },
-    { label: 'Price', key: 'price' },
-    { label: 'Quantity', key: 'quantity' },
+    { label: 'Component_Price', key: 'component_price' },
     { label: 'Size', key: 'size' },
-    { label: 'Color', key: 'color' },
-    { label: 'Grade', key: 'grade' }
+    { label: 'Component_Id', key: 'component_type' },
+    { label: 'Cost', key: 'cost' },
+    { label: 'Quantity', key: 'quantity_bought' },
+    { label: 'Specific Component Model', key: 'specificComponentType' },
+    { label: 'Location', key: 'location_name' }
   ]
 
+  //handle date modal open
   const handleOpen = () => {
     setOpen(true);
   };
 
+  //handle date modal close
   const handleClose = () => {
     setOpen(false);
     setDatesAreSelected(true);
@@ -111,21 +148,30 @@ const DataExport = (reportType: any) => {
     setEndDate("");
     setData([]);
     setExportMyDataOnly(false);
+    setNoData(false);
   };
 
+  //handle confirmation modal open
   const handleOpenConfirmation = () => {
     setOpenConfirmation(true);
   };
 
+  //handle confirmation modal close
   const handleCloseConfirmation = () => {
     setOpenConfirmation(false);
   };
 
+  //fetching report data
   const generateReport = async () => {
     if ((startDate.toString() !== "" && endDate.toString() !== "") && (endDate >= startDate)) {
-      const data = await getdata();
-      setData(data);
-      handleOpenConfirmation();
+      let data;
+      try {
+        data = await getdata();
+        setData(data);
+        handleOpenConfirmation();
+      } catch (error) {
+        setNoData(true);
+      }
       return true;
     }
     if (startDate === "" || endDate === "") {
@@ -157,12 +203,13 @@ const DataExport = (reportType: any) => {
       <Box className={classes.myData}>
         <h3 className={classes.myDataTitle}>Only Export My Transaction</h3>
         &nbsp;
-        <Switch onClick={() => { setExportMyDataOnly(!exportMyDataOnly); console.log(exportMyDataOnly) }}></Switch>
+        <Switch onClick={() => { setExportMyDataOnly(!exportMyDataOnly) }}></Switch>
       </Box>
       <Button className={classes.confirmButton} variant="contained" color="primary" onClick={() => { generateReport() }}>Confirm</Button>
       <br />
       {datesAreSelected ? <></> : <Typography className={classes.errorMessage}>*You must select a start date and end date</Typography>}
       {noneSensDate ? <Typography className={classes.errorMessage}>*Start date must be before the end date</Typography> : <></>}
+      {noData ? <Typography className={classes.errorMessage}>"No data available for the selected dates</Typography> : <></>}
     </Box>
   );
 
@@ -176,7 +223,7 @@ const DataExport = (reportType: any) => {
           headers={reportHeader}
           filename="Report.csv"
           onClick={() => { downloadReport() }}>
-          <Button variant="contained" color="primary" onClick={() => { }}>Yes</Button></CSVLink>
+          <Button variant="contained" color="primary">Yes</Button></CSVLink>
           &nbsp;
         <Button variant="contained" color="primary" onClick={() => { handleCloseConfirmation() }}>No</Button>
       </Box>
