@@ -78,10 +78,10 @@ router.get("/accountReceivables/:id/bikes", authenticateToken, (req, res) => {
   }
 });
 
-router.get("/accountReceivables/:startDate/:endDate/:myDataOnly/report", authenticateToken, (req, res) => {
-  const startDate = req.params.startDate;
-  const endDate = req.params.endDate;
-  const myDataOnly = (req.params.myDataOnly === "true");
+router.get("/accountReceivables/report", authenticateToken, (req, res) => {
+  const startDate = req.query.startDate as string;
+  const endDate = req.query.endDate as string;
+  const myDataOnly = (req.query.myDataOnly === "true");
   const userEmail: string = fetchUserEmail(req);
   ReportingService.getSalesReportCSVInfo(userEmail, startDate, endDate, myDataOnly).then((response) => {
     res.status(202).json(response)
@@ -91,10 +91,10 @@ router.get("/accountReceivables/:startDate/:endDate/:myDataOnly/report", authent
     })
 })
 
-router.get("/accountPayables/:startDate/:endDate/:myDataOnly/report", authenticateToken, (req, res) => {
-  const startDate = req.params.startDate;
-  const endDate = req.params.endDate;
-  const myDataOnly = (req.params.myDataOnly === "true");
+router.get("/accountPayables/report", authenticateToken, (req, res) => {
+  const startDate = req.query.startDate as string;
+  const endDate = req.query.endDate as string;
+  const myDataOnly = (req.query.myDataOnly === "true");
   const userEmail: string = fetchUserEmail(req);
   ReportingService.getExpensesReportCSVInfo(userEmail, startDate, endDate, myDataOnly).then((response) => {
     res.status(202).json(response)
@@ -103,6 +103,5 @@ router.get("/accountPayables/:startDate/:endDate/:myDataOnly/report", authentica
       res.status(error.status).send(error.sqlMessage ? error.sqlMessage : error.message)
     })
 })
-
 
 export default router;

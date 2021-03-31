@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       width: "250px"
     },
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "rgb(221, 221, 221)",
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
@@ -57,11 +57,12 @@ const useStyles = makeStyles((theme) => ({
   },
   myData: {
     display: "flex",
-    paddingTop: "10px",
+    height: "40px",
     alignItems: "center"
   },
   myDataTitle: {
-    paddingTop: "5px"
+    fontSize: "12px",
+    paddingBottom: "3px"
   }
 }));
 

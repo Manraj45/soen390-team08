@@ -1,21 +1,21 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { connect } from "react-redux";
 
 import Modal from '@material-ui/core/Modal';
 import CloseIcon from '@material-ui/icons/Close';
 import { Box, Button, Typography } from '@material-ui/core';
+import Switch1 from '@material-ui/core/Switch';
 
 import DatePicker from 'react-datepicker';
 import { CSVLink } from "react-csv";
-import { Switch } from "antd";
 
 import 'react-datepicker/dist/react-datepicker.css';
-import 'antd/dist/antd.css'
 import useStyles from './DataExportStyle';
 
 import { BACKEND_URL } from "../../core/utils/config";
 
-const DataExport = (reportType: any) => {
+const DataExport = ({ reportType, account }: any) => {
 
   const url = BACKEND_URL;
   const classes = useStyles();
@@ -49,8 +49,14 @@ const DataExport = (reportType: any) => {
     const formatEndDate = convertDate(endDate);
     let data: any[] = [];
 
-    if (reportType.reportType === "payable") {
-      await axios.get(`${url}/finance/accountPayables/${formatStartDate + " 00:00:00"}/${formatEndDate + " 23:59:59"}/${exportMyDataOnly}/report`).then((response) => {
+    if (reportType === "payable") {
+      await axios.get(`${url}/finance/accountPayables/report`, {
+        params: {
+          startDate: formatStartDate + " 00:00:00",
+          endDate: formatEndDate + " 23:59:59",
+          myDataOnly: exportMyDataOnly
+        }
+      }).then((response) => {
         data = response.data;
         //calculate total price and total quantity of data
         const { totalQuantity, totalPrice } = calculateTotalExpense(data);
@@ -58,8 +64,14 @@ const DataExport = (reportType: any) => {
       });
       setReportHeader(expensesHeaders);
     }
-    else if (reportType.reportType === "receivable") {
-      await axios.get(`${url}/finance/accountReceivables/${formatStartDate + " 00:00:00"}/${formatEndDate + " 23:59:59"}/${exportMyDataOnly}/report`).then((response) => {
+    else if (reportType === "receivable") {
+      await axios.get(`${url}/finance/accountReceivables/report`, {
+        params: {
+          startDate: formatStartDate + " 00:00:00",
+          endDate: formatEndDate + " 23:59:59",
+          myDataOnly: exportMyDataOnly
+        }
+      }).then((response) => {
         data = response.data;
         //calculate total price and total quantity of data
         const { totalQuantity, totalPrice } = calculateTotalSales(data);
@@ -137,6 +149,9 @@ const DataExport = (reportType: any) => {
   //handle date modal open
   const handleOpen = () => {
     setOpen(true);
+    if (account.role === "CUSTOMER" || account.role === "EMPLOYEE") {
+      setExportMyDataOnly(true);
+    }
   };
 
   //handle date modal close
@@ -171,6 +186,7 @@ const DataExport = (reportType: any) => {
         handleOpenConfirmation();
       } catch (error) {
         setNoData(true);
+        setNoneSenseDate(false);
       }
       return true;
     }
@@ -200,22 +216,25 @@ const DataExport = (reportType: any) => {
         &ensp;
         <DatePicker className={classes.dateBox} dateFormat='yyyy-MM-dd' selected={endDate} onChange={date => setEndDate(date)}></DatePicker>
       </Box>
-      <Box className={classes.myData}>
-        <h3 className={classes.myDataTitle}>Only Export My Transaction</h3>
-        &nbsp;
-        <Switch onClick={() => { setExportMyDataOnly(!exportMyDataOnly) }}></Switch>
-      </Box>
+      {
+        (account.role === "ADMIN" || account.role === "MANAGER")
+        &&
+        <Box className={classes.myData}>
+          <h3 className={classes.myDataTitle}>Only Export My Transactions</h3>
+            <Switch1 color="primary" onClick={() => { setExportMyDataOnly(!exportMyDataOnly) }}></Switch1>
+        </Box>
+      }
       <Button className={classes.confirmButton} variant="contained" color="primary" onClick={() => { generateReport() }}>Confirm</Button>
       <br />
       {datesAreSelected ? <></> : <Typography className={classes.errorMessage}>*You must select a start date and end date</Typography>}
       {noneSensDate ? <Typography className={classes.errorMessage}>*Start date must be before the end date</Typography> : <></>}
-      {noData ? <Typography className={classes.errorMessage}>"No data available for the selected dates</Typography> : <></>}
+      {noData ? <Typography className={classes.errorMessage}>"No data available for the selected dates, please select another date interval</Typography> : <></>}
     </Box>
   );
 
   const exportConfirmation = (
     <Box className={classes.confirmationModal}>
-      <h2 className={classes.title}>Are you Sure? </h2>
+      <h2 className={classes.title}>Data available, do you want to export? </h2>
       <CloseIcon className={classes.close} onClick={() => { handleCloseConfirmation() }}></CloseIcon>
       <Box className={classes.confirmationButton}>
         <CSVLink
@@ -253,4 +272,10 @@ const DataExport = (reportType: any) => {
   );
 }
 
-export default DataExport;
+const mapStateToProps = (state: any) => {
+  return {
+    account: state.account.account
+  };
+};
+
+export default connect(mapStateToProps)(DataExport);
