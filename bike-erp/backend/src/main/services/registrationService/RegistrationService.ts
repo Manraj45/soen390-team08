@@ -1,16 +1,20 @@
+// DEPENDENCIES
 import bcrypt from "bcrypt";
+
+// SERVICES
 import { AccountDao } from "../../dao/AccountDAO";
+import { UserLogService } from "../userlogService/UserLogService";
 
 export class RegistrationService {
   private static registrationService: RegistrationService | undefined;
 
-  //restrict so that the service cannot be constructed outside of the class. For singleton pattern
+  // Restrict so that the service cannot be constructed outside of the class. For singleton pattern
   private constructor() {}
 
-  //Creating a static instance of the AccountDao Class
+  // Creating a static instance of the AccountDao Class
   private static accountDao = new AccountDao();
 
-  //Getter for the accountDao instance variable
+  // Getter for the accountDao instance variable
   public static getAccountDao = () => {
     return RegistrationService.accountDao;
   };
@@ -37,24 +41,21 @@ export class RegistrationService {
     organization: string
   ) => {
     return new Promise(async (resolve, reject) => {
-      //regex for password
       var regexPassword = new RegExp(
         "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).{8,30}$"
       );
 
-      //regex for name
       var regexName = new RegExp("^([^0-9]*)$");
 
-      //regex for email
       var regexEmail = new RegExp(
         "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$"
       );
 
-      //fetch account table
+      // Fetch account table
       const accountTable = await RegistrationService.accountDao.fetchAccountTableSize();
       let userRole = "CUSTOMER";
 
-      //check if the account table is empty
+      // Check if the account table is empty
       if (accountTable[0].number_of_accounts === 0) {
         userRole = "ADMIN";
       }
@@ -62,7 +63,7 @@ export class RegistrationService {
       if (regexName.test(firstName) && regexName.test(lastName)) {
         if (regexEmail.test(email)) {
           if (regexPassword.test(password)) {
-            //encrypt the password for security
+            // Encrypt the password for security
             const hashedPassword = await bcrypt.hash(password, 10);
             await RegistrationService.accountDao
               .createAccount(
@@ -78,6 +79,7 @@ export class RegistrationService {
                 organization
               )
               .then((response) => {
+                UserLogService.addLog(email, "Registered for an account").catch((error)=> {});
                 resolve({ status: 201, message: response.message });
               })
               .catch((error) => {

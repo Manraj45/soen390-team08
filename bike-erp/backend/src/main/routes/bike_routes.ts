@@ -1,13 +1,17 @@
+// DEPENDENCIES
 import express from "express";
+
+// SERVICES
 import fetchUserEmail from "../helpers/fetchAccountEmail";
+import { authenticateToken } from "../services/authenticationService/AuthenticationService";
 import { BikeOrderService } from "../services/orderService/BikeOrderService";
 
 const router = express();
 
 BikeOrderService.getBikeOrderService();
 
-router.post("/createBikes", (req, res) => {
-    //Providing the bikeOrderList to the BikeOrderService
+router.post("/createBikes", authenticateToken, (req, res) => {
+    // Providing the bikeOrderList to the BikeOrderService
     const bikeOrderList: Array<any> = req.body.bikeOrderList.bikeOrderList;
     const email = fetchUserEmail(req);
     BikeOrderService.addBike(bikeOrderList, email).then(response => {

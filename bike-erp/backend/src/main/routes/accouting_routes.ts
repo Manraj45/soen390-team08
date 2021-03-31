@@ -1,12 +1,19 @@
+// DEPENDENCIES
 import express from "express";
+
+// SERVICES
 import { AccountingService } from "../services/accountingService/AccountingService";
+import { ReportingService } from "../services/reportingService/ReportingService";
 import { authenticateToken } from "../services/authenticationService/AuthenticationService";
 import fetchUserEmail from "../helpers/fetchAccountEmail";
 
 const router = express();
 
-//Creating a singleton instance of the AccountingService
+// Creating a singleton instance of the AccountingService
 AccountingService.getAccountingService();
+
+//Creating a singleton instance of the ReportingService
+ReportingService.getReportingService();
 
 router.get("/accountPayables", authenticateToken, (req, res) => {
   const userEmail: string = fetchUserEmail(req);
@@ -69,6 +76,40 @@ router.get("/accountReceivables/:id/bikes", authenticateToken, (req, res) => {
         });
       });
   }
+});
+
+router.get("/accountPayables/report", authenticateToken, (req, res) => {
+  const userEmail: string = fetchUserEmail(req);
+  ReportingService.getSalesReportCSVInfo(
+    userEmail,
+    req.body.startDate,
+    req.body.endDate
+  )
+    .then((response) => {
+      res.status(202).json(response);
+    })
+    .catch((error) => {
+      res
+        .status(error.status)
+        .send(error.sqlMessage ? error.sqlMessage : error.message);
+    });
+});
+
+router.get("/accountReceivables/report", authenticateToken, (req, res) => {
+  const userEmail: string = fetchUserEmail(req);
+  ReportingService.getExpensesReportCSVInfo(
+    userEmail,
+    req.body.startDate,
+    req.body.endDate
+  )
+    .then((response) => {
+      res.status(202).json(response);
+    })
+    .catch((error) => {
+      res
+        .status(error.status)
+        .send(error.sqlMessage ? error.sqlMessage : error.message);
+    });
 });
 
 export default router;

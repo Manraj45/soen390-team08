@@ -1,10 +1,14 @@
+// DEPENDENCIES
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { connect } from "react-redux";
 
+// SERVICES
 import { BACKEND_URL } from "../../../core/utils/config";
-
+import { addItem, Order } from "../../../redux/actions/OrderListActions/orderListAction";
 import components from "./components.json";
 
+// COMPONENT ASSETS
 import frame_utility from "../../../assets/images/components/frame_utility.jpg";
 import frame_touring from "../../../assets/images/components/frame_touring.jpg";
 import frame_mountain from "../../../assets/images/components/frame_mountain.jpg";
@@ -25,18 +29,10 @@ import drivetrain_intermediate from "../../../assets/images/components/drivetrai
 import drivetrain_advanced from "../../../assets/images/components/drivetrain_advanced.jpg";
 import drivetrain_expert from "../../../assets/images/components/drivetrain_expert.jpg";
 
-import {
-  Button,
-  Grid,
-  TextField,
-  Theme,
-  Typography,
-  withStyles,
-} from "@material-ui/core";
+// STYLING
+import { Button, Grid, TextField, Theme, Typography, withStyles } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
-import "./Components.css";
-import { addItem, Order } from "../../../redux/actions/OrderListActions/orderListAction";
-import { connect } from "react-redux";
+import "./ComponentsStyles.css";
 
 const WhiteButton = withStyles((theme: Theme) => ({
   root: {
@@ -48,23 +44,19 @@ const WhiteButton = withStyles((theme: Theme) => ({
   },
 }))(Button);
 
-const Components = ({
-  selectedLocation,
-  addItem,
-  orderList
-}: any) => {
+/*
+  The Components component displays the purchasable components on the orderComponent page
+*/
+const Components = ({ selectedLocation, addItem, orderList }: any) => {
+
+  const url = BACKEND_URL;
+
   var frames = [frame_utility, frame_touring, frame_mountain];
   var saddles = [saddle_performance, saddle_cushioned];
   var handlebars = [handlebar_flat, handlebar_bullhorn, handlebar_drop];
   var wheels = [wheels_utility, wheels_touring, wheels_mountain];
-  var drivetrains = [
-    drivetrain_novice,
-    drivetrain_intermediate,
-    drivetrain_advanced,
-    drivetrain_expert,
-  ];
+  var drivetrains = [drivetrain_novice, drivetrain_intermediate, drivetrain_advanced, drivetrain_expert];
 
-  const url = BACKEND_URL;
   const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState("");
   const [componentSelected, setComponentSelected] = useState("");
@@ -72,16 +64,12 @@ const Components = ({
   const [inventoryTable, setInventoryTable] = useState<any[]>([]);
 
   //selecting the component to order
-  const setComponent = (
-    componentSelected: string,
-    componentTypeSelected: string
-  ) => {
+  const setComponent = (componentSelected: string, componentTypeSelected: string) => {
     setComponentSelected(componentSelected);
     setComponentTypeSelected(componentTypeSelected);
   };
 
-
-  //filling the order list so we can build a receipt with multiple components
+  // Fills the order list so we can build a receipt with multiple components
   const fillOrderList = (
     size: String,
     location: String,
@@ -95,43 +83,39 @@ const Components = ({
 
     inventoryTable.forEach((element) => {
       if (
-        element.location_name === location &&
-        element.size === size &&
-        element.component_type === componentType &&
-        element.specificComponentType === componentSpecificType
+        element.location_name === location
+        && element.size === size
+        && element.component_type === componentType
+        && element.specificComponentType === componentSpecificType
       ) {
         selectedId = element.component_id;
 
-        //making sure that the input for quantity is a valid number
+        // Making sure that the input for quantity is a valid number
         quantitySelected = parseInt(quantity);
         totalQuantity = quantitySelected + element.quantity;
 
         if (
-          orderList.orderList.every((order: any) => checkForDuplicateItem(order, parseInt(selectedId))) &&
-          !isNaN(quantitySelected) &&
-          /^\d*$/.test(quantity)
+          orderList.orderList.every((order: any) => checkForDuplicateItem(order, parseInt(selectedId)))
+          && !isNaN(quantitySelected) && /^\d*$/.test(quantity)
         ) {
-          const info = element.size +
-            " " +
-            element.component_type +
-            " " +
-            element.specificComponentType +
-            " (" +
-            element.location_name +
-            ") "
-          addItem({ id: selectedId, quantity: totalQuantity, info: info, price: element.price, selectedQuantity: quantitySelected })
-
+          const info = element.size + 
+            " " + element.component_type +
+            " " + element.specificComponentType +
+            " (" + element.location_name + ") "
+          addItem({
+            id: selectedId,
+            quantity: totalQuantity,
+            info: info,
+            price: element.price,
+            selectedQuantity: quantitySelected
+          })
         }
       }
     });
   };
 
   const checkForDuplicateItem = (order: Order, selectedId: number) => {
-    if (order.id !== selectedId) {
-      return true
-    } else {
-      return false
-    }
+    return (order.id !== selectedId);
   }
 
   useEffect(() => {
@@ -141,16 +125,11 @@ const Components = ({
   }, [url, orderList]);
 
   return (
-    <Grid
-      container
-      direction="column"
-      justify="center"
-      spacing={5}
-      className="components"
-    >
+    <Grid container direction="column" justify="center" spacing={5} className="components">
       <Grid item xs={12} container justify="flex-start" spacing={2}>
-        <Grid item xs={3}><Typography id="size" variant="h6">Sizing</Typography></Grid>
-
+        <Grid item xs={3}>
+          <Typography id="size" variant="h6">Sizing</Typography>
+        </Grid>
         <Grid item xs={9} container>
           <Grid item xs={4}>
             <WhiteButton id="frames" variant="contained" onClick={() => setSize("SMALL")}>
@@ -171,52 +150,50 @@ const Components = ({
       </Grid>
 
       <Grid id="" item xs={12} container justify="flex-start" spacing={2}>
-        <Grid item xs={3}> <Typography id="componentTitle" variant="h6">Frames</Typography></Grid>
-
+        <Grid item xs={3}>
+          <Typography id="componentTitle" variant="h6">Frames</Typography>
+        </Grid>
         <Grid item container xs={9}>
-          {components.frame.map((frame) => (
-            <Grid item xs={6} md={4} key={frame.type}>
-              <WhiteButton
-                id="frames"
-                className={frame.type}
-                onClick={() => setComponent("FRAME", frame.type)}
-              >
-                <img src={frames[frame.img.pos]} alt={frame.img.alt} />
-                <span className="prices">
-                  <Typography>Prices</Typography>
-                  <Typography>S: {frame.price.S} $</Typography>
-                  <Typography>M: {frame.price.M} $</Typography>
-                  <Typography>L: {frame.price.L} $</Typography>
-                </span>
-              </WhiteButton>
-              <Typography>{frame.type}</Typography>
-            </Grid>
-          ))}
+          {
+            components.frame.map((frame) => (
+              <Grid item xs={6} md={4} key={frame.type}>
+                <WhiteButton id="frames" className={frame.type} onClick={() => setComponent("FRAME", frame.type)}>
+                  <img src={frames[frame.img.pos]} alt={frame.img.alt} />
+                  <span className="prices">
+                    <Typography>Prices</Typography>
+                    <Typography>S: {frame.price.S} $</Typography>
+                    <Typography>M: {frame.price.M} $</Typography>
+                    <Typography>L: {frame.price.L} $</Typography>
+                  </span>
+                </WhiteButton>
+                <Typography>{frame.type}</Typography>
+              </Grid>
+            ))
+          }
         </Grid>
       </Grid>
 
       <Grid item xs={12} container justify="flex-start" spacing={2}>
-        <Grid item xs={3}><Typography id="componentTitle" variant="h6">Saddles</Typography></Grid>
-
+        <Grid item xs={3}>
+          <Typography id="componentTitle" variant="h6">Saddles</Typography>
+        </Grid>
         <Grid item container xs={9}>
-          {components.saddle.map((saddle) => (
-            <Grid item xs={6} md={4} key={saddle.type}>
-              <WhiteButton
-                id="frames"
-                className={saddle.type}
-                onClick={() => setComponent("SEAT", saddle.type)}
-              >
-                <img src={saddles[saddle.img.pos]} alt={saddle.img.alt} />
-                <span className="prices">
-                  <Typography>Prices</Typography>
-                  <Typography>S: {saddle.price.S} $</Typography>
-                  <Typography>M: {saddle.price.M} $</Typography>
-                  <Typography>L: {saddle.price.L} $</Typography>
-                </span>
-              </WhiteButton>
-              <Typography>{saddle.type}</Typography>
-            </Grid>
-          ))}
+          {
+            components.saddle.map((saddle) => (
+              <Grid item xs={6} md={4} key={saddle.type}>
+                <WhiteButton id="frames" className={saddle.type} onClick={() => setComponent("SEAT", saddle.type)}>
+                  <img src={saddles[saddle.img.pos]} alt={saddle.img.alt} />
+                  <span className="prices">
+                    <Typography>Prices</Typography>
+                    <Typography>S: {saddle.price.S} $</Typography>
+                    <Typography>M: {saddle.price.M} $</Typography>
+                    <Typography>L: {saddle.price.L} $</Typography>
+                  </span>
+                </WhiteButton>
+                <Typography>{saddle.type}</Typography>
+              </Grid>
+            ))
+          }
         </Grid>
       </Grid>
 
@@ -225,43 +202,44 @@ const Components = ({
           <Typography id="componentTitle" variant="h6">Handle bars</Typography>
         </Grid>
         <Grid item container xs={9}>
-          {components.handlebar.map((handlebar) => (
-            <Grid item className={handlebar.type} key={handlebar.type} xs={6} md={4}>
-              <WhiteButton id="frames" onClick={() => setComponent("HANDLE", handlebar.type)}>
-                <img
-                  src={handlebars[handlebar.img.pos]}
-                  alt={handlebar.img.alt}
-                />
-                <span className="prices">
-                  <Typography>Prices</Typography>
-                  <Typography>S: {handlebar.price.S} $</Typography>
-                  <Typography>M: {handlebar.price.M} $</Typography>
-                  <Typography>L: {handlebar.price.L} $</Typography>
-                </span>
-              </WhiteButton>
-              <Typography>{handlebar.type}</Typography>
-            </Grid>
-          ))}
+          {
+            components.handlebar.map((handlebar) => (
+              <Grid item className={handlebar.type} key={handlebar.type} xs={6} md={4}>
+                <WhiteButton id="frames" onClick={() => setComponent("HANDLE", handlebar.type)}>
+                  <img src={handlebars[handlebar.img.pos]} alt={handlebar.img.alt} />
+                  <span className="prices">
+                    <Typography>Prices</Typography>
+                    <Typography>S: {handlebar.price.S} $</Typography>
+                    <Typography>M: {handlebar.price.M} $</Typography>
+                    <Typography>L: {handlebar.price.L} $</Typography>
+                  </span>
+                </WhiteButton>
+                <Typography>{handlebar.type}</Typography>
+              </Grid>
+            ))
+          }
         </Grid>
       </Grid>
 
       <Grid item xs={12} container justify="flex-start" spacing={2}>
         <Grid item xs={3}><Typography id="componentTitle" variant="h6">Wheels</Typography></Grid>
         <Grid item container xs={9}>
-          {components.wheels.map((wheel) => (
-            <Grid item xs={6} md={4} className={wheel.type} key={wheel.type}>
-              <WhiteButton id="frames" onClick={() => setComponent("WHEEL", wheel.type)}>
-                <img src={wheels[wheel.img.pos]} alt={wheel.img.alt} />
-                <span className="prices">
-                  <Typography>Prices</Typography>
-                  <Typography>S: {wheel.price.S} $</Typography>
-                  <Typography>M: {wheel.price.M} $</Typography>
-                  <Typography>L: {wheel.price.L} $</Typography>
-                </span>
-              </WhiteButton>
-              <Typography>{wheel.type}</Typography>
-            </Grid>
-          ))}
+          {
+            components.wheels.map((wheel) => (
+              <Grid item xs={6} md={4} className={wheel.type} key={wheel.type}>
+                <WhiteButton id="frames" onClick={() => setComponent("WHEEL", wheel.type)}>
+                  <img src={wheels[wheel.img.pos]} alt={wheel.img.alt} />
+                  <span className="prices">
+                    <Typography>Prices</Typography>
+                    <Typography>S: {wheel.price.S} $</Typography>
+                    <Typography>M: {wheel.price.M} $</Typography>
+                    <Typography>L: {wheel.price.L} $</Typography>
+                  </span>
+                </WhiteButton>
+                <Typography>{wheel.type}</Typography>
+              </Grid>
+            ))
+          }
         </Grid>
       </Grid>
 
@@ -270,44 +248,37 @@ const Components = ({
           <Typography id="componentTitle" variant="h6">Drive trains</Typography>
         </Grid>
         <Grid item container xs={9}>
-          {components.drivetrain.map((drivetrain) => (
-            <Grid item xs={6} md={4} className={drivetrain.type} key={drivetrain.type}>
-              <WhiteButton
-                id="frames"
-                onClick={() => setComponent("DRIVE_TRAIN", drivetrain.type)}
-              >
-                <img
-                  src={drivetrains[drivetrain.img.pos]}
-                  alt={drivetrain.img.alt}
-                />
-                <span className="prices">
-                  <Typography>Prices</Typography>
-                  <Typography>S: {drivetrain.price.S} $</Typography>
-                  <Typography>M: {drivetrain.price.M} $</Typography>
-                  <Typography>L: {drivetrain.price.L} $</Typography>
-                </span>
-              </WhiteButton>
-              <Typography>{drivetrain.type}</Typography>
-            </Grid>
-          ))}
+          {
+            components.drivetrain.map((drivetrain) => (
+              <Grid item xs={6} md={4} className={drivetrain.type} key={drivetrain.type}>
+                <WhiteButton id="frames" onClick={() => setComponent("DRIVE_TRAIN", drivetrain.type)} >
+                  <img src={drivetrains[drivetrain.img.pos]} alt={drivetrain.img.alt} />
+                  <span className="prices">
+                    <Typography>Prices</Typography>
+                    <Typography>S: {drivetrain.price.S} $</Typography>
+                    <Typography>M: {drivetrain.price.M} $</Typography>
+                    <Typography>L: {drivetrain.price.L} $</Typography>
+                  </span>
+                </WhiteButton>
+                <Typography>{drivetrain.type}</Typography>
+              </Grid>
+            ))
+          }
         </Grid>
       </Grid>
 
       <Grid item xs={12} container justify="flex-start" spacing={2}>
-        <Grid item xs={4}><Typography id="componentTitle" variant="h6">Quantity: </Typography></Grid>
-
         <Grid item xs={4}>
-          <TextField
-            variant="outlined"
-            type="number"
+          <Typography id="componentTitle" variant="h6">Quantity: </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <TextField variant="outlined" type="number" 
             InputProps={{ inputProps: { min: 1 } }}
             onChange={(event) => setQuantity(event.target.value)}
           />
         </Grid>
         <Grid item xs={4}>
-          <Button
-            variant="contained"
-            color="primary"
+          <Button variant="contained" color="primary"
             onClick={() =>
               fillOrderList(
                 size,

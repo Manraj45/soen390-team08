@@ -1,6 +1,7 @@
 import axios from "axios";
 import localStorageService from "../../../core/services/LocalStorageService";
 import { AUTH_URL } from "../../../core/utils/config";
+
 import {
   IS_AUTHENTICATED_FAILURE,
   IS_AUTHENTICATED_SUCCESS,
