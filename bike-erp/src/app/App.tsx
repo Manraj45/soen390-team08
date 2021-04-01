@@ -22,6 +22,7 @@ import OrderBike from "../pages/OrderService/OrderBike/OrderBike";
 import UserLogs from "../pages/UserLogs/UserLogs";
 import PayableHistory from "../pages/PaymentHistory/PayableHistory";
 import ReceivableHistory from "../pages/PaymentHistory/ReceivableHistory";
+import Triggers from "../pages/Triggers/Triggers";
 
 // STYLING
 import { Box } from "@material-ui/core";
@@ -124,6 +125,14 @@ const App = ({ account, isAuthenticated }: any) => {
                 ? <></>
                 : account.authenticated && account.account.role === "ADMIN"
                   ? <UserLogs />
+                  : <Redirect to="/login" />
+              }
+            />
+            <Route path="/triggers"
+              render={() => account.loading
+                ? <></>
+                : account.authenticated && account.account.role === "ADMIN"
+                  ? <Triggers />
                   : <Redirect to="/login" />
               }
             />

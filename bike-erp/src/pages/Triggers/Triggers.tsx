@@ -13,7 +13,7 @@ import useStyles from "./TriggersStyles";
   The Triggers page.
   Admins can view triggers and activate/deactivate them.
 */
-const UserLogs: React.FC = () => {
+const Triggers: React.FC = () => {
 
   const styles = useStyles();
   const url = BACKEND_URL;
@@ -32,35 +32,12 @@ const UserLogs: React.FC = () => {
         <br></br>
         <div className={styles.title}>Triggers</div>
         <br></br>
-        <Table size="small" className={styles.tableStyle}>
-          <TableHead className={styles.tableHead}>
-            <TableRow className={styles.topRow}>
-              <TableCell className={styles.emptyCell} />
-              <TableCell>Time</TableCell>
-              <TableCell>User</TableCell>
-              <TableCell>Activity</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {logTable.map((row) => (
-              <TableRow key={row.log_id}>
-                <TableCell className={styles.tableHead} />
-                <TableCell className={styles.innerTable}>
-                  {row.timestamp}
-                </TableCell>
-                <TableCell className={styles.innerTable}>
-                  {row.email}
-                </TableCell>
-                <TableCell className={styles.innerTable}>
-                  {row.activity}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        {triggers.map((trigger) => (
+          <h3 key={trigger.trigger_type}>{trigger.trigger_type}</h3>
+        ))}
       </div>
     </React.Fragment>
   );
 };
 
-export default UserLogs;
+export default Triggers;
