@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 // STYLING
-import { Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core"
+import { Table, TableHead, TableBody, TableRow, TableCell, Paper } from "@material-ui/core"
 import useStyles from "./InventoryStyles";
 
 /*
@@ -28,23 +28,22 @@ const Inventory: React.FC = () => {
         <br></br>
         <div className={classes.title}>Inventory</div>
         <br></br>
-        <Table size="small" className={classes.tableStyle}>
+        <Paper className={classes.place}>
+        <Table size="small" stickyHeader className={classes.tableStyle}>
           <TableHead className={classes.tableHead}>
-            <TableRow className={classes.topRow}>
-              <TableCell className={classes.emptyCell} />
-              <TableCell>Type</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Quantity</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Size</TableCell>
-              <TableCell>Component Type</TableCell>
-              <TableCell>Location</TableCell>
+            <TableRow>
+              <TableCell className={classes.topRow}>Type</TableCell>
+              <TableCell className={classes.topRow}>Price</TableCell>
+              <TableCell className={classes.topRow}>Quantity</TableCell>
+              <TableCell className={classes.topRow}>Status</TableCell>
+              <TableCell className={classes.topRow}>Size</TableCell>
+              <TableCell className={classes.topRow}>Component Type</TableCell>
+              <TableCell className={classes.topRow}>Location</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {inventoryTable.map((row) => (
               <TableRow key={row.component_id}>
-                <TableCell className={classes.tableHead} />
                 <TableCell className={classes.innerTable}>
                   {row.component_type}
                 </TableCell>
@@ -68,6 +67,7 @@ const Inventory: React.FC = () => {
             ))}
           </TableBody>
         </Table>
+        </Paper>
       </div>
     </React.Fragment>
   );

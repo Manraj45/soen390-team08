@@ -2,8 +2,6 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    marginTop: "10px",
-    marginBottom: "10px",
     alignItems: "center",
     textAlign: "center",
     fontWeight: "bold",
@@ -11,12 +9,15 @@ const useStyles = makeStyles((theme) => ({
   },
   background: {
     background: "#DDDDDD",
+    paddingLeft: "10px",
+    paddingRight: "10px",
   },
   tableHead: {
-    background: "#BFBFBF",
+    backgroundColor: "black",
+    padding: "7px",
   },
   tableStyle: {
-    width: "60%",
+    width: "100%",
     marginLeft: "auto",
     marginRight: "auto",
   },
@@ -25,10 +26,26 @@ const useStyles = makeStyles((theme) => ({
   },
   topRow: {
     fontWeight: "bold",
-    fontFamily: "Inter",
+    color: "white",
+    background: "black",
   },
   emptyCell: {
-    background: "#DDDDDD",
+    background: "white",
+  },
+  place: {
+    maxHeight: "50px",
+    width: "70%",
+    marginLeft: "auto",
+    marginRight: "auto",
+    overflow: "auto",
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "50px",
+      minHeight: "500px",
+    },
+    [theme.breakpoints.up("md")]: {
+      marginTop: "10px",
+      minHeight: "650px",
+    },
   },
 }));
 
