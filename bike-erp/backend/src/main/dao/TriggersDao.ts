@@ -18,4 +18,19 @@ export class TriggersDao{
       });
 
     };
+
+    // Toggles trigger state
+    public updateTriggerState = (id: string) => {
+        return new Promise<Array<any>>((resolve, reject) => {
+          const query = `
+              UPDATE trigger_state
+              SET activated = !activated
+              WHERE trigger_id = ?` ;
+          db.query(query, [id], (err, rows) => {
+              if (err) return reject(err);
+              resolve(JSON.parse(JSON.stringify(rows)));
+          });
+        });
+  
+      };
 }

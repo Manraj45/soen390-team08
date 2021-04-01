@@ -18,4 +18,15 @@ router.get("/", (req, res) => {
     });
 });
 
+router.put("/toggle/:id", (req, res) => {
+    triggerService
+    .toggleTrigger(req.params.id)
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((error) => {
+      res.status(error.status).send(error.message);
+    });
+});
+
 export default router;
