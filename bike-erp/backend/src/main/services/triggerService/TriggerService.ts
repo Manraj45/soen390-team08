@@ -9,6 +9,11 @@ const triggersDao =  new TriggersDao();
       return triggersDao.fetchAllTriggers();
     };
 
+    // Retrive trigger state by ID
+    public getTrigger = (id: string) => {
+        return triggersDao.fetchTrigger(id);
+    }
+
     // Toggle trigger state
     public toggleTrigger = (id: string) => {
         return triggersDao.updateTriggerState(id);

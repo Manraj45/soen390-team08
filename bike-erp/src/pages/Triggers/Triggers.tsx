@@ -33,7 +33,7 @@ const Triggers: React.FC = () => {
         <div className={styles.title}>Triggers</div>
         <br></br>
         {triggers.map((trigger) => (
-          <h3 key={trigger.trigger_type}>{trigger.trigger_type}</h3>
+          <h3 key={trigger.trigger_id}>{trigger.trigger_type}</h3>
         ))}
       </div>
     </React.Fragment>
