@@ -150,7 +150,8 @@ export const initialize_db = (): void => {
 
     const createTriggers: string = `
         CREATE TABLE IF NOT EXISTS trigger_state(
-        trigger_type varchar(255) NOT NULL PRIMARY KEY,
+        trigger_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        trigger_type varchar(255) NOT NULL,
         activated BOOLEAN
         );`;
 
