@@ -12,78 +12,77 @@ exports[`Inventory matches the snapshot 1`] = `
     Inventory
   </div>
   <br />
-  <table
-    className="MuiTable-root makeStyles-tableStyle-4"
-    role={null}
+  <div
+    className="MuiPaper-root makeStyles-place-8 MuiPaper-elevation1 MuiPaper-rounded"
   >
-    <thead
-      className="MuiTableHead-root makeStyles-tableHead-3"
+    <table
+      className="MuiTable-root makeStyles-tableStyle-4 MuiTable-stickyHeader"
       role={null}
     >
-      <tr
-        className="MuiTableRow-root makeStyles-topRow-6 MuiTableRow-head"
+      <thead
+        className="MuiTableHead-root makeStyles-tableHead-3"
         role={null}
       >
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head makeStyles-emptyCell-7 MuiTableCell-sizeSmall"
-          scope="col"
-        />
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
+        <tr
+          className="MuiTableRow-root MuiTableRow-head"
+          role={null}
         >
-          Type
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Price
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Quantity
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Status
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Size
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Component Type
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Location
-        </th>
-      </tr>
-    </thead>
-    <tbody
-      className="MuiTableBody-root"
-      role={null}
-    />
-  </table>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            Type
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            Price
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            Quantity
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            Status
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            Size
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            Component Type
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            Location
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        className="MuiTableBody-root"
+        role={null}
+      />
+    </table>
+  </div>
 </div>
 `;
