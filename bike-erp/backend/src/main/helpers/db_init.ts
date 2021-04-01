@@ -148,6 +148,12 @@ export const initialize_db = (): void => {
         FOREIGN KEY(email) REFERENCES account(email)
         );`;
 
+    const createTriggers: string = `
+        CREATE TABLE IF NOT EXISTS trigger_state(
+        trigger_type varchar(255) NOT NULL PRIMARY KEY,
+        activated BOOLEAN
+        );`;
+
     db.query(createAccountQuery, (err, result) => {
         if (err) throw err;
         console.log("Account Table Created");
@@ -228,6 +234,11 @@ export const initialize_db = (): void => {
         console.log("User_logs Tables Created");
     });
 
+    db.query(createTriggers, (err, result) => {
+        if (err) throw err;
+        console.log("Trigger_State Tables Created");
+    });
+
     db.query(fillComponentCatalogue, (err, result) => {
         if (err) throw err;
         console.log("Filling Component Catalogue");
@@ -237,4 +248,5 @@ export const initialize_db = (): void => {
         if (err) throw err;
         console.log("Adding Component Catalogue to Location");
     });
+    
 };
