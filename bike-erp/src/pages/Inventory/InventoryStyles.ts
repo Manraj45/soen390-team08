@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     color: "white",
     background: "black",
+    [theme.breakpoints.down("sm")]: {
+      minWidth:"150px",
+    }, 
   },
   emptyCell: {
     background: "white",
