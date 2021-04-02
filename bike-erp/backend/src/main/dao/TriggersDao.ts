@@ -9,7 +9,7 @@ export class TriggersDao {
   public fetchAllTriggers = () => {
     return new Promise<Array<any>>((resolve, reject) => {
       const query = `
-            SELECT trigger_type, activated
+            SELECT trigger_id, trigger_type, activated
             FROM trigger_state`;
       db.query(query, (err, rows) => {
         if (err) return reject(err);

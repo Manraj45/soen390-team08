@@ -6,7 +6,12 @@ import React, { useEffect, useState } from "react";
 import { BACKEND_URL } from "../../core/utils/config";
 
 // STYLING
-import { Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
+import {
+  Switch,
+  FormGroup,
+  FormControlLabel,
+  FormControl,
+} from "@material-ui/core";
 import useStyles from "./TriggersStyles";
 
 /*
@@ -14,7 +19,6 @@ import useStyles from "./TriggersStyles";
   Admins can view triggers and activate/deactivate them.
 */
 const Triggers: React.FC = () => {
-
   const styles = useStyles();
   const url = BACKEND_URL;
 
@@ -26,15 +30,43 @@ const Triggers: React.FC = () => {
     });
   }, [url]);
 
+  const handleChange = (id: string) => {
+    console.log(id);
+    Axios.put(`${url}/triggers/toggle/` + id).catch((error) => {
+      console.log(error.data);
+    });
+    Axios.get(`${url}/triggers/`).then((response) => {
+      setTriggers(response.data);
+    });
+  };
+
   return (
     <React.Fragment>
       <div id="userLogsPage" className={styles.background}>
         <br></br>
         <div className={styles.title}>Triggers</div>
         <br></br>
-        {triggers.map((trigger) => (
-          <h3 key={trigger.trigger_id}>{trigger.trigger_type}</h3>
-        ))}
+        <div>
+          <FormControl>
+            <FormGroup>
+              {console.log(triggers)}
+              {triggers.map((trigger) => (
+                <FormControlLabel
+                  value="quantity_reaches_zero"
+                  control={
+                    <Switch
+                      color="primary"
+                      checked={trigger.activated}
+                      onChange={() => handleChange(trigger.trigger_id)}
+                    />
+                  }
+                  label="Quantity reaches zero"
+                  labelPlacement="start"
+                />
+              ))}
+            </FormGroup>
+          </FormControl>
+        </div>
       </div>
     </React.Fragment>
   );

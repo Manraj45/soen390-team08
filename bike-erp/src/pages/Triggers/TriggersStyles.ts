@@ -10,24 +10,6 @@ const useStyles = makeStyles((theme) => ({
     background: {
       background: "#DDDDDD",
     },
-    tableHead: {
-      background: "#BFBFBF",
-    },
-    tableStyle: {
-      width: "60%",
-      marginLeft: "auto",
-      marginRight: "auto",
-    },
-    innerTable: {
-      background: "#FFFFFF",
-    },
-    topRow: {
-      fontWeight: "bold",
-      fontFamily: "Inter",
-    },
-    emptyCell: {
-      background: "#DDDDDD",
-    },
   }));
 
 export default useStyles;
