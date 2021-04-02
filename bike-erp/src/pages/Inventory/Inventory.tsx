@@ -27,11 +27,11 @@ const Inventory: React.FC = () => {
     overrides: {
       MuiTableSortLabel: {
         icon: {
-         color: "white",
-         opacity: 1,
-         marginBottom: "3px",
+          color: "white",
+          opacity: 1,
+          marginBottom: "3px",
         },
-      },      
+      },
     },
   });
 
@@ -44,7 +44,7 @@ const Inventory: React.FC = () => {
     let newSortDirection = sortOrder;
     let newArrowDirection = arrowUp;
 
-    sortedTable.sort(function (a, b) {
+    sortedTable.sort((a, b) => {
       let x = '';
       let y = '';
 
