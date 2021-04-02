@@ -25,7 +25,6 @@ const Triggers: React.FC = () => {
   const [triggers, setTriggers] = useState<any[]>([]);
 
   useEffect(() => {
-    console.log("useEffect")
     Axios.get(`${url}/triggers/`).then((response) => {
       setTriggers(response.data);
     });
