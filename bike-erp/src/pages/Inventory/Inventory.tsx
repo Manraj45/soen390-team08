@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 // STYLING
-import { Table, TableHead, TableBody, TableRow, TableCell, Paper } from "@material-ui/core"
+import { Table, TableHead, TableBody, TableRow, TableCell, Paper, TableSortLabel } from "@material-ui/core"
 import useStyles from "./InventoryStyles";
 
 /*
@@ -13,6 +13,7 @@ import useStyles from "./InventoryStyles";
 const Inventory: React.FC = () => {
   const [inventoryTable, setInventoryTable] = useState<any[]>([]);
   const [sortOrder, setSortOrder] = useState({ 'component_type': 0, 'price': 0, 'quantity': 0, 'component_status': 0, 'size': 0, 'specificComponentType': 0, 'location_name': 0 });
+  const [arrowUp, setArrowUp] = useState({ 'component_type': true, 'price': true, 'quantity': true, 'component_status': true, 'size': true, 'specificComponentType': true, 'location_name': true });
 
   useEffect(() => {
     axios.get("http://localhost:3001/components/").then((response) => {
@@ -29,6 +30,7 @@ const Inventory: React.FC = () => {
 
     let sortDirection = sortOrder[sortBy];
     let newSortDirection = sortOrder;
+    let newArrowDirection = arrowUp;
 
     sortedTable.sort(function (a, b) {
       let x = '';
@@ -65,11 +67,14 @@ const Inventory: React.FC = () => {
 
     if (sortDirection === 0) {
       newSortDirection[sortBy] = 1;
+      newArrowDirection[sortBy] = true;
     } else {
       newSortDirection[sortBy] = 0;
+      newArrowDirection[sortBy] = false;
     }
 
     setSortOrder(newSortDirection);
+    setArrowUp(newArrowDirection);
 
     setInventoryTable([...sortedTable]);
   }
@@ -84,13 +89,13 @@ const Inventory: React.FC = () => {
           <Table size="small" stickyHeader className={classes.tableStyle}>
             <TableHead className={classes.tableHead}>
               <TableRow>
-                <TableCell className={classes.topRow} onClick={() => sortTable('component_type')}>Type</TableCell>
-                <TableCell className={classes.topRow} onClick={() => sortTable('price')}>Price</TableCell>
-                <TableCell className={classes.topRow} onClick={() => sortTable('quantity')}>Quantity</TableCell>
-                <TableCell className={classes.topRow} onClick={() => sortTable('component_status')}>Status</TableCell>
-                <TableCell className={classes.topRow} onClick={() => sortTable('size')}>Size</TableCell>
-                <TableCell className={classes.topRow} onClick={() => sortTable('specificComponentType')}>Component Type</TableCell>
-                <TableCell className={classes.topRow} onClick={() => sortTable('location_name')}>Location</TableCell>
+                <TableCell className={classes.topRow}> Type <TableSortLabel direction={arrowUp['component_type'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('component_type')}></TableSortLabel></TableCell>
+                <TableCell className={classes.topRow}> Price <TableSortLabel direction={arrowUp['price'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('price')}></TableSortLabel></TableCell>
+                <TableCell className={classes.topRow}> Quantity <TableSortLabel direction={arrowUp['quantity'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('quantity')}></TableSortLabel></TableCell>
+                <TableCell className={classes.topRow}> Status <TableSortLabel direction={arrowUp['component_status'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('component_status')}></TableSortLabel></TableCell>
+                <TableCell className={classes.topRow}> Size <TableSortLabel direction={arrowUp['size'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('size')}></TableSortLabel></TableCell>
+                <TableCell className={classes.topRow}> Component Type <TableSortLabel direction={arrowUp['specificComponentType'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('specificComponentType')}></TableSortLabel></TableCell>
+                <TableCell className={classes.topRow}> Location <TableSortLabel direction={arrowUp['location_name'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('location_name')}></TableSortLabel></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
