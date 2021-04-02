@@ -25,14 +25,14 @@ const Triggers: React.FC = () => {
   const [triggers, setTriggers] = useState<any[]>([]);
 
   useEffect(() => {
+    console.log("useEffect")
     Axios.get(`${url}/triggers/`).then((response) => {
       setTriggers(response.data);
     });
   }, [url]);
 
-  const handleChange = (id: string) => {
-    console.log(id);
-    Axios.put(`${url}/triggers/toggle/` + id).catch((error) => {
+  const handleChange = async (id: string) => {
+    await Axios.put(`${url}/triggers/toggle/` + id).catch((error) => {
       console.log(error.data);
     });
     Axios.get(`${url}/triggers/`).then((response) => {
@@ -52,15 +52,16 @@ const Triggers: React.FC = () => {
               {console.log(triggers)}
               {triggers.map((trigger) => (
                 <FormControlLabel
-                  value="quantity_reaches_zero"
+                  key={trigger.trigger_id}
+                  value={trigger.trigger_type}
                   control={
                     <Switch
                       color="primary"
-                      checked={trigger.activated}
+                      checked={Boolean(trigger.activated)}
                       onChange={() => handleChange(trigger.trigger_id)}
                     />
                   }
-                  label="Quantity reaches zero"
+                  label={trigger.trigger_type}
                   labelPlacement="start"
                 />
               ))}
