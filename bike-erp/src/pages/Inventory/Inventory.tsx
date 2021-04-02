@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 // STYLING
-import { Table, TableHead, TableBody, TableRow, TableCell, Paper, TableSortLabel } from "@material-ui/core"
+import { Table, TableHead, TableBody, TableRow, TableCell, Paper, TableSortLabel, createMuiTheme, ThemeProvider } from "@material-ui/core"
 import useStyles from "./InventoryStyles";
 
 /*
@@ -22,6 +22,18 @@ const Inventory: React.FC = () => {
   }, []);
 
   const classes = useStyles();
+
+  const theme = createMuiTheme({
+    overrides: {
+      MuiTableSortLabel: {
+        icon: {
+         color: "white",
+         opacity: 1,
+         marginBottom: "3px",
+        },
+      },      
+    },
+  });
 
   // Method to sort table depending on the column header clicked
   const sortTable = (sortBy: string) => {
@@ -89,13 +101,15 @@ const Inventory: React.FC = () => {
           <Table size="small" stickyHeader className={classes.tableStyle}>
             <TableHead className={classes.tableHead}>
               <TableRow>
-                <TableCell className={classes.topRow}> Type <TableSortLabel direction={arrowUp['component_type'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('component_type')}></TableSortLabel></TableCell>
-                <TableCell className={classes.topRow}> Price <TableSortLabel direction={arrowUp['price'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('price')}></TableSortLabel></TableCell>
-                <TableCell className={classes.topRow}> Quantity <TableSortLabel direction={arrowUp['quantity'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('quantity')}></TableSortLabel></TableCell>
-                <TableCell className={classes.topRow}> Status <TableSortLabel direction={arrowUp['component_status'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('component_status')}></TableSortLabel></TableCell>
-                <TableCell className={classes.topRow}> Size <TableSortLabel direction={arrowUp['size'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('size')}></TableSortLabel></TableCell>
-                <TableCell className={classes.topRow}> Component Type <TableSortLabel direction={arrowUp['specificComponentType'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('specificComponentType')}></TableSortLabel></TableCell>
-                <TableCell className={classes.topRow}> Location <TableSortLabel direction={arrowUp['location_name'] ? "asc" : "desc"} style={{ color: "white" }} onClick={() => sortTable('location_name')}></TableSortLabel></TableCell>
+                <ThemeProvider theme={theme}>
+                  <TableCell className={classes.topRow}> Type <TableSortLabel direction={arrowUp['component_type'] ? "asc" : "desc"} onClick={() => sortTable('component_type')}></TableSortLabel></TableCell>
+                  <TableCell className={classes.topRow}> Price <TableSortLabel direction={arrowUp['price'] ? "asc" : "desc"} onClick={() => sortTable('price')}></TableSortLabel></TableCell>
+                  <TableCell className={classes.topRow}> Quantity <TableSortLabel direction={arrowUp['quantity'] ? "asc" : "desc"} onClick={() => sortTable('quantity')}></TableSortLabel></TableCell>
+                  <TableCell className={classes.topRow}> Status <TableSortLabel direction={arrowUp['component_status'] ? "asc" : "desc"} onClick={() => sortTable('component_status')}></TableSortLabel></TableCell>
+                  <TableCell className={classes.topRow}> Size <TableSortLabel direction={arrowUp['size'] ? "asc" : "desc"} onClick={() => sortTable('size')}></TableSortLabel></TableCell>
+                  <TableCell className={classes.topRow}> Component Type <TableSortLabel direction={arrowUp['specificComponentType'] ? "asc" : "desc"} onClick={() => sortTable('specificComponentType')}></TableSortLabel></TableCell>
+                  <TableCell className={classes.topRow}> Location <TableSortLabel direction={arrowUp['location_name'] ? "asc" : "desc"} onClick={() => sortTable('location_name')}></TableSortLabel></TableCell>
+                </ThemeProvider>
               </TableRow>
             </TableHead>
             <TableBody>
