@@ -12,7 +12,7 @@ import useStyles from "./InventoryStyles";
 */
 const Inventory: React.FC = () => {
   const [inventoryTable, setInventoryTable] = useState<any[]>([]);
-  const [sortOrder, setSortOrder] = useState({ 'componentType': 0, 'price': 0, 'quantity': 0, 'component_status': 0, 'size': 0, 'specificComponentType': 0, 'location_name': 0 });
+  const [sortOrder, setSortOrder] = useState({ 'component_type': 0, 'price': 0, 'quantity': 0, 'component_status': 0, 'size': 0, 'specificComponentType': 0, 'location_name': 0 });
 
   useEffect(() => {
     axios.get("http://localhost:3001/components/").then((response) => {
@@ -22,8 +22,9 @@ const Inventory: React.FC = () => {
 
   const classes = useStyles();
 
+  // Method to sort table depending on the column header clicked
   const sortTable = (sortBy: string) => {
-    let sortBy2 = sortBy + '2'
+    let sortBy2 = sortBy + '2';
     let sortedTable = inventoryTable.slice(0);
 
     let sortDirection = sortOrder[sortBy];
@@ -54,24 +55,23 @@ const Inventory: React.FC = () => {
         x = sortByObject[sortBy];
         y = sortByObject[sortBy2];
         return x < y ? -1 : x > y ? 1 : 0;
-      }
-      else {
+      } else {
         x = sortByObject[sortBy];
         y = sortByObject[sortBy2];
         return x > y ? -1 : x < y ? 1 : 0;
       }
 
-
     });
+
     if (sortDirection === 0) {
-      newSortDirection[sortBy] = 1
-      setSortOrder(newSortDirection);
+      newSortDirection[sortBy] = 1;
     } else {
-      newSortDirection[sortBy] = 0
-      setSortOrder(newSortDirection);
+      newSortDirection[sortBy] = 0;
     }
 
-    setInventoryTable([...sortedTable])
+    setSortOrder(newSortDirection);
+
+    setInventoryTable([...sortedTable]);
   }
 
   return (
