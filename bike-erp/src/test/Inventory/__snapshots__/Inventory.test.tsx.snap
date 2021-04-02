@@ -32,49 +32,84 @@ exports[`Inventory matches the snapshot 1`] = `
             className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
             scope="col"
           >
-            Type
+            <button
+              onClick={[Function]}
+              type="button"
+            >
+              Type
+            </button>
           </th>
           <th
             aria-sort={null}
             className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
             scope="col"
           >
-            Price
+            <button
+              onClick={[Function]}
+              type="button"
+            >
+              Price
+            </button>
           </th>
           <th
             aria-sort={null}
             className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
             scope="col"
           >
-            Quantity
+            <button
+              onClick={[Function]}
+              type="button"
+            >
+              Quantity
+            </button>
           </th>
           <th
             aria-sort={null}
             className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
             scope="col"
           >
-            Status
+            <button
+              onClick={[Function]}
+              type="button"
+            >
+              Status
+            </button>
           </th>
           <th
             aria-sort={null}
             className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
             scope="col"
           >
-            Size
+            <button
+              onClick={[Function]}
+              type="button"
+            >
+              Size
+            </button>
           </th>
           <th
             aria-sort={null}
             className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
             scope="col"
           >
-            Component Type
+            <button
+              onClick={[Function]}
+              type="button"
+            >
+              Component Type
+            </button>
           </th>
           <th
             aria-sort={null}
             className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
             scope="col"
           >
-            Location
+            <button
+              onClick={[Function]}
+              type="button"
+            >
+              Location
+            </button>
           </th>
         </tr>
       </thead>
