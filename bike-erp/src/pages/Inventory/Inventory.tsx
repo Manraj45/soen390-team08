@@ -39,7 +39,6 @@ const Inventory: React.FC = () => {
   const sortTable = (sortBy: string) => {
     let sortBy2 = sortBy + '2';
     let sortedTable = inventoryTable.slice(0);
-
     let sortDirection = sortOrder[sortBy];
     let newSortDirection = sortOrder;
     let newArrowDirection = arrowUp;
@@ -74,7 +73,6 @@ const Inventory: React.FC = () => {
         y = sortByObject[sortBy2];
         return x > y ? -1 : x < y ? 1 : 0;
       }
-
     });
 
     if (sortDirection === 0) {
@@ -87,7 +85,6 @@ const Inventory: React.FC = () => {
 
     setSortOrder(newSortDirection);
     setArrowUp(newArrowDirection);
-
     setInventoryTable([...sortedTable]);
   }
 
