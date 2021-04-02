@@ -84,13 +84,13 @@ const Inventory: React.FC = () => {
           <Table size="small" stickyHeader className={classes.tableStyle}>
             <TableHead className={classes.tableHead}>
               <TableRow>
-                <TableCell className={classes.topRow}><button type="button" onClick={() => sortTable('component_type')}>Type</button></TableCell>
-                <TableCell className={classes.topRow}><button type="button" onClick={() => sortTable('price')}>Price</button></TableCell>
-                <TableCell className={classes.topRow}><button type="button" onClick={() => sortTable('quantity')}>Quantity</button></TableCell>
-                <TableCell className={classes.topRow}><button type="button" onClick={() => sortTable('component_status')}>Status</button></TableCell>
-                <TableCell className={classes.topRow}><button type="button" onClick={() => sortTable('size')}>Size</button></TableCell>
-                <TableCell className={classes.topRow}><button type="button" onClick={() => sortTable('specificComponentType')}>Component Type</button></TableCell>
-                <TableCell className={classes.topRow}><button type="button" onClick={() => sortTable('location_name')}>Location</button></TableCell>
+                <TableCell className={classes.topRow} onClick={() => sortTable('component_type')}>Type</TableCell>
+                <TableCell className={classes.topRow} onClick={() => sortTable('price')}>Price</TableCell>
+                <TableCell className={classes.topRow} onClick={() => sortTable('quantity')}>Quantity</TableCell>
+                <TableCell className={classes.topRow} onClick={() => sortTable('component_status')}>Status</TableCell>
+                <TableCell className={classes.topRow} onClick={() => sortTable('size')}>Size</TableCell>
+                <TableCell className={classes.topRow} onClick={() => sortTable('specificComponentType')}>Component Type</TableCell>
+                <TableCell className={classes.topRow} onClick={() => sortTable('location_name')}>Location</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
