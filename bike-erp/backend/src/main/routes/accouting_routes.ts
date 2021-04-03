@@ -16,7 +16,7 @@ AccountingService.getAccountingService();
 //Creating a singleton instance of the ReportingService
 ReportingService.getReportingService();
 
-router.get("/accountPayables", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER]), (req, res) => {
+router.get("/accountPayables", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   const userEmail: string = fetchUserEmail(req);
 
   AccountingService.getAccountPayablesForUser(userEmail)
@@ -30,7 +30,7 @@ router.get("/accountPayables", authenticateToken, verifyRole([Role.ADMIN, Role.M
 
 router.get(
   "/accountPayables/:id/transactionItem",
-  authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER]),
+  authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]),
   (req, res) => {
     const id = Number(req.params.id);
     // Check for validity of account payable id passed. Must be an int
@@ -79,7 +79,7 @@ router.get("/accountReceivables/:id/bikes", authenticateToken, (req, res) => {
   }
 });
 
-router.get("/accountPayables/report", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER]), (req, res) => {
+router.get("/accountPayables/report", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   const userEmail: string = fetchUserEmail(req);
   ReportingService.getSalesReportCSVInfo(userEmail, req.body.startDate, req.body.endDate).then((response) => {
     res.status(202).json(response)
