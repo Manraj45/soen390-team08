@@ -5,13 +5,17 @@ import { connect } from "react-redux";
 import Modal from '@material-ui/core/Modal';
 import CloseIcon from '@material-ui/icons/Close';
 import { Box, Button, Typography } from '@material-ui/core';
-import Switch1 from '@material-ui/core/Switch';
+import Switch from '@material-ui/core/Switch';
+import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
+import jsPDF from 'jspdf';
+import autotable from 'jspdf-autotable';
 
 import DatePicker from 'react-datepicker';
 import { CSVLink } from "react-csv";
 
 import 'react-datepicker/dist/react-datepicker.css';
 import useStyles from './DataExportStyle';
+import bike_logo from "../../assets/images/login_bike_logo.png";
 
 import { BACKEND_URL } from "../../core/utils/config";
 
@@ -19,6 +23,10 @@ const DataExport = ({ reportType, account }: any) => {
 
   const url = BACKEND_URL;
   const classes = useStyles();
+
+  //getting image from asset for the pdf
+  var img = new Image();
+  img.src = bike_logo;
 
   //verify status of modals
   const [open, setOpen] = useState(false);
@@ -60,7 +68,7 @@ const DataExport = ({ reportType, account }: any) => {
         data = response.data;
         //calculate total price and total quantity of data
         const { totalQuantity, totalPrice } = calculateTotalExpense(data);
-        data.push({ component_id: "total", cost: totalPrice, quantity_bought: totalQuantity });
+        data.push({ component_id: "Total", cost: totalPrice, quantity_bought: totalQuantity });
       });
       setReportHeader(expensesHeaders);
     }
@@ -75,13 +83,14 @@ const DataExport = ({ reportType, account }: any) => {
         data = response.data;
         //calculate total price and total quantity of data
         const { totalQuantity, totalPrice } = calculateTotalSales(data);
-        data.push({ bike_id: "total", price: totalPrice, quantity: totalQuantity });
+        data.push({ bike_id: "Total", price: totalPrice, quantity: totalQuantity });
       });
       setReportHeader(salesHeaders);
     }
     return data;
   }
 
+  //handles states when the user is done with exporting
   const downloadReport = async () => {
     handleCloseConfirmation();
     handleClose();
@@ -201,6 +210,41 @@ const DataExport = ({ reportType, account }: any) => {
     }
   }
 
+  //method to create the pdf content
+  const createPDF = () => {
+
+    const doc = new jsPDF("p", "pt");
+
+    let header: any;
+    let pdfHeaderExpenses = [['Id', 'Date', 'Email', 'Model', 'Type', 'Size', 'Unit Price ($)', 'Quantity', 'Cost ($)']];
+    let pdfHeaderSales = [['Id', 'Date', 'Email', 'Description', 'Size', 'Color', 'Grade', 'Quantity', 'Price ($)']];
+    let pdfTable: any = [];
+
+    if (reportType === "payable") {
+      data.forEach((element: any) => {
+        pdfTable.push([[element.component_id], [element.payable_date], [element.email], [element.specificComponentType], [element.component_type], [element.size], [element.component_price], [element.quantity_bought], [element.cost]])
+      });
+      header = pdfHeaderExpenses;
+      doc.text("Bike King Expenses Report", 195, 30);
+      doc.addImage(img.src, 'png', 395, 14, 30, 20);
+    }
+    else if (reportType === "receivable") {
+      data.forEach((element: any) => {
+        pdfTable.push([[element.bike_id], [element.payable_date], [element.email], [element.bike_description], [element.size], [element.color], [element.grade], [element.quantity], [element.price]]);
+      });
+      header = pdfHeaderSales;
+      doc.text("Bike King Sales Report", 220, 30);
+      doc.addImage(img.src, 'png', 390, 14, 30, 20);
+    }
+
+    autotable(doc, {
+      head: header,
+      body: pdfTable,
+      styles: { fontSize: 8 },
+    });
+    doc.save('print.pdf')
+  }
+
   const body = (
     <Box className={classes.paper}>
       <CloseIcon className={classes.close} onClick={() => { handleClose() }}></CloseIcon>
@@ -221,7 +265,7 @@ const DataExport = ({ reportType, account }: any) => {
         &&
         <Box className={classes.myData}>
           <h3 className={classes.myDataTitle}>Only Export My Transactions</h3>
-            <Switch1 color="primary" onClick={() => { setExportMyDataOnly(!exportMyDataOnly) }}></Switch1>
+          <Switch color="primary" onClick={() => { setExportMyDataOnly(!exportMyDataOnly) }}></Switch>
         </Box>
       }
       <Button className={classes.confirmButton} variant="contained" color="primary" onClick={() => { generateReport() }}>Confirm</Button>
@@ -234,17 +278,18 @@ const DataExport = ({ reportType, account }: any) => {
 
   const exportConfirmation = (
     <Box className={classes.confirmationModal}>
-      <h2 className={classes.title}>Data available, do you want to export? </h2>
-      <CloseIcon className={classes.close} onClick={() => { handleCloseConfirmation() }}></CloseIcon>
+      <KeyboardReturnIcon className={classes.return} onClick={() => { handleCloseConfirmation() }}></KeyboardReturnIcon>
+      <h2 className={classes.title}>Data available, Chose your format </h2>
+      <CloseIcon className={classes.close} onClick={() => { downloadReport() }}></CloseIcon>
       <Box className={classes.confirmationButton}>
         <CSVLink
+          className={classes.csv}
           data={data}
           headers={reportHeader}
-          filename="Report.csv"
-          onClick={() => { downloadReport() }}>
-          <Button variant="contained" color="primary">Yes</Button></CSVLink>
+          filename="Report.csv">
+          <Button variant="contained" color="primary">CSV</Button></CSVLink>
           &nbsp;
-        <Button variant="contained" color="primary" onClick={() => { handleCloseConfirmation() }}>No</Button>
+          <Button variant="contained" color="primary" onClick={() => { createPDF() }}>PDF</Button>
       </Box>
     </Box>
   );
