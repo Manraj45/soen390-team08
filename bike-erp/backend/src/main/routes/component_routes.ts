@@ -9,7 +9,7 @@ import { Role } from "../models/Account";
 const router = express();
 const inventoryManagementService = new InventoryManagementService();
 
-router.get("/", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
+router.get("/", authenticateToken, (req, res) => {
   inventoryManagementService
     .getAllComponents()
     .then((response) => {
