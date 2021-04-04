@@ -3,11 +3,11 @@ import {
   fetchComponent,
   updateComponent,
   fetchComponentLocation,
+  fetchComponentTypes,
 } from "../../dao/ComponentDAO";
 import { AccountingService } from "../accountingService/AccountingService";
 
 export class InventoryManagementService {
-
   private static accountingService: AccountingService | undefined;
 
   public constructor() {
@@ -41,35 +41,46 @@ export class InventoryManagementService {
   // Edit component quantity when used to build a bike that was sold
   public editComponentQuantitySale = (componentSaleList: Array<any>) => {
     return new Promise((resolve, rejects) => {
-      componentSaleList.forEach(component => {
-          this.editComponent(component.id, component.quantity).catch(error => {
-            rejects(error);
-          })
-        })
-        resolve({ status: 201, message: "Components have been sold succesfully" });
-    })
-  }
+      componentSaleList.forEach((component) => {
+        this.editComponent(component.id, component.quantity).catch((error) => {
+          rejects(error);
+        });
+      });
+      resolve({
+        status: 201,
+        message: "Components have been sold succesfully",
+      });
+    });
+  };
 
   // Edits the quantity of components based on order list provided
   public orderComponents = (orderList: Array<any>, userEmail: string) => {
     return new Promise((resolve, rejects) => {
       const updateQuantityInDB = new Promise(async (resolve, rejects) => {
-        orderList.forEach(order => {
-          this.editComponent(order.id, order.quantity).catch(error => {
+        orderList.forEach((order) => {
+          this.editComponent(order.id, order.quantity).catch((error) => {
             rejects(error);
-          })
-        })
-        resolve({ status: 201, message: "Components have been ordered successfully" });
-      })
+          });
+        });
+        resolve({
+          status: 201,
+          message: "Components have been ordered successfully",
+        });
+      });
 
-      updateQuantityInDB.then(async () => {
-        const response = await AccountingService.createAccountPayable(orderList, userEmail);
-        resolve(response);
-      }).catch(error => {
-        rejects(error);
-      })
-    })
-  }
+      updateQuantityInDB
+        .then(async () => {
+          const response = await AccountingService.createAccountPayable(
+            orderList,
+            userEmail
+          );
+          resolve(response);
+        })
+        .catch((error) => {
+          rejects(error);
+        });
+    });
+  };
 
   // Get the location of a component identified by a unique id
   public getComponentLocation = (id: string) => {
@@ -80,5 +91,10 @@ export class InventoryManagementService {
     }
 
     return fetchComponentLocation(id);
+  };
+
+  //Get all the types of components
+  public getComponentTypes = (location: string, size: string) => {
+    return fetchComponentTypes(location, size);
   };
 }

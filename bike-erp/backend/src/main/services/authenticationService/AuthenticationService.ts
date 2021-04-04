@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 // SERVICES
-import { authorizeRequest } from "../../config/webSecurityConfig";
 import { AccountDao } from "../../dao/AccountDAO";
 import { Role } from "../../models/Account";
 
@@ -174,12 +173,36 @@ export const authenticateToken = (req, res, next) => {
       return res.status(403).send({ message: "Invalid token" });
     }
 
-    // Verifying user role
-    if (!authorizeRequest(req.originalUrl, user.role)) {
-      return res.status(401).send({ message: "User role not authorized" });
-    }
-
+    // Returning user email
     req.user = user;
+
+    // Calling route function
     next();
   });
 };
+
+// Method to verify user role
+export const verifyRole = (allowedRoles: Role[]) => {
+  return async (req, res, next) => {
+    // Setting the endpoint header to authorization
+    const authHeader = req.headers["authorization"];
+
+    // Setting token header
+    const token = authHeader && authHeader.split(" ")[1];
+
+    // Verifying the role
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      // Verifying if the user is allowed to access endpoint
+      for (let i = 0; i < allowedRoles.length; i++) {
+        if (Role[allowedRoles[i]] === Role[Role[user.role]]) {
+          next();
+          break;
+        }
+
+        if (i === allowedRoles.length - 1) {
+          return res.status(401).send({ message: "User role not authorized" });
+        }
+      }
+    })
+  }
+}
