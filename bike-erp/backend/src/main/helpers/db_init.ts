@@ -149,11 +149,14 @@ export const initialize_db = (): void => {
         );`;
 
     const createTriggers: string = `
-        CREATE TABLE IF NOT EXISTS trigger_state(
-        trigger_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        trigger_type varchar(255) NOT NULL,
-        activated BOOLEAN
-        );`;
+        CREATE TABLE IF NOT EXISTS user_triggers (
+        account_id int NOT NULL PRIMARY KEY,
+        QUANTITY_REACHES_ZERO boolean DEFAULT FALSE,
+        ROLE_CHANGE boolean DEFAULT FALSE,
+        COMPONENT_ORDER boolean DEFAULT FALSE,
+        BIKE_ORDER boolean DEFAULT FALSE,
+        FOREIGN KEY(account_id) REFERENCES account(account_id)
+    );`;
 
     db.query(createAccountQuery, (err, result) => {
         if (err) throw err;
@@ -237,7 +240,7 @@ export const initialize_db = (): void => {
 
     db.query(createTriggers, (err, result) => {
         if (err) throw err;
-        console.log("Trigger_State Tables Created");
+        console.log("User_triggers Tables Created");
     });
 
     db.query(fillComponentCatalogue, (err, result) => {
