@@ -61,9 +61,4 @@ router.delete("/logout", (req, res) => {
   res.json(AuthenticationService.logout(req.body.token));
 });
 
-// Example route for role restriction
-router.get("/test", authenticateToken, (req, res) => {
-  res.sendStatus(202)
-});
-
 export default router;
