@@ -1,6 +1,7 @@
 // DEPENDENCIES
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/AccountActions/accountAction";
+import Triggers from "../../components/Triggers/Triggers";
 
 // STYLING
 import { Button, Typography } from "@material-ui/core";
@@ -12,6 +13,7 @@ const Home = (props: any) => {
   return (
     <div>
       <Typography variant="h1">Welcome</Typography>
+      <Triggers/>
       <Button variant="contained" color="primary" onClick={props.logout}>
         Logout
       </Button>

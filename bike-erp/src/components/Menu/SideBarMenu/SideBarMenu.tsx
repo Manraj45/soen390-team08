@@ -69,14 +69,6 @@ const SideBarMenu = ({ account }: any) => {
             </ListItem>
           </Link>
         }
-        {
-          account.account.role === "ADMIN"
-          && <Link to="/triggers" style={{ textDecoration: "none" }}>
-              <ListItem className={styles.menuItems}>
-                <Typography>Triggers</Typography>
-              </ListItem>
-            </Link>
-        }
       </List>
     </nav>
   );
