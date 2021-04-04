@@ -10,7 +10,8 @@ export class UserLogDAO{
       return new Promise<Array<any>>((resolve, reject) => {
         const query = `
             SELECT u.email, u.timestamp, u.activity
-            FROM user_logs u;` ;
+            FROM user_logs u
+            ORDER BY timestamp DESC;` ;
         db.query(query, (err, rows) => {
             if (err) return reject(err);
             resolve(JSON.parse(JSON.stringify(rows)));

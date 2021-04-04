@@ -31,52 +31,60 @@ export class BikeOrderService {
   public static addBike = async (bikeOrderList: Array<any>, email: string) => {
     return new Promise(async (resolve, rejects) => {
       let bikeIdList: number[] = [];
-      bikeOrderList.forEach(async (bike) => {
+
+      for (let i = 0; i < bikeOrderList.length; i++) {
         // Verifying the data meets the requirements for the price
-        if (isNaN(bike.price) || bike.price < 0) {
+        if (isNaN(bikeOrderList[i].price) || bikeOrderList[i].price < 0) {
           return rejects({
             status: 400,
             message:
               "Invalid price format, price must be a number data type and a positive number",
           });
         }
+
         // Verifying the data meets the requirements for the quanity
-        else if (isNaN(bike.quantity) || bike.quantity < 0) {
+        else if (isNaN(bikeOrderList[i].quantity) || bikeOrderList[i].quantity < 0) {
           return rejects({
             status: 400,
             message:
               "Invalid quantity format, quantity must be a number data type and a positive number",
           });
         }
+
         // Posting all the bikes created with their components Id.
         try {
           const response = await BikeOrderService.getBikeDao().createBike(
-            bike.price,
-            bike.size,
-            bike.color,
-            bike.description,
-            bike.grade,
-            bike.quantity
+            bikeOrderList[i].price,
+            bikeOrderList[i].size,
+            bikeOrderList[i].color,
+            bikeOrderList[i].description,
+            bikeOrderList[i].grade,
+            bikeOrderList[i].quantity
           );
+
           await BikeOrderService.getBikeDao().linkBikeToComponents(
             response.bikeId,
-            bike.handle_id,
-            bike.wheel_id,
-            bike.frame_id,
-            bike.seat_id,
-            bike.drive_train_id
+            bikeOrderList[i].handle_id,
+            bikeOrderList[i].wheel_id,
+            bikeOrderList[i].frame_id,
+            bikeOrderList[i].seat_id,
+            bikeOrderList[i].drive_train_id
           );
+
           bikeIdList.push(response.bikeId);
-          await AccountingService.createAccountReceivable(
-            bikeOrderList,
-            bikeIdList,
-            email
-          );
+
+          if (i === bikeOrderList.length - 1) {
+            await AccountingService.createAccountReceivable(
+              bikeOrderList,
+              bikeIdList,
+              email
+            );
+          }
         } catch (error) {
           return rejects({ status: 500, message: error.sqlMessage });
         }
-      });
-       UserLogService.addLog(email, "Ordered a bike").catch((error)=> {});;
+      }
+      UserLogService.addLog(email, "Ordered a bike").catch((error) => { });;
       return resolve({ status: 201, message: "Bike was sold succesfully" });
     });
   };

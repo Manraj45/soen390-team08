@@ -57,9 +57,10 @@ export class AccountPayableDAO {
     public getTransactionByAccountPayableID(accountPayableId: number) {
         return new Promise((resolve, rejects) => {
             const query = `
-                SELECT TI.transaction_id, TI.cost, TI.component_id, TI.quantity_bought
-                FROM consist_of CO, transaction_item TI
-                WHERE CO.account_payable_id = ${accountPayableId}
+                SELECT TI.transaction_id, TI.cost, TI.component_id, TI.quantity_bought, C.component_type, C.price, C.size, C.specificComponentType
+                FROM consist_of CO, transaction_item TI, component C
+                WHERE CO.account_payable_id = ${accountPayableId} 
+                AND TI.component_id = C.component_id
                 AND CO.transaction_id = TI.transaction_id`;
             db.query(query, (err, rows) => {
                 if (err) return rejects(err);
