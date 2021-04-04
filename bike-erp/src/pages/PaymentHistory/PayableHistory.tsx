@@ -7,9 +7,9 @@ import { connect } from "react-redux";
 import { BACKEND_URL } from "../../core/utils/config";
 
 // STYLING
-import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
+import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, Box } from "@material-ui/core";
 import useStyles from "./PayableHistoryStyle";
-
+import DataExport from "../../components/DataExport/DataExport";
 /*
   This page pertains to the accounts payable.
   This page is accessible to companies to track their expenses relative to ordering components.
@@ -18,6 +18,7 @@ const PayableHistory = ({ account }: any) => {
 
   const classes = useStyles();
   const backend = BACKEND_URL;
+  const reportType = "payable";
 
   const [accountPayables, setAccountPayables] = useState([]);
   const [accountSpecifics, setAccountSpecifics] = useState({});
@@ -114,6 +115,10 @@ const PayableHistory = ({ account }: any) => {
           </Table>
         </div>
       </Paper>
+      <br/>
+      <Box className={classes.export}>
+        <DataExport reportType={reportType}></DataExport>
+      </Box>
     </div>
   );
 }

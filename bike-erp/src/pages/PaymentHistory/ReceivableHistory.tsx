@@ -7,8 +7,9 @@ import { connect } from "react-redux";
 import { BACKEND_URL } from "../../core/utils/config";
 
 // STYLING
-import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
+import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, Box } from "@material-ui/core";
 import useStyles from "./ReceivableHistoryStyle";
+import DataExport from "../../components/DataExport/DataExport";
 
 /*
   This page pertains to the accounts receivable.
@@ -18,6 +19,7 @@ const ReceivableHistory = ({ account }: any) => {
 
   const classes = useStyles();
   const backend = BACKEND_URL;
+  const reportType = "receivable";
 
   const [accountReceivables, setAccountReceivables] = useState({});
   const [accountSpecifics, setAccountSpecifics] = useState({});
@@ -110,6 +112,10 @@ const ReceivableHistory = ({ account }: any) => {
           </Table>
         </div>
       </Paper>
+      <br/>
+      <Box className={classes.export}>
+        <DataExport reportType={reportType}></DataExport>
+      </Box>
     </div>
   );
 }
