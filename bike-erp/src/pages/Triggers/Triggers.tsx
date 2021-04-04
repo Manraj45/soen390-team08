@@ -32,7 +32,6 @@ const Triggers: React.FC = () => {
 
   const handleChange = async (id: string) => {
     await Axios.put(`${url}/triggers/toggle/` + id).catch((error) => {
-      console.log(error.data);
     });
     Axios.get(`${url}/triggers/`).then((response) => {
       setTriggers(response.data);
