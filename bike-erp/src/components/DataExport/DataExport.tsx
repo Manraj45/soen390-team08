@@ -1,23 +1,32 @@
+//React
 import { useState } from 'react';
-import axios from 'axios';
 import { connect } from "react-redux";
+import DatePicker from 'react-datepicker';
+import { CSVLink } from "react-csv";
 
+//Material-ui
 import Modal from '@material-ui/core/Modal';
 import CloseIcon from '@material-ui/icons/Close';
 import { Box, Button, Typography } from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
+
+//PDF js
 import jsPDF from 'jspdf';
 import autotable from 'jspdf-autotable';
 
-import DatePicker from 'react-datepicker';
-import { CSVLink } from "react-csv";
-
+//Style
 import 'react-datepicker/dist/react-datepicker.css';
 import useStyles from './DataExportStyle';
-import bike_logo from "../../assets/images/login_bike_logo.png";
 
+//APIs
+import axios from 'axios';
+
+//From project import
+import bike_logo from "../../assets/images/login_bike_logo.png";
 import { BACKEND_URL } from "../../core/utils/config";
+
+//This component offers the users the possibility of exporting datas (transactions) in a CSV or PDF format.
 
 const DataExport = ({ reportType, account }: any) => {
 
@@ -71,8 +80,7 @@ const DataExport = ({ reportType, account }: any) => {
         data.push({ component_id: "Total", cost: totalPrice, quantity_bought: totalQuantity });
       });
       setReportHeader(expensesHeaders);
-    }
-    else if (reportType === "receivable") {
+    } else if (reportType === "receivable") {
       await axios.get(`${url}/finance/accountReceivables/report`, {
         params: {
           startDate: formatStartDate + " 00:00:00",
