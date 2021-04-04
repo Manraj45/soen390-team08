@@ -68,7 +68,7 @@ const PayableHistory = ({ account }: any) => {
                   <TableRow key={order.account_payable_id}>
                     <TableCell className={classes.orderCell}>{order.account_payable_id}</TableCell>
                     <TableCell className={classes.orderCell}>{order.payable_date.substring(0, 10)}</TableCell>
-                    <TableCell className={classes.orderCell}>{"$" + order.total}</TableCell>
+                    <TableCell className={classes.orderCell}>{"$" + order.total.toFixed(2)}</TableCell>
                     <TableCell className={classes.orderCell}>
                       <Button color="primary"
                         onClick={() => getAccountSpecifics(order.account_payable_id)}
@@ -84,12 +84,16 @@ const PayableHistory = ({ account }: any) => {
           <Table size="small" className={classes.dataContainer}>
             <TableHead>
               <TableRow>
-                <TableCell colSpan={3} className={classes.tableHeader}>Order Details</TableCell>
+                <TableCell colSpan={7} className={classes.tableHeader}>Order Details</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell className={classes.orderCell}>Transaction ID</TableCell>
+                <TableCell className={classes.orderCell}>Type</TableCell>
+                <TableCell className={classes.orderCell}>Model</TableCell>
+                <TableCell className={classes.orderCell}>Size</TableCell>
+                <TableCell className={classes.orderCell}>Unit Price</TableCell>
                 <TableCell className={classes.orderCell}>Quantity</TableCell>
                 <TableCell className={classes.orderCell}>Cost</TableCell>
               </TableRow>
@@ -97,8 +101,12 @@ const PayableHistory = ({ account }: any) => {
                 accountSpecifics !== {} && Object.values(accountSpecifics).map((item: any) => (
                   <TableRow key={item.transaction_id}>
                     <TableCell className={classes.orderCell}>{item.transaction_id}</TableCell>
+                    <TableCell className={classes.orderCell}>{item.component_type}</TableCell>
+                    <TableCell className={classes.orderCell}>{item.specificComponentType}</TableCell>
+                    <TableCell className={classes.orderCell}>{item.size}</TableCell>
+                    <TableCell className={classes.orderCell}>{"$" + item.price.toFixed(2)}</TableCell>
                     <TableCell className={classes.orderCell}>{item.quantity_bought}</TableCell>
-                    <TableCell className={classes.orderCell}>{"$" + item.cost}</TableCell>
+                    <TableCell className={classes.orderCell}>{"$" + item.cost.toFixed(2)}</TableCell>
                   </TableRow>
                 ))
               }

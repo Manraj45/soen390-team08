@@ -24,26 +24,26 @@ const ReceivableHistory = ({ account }: any) => {
 
   useEffect(() => {
     axios
-    .get(`${backend}/finance/accountReceivables`)
-    .then((response) => {
-      setAccountReceivables(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .get(`${backend}/finance/accountReceivables`)
+      .then((response) => {
+        setAccountReceivables(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [backend]);
 
   const getAccountSpecifics = (id: number) => {
     axios
-    .get(`${backend}/finance/accountReceivables/${id}/bikes`)
-    .then((response) => {
-      setAccountSpecifics(response.data)
-    })
-    .catch((error) => {
-      console.log(error.data);
-    });
+      .get(`${backend}/finance/accountReceivables/${id}/bikes`)
+      .then((response) => {
+        setAccountSpecifics(response.data)
+      })
+      .catch((error) => {
+        console.log(error.data);
+      });
   }
-  
+
   return (
     <div className={classes.receivableHistory}>
       <h1>Receivable History</h1>
@@ -63,34 +63,35 @@ const ReceivableHistory = ({ account }: any) => {
               </TableRow>
             </TableHead>
             <TableBody>
-            {
-              Object.keys(accountReceivables).length !== 0 && Object.values(accountReceivables).map((order: any) => (
-                <TableRow key={order.account_receivable_id}>
-                  <TableCell className={classes.orderCell}>{order.account_receivable_id}</TableCell>
-                  <TableCell className={classes.orderCell}>{order.payable_date.substring(0, 10)}</TableCell>
-                  <TableCell className={classes.orderCell}>{"$" +order.total}</TableCell>
-                  <TableCell className={classes.orderCell}>
-                    <Button color="primary" 
-                      onClick={() => getAccountSpecifics(order.account_receivable_id)}
-                    >
-                      See More
+              {
+                Object.keys(accountReceivables).length !== 0 && Object.values(accountReceivables).map((order: any) => (
+                  <TableRow key={order.account_receivable_id}>
+                    <TableCell className={classes.orderCell}>{order.account_receivable_id}</TableCell>
+                    <TableCell className={classes.orderCell}>{order.payable_date.substring(0, 10)}</TableCell>
+                    <TableCell className={classes.orderCell}>{"$" + order.total.toFixed(2)}</TableCell>
+                    <TableCell className={classes.orderCell}>
+                      <Button color="primary"
+                        onClick={() => getAccountSpecifics(order.account_receivable_id)}
+                      >
+                        See More
                     </Button>
-                  </TableCell>
-                </TableRow>
-              ))
-            }
+                    </TableCell>
+                  </TableRow>
+                ))
+              }
             </TableBody>
           </Table>
           <Table size="small" className={classes.dataContainer}>
             <TableHead>
               <TableRow>
-                <TableCell colSpan={4} className={classes.tableHeader}>Order Details</TableCell>
+                <TableCell colSpan={5} className={classes.tableHeader}>Order Details</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell className={classes.orderCell}>ID</TableCell>
                 <TableCell className={classes.orderCell}>Description</TableCell>
+                <TableCell className={classes.orderCell}>Unit Price</TableCell>
                 <TableCell className={classes.orderCell}>Quantity</TableCell>
                 <TableCell className={classes.orderCell}>Cost</TableCell>
               </TableRow>
@@ -98,11 +99,10 @@ const ReceivableHistory = ({ account }: any) => {
                 accountSpecifics !== {} && Object.values(accountSpecifics).map((item: any) => (
                   <TableRow key={item.bike_id}>
                     <TableCell className={classes.orderCell}>{item.bike_id}</TableCell>
-                    <TableCell className={classes.orderCell}>
-                      {item.size + " " + item.color + " " + item.grade + " grade bike"}
-                    </TableCell>
+                    <TableCell className={classes.orderCell}>{item.bike_description}</TableCell>
+                    <TableCell className={classes.orderCell}>{"$" + (item.price / item.quantity).toFixed(2)}</TableCell>
                     <TableCell className={classes.orderCell}>{item.quantity}</TableCell>
-                    <TableCell className={classes.orderCell}>{"$" + item.price}</TableCell>
+                    <TableCell className={classes.orderCell}>{"$" + item.price.toFixed(2)}</TableCell>
                   </TableRow>
                 ))
               }
