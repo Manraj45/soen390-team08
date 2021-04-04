@@ -190,12 +190,6 @@ export const verifyRole = (allowedRoles: Role[]) => {
     // Setting token header
     const token = authHeader && authHeader.split(" ")[1];
 
-    // Verifying if the allowedRoles array is undefined
-    if (allowedRoles === undefined) {
-      // Returning error message
-      return res.status(400).send({ message: "No roles provided" });
-    }
-
     // Verifying the role
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
       // Verifying if the user is allowed to access endpoint
