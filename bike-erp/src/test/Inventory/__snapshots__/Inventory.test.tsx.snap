@@ -13,7 +13,7 @@ exports[`Inventory matches the snapshot 1`] = `
   </div>
   <br />
   <div
-    className="MuiPaper-root makeStyles-place-8 MuiPaper-elevation1 MuiPaper-rounded"
+    className="MuiPaper-root makeStyles-place-7 MuiPaper-elevation1 MuiPaper-rounded"
   >
     <table
       className="MuiTable-root makeStyles-tableStyle-4 MuiTable-stickyHeader"
