@@ -220,7 +220,6 @@ const DataExport = ({ reportType, account }: any) => {
 
   //method to create the pdf content
   const createPDF = () => {
-
     const doc = new jsPDF("p", "pt");
 
     let header: any;
@@ -250,7 +249,7 @@ const DataExport = ({ reportType, account }: any) => {
       body: pdfTable,
       styles: { fontSize: 8 },
     });
-    doc.save('print.pdf')
+    doc.save('Report.pdf')
   }
 
   const body = (

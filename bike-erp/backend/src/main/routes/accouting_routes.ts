@@ -80,12 +80,12 @@ router.get("/accountReceivables/:id/bikes", authenticateToken, (req, res) => {
 });
 
 
-router.get("/accountPayables/report", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
+router.get("/accountReceivables/report", authenticateToken, (req, res) => {
   const startDate = req.query.startDate as string;
   const endDate = req.query.endDate as string;
   const myDataOnly = (req.query.myDataOnly === "true");
   const userEmail: string = fetchUserEmail(req);
-  
+
   ReportingService.getSalesReportCSVInfo(userEmail, startDate, endDate, myDataOnly).then((response) => {
     res.status(202).json(response)
   })
@@ -94,12 +94,12 @@ router.get("/accountPayables/report", authenticateToken, verifyRole([Role.ADMIN,
     })
 })
 
-router.get("/accountPayables/report", authenticateToken, (req, res) => {
+router.get("/accountPayables/report", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   const startDate = req.query.startDate as string;
   const endDate = req.query.endDate as string;
   const myDataOnly = (req.query.myDataOnly === "true");
   const userEmail: string = fetchUserEmail(req);
-  
+
   ReportingService.getExpensesReportCSVInfo(userEmail, startDate, endDate, myDataOnly).then((response) => {
     res.status(202).json(response)
   })
