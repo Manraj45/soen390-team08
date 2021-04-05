@@ -2,13 +2,14 @@
 import express from "express";
 
 // SERVICES
-import { AuthenticationService } from "../services/authenticationService/AuthenticationService";
+import { authenticateToken, AuthenticationService, verifyRole } from "../services/authenticationService/AuthenticationService";
 import { InventoryManagementService } from "../services/inventoryManagementService/InventoryManagementService";
+import { Role } from "../models/Account";
 
 const router = express();
 const inventoryManagementService = new InventoryManagementService();
 
-router.get("/", (req, res) => {
+router.get("/", authenticateToken, (req, res) => {
   inventoryManagementService
     .getAllComponents()
     .then((response) => {
@@ -20,7 +21,7 @@ router.get("/", (req, res) => {
 });
 
 //Backend endpoint to get all the component types in categories
-router.get("/componentTypes", (req, res) => {
+router.get("/componentTypes", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   inventoryManagementService
     .getComponentTypes(req.body.location, req.body.size)
     .then((response) => {
@@ -30,6 +31,7 @@ router.get("/componentTypes", (req, res) => {
       res.status(400).send(error);
     });
 });
+
 
 router.post("/addComponent", (req, res) => {
   inventoryManagementService.addComponent(req.body.price, req.body.quantity, req.body.component_type, req.body.component_status, req.body.size, req.body.specific_component_type, req.body.location_name)
@@ -41,7 +43,7 @@ router.post("/addComponent", (req, res) => {
   })
 })
 
-router.get("/:component_id", (req, res) => {
+router.get("/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   inventoryManagementService
     .getComponent(req.params.component_id)
     .then((response) => {
@@ -53,7 +55,7 @@ router.get("/:component_id", (req, res) => {
 });
 
 // Edit the quantity depending on the Id of the component
-router.put("/updateQuantity", (req, res) => {
+router.put("/updateQuantity", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   const id = req.body.id;
   const quantity = req.body.quantity;
   inventoryManagementService
@@ -67,7 +69,7 @@ router.put("/updateQuantity", (req, res) => {
 });
 
 // API used to modify the quantity of each components that are sold
-router.put("/sellComponents", (req, res) => {
+router.put("/sellComponents", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   const componentSaleList: Array<any> = req.body.componentSaleList;
   inventoryManagementService
     .editComponentQuantitySale(componentSaleList)
@@ -81,7 +83,7 @@ router.put("/sellComponents", (req, res) => {
 
 // API endpoint for ordering new components
 // Requires a orderList in body
-router.put("/orderComponents", (req, res) => {
+router.put("/orderComponents", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   const orderList: Array<any> = req.body.orderList.orderList;
 
   // Setting the endpoint header to authorization
@@ -102,7 +104,7 @@ router.put("/orderComponents", (req, res) => {
     });
 });
 
-router.get("/componentLocation/:component_id", (req, res) => {
+router.get("/componentLocation/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   inventoryManagementService
     .getComponentLocation(req.params.component_id)
     .then((response) => {

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { BACKEND_URL } from "../../core/utils/config";
 
 // STYLING
-import { Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
+import { Table, TableHead, TableBody, TableRow, TableCell, Paper } from "@material-ui/core";
 import useStyles from "./UserLogsStyles";
 
 /*
@@ -32,32 +32,32 @@ const UserLogs: React.FC = () => {
         <br></br>
         <div className={styles.title}>User Logs</div>
         <br></br>
-        <Table size="small" className={styles.tableStyle}>
-          <TableHead className={styles.tableHead}>
-            <TableRow className={styles.topRow}>
-              <TableCell className={styles.emptyCell} />
-              <TableCell>Time</TableCell>
-              <TableCell>User</TableCell>
-              <TableCell>Activity</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {logTable.map((row) => (
-              <TableRow key={row.log_id}>
-                <TableCell className={styles.tableHead} />
-                <TableCell className={styles.innerTable}>
-                  {row.timestamp}
-                </TableCell>
-                <TableCell className={styles.innerTable}>
-                  {row.email}
-                </TableCell>
-                <TableCell className={styles.innerTable}>
-                  {row.activity}
-                </TableCell>
+        <Paper className={styles.place}>
+          <Table size="small" stickyHeader className={styles.tableStyle}>
+            <TableHead className={styles.tableHead}>
+              <TableRow>
+                <TableCell className={styles.topRow}>Time</TableCell>
+                <TableCell className={styles.topRow}>User</TableCell>
+                <TableCell className={styles.topRow}>Activity</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {logTable.map((row) => (
+                <TableRow key={row.log_id}>
+                  <TableCell className={styles.innerTable}>
+                    {row.timestamp}
+                  </TableCell>
+                  <TableCell className={styles.innerTable}>
+                    {row.email}
+                  </TableCell>
+                  <TableCell className={styles.innerTable}>
+                    {row.activity}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
       </div>
     </React.Fragment>
   );
