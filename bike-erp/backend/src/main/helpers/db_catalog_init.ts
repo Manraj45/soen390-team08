@@ -1,5 +1,5 @@
 export const fillComponentCatalogue: string = `
-    INSERT IGNORE INTO component (component_id, price, quantity, component_type, component_status, size, specificComponentType)
+    INSERT IGNORE INTO component (component_id, price, quantity, component_type, component_status, size, specific_component_type)
     VALUES (1,35,0,'HANDLE','UNAVAILABLE','SMALL','FLAT'),
            (2,20,0,'HANDLE','UNAVAILABLE','SMALL','BULLHORN'),
            (3,23,0,'HANDLE','UNAVAILABLE','SMALL','DROP'),

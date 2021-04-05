@@ -1,9 +1,10 @@
+import { resourceLimits } from "worker_threads";
 import db from "../helpers/db";
 
 export const fetchAllComponents = () => {
   return new Promise<Array<any>>((resolve, reject) => {
     const query = `
-            SELECT c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.component_id, cl.location_name 
+            SELECT c.price, c.quantity, c.component_type, c.component_status, c.size, c.specific_component_type, cl.component_id, cl.location_name 
             FROM component c , component_location cl
             WHERE c.component_id=cl.component_id`;
     db.query(query, (err, rows) => {
@@ -16,7 +17,7 @@ export const fetchAllComponents = () => {
 export const fetchComponent = (id: string) => {
   return new Promise((resolve, reject) => {
     const query = `
-            SELECT c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.component_id, cl.location_name 
+            SELECT c.price, c.quantity, c.component_type, c.component_status, c.size, c.specific_component_type, cl.component_id, cl.location_name 
             FROM component c , component_location cl
             WHERE c.component_id = ? and c.component_id = cl.component_id`;
     db.query(query, [id], (err, rows) => {
@@ -49,23 +50,23 @@ export const fetchComponentLocation = (id: string) => {
 export const fetchComponentTypes = (location: string, size: string) => {
   return new Promise<Array<any>>((resolve, reject) => {
     //queries for each type of component
-    const queryHandle = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+    const queryHandle = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specific_component_type, cl.location_name
     FROM component c, component_location cl
     WHERE c.component_type = "HANDLE" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
 
-    const queryWheel = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+    const queryWheel = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specific_component_type, cl.location_name
     FROM component c, component_location cl
     WHERE c.component_type = "WHEEL" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
 
-    const querySeat = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+    const querySeat = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specific_component_type, cl.location_name
     FROM component c, component_location cl
     WHERE c.component_type = "SEAT" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
 
-    const queryDriveTrain = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+    const queryDriveTrain = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specific_component_type, cl.location_name
     FROM component c, component_location cl
     WHERE c.component_type = "DRIVE_TRAIN" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
 
-    const queryFrame = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+    const queryFrame = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specific_component_type, cl.location_name
     FROM component c, component_location cl
     WHERE c.component_type = "FRAME" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
 
@@ -116,5 +117,43 @@ export const fetchComponentTypes = (location: string, size: string) => {
         });
       });
     });
+  });
+};
+
+export const insertNewComponent = (price: string, quantity: string, component_type: string, component_status: string, size: string, specific_component_type: string, location_name: string) => {
+  return new Promise((resolve, reject) => {
+    const queryInsertComponent = "INSERT INTO component(price, quantity, component_type, component_status, size, specific_component_type) VALUES(?, ?, ?, ?, ?, ?);";
+    const queryInsertComponentLocation = "INSERT INTO component_location(location_name) VALUES(?);"
+    const queryCheckForDuplicate = "SELECT * FROM component c, component_location cl WHERE c.component_type = ? AND c.size = ? AND c.specific_component_type = ? AND cl.location_name = ? AND cl.component_id = c.component_id;"
+    const priceAsNum: number = Number(price);
+    const qtyAsNum: number = Number(quantity);
+    if (price && quantity && component_type && component_status && size && specific_component_type && location_name) {
+      if (isNaN(component_type as any) && isNaN(component_status as any) && isNaN(size as any)) {
+      db.query(queryCheckForDuplicate, [component_type, size, specific_component_type, location_name], (err, rows) => {
+      const results = JSON.parse(JSON.stringify(rows));
+      if (err) return reject(err);
+      else if (isNaN(priceAsNum) || isNaN(qtyAsNum) || qtyAsNum < 0 || priceAsNum < 0) {
+        reject("Invalid price or quantity.");
+      }
+      else if(results.length == 0) {
+        db.query(queryInsertComponent, [price, quantity, component_type, component_status, size, specific_component_type], (err, rows) => {
+          if (err) return reject(err);
+          db.query(queryInsertComponentLocation, [location_name], (err, rows) => {
+            if (err) return reject(err);
+            resolve("Component added successfully.");
+          });
+        }
+      )}
+      else {
+        reject("Component already exists.");
+      }
+    })}
+    else {
+      reject("Component type or status cannot contain numbers.");
+    };
+  }
+  else {
+    reject("Missing parameters.");
+  }
   });
 };

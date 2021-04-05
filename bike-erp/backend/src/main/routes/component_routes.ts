@@ -27,9 +27,19 @@ router.get("/componentTypes", (req, res) => {
       res.json(response);
     })
     .catch((error) => {
-      res.status(error.status).send(error.message);
+      res.status(400).send(error);
     });
 });
+
+router.post("/addComponent", (req, res) => {
+  inventoryManagementService.addComponent(req.body.price, req.body.quantity, req.body.component_type, req.body.component_status, req.body.size, req.body.specific_component_type, req.body.location_name)
+  .then((response) => {
+    res.json(response);
+  })
+  .catch((error) => {
+    res.status(400).send(error);
+  })
+})
 
 router.get("/:component_id", (req, res) => {
   inventoryManagementService
@@ -38,7 +48,7 @@ router.get("/:component_id", (req, res) => {
       res.json(response);
     })
     .catch((error) => {
-      res.status(error.status).send(error.messages);
+      res.status(error.status).send(error.message);
     });
 });
 

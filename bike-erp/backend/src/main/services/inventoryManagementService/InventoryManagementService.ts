@@ -4,6 +4,7 @@ import {
   updateComponent,
   fetchComponentLocation,
   fetchComponentTypes,
+  insertNewComponent,
 } from "../../dao/ComponentDAO";
 import { AccountingService } from "../accountingService/AccountingService";
 
@@ -27,6 +28,12 @@ export class InventoryManagementService {
 
     return fetchComponent(id);
   };
+
+
+  //Add component type
+  public addComponent = (price: string, quantity: string, component_type: string, component_status: string, size: string, specific_component_type: string, location_name: string) => {
+    return insertNewComponent(price, quantity, component_type, component_status, size, specific_component_type, location_name);
+  }
 
   // Edit the quantity of a specific component identified by a unique id number
   public editComponent = (id: string, quantity: string) => {
