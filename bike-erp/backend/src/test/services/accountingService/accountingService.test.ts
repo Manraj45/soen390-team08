@@ -1,6 +1,5 @@
 import { AccountPayableDAO } from "../../../main/dao/AccountPayableDAO";
 import { AccountReceivableDAO } from "../../../main/dao/AccountReceivableDAO";
-import db from "../../../main/helpers/db";
 import { BikeOrder } from "../../../main/models/interfaces/BikeOrder";
 import { AccountingService, Order } from "../../../main/services/accountingService/AccountingService";
 
@@ -63,10 +62,6 @@ describe("Accounting Service Test", () => {
 
   beforeAll(() => {
     AccountingService.getAccountingService();
-  });
-
-  afterAll(() => {
-    db.end();
   });
 
   test("create account payable successfully", async () => {
