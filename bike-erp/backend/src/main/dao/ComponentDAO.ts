@@ -1,4 +1,3 @@
-import { resourceLimits } from "worker_threads";
 import db from "../helpers/db";
 
 export const fetchAllComponents = () => {
@@ -127,6 +126,7 @@ export const insertNewComponent = (price: string, quantity: string, component_ty
     const queryCheckForDuplicate = "SELECT * FROM component c, component_location cl WHERE c.component_type = ? AND c.size = ? AND c.specific_component_type = ? AND cl.location_name = ? AND cl.component_id = c.component_id;"
     const priceAsNum: number = Number(price);
     const qtyAsNum: number = Number(quantity);
+
     if (price && quantity && component_type && component_status && size && specific_component_type && location_name) {
       if (isNaN(component_type as any) && isNaN(component_status as any) && isNaN(size as any)) {
       db.query(queryCheckForDuplicate, [component_type, size, specific_component_type, location_name], (err, rows) => {
@@ -135,7 +135,7 @@ export const insertNewComponent = (price: string, quantity: string, component_ty
       else if (isNaN(priceAsNum) || isNaN(qtyAsNum) || qtyAsNum < 0 || priceAsNum < 0) {
         reject("Invalid price or quantity.");
       }
-      else if(results.length == 0) {
+      else if(results.length === 0) {
         db.query(queryInsertComponent, [price, quantity, component_type, component_status, size, specific_component_type], (err, rows) => {
           if (err) return reject(err);
           db.query(queryInsertComponentLocation, [location_name], (err, rows) => {
