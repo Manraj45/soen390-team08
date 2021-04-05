@@ -37,7 +37,7 @@ export class AccountingService {
 
     // Calculate total
     orderList.forEach((order) => {
-      total = total + order.price * order.quantity;
+      total = total + order.price * order.selectedQuantity;
     });
 
     try {
@@ -51,7 +51,7 @@ export class AccountingService {
       // Create transaction item in db for each item in order list
       orderList.forEach(async (order) => {
         const transactionItemId = (await AccountingService.accountPayableDAO?.createTransactionItems(
-          order.price * order.quantity,
+          order.price * order.selectedQuantity,
           order.id,
           order.quantity
         )) as number;
@@ -153,4 +153,5 @@ export interface Order {
   quantity: number;
   info: string;
   price: number;
+  selectedQuantity:number
 }

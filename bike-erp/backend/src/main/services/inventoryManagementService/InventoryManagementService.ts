@@ -4,6 +4,7 @@ import {
   updateComponent,
   fetchComponentLocation,
   fetchComponentTypes,
+  fetchAllLocations,
 } from "../../dao/ComponentDAO";
 import { AccountingService } from "../accountingService/AccountingService";
 
@@ -58,7 +59,7 @@ export class InventoryManagementService {
     return new Promise((resolve, rejects) => {
       const updateQuantityInDB = new Promise(async (resolve, rejects) => {
         orderList.forEach((order) => {
-          this.editComponent(order.id, order.quantity).catch((error) => {
+          this.editComponent(order.id, order.quantity + order.selectedQuantity).catch((error) => {
             rejects(error);
           });
         });
@@ -97,4 +98,8 @@ export class InventoryManagementService {
   public getComponentTypes = (location: string, size: string) => {
     return fetchComponentTypes(location, size);
   };
+
+  public getAllLocations = ()=>{
+    return fetchAllLocations();
+  }
 }
