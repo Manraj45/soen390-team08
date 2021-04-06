@@ -27,15 +27,12 @@ const Triggers = ({ account, isAuthenticated }: any) => {
 
   useEffect(() => {
     Axios.get(`${url}/triggers`).then((response) => {
-      console.log(response.data);
       setTriggers(response.data);
     });
   }, [url, account.authenticated, isAuthenticated, account.loading]);
 
   const handleChange = async (triggerType: string) => {
-    await Axios.put(`${url}/triggers/toggle/` + triggerType).catch((error) => {
-      console.log(error.data);
-    });
+    await Axios.put(`${url}/triggers/toggle/` + triggerType);
     Axios.get(`${url}/triggers/`).then((response) => {
       setTriggers(response.data);
     });
