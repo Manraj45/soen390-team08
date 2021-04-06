@@ -42,7 +42,9 @@ const Triggers = ({ account, isAuthenticated }: any) => {
     <React.Fragment>
       <div id="triggerComponent" className={styles.background}>
         <br></br>
+        {(account.account.role !== "CUSTOMER") && (
         <div className={styles.title}>Triggers</div>
+        )}
         {triggers.map((trigger) => (
           <FormControl>
             <FormGroup>
