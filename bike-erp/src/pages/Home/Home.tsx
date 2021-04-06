@@ -10,10 +10,12 @@ import { Button, Typography } from "@material-ui/core";
   The homepage.
 */
 const Home = (props: any) => {
+
   return (
     <div>
       <Typography variant="h1">Welcome</Typography>
       <Triggers/>
+      <br/>
       <Button variant="contained" color="primary" onClick={props.logout}>
         Logout
       </Button>

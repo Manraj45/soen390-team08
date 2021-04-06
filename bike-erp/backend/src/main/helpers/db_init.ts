@@ -150,12 +150,12 @@ export const initialize_db = (): void => {
 
     const createTriggers: string = `
         CREATE TABLE IF NOT EXISTS user_triggers (
-        account_id int NOT NULL PRIMARY KEY,
+        email varchar(60) NOT NULL PRIMARY KEY,
         QUANTITY_REACHES_ZERO boolean DEFAULT FALSE,
         ROLE_CHANGE boolean DEFAULT FALSE,
         COMPONENT_ORDER boolean DEFAULT FALSE,
         BIKE_ORDER boolean DEFAULT FALSE,
-        FOREIGN KEY(account_id) REFERENCES account(account_id)
+        FOREIGN KEY(email) REFERENCES account(email)
     );`;
 
     db.query(createAccountQuery, (err, result) => {

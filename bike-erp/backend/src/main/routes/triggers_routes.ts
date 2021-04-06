@@ -3,35 +3,37 @@ import express from "express";
 
 // SERVICES
 import { TriggerService } from "../services/triggerService/TriggerService";
+import fetchUserEmail from "../helpers/fetchAccountEmail";
+import { AccountManagementService } from "../services/accountManagementService/AccountManagementService";
 
 const router = express();
+
+// Creating a singleton instance of the AccountManagementService
+AccountManagementService.getAccountManagementService();
+
 const triggerService = new TriggerService();
 
+/*
+  Fetches all trigger states from the user that is currently logged in the following order:
+  [QUANTITY_REACHES_ZERO, ROLE_CHANGE, COMPONENT_ORDER, BIKE_ORDER]
+*/
 router.get("/", (req, res) => {
-    triggerService
-    .getAllTriggers()
-    .then((response) => {
-      res.json(response);
-    })
-    .catch((error) => {
-      res.status(error.status).send(error.message);
-    });
+  const email: string = fetchUserEmail(req);
+  triggerService
+  .getCurrentTriggers(email)
+  .then((response) => {
+    res.json(response);
+  })
+  .catch((error) => {
+    res.status(error.status).send(error.message);
+  });
 });
 
-router.get("/:id", (req, res) => {
+// Toggles the trigger of specified type from currently logged in user
+router.put("/toggle/:triggerType", (req, res) => {
+  const email: string = fetchUserEmail(req);
     triggerService
-    .getTrigger(req.params.id)
-    .then((response) => {
-      res.json(response);
-    })
-    .catch((error) => {
-      res.status(error.status).send(error.message);
-    });
-});
-
-router.put("/toggle/:id", (req, res) => {
-    triggerService
-    .toggleTrigger(req.params.id)
+    .toggleTrigger(req.params.triggerType, email)
     .then((response) => {
       res.json(response);
     })

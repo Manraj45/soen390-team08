@@ -1,23 +1,19 @@
+import { AccountDao } from "../../dao/AccountDAO";
 import { TriggersDao } from "../../dao/TriggersDao";
 
-const triggersDao =  new TriggersDao();
-  
-  export class TriggerService {
+const triggersDao = new TriggersDao();
+const accountDao = new AccountDao();
 
-    // Retrieve all triggers from stored in the table
-    public getAllTriggers = () => {
-      return triggersDao.fetchAllTriggers();
-    };
+export class TriggerService {
 
-    // Retrive trigger state by ID
-    public getTrigger = (id: string) => {
-        return triggersDao.fetchTrigger(id);
-    }
+  // Retrieve all triggers from user by email
+  public getCurrentTriggers = (email: string) => {
+    return triggersDao.fetchUserTriggers(email);
+  };
 
-    // Toggle trigger state
-    public toggleTrigger = (id: string) => {
-        return triggersDao.updateTriggerState(id);
-    }
-  
-  }
-  
+  // Toggle trigger state
+  public toggleTrigger = (triggerType: string, email: string) => {
+    return triggersDao.updateTriggerState(triggerType, email);
+  };
+
+}
