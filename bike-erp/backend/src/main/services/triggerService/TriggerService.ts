@@ -1,8 +1,6 @@
-import { AccountDao } from "../../dao/AccountDAO";
 import { TriggersDao } from "../../dao/TriggersDao";
 
 const triggersDao = new TriggersDao();
-const accountDao = new AccountDao();
 
 export class TriggerService {
 
