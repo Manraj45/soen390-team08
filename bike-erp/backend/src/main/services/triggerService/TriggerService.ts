@@ -16,4 +16,9 @@ export class TriggerService {
     return triggersDao.updateTriggerState(triggerType, email);
   };
 
+  // Retrieve all triggers from user by email
+  public addUserTriggers = (email: string) => {
+    return triggersDao.addUserTriggers(email);
+  };
+
 }

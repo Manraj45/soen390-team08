@@ -33,4 +33,17 @@ export class TriggersDao {
     });
   };
 
+    // Creates row in user_triggers table with email and all triggers state false by default
+    public addUserTriggers = (email: string) => {
+      return new Promise<Array<any>>((resolve, reject) => {
+        const query = `
+        INSERT INTO user_triggers(email)
+        VALUES ('` + email + `');`;
+        db.query(query, (err, rows) => {
+          if (err) return reject(err);
+          resolve(JSON.parse(JSON.stringify(rows)));
+        });
+      });
+    };
+
 }

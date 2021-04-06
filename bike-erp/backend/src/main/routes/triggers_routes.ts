@@ -42,4 +42,16 @@ router.put("/toggle/:triggerType", (req, res) => {
     });
 });
 
+// Adds a row to user_triggers table
+router.post("/add", (req, res) => {
+  triggerService
+  .addUserTriggers(req.body.email)
+  .then((response) => {
+    res.send(response);
+  })
+  .catch((error) => {
+    res.status(error.status).send(error.message);
+  });
+});
+
 export default router;
