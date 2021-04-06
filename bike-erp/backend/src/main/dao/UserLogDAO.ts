@@ -39,7 +39,7 @@ export class UserLogDAO{
         return new Promise<any>((resolve, rejects) => {
             const insert =
                 "INSERT INTO `user_logs` (`email`, `activity`, `timestamp`) VALUES ('" +
-                email + "', '" + activity + "', NOW());";
+                email + "', '" + activity + "', CONVERT_TZ(NOW(),'+00:00','-04:00'));";
             db.query(insert, (err) => {
                 if (err) {
                     rejects(err);
