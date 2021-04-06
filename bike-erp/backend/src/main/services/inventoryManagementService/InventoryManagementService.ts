@@ -31,8 +31,8 @@ export class InventoryManagementService {
 
 
   //Add component type
-  public addComponent = (price: string, quantity: string, component_type: string, component_status: string, size: string, specific_component_type: string, location_name: string) => {
-    return insertNewComponent(price, quantity, component_type, component_status, size, specific_component_type, location_name);
+  public addComponent = (price: string, quantity: string, component_type: string, component_status: string, size: string, specificComponentType: string, location_name: string) => {
+    return insertNewComponent(price, quantity, component_type, component_status, size, specificComponentType, location_name);
   }
 
   // Edit the quantity of a specific component identified by a unique id number
