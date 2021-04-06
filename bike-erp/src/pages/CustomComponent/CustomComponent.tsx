@@ -2,10 +2,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import {
-    Typography, Button,
-    Dialog, DialogTitle, DialogActions,
-} from "@material-ui/core";
+import { Typography, Button, Dialog, DialogTitle, DialogActions } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 
 // SERVICES
