@@ -1,7 +1,11 @@
+import { AccountReceivableDAO } from "../../../main/dao/AccountReceivableDAO";
 import db from "../../../main/helpers/db";
+import { AccountingService } from "../../../main/services/accountingService/AccountingService";
 import { BikeOrderService } from "../../../main/services/orderService/BikeOrderService";
 
 describe("Bike Order Test", () => {
+    // Getters for retrieving the instance of account receivable dao for mocking purposes
+    const accountReceivableDAO: AccountReceivableDAO = AccountingService.getAccountReceivableDAO();
 
     // destroy connection after the test
     afterAll(() => {
@@ -11,6 +15,17 @@ describe("Bike Order Test", () => {
 
     //creation test of a bike
     test("Order a bike", async () => {
+        // Mocking account receivable promise
+        const mockCreateAccountReceivablePromise = new Promise((resolve) => {
+            resolve(1);
+        });
+
+        // Mocking the db operation
+        accountReceivableDAO.createAccountReceivable = jest
+            .fn()
+            .mockReturnValue(mockCreateAccountReceivablePromise);
+        accountReceivableDAO.createBikeInAccountReceivable = jest.fn();
+
         const mock_array: any[] = [];
         const mock_email = "test@test.com";
         mock_array.push({

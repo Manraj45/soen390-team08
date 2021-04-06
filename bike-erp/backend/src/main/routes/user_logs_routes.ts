@@ -1,5 +1,7 @@
 import express from "express";
+import { authenticateToken, verifyRole } from "../services/authenticationService/AuthenticationService";
 import { UserLogService } from "../services/userlogService/UserLogService";
+import { Role } from "../models/Account";
 
 const router = express();
 
@@ -8,7 +10,7 @@ const router = express();
  */
 
 // Posts a user log to the database
-router.post("/userLogRegistration", (req, res ) => {
+router.post("/userLogRegistration", authenticateToken, verifyRole([Role.ADMIN]), (req, res) => {
   UserLogService
     .addLog(
       req.body.id,
@@ -23,7 +25,7 @@ router.post("/userLogRegistration", (req, res ) => {
 });
 
 // Retrieves a user log from the user email
-router.get("/userLogs/:user_id", (req, res) => {
+router.get("/userLogs/:user_id", authenticateToken, verifyRole([Role.ADMIN]), (req, res) => {
   const email = req.params.email;
   UserLogService
     .getLog(email)
@@ -36,7 +38,7 @@ router.get("/userLogs/:user_id", (req, res) => {
 });
 
 // Retrieves all user logs
-router.get("/", (req, res) => {
+router.get("/", authenticateToken, verifyRole([Role.ADMIN]), (req, res) => {
   UserLogService
     .getAllLogs()
     .then((response) => {
@@ -46,7 +48,7 @@ router.get("/", (req, res) => {
       res.status(error.status).send(error.messages);
     });
 });
-  
+
 UserLogService.getUserLogService();
 
 export default router;

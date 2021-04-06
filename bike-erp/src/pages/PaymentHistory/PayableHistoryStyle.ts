@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 0,
     paddingBottom: 20,
     paddingLeft: 0,
-    paddingRight: 20
+    paddingRight: 20,
   },
   dataContainer: {
     marginBottom: 20,
@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: 1,
     borderColor: "black",
     borderStyle: "solid"
+  },
+  export: {
+    textAlign:"right"
   },
   tableHeader: {
     backgroundColor: "black",

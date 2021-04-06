@@ -20,7 +20,6 @@ describe("UserLogs", () => {
   // checks that user log page appears
   it("userlogs page should appear", () => {
     const data = wrapper.find("#userLogsPage");
-    console.log(wrapper);
     expect(data.length).toBe(1);
   });
 

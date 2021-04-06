@@ -55,7 +55,7 @@ const SideBarMenu = ({ account }: any) => {
           </Link>
         }
         {
-          (account.account.role === "ADMIN" || account.account.role === "MANAGER")
+          (account.account.role === "ADMIN" || account.account.role === "MANAGER" || account.account.role === "EMPLOYEE")
           && <Link to="/accountPayable" style={{ textDecoration: 'none' }}>
             <ListItem className={styles.menuItems}>
               <Typography>Account Payable</Typography>
