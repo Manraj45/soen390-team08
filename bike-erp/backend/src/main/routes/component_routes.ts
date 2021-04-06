@@ -32,12 +32,12 @@ router.get("/componentTypes", (req, res) => {
 });
 
 router.post("/addComponent", (req, res) => {
-  inventoryManagementService.addComponent(req.body.price, req.body.quantity, req.body.component_type, req.body.component_status, req.body.size, req.body.specific_component_type, req.body.location_name)
+  inventoryManagementService.addComponent(req.body.price, req.body.quantity, req.body.component_type, req.body.component_status, req.body.size, req.body.specificComponentType, req.body.location_name)
   .then((response) => {
     res.json(response);
   })
   .catch((error) => {
-    res.status(400).send(error);
+    res.status(error.status).send(error);
   })
 })
 

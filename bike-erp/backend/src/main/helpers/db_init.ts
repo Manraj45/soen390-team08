@@ -28,7 +28,7 @@ export const initialize_db = (): void => {
         component_type ENUM('FRAME','WHEEL', 'SEAT','DRIVE_TRAIN', 'HANDLE') NOT NULL,
         component_status ENUM('AVAILABLE','UNAVAILABLE','INCOMING') NOT NULL,
         size ENUM('LARGE','MEDIUM','SMALL') NOT NULL,
-        specific_component_type TINYTEXT NULL
+        specificComponentType TINYTEXT NULL
     );`;
 
   const createComponentLocation: string = `
