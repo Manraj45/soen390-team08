@@ -29,7 +29,6 @@ export class InventoryManagementService {
     return fetchComponent(id);
   };
 
-
   //Add component type
   public addComponent = (price: string, quantity: string, component_type: string, component_status: string, size: string, specificComponentType: string, location_name: string) => {
     return insertNewComponent(price, quantity, component_type, component_status, size, specificComponentType, location_name);
