@@ -119,6 +119,7 @@ export const fetchComponentTypes = (location: string, size: string) => {
   });
 };
 
+//insert component
 export const insertNewComponent = (price: string, quantity: string, component_type: string, component_status: string, size: string, specificComponentType: string, location_name: string) => {
   return new Promise((resolve, reject) => {
     const queryInsertComponent = "INSERT INTO component(price, quantity, component_type, component_status, size, specificComponentType) VALUES(?, ?, ?, ?, ?, ?);";
@@ -127,7 +128,8 @@ export const insertNewComponent = (price: string, quantity: string, component_ty
     const priceAsNum: number = Number(price);
     const qtyAsNum: number = Number(quantity);
 
-    if (price && quantity && component_type && component_status && size && specificComponentType && location_name) {
+    //check if all the inputs aren't empty and that it respects the regex
+    if (price && quantity && component_type && component_status && size && specificComponentType && location_name && !/^\s/.test(price) && !/^\s/.test(specificComponentType)) {
       if (isNaN(component_type as any) && isNaN(component_status as any) && isNaN(size as any)) {
       db.query(queryCheckForDuplicate, [component_type, size, specificComponentType, location_name], (err, rows) => {
       const results = JSON.parse(JSON.stringify(rows));
@@ -153,7 +155,7 @@ export const insertNewComponent = (price: string, quantity: string, component_ty
     };
   }
   else {
-    reject({ status: 404, message: "Missing parameters."});
+    reject({ status: 404, message: "Missing / Incorrect inputs."});
   }
   });
 };

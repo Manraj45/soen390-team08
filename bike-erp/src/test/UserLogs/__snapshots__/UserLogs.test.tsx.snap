@@ -12,50 +12,49 @@ exports[`UserLogs matches the snapshot 1`] = `
     User Logs
   </div>
   <br />
-  <table
-    className="MuiTable-root makeStyles-tableStyle-4"
-    role={null}
+  <div
+    className="MuiPaper-root makeStyles-place-7 MuiPaper-elevation1 MuiPaper-rounded"
   >
-    <thead
-      className="MuiTableHead-root makeStyles-tableHead-3"
+    <table
+      className="MuiTable-root makeStyles-tableStyle-4 MuiTable-stickyHeader"
       role={null}
     >
-      <tr
-        className="MuiTableRow-root makeStyles-topRow-6 MuiTableRow-head"
+      <thead
+        className="MuiTableHead-root makeStyles-tableHead-3"
         role={null}
       >
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head makeStyles-emptyCell-7 MuiTableCell-sizeSmall"
-          scope="col"
-        />
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
+        <tr
+          className="MuiTableRow-root MuiTableRow-head"
+          role={null}
         >
-          Time
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          User
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Activity
-        </th>
-      </tr>
-    </thead>
-    <tbody
-      className="MuiTableBody-root"
-      role={null}
-    />
-  </table>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            Time
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            User
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+            Activity
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        className="MuiTableBody-root"
+        role={null}
+      />
+    </table>
+  </div>
 </div>
 `;

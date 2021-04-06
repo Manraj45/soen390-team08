@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
     borderColor: "black",
     borderStyle: "solid",
   },
+  export: {
+    textAlign:"right"
+  },
   place: {
     maxHeight: "50px",
     maxWeidth: "50px",
