@@ -42,11 +42,8 @@ export class EmailService {
         console.log("Message sent: %s", info.messageId);
     }
 
-    private static getAllEmails(){
-      return this.emailDAO.fetchEmails();
-    }
-
-    public static getEmailsByService(service : string){
+    // currently not used, created in the event that we would need to send to multiple people
+    public static getAllEmails(){
       return this.emailDAO.fetchEmails();
     }
 }

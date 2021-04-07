@@ -3,10 +3,9 @@ import { EmailService } from "../services/emailService/emailService";
 
 const router = express();
 // retrieves a user log from the user email
-router.get("/emailFetching/:service", (req, res) => {
-    const service = req.params.service;
+router.get("/emailFetching", (req, res) => {
     EmailService
-      .getEmailsByService("")
+      .getAllEmails()
       .then((response) => {
         res.json(response);
       })
