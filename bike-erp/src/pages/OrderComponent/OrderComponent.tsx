@@ -9,6 +9,7 @@ import { connect } from "react-redux"
 import { addItem, Order } from "../../redux/actions/OrderListActions/orderListAction"
 import OrderSummary from "../../components/OrderSummary/OrderSummary"
 
+// Order Component used for ordering more components
 const OrderComponent = ({ addItem, orderList }) => {
     const URL = BACKEND_URL
 
@@ -44,8 +45,8 @@ const OrderComponent = ({ addItem, orderList }) => {
         ).then((response) => {
             setLocationList(response.data)
         }).catch(error => {
-            //handle error
-            console.log(error)
+            setSnackMessage(error.message);
+            setSnackOpen(true)
         })
     }, [URL, orderList.orderList])
 
@@ -61,8 +62,8 @@ const OrderComponent = ({ addItem, orderList }) => {
                     }).then(response => {
                         setComponentList(response.data)
                     }).catch(error => {
-                        //handle error after
-                        console.log(error)
+                        setSnackMessage(error.message);
+                        setSnackOpen(true)
                     })
             }
         }
@@ -77,11 +78,6 @@ const OrderComponent = ({ addItem, orderList }) => {
     const handleAddToCart = () => {
         axios.get(`${URL}/components/${selected}`).then(response => {
             const retrievedComponent = response.data[0]
-            // if (retrievedComponent.quantity <= 0) {
-            //     setSnackMessage("There are not enough parts in the inventory")
-            //     setSnackOpen(true)
-            //     return
-            // }
 
             if (!orderList.orderList.every((order: any) => checkForDuplicateItem(order, parseInt(selected)))) {
                 setSnackMessage("The bike with the parts you've chosen already exists");

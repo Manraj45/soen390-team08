@@ -55,6 +55,7 @@ export const fetchAllLocations = () => {
     })
   })
 }
+
 export const fetchComponentTypes = (location: string, size: string) => {
   return new Promise<Array<any>>((resolve, reject) => {
     //queries for each type of component

@@ -9,6 +9,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import axios from "axios"
 import { useEffect } from "react"
+
 const BikeOrderSummary = ({ bikeOrderList, removeBike, removeAllBikes, removeAllComponents, removeComponentSold }) => {
     const classes = useStyles()
     const url = BACKEND_URL
@@ -23,6 +24,7 @@ const BikeOrderSummary = ({ bikeOrderList, removeBike, removeAllBikes, removeAll
             }
         }
     }, [bikeOrderList.bikeOrderList])
+
     const removeBikeOrderFromCart = (bikeSold: BikeSold) => {
         removeComponentSold(bikeSold.drive_train_id);
         removeComponentSold(bikeSold.frame_id);
@@ -31,10 +33,12 @@ const BikeOrderSummary = ({ bikeOrderList, removeBike, removeAllBikes, removeAll
         removeComponentSold(bikeSold.wheel_id);
         removeBike(bikeSold);
     }
+
     const clearCart = () => {
         removeAllComponents();
         removeAllBikes();
     }
+
     const proceedToSell = () => {
         if (bikeOrderList.bikeOrderList.length > 0) {
             axios.post(`${url}/bike/createBikes`, {
@@ -82,6 +86,7 @@ const BikeOrderSummary = ({ bikeOrderList, removeBike, removeAllBikes, removeAll
             </Grid>
         )
     }
+    
     return (
         <div className={classes.billingContainer}>
             <Grid container spacing={0}>

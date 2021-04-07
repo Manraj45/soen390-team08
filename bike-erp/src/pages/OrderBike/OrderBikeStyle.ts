@@ -1,7 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-
     gridList: {
         display:"block",
         margin:"auto",
