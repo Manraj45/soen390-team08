@@ -9,7 +9,8 @@
     "dev": "nodemon src/main/app.ts",
     "authStart": "nodemon src/main/services/authenticationService/AuthServer.ts",
     "build": "tsc -p .",
-    "test": "jest src/test"
+    "test": "jest src/test",
+    "testCoverage": "jest src/test --coverage"
   },
   "proxy": "http://localhost:3000",
   "author": "",
