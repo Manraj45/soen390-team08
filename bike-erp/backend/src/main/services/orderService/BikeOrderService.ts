@@ -1,6 +1,7 @@
 import { BikeDao } from "../../dao/BikeDao";
 import { AccountingService } from "../accountingService/AccountingService";
 import { UserLogService } from "../userlogService/UserLogService";
+import { EmailService } from "../emailService/emailService"
 
 export class BikeOrderService {
   private static bikeOrderService: BikeOrderService | undefined;
@@ -76,7 +77,10 @@ export class BikeOrderService {
           return rejects({ status: 500, message: error.sqlMessage });
         }
       });
-       UserLogService.addLog(email, "Ordered a bike").catch((error)=> {});;
+
+      await EmailService.email(email, "Bike Order Confirmation", "You have sucessfully ordered a bike from Bike King Inc. Thank you for your purchase").catch((error)=>{ console.log("An error has occured sending the email")});
+
+      UserLogService.addLog(email, "Ordered a bike").catch((error)=> {});
       return resolve({ status: 201, message: "Bike was sold succesfully" });
     });
   };

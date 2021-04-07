@@ -5,6 +5,7 @@ import {
   fetchComponentLocation,
 } from "../../dao/ComponentDAO";
 import { AccountingService } from "../accountingService/AccountingService";
+import { EmailService } from "../emailService/emailService"
 
 export class InventoryManagementService {
 
@@ -60,6 +61,9 @@ export class InventoryManagementService {
           })
         })
         resolve({ status: 201, message: "Components have been ordered successfully" });
+        
+        // send email to confirm
+        await EmailService.email(userEmail, "Component Order Confirmation", "You have sucessfully ordered a component from Bike King Inc. Thank you for your purchase").catch((error)=>{ console.log("An error has occured sending the email")});
       })
 
       updateQuantityInDB.then(async () => {

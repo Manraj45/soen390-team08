@@ -17,44 +17,36 @@ export class EmailService {
       }
     }
     
-    // async..await is not allowed in global scope, must use a wrapper
-    public static async email(emailSubject : string, emailBody: string) {
-        // Generate test SMTP service account from ethereal.email
-        // Only needed if you don't have a real mail account for testing
-        let testAccount = await nodemailer.createTestAccount();
-    
+    public static async email(emailAddress:string, emailSubject : string, emailBody: string) {
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
+        host: "smtp.gmail.com",
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: testAccount.user, // generated ethereal user
-            pass: testAccount.pass, // generated ethereal password
+            user: 'bikekinginc@gmail.com',
+            pass: 'emailpassword_123',
         },
+        tls: {
+          rejectUnauthorized: false
+      }
         });
-    
+     
         // send mail with defined transport object
         let info = await transporter.sendMail({
-        from: '"Fred Foo 👻" <foo@example.com>', // sender address
-        to: "bar@example.com, baz@example.com", // list of receivers
+        from: 'bikekinginc@gmail.com', // sender address
+        to: emailAddress, // list of receivers "bar@example.com, baz@example.com"
         subject: emailSubject, // Subject line
         text: emailBody, // plain text body
         });
-    
         console.log("Message sent: %s", info.messageId);
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-    
-        // Preview only available when sending through an Ethereal account
-        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-        // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
     }
 
     private static getAllEmails(){
       return this.emailDAO.fetchEmails();
     }
 
-    private static stringifyEmails(){
-
+    public static getEmailsByService(service : string){
+      return this.emailDAO.fetchEmails();
     }
 }
