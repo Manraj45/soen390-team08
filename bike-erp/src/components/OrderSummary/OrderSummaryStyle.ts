@@ -25,9 +25,11 @@ const useStyles = makeStyles((theme) => ({
     },
     header:{
         textAlign:"center",
-        background:"#C4C4C4",
         padding:"10px",
         minWidth:"20px"
+    },
+    headerRow:{
+        background:"#C4C4C4"
     }
 })
 );

@@ -86,14 +86,14 @@ const BikeOrderSummary = ({ bikeOrderList, removeBike, removeAllBikes, removeAll
             </Grid>
         )
     }
-    
+
     return (
         <div className={classes.billingContainer}>
             <Grid container spacing={0}>
                 <Grid item xs={12}>
                     <Typography variant="h4" className={classes.title}>Billing</Typography>
                 </Grid>
-                <Grid item container xs={12}>
+                <Grid item container xs={12} className={classes.headerRow}>
                     <Grid item className={classes.header} xs={1}></Grid>
                     <Grid item xs={2}>
                         <Typography className={classes.header} variant="h6">Description</Typography>
