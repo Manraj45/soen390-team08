@@ -27,6 +27,7 @@ export class AccountingService {
   public static getAccountReceivableDAO() {
     return AccountingService.accountReceivableDAO;
   }
+
   // Method for handling the creating of a account payable
   public static async createAccountPayable(
     orderList: Array<Order>,
@@ -36,7 +37,7 @@ export class AccountingService {
 
     // Calculate total
     orderList.forEach((order) => {
-      total = total + order.price * order.quantity;
+      total = total + order.price * order.selectedQuantity;
     });
 
     try {
@@ -46,18 +47,20 @@ export class AccountingService {
         new Date().toISOString().slice(0, 19).replace("T", " "),
         email
       )) as number;
+
       // Create transaction item in db for each item in order list
       orderList.forEach(async (order) => {
         const transactionItemId = (await AccountingService.accountPayableDAO?.createTransactionItems(
-          order.price * order.quantity,
+          order.price * order.selectedQuantity,
           order.id,
-          order.quantity
+          order.selectedQuantity
         )) as number;
         await AccountingService.accountPayableDAO?.createConsistOf(
           accountPayableId,
           transactionItemId
         );
       });
+      
       UserLogService.addLog(email, "Created Account Payable").catch((error)=> {});
       return {
         status: 201,
@@ -78,7 +81,7 @@ export class AccountingService {
     let total = 0;
 
     bikeOrderList.forEach((order) => {
-      total = total + order.price;
+      total = total + order.price*order.quantity;
     });
 
     try {
@@ -150,4 +153,5 @@ export interface Order {
   quantity: number;
   info: string;
   price: number;
+  selectedQuantity:number
 }

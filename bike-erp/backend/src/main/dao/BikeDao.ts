@@ -13,18 +13,12 @@ export class BikeDao {
         return new Promise<any>((resolve, rejects) => {
             const insert =
                 "INSERT INTO `bike` (`price`, `size`, `color`, `bike_description`, `grade`, `quantity`) VALUES ('" +
-                price +
-                "', '" +
-                size +
-                "', '" +
-                color +
-                "', '" +
-                description +
-                "', '" +
-                grade +
-                "', '" +
-                quantity +
-                "');";
+                price + "', '"
+                + size + "', '"
+                + color + "', '"
+                + description + "', '"
+                + grade + "', '"
+                + quantity + "');";
             db.query(insert, (err, rows) => {
                 if (err) {
                     rejects(err);
@@ -47,18 +41,12 @@ export class BikeDao {
         return new Promise<any>((resolve, rejects) => {
             const insert =
                 "INSERT INTO `composed_of` (`bike_id`, `handle_id`, `wheel_id`, `frame_id`, `seat_id`, `drive_train_id`) VALUES ('" +
-                bike_id +
-                "', '" +
-                handle_id +
-                "', '" +
-                wheel_id +
-                "', '" +
-                frame_id +
-                "', '" +
-                seat_id +
-                "', '" +
-                drive_train_id +
-                "');";
+                bike_id + "', '"
+                + handle_id + "', '"
+                + wheel_id + "', '"
+                + frame_id + "', '"
+                + seat_id + "', '"
+                + drive_train_id + "');";
             db.query(insert, (err, rows) => {
                 if (err) {
                     rejects(err);

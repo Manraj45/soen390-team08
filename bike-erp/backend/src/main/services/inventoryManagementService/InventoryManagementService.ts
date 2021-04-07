@@ -3,23 +3,25 @@ import {
   fetchComponent,
   updateComponent,
   fetchComponentLocation,
+  fetchComponentTypes,
+  fetchAllLocations,
+  insertNewComponent,
 } from "../../dao/ComponentDAO";
 import { AccountingService } from "../accountingService/AccountingService";
 import { EmailService } from "../emailService/emailService";
 
 export class InventoryManagementService {
-
   private static accountingService: AccountingService | undefined;
 
   public constructor() {
     AccountingService.getAccountingService();
   }
-  // retrieve all components from stored in the table
+  // Retrieve all components from stored in the table
   public getAllComponents = () => {
     return fetchAllComponents();
   };
 
-  // retrieve components identified with a unique id
+  // Retrieve components identified with a unique id
   public getComponent = (id: string) => {
     const idAsNum: number = Number(id);
     if (isNaN(idAsNum) || idAsNum < 0) {
@@ -29,7 +31,12 @@ export class InventoryManagementService {
     return fetchComponent(id);
   };
 
-  // edit the quantity of a specific component identified by a unique id number
+  //Add component type
+  public addComponent = (price: string, quantity: string, component_type: string, component_status: string, size: string, specificComponentType: string, location_name: string) => {
+    return insertNewComponent(price, quantity, component_type, component_status, size, specificComponentType, location_name);
+  }
+
+  // Edit the quantity of a specific component identified by a unique id number
   public editComponent = (id: string, quantity: string) => {
     const idAsNum: number = Number(id);
     const qtyAsNum: number = Number(quantity);
@@ -39,24 +46,27 @@ export class InventoryManagementService {
     return updateComponent(id, quantity);
   };
 
-  //edit component quantity when used to build a bike that was sold
+  // Edit component quantity when used to build a bike that was sold
   public editComponentQuantitySale = (componentSaleList: Array<any>) => {
     return new Promise((resolve, rejects) => {
-      componentSaleList.forEach(component => {
-          this.editComponent(component.id, component.quantity).catch(error => {
-            rejects(error);
-          })
-        })
-        resolve({ status: 201, message: "Components have been sold succesfully" });
-    })
-  }
+      componentSaleList.forEach((component) => {
+        this.editComponent(component.id, component.quantity).catch((error) => {
+          rejects(error);
+        });
+      });
+      resolve({
+        status: 201,
+        message: "Components have been sold succesfully",
+      });
+    });
+  };
 
-  // edits the quantity of components based on order list provided
+  // Edits the quantity of components based on order list provided
   public orderComponents = (orderList: Array<any>, userEmail: string) => {
     return new Promise((resolve, rejects) => {
       const updateQuantityInDB = new Promise(async (resolve, rejects) => {
-        orderList.forEach(order => {
-          this.editComponent(order.id, order.quantity).catch(error => {
+        orderList.forEach((order) => {
+          this.editComponent(order.id, order.quantity + order.selectedQuantity).catch((error) => {
             rejects(error);
           })
         })
@@ -67,16 +77,24 @@ export class InventoryManagementService {
         resolve({ status: 201, message: "Components have been ordered successfully" });
       })
 
-      updateQuantityInDB.then(async () => {
-        const response = await AccountingService.createAccountPayable(orderList, userEmail);
-        resolve(response);
-      }).catch(error => {
-        rejects(error);
-      })
-    })
-  }
+          });
+        });
 
-  // get the location of a component identified by a unique id
+      updateQuantityInDB
+        .then(async () => {
+          const response = await AccountingService.createAccountPayable(
+            orderList,
+            userEmail
+          );
+          resolve(response);
+        })
+        .catch((error) => {
+          rejects(error);
+        });
+    });
+  };
+
+  // Get the location of a component identified by a unique id
   public getComponentLocation = (id: string) => {
     const idAsNum: number = Number(id);
 
@@ -86,4 +104,13 @@ export class InventoryManagementService {
 
     return fetchComponentLocation(id);
   };
+
+  //Get all the types of components
+  public getComponentTypes = (location: string, size: string) => {
+    return fetchComponentTypes(location, size);
+  };
+
+  public getAllLocations = ()=>{
+    return fetchAllLocations();
+  }
 }
