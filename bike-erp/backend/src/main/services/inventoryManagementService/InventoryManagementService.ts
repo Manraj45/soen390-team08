@@ -76,10 +76,7 @@ export class InventoryManagementService {
         
         resolve({ status: 201, message: "Components have been ordered successfully" });
       })
-
-          });
-        });
-
+      
       updateQuantityInDB
         .then(async () => {
           const response = await AccountingService.createAccountPayable(

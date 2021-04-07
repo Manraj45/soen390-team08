@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { EmailDAO } from "../../dao/EmailDAO"
+import { EmailDAO } from "../../dao/EmailDAO";
 
 export class EmailService {
 
