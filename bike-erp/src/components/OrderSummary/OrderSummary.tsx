@@ -24,13 +24,11 @@ const OrderSummary = ({ orderList, removeItem, removeAllItems, updateQuantity }:
     };
 
     const clearCart = () => {
-        console.log(total)
         removeAllItems()
         setTotal(0)
     };
 
     useEffect(() => {
-        console.log(orderList.orderList)
         let cartTotal=0
         for(let i=0;i<orderList.orderList.length;i++){
             cartTotal = cartTotal + orderList.orderList[i].price * orderList.orderList[i].selectedQuantity
@@ -41,8 +39,6 @@ const OrderSummary = ({ orderList, removeItem, removeAllItems, updateQuantity }:
     }, [orderList.orderList])
 
     const ItemRow = ({ component }) => {
-
-        //const [quanitySelected, setQuantitySelected] = useState(component.selectedQuantity)
         const [componentId] = useState(component.id)
 
         return (

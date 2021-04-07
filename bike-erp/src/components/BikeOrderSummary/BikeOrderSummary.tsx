@@ -8,11 +8,21 @@ import useStyles from "./BikeOrderSummaryStyle"
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import axios from "axios"
+import { useEffect } from "react"
 const BikeOrderSummary = ({ bikeOrderList, removeBike, removeAllBikes, removeAllComponents, removeComponentSold }) => {
     const classes = useStyles()
     const url = BACKEND_URL
     const [total, setTotal] = useState(0)
 
+    useEffect(() => {
+        let cartTotal = 0
+        for (let i = 0; i < bikeOrderList.bikeOrderList.length; i++) {
+            cartTotal = cartTotal + bikeOrderList.bikeOrderList[i].price * bikeOrderList.bikeOrderList[i].quantity
+            if (bikeOrderList.bikeOrderList.length - 1 === i) {
+                setTotal(cartTotal)
+            }
+        }
+    }, [bikeOrderList.bikeOrderList])
     const removeBikeOrderFromCart = (bikeSold: BikeSold) => {
         removeComponentSold(bikeSold.drive_train_id);
         removeComponentSold(bikeSold.frame_id);
@@ -24,7 +34,7 @@ const BikeOrderSummary = ({ bikeOrderList, removeBike, removeAllBikes, removeAll
     const clearCart = () => {
         removeAllComponents();
         removeAllBikes();
-      }
+    }
     const proceedToSell = () => {
         if (bikeOrderList.bikeOrderList.length > 0) {
             axios.post(`${url}/bike/createBikes`, {
@@ -98,9 +108,17 @@ const BikeOrderSummary = ({ bikeOrderList, removeBike, removeAllBikes, removeAll
                         <ItemRow key={bike.description} bike={bike}></ItemRow>
                     ))
                 }
-                <Button onClick={proceedToSell}>Buy</Button>
+
 
             </Grid>
+            {
+                bikeOrderList.bikeOrderList.length !== 0 &&
+                <>
+                    <Typography variant="h6">Total: ${total}</Typography>
+                    <Button onClick={proceedToSell} variant="contained">Buy</Button>
+                    <Button variant="contained" onClick={removeAllComponents}>Clear Cart</Button>
+                </>
+            }
         </div>
     )
 }

@@ -33,8 +33,6 @@ const OrderBike = ({ bikeOrderList, addBike, addComponentSold }) => {
     const [componentList, setComponentList] = useState<any>(undefined)
 
     useEffect(() => {
-        console.log(bikeOrderList)
-        console.log("bob")
         axios.get(`${URL}/components/locations/all`,
         ).then((response) => {
             setLocationList(response.data)
@@ -78,7 +76,6 @@ const OrderBike = ({ bikeOrderList, addBike, addComponentSold }) => {
             return
         }
         else {
-            
             setQuantity(Math.round(quantity))
         }
     }
@@ -127,7 +124,6 @@ const OrderBike = ({ bikeOrderList, addBike, addComponentSold }) => {
                             size: selectSize
                         }
                     }).then(response => {
-                        console.log(response.data)
                         setComponentList(response.data)
                     }).catch(error => {
                         //handle error after
@@ -155,27 +151,22 @@ const OrderBike = ({ bikeOrderList, addBike, addComponentSold }) => {
     const handleAddToCart = async () => {
         const temp: any[] = [frame, saddle, handle, wheel, driveTrain]
         let pass = true
-        if (Number(bikeQuantity ) === 0) {
+        if (Number(bikeQuantity) === 0) {
             setSnackMessage("Please input a quantity")
             setSnackOpen(true)
             return
         }
 
-
         if (frame && saddle && handle && wheel && driveTrain && color && finish && grade && bikeQuantity > 0) {
             for (let i = 0; i < 5; i++) {
-                console.log(i)
                 const response = await axios.get(`${URL}/components/${temp[i]}`)
                 const retrievedComponent = response.data[0]
-                console.log(retrievedComponent)
-                if (retrievedComponent.quantity <= 0 || bikeQuantity > retrievedComponent.quantity ) {
+                if (retrievedComponent.quantity <= 0 || bikeQuantity > retrievedComponent.quantity) {
                     setSnackMessage("There are not enough parts in the inventory")
                     setSnackOpen(true)
                     pass = false
                     break;
                 }
-                //Known error to handle: handle duplicate
-
                 temp[i] = retrievedComponent
             }
 
@@ -188,8 +179,7 @@ const OrderBike = ({ bikeOrderList, addBike, addComponentSold }) => {
                     price: temp[0].price + temp[1].price + temp[2].price + temp[3].price + temp[4].price,
                     size: selectSize,
                     color: color,
-                    description: `${selectSize} ${color} ${temp[0].component_type} ${temp[0].specificComponentType} ${temp[1].component_type} ${temp[1].specificComponentType} ${temp[2].component_type} ${temp[2].specificComponentType} ${temp[3].component_type} ${temp[3].specificComponentType} ${temp[4].component_type} ${temp[4].specificComponentType}
-                    `,
+                    description: `${selectSize} ${color} ${temp[0].component_type} ${temp[0].specificComponentType} ${temp[1].component_type} ${temp[1].specificComponentType} ${temp[2].component_type} ${temp[2].specificComponentType} ${temp[3].component_type} ${temp[3].specificComponentType} ${temp[4].component_type} ${temp[4].specificComponentType}`,
                     grade: grade,
                     quantity: bikeQuantity,
                     frame_id: temp[0].component_id,
@@ -208,7 +198,7 @@ const OrderBike = ({ bikeOrderList, addBike, addComponentSold }) => {
     const ComponentRow = ({ componentType, componentList }) => {
 
         return (
-            <Grid container alignItems="center">
+            <Grid container alignItems="center">    
                 <Grid item xs={3}>
                     <Typography variant="h5">{componentType}</Typography>
                 </Grid>
@@ -241,7 +231,7 @@ const OrderBike = ({ bikeOrderList, addBike, addComponentSold }) => {
             <Grid container spacing={0}>
                 <Grid item xs={12}>
                     <Grid item xs={12}>
-                        <Typography variant="h2">
+                        <Typography variant="h2" className={classes.title}>
                             Order Bike
                         </Typography>
                     </Grid>
@@ -348,6 +338,7 @@ const OrderBike = ({ bikeOrderList, addBike, addComponentSold }) => {
                                 <TextField type="number" InputLabelProps={{
                                     shrink: true,
                                 }}
+                                    style={{ marginTop: "20px" }}
                                     variant="outlined" defaultValue={''} value={bikeQuantity} InputProps={{ inputProps: { min: 0, pattern: "[0-9]*" } }} onChange={handleTypeBikeQuantity}>
 
 

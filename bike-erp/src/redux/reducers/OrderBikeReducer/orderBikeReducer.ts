@@ -46,7 +46,7 @@ const reducer = (state = initialState, action: any) => {
     case REMOVE_ALL_COMPONENTS:
       return {
         error:"",
-        bikeOrderList: [...state.bikeOrderList],
+        bikeOrderList: [],
         componentOrderList: []
       };
     default:
