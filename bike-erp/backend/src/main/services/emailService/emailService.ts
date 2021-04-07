@@ -19,7 +19,7 @@ export class EmailService {
     
     public static async email(emailAddress:string, emailSubject : string, emailBody: string) {
         // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport({
+        const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 587,
         secure: false, // true for 465, false for other ports
@@ -33,7 +33,7 @@ export class EmailService {
         });
      
         // send mail with defined transport object
-        let info = await transporter.sendMail({
+        const info = await transporter.sendMail({
         from: 'bikekinginc@gmail.com', // sender address
         to: emailAddress, // list of receivers "bar@example.com, baz@example.com"
         subject: emailSubject, // Subject line
