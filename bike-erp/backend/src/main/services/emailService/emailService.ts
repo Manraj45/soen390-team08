@@ -30,10 +30,10 @@ export class EmailService {
         tls: {
           rejectUnauthorized: false
         }
-    });
+       });
      
         // send mail with defined transport object
-        const info = await transporter.sendMail({
+        await transporter.sendMail({
         from: 'bikekinginc@gmail.com', // sender address
         to: emailAddress, // list of receivers "bar@example.com, baz@example.com"
         subject: emailSubject, // Subject line
