@@ -6,7 +6,6 @@ const useStyles = makeStyles((theme) => ({
         display:"block",
         margin:"auto",
         width:"100%"
-        // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     },
 
     grid:{

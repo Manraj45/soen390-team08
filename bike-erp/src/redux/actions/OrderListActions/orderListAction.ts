@@ -1,7 +1,5 @@
 import {
   ADD_ITEM,
-  DECREASE_QUANTITY,
-  INCREASE_QUANTITY,
   REMOVE_ALL_ITEMS,
   REMOVE_ITEM,
   UPDATE_QUANTITY
@@ -32,20 +30,6 @@ export const removeItem = (orderList) => {
 export const removeAllItem = () => {
   return {
     type: REMOVE_ALL_ITEMS
-  }
-}
-
-export const increaseQuantity = (orderList) => {
-  return {
-    type: INCREASE_QUANTITY,
-    payload: orderList
-  }
-}
-
-export const decreaseQuantity = (orderList)=>{
-  return{
-    type:DECREASE_QUANTITY,
-    payload:orderList
   }
 }
 

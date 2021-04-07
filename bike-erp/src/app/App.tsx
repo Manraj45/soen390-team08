@@ -17,12 +17,10 @@ import SideBarMenu from "../components/Menu/SideBarMenu/SideBarMenu";
 import IdleTimerContainer from "../components/IdleTimerContainer/IdleTimerContainer";
 import PermissionManagement from "../pages/PermissionManagement/PermissionManagement";
 import Inventory from "../pages/Inventory/Inventory";
-//import OrderComponent from "../pages/OrderService/OrderComponent/OrderComponent";
 import OrderComponent from "../pages/OrderComponent/OrderComponent";
 import UserLogs from "../pages/UserLogs/UserLogs";
 import PayableHistory from "../pages/PaymentHistory/PayableHistory";
 import ReceivableHistory from "../pages/PaymentHistory/ReceivableHistory";
-//import OrderBike from "../pages/OrderService/OrderBike/OrderBike"
 import OrderBike from "../pages/OrderBike/OrderBike"
 import CustomComponent from "../pages/CustomComponent/CustomComponent";
 
@@ -146,12 +144,6 @@ const App = ({ account, isAuthenticated }: any) => {
                   : <Redirect to="/login" />
               }
             />
-            <Route path="/test" render={() => account.loading
-              ? <></>
-              : account.authenticated
-                ? <OrderBike></OrderBike>
-                : <Redirect to="/login" />
-            } />
             <Route path="/addComponent"
               render={() => account.loading
                 ? <></>
