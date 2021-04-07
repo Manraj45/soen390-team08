@@ -29,8 +29,8 @@ export class EmailService {
         },
         tls: {
           rejectUnauthorized: false
-      }
-        });
+        }
+    });
      
         // send mail with defined transport object
         const info = await transporter.sendMail({
