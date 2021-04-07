@@ -39,7 +39,6 @@ export class EmailService {
         subject: emailSubject, // Subject line
         text: emailBody, // plain text body
         });
-        console.log("Message sent: %s", info.messageId);
     }
 
     // currently not used, created in the event that we would need to send to multiple people
