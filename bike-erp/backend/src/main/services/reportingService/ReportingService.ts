@@ -35,7 +35,7 @@ export class ReportingService {
         }
     }
 
-    public static async getSalesReportCSVInfo(email: string, startDate: string, endDate: string) {
+    public static async getSalesReportCSVInfo(email: string, startDate: string, endDate: string, myDataOnly: boolean) {
         try {
             ReportingService.validateDates(startDate, endDate);
         }
@@ -47,8 +47,9 @@ export class ReportingService {
 
         return new Promise(async (resolve, rejects) => {
             try {
+
                 // Fetching the information from the database
-                const reportInfo = await ReportingService.getReportDAO()?.fetchSalesReportInfoCSV(startDate, endDate);
+                const reportInfo = await ReportingService.getReportDAO()?.fetchSalesReportInfoCSV(email, startDate, endDate, myDataOnly);
 
                 if (reportInfo === undefined || reportInfo.length === 0) {
                     throw { status: 404, sqlMessage: "There are no records for the dates provided." }
@@ -64,7 +65,7 @@ export class ReportingService {
         });
     }
 
-    public static async getExpensesReportCSVInfo(email: string, startDate: string, endDate: string) {
+    public static async getExpensesReportCSVInfo(email: string, startDate: string, endDate: string, myDataOnly: boolean) {
         try {
             ReportingService.validateDates(startDate, endDate);
         }
@@ -76,8 +77,9 @@ export class ReportingService {
 
         return new Promise(async (resolve, rejects) => {
             try {
-                // Fetching the information from the database
-                const reportInfo = await ReportingService.getReportDAO()?.fetchExpensesReportInfoCSV(startDate, endDate);
+
+                // Fetching the information from the database for all users
+                const reportInfo = await ReportingService.getReportDAO()?.fetchExpensesReportInfoCSV(email, startDate, endDate, myDataOnly);
 
                 if (reportInfo === undefined || reportInfo.length === 0) {
                     throw { status: 404, sqlMessage: "There are no records for the dates provided." }

@@ -81,7 +81,7 @@ export class AccountingService {
     let total = 0;
 
     bikeOrderList.forEach((order) => {
-      total = total + order.price;
+      total = total + order.price*order.quantity;
     });
 
     try {

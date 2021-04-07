@@ -24,6 +24,8 @@ import PayableHistory from "../pages/PaymentHistory/PayableHistory";
 import ReceivableHistory from "../pages/PaymentHistory/ReceivableHistory";
 //import OrderBike from "../pages/OrderService/OrderBike/OrderBike"
 import OrderBike from "../pages/OrderBike/OrderBike"
+import CustomComponent from "../pages/CustomComponent/CustomComponent";
+
 // STYLING
 import { Box } from "@material-ui/core";
 import "./App.css";
@@ -150,6 +152,16 @@ const App = ({ account, isAuthenticated }: any) => {
                 ? <OrderBike></OrderBike>
                 : <Redirect to="/login" />
             } />
+            <Route path="/addComponent"
+              render={() => account.loading
+                ? <></>
+                : account.authenticated
+                  && (account.account.role === "ADMIN"
+                    || account.account.role === "MANAGER")
+                  ? <CustomComponent />
+                  : <Redirect to="/login" />
+              }
+            />
             <Route exact path="*" render={() => <Redirect to="/" />} />
           </Switch>
         </Box>

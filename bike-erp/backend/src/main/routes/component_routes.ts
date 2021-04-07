@@ -28,10 +28,19 @@ router.get("/componentTypes", authenticateToken, verifyRole([Role.ADMIN, Role.MA
       res.json(response);
     })
     .catch((error) => {
-      console.log(error)
-      res.status(error.status).send(error.message);
+      res.status(400).send(error);
     });
 });
+
+router.post("/addComponent", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER]), (req, res) => {
+  inventoryManagementService.addComponent(req.body.price, req.body.quantity, req.body.component_type, req.body.component_status, req.body.size, req.body.specificComponentType, req.body.location_name)
+  .then((response) => {
+    res.json(response);
+  })
+  .catch((error) => {
+    res.status(error.status).send(error);
+  })
+})
 
 router.get("/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   inventoryManagementService
@@ -40,7 +49,7 @@ router.get("/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MAN
       res.json(response);
     })
     .catch((error) => {
-      res.status(error.status).send(error.messages);
+      res.status(error.status).send(error.message);
     });
 });
 
