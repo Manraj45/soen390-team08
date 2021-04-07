@@ -22,11 +22,12 @@ import OrderComponent from "../pages/OrderComponent/OrderComponent";
 import UserLogs from "../pages/UserLogs/UserLogs";
 import PayableHistory from "../pages/PaymentHistory/PayableHistory";
 import ReceivableHistory from "../pages/PaymentHistory/ReceivableHistory";
-import OrderBike from "../pages/OrderService/OrderBike/OrderBike"
+//import OrderBike from "../pages/OrderService/OrderBike/OrderBike"
+import OrderBike from "../pages/OrderBike/OrderBike"
 // STYLING
 import { Box } from "@material-ui/core";
 import "./App.css";
-
+  
 const App = ({ account, isAuthenticated }: any) => {
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);

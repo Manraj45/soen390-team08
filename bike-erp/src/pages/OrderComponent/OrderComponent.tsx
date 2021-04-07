@@ -35,7 +35,7 @@ const OrderComponent = ({ addItem, orderList }) => {
     const [snackMessage, setSnackMessage] = useState("");
     const handleClose = () => {
         setSnackOpen(false);
-      };
+    };
 
     const classes = useStyles()
 
@@ -77,11 +77,11 @@ const OrderComponent = ({ addItem, orderList }) => {
     const handleAddToCart = () => {
         axios.get(`${URL}/components/${selected}`).then(response => {
             const retrievedComponent = response.data[0]
-            if (retrievedComponent.quantity <= 0) {
-                setSnackMessage("There are not enough parts in the inventory")
-                setSnackOpen(true)
-                return
-            }
+            // if (retrievedComponent.quantity <= 0) {
+            //     setSnackMessage("There are not enough parts in the inventory")
+            //     setSnackOpen(true)
+            //     return
+            // }
 
             if (!orderList.orderList.every((order: any) => checkForDuplicateItem(order, parseInt(selected)))) {
                 setSnackMessage("The bike with the parts you've chosen already exists");
@@ -144,13 +144,13 @@ const OrderComponent = ({ addItem, orderList }) => {
     return (
         <div>
             <Grid container spacing={0}>
-            <Grid item xs={12}>
+                <Grid item xs={12}>
                     <Typography variant="h2" className={classes.title}>
-                         Order Component
+                        Order Component
                     </Typography>
-                   </Grid>
-                <Grid item xs={12} md={7} container style={{height:"100%"}}>
-                    
+                </Grid>
+                <Grid item xs={12} md={7} container style={{ height: "100%" }}>
+
                     {/* Inventory Location */}
                     <Grid item container xs={12} alignItems="center" style={{ marginBottom: "20px" }}>
                         <Grid item xs={3}>

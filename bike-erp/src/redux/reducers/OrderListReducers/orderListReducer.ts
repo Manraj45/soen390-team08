@@ -5,8 +5,6 @@ import {
   REMOVE_ITEM
 } from "../../types/OrderListTypes/orderListTypes";
 
-import { Order } from "../../actions/OrderListActions/orderListAction";
-
 const initialState = {
     error: "",
     orderList: []
@@ -30,12 +28,11 @@ const reducer = (state = initialState, action: any) => {
         error: "",
         orderList: []
       };
-    case UPDATE_QUANTITY:{
+    case UPDATE_QUANTITY:
       return{
         ...state,
         orderList: action.payload
-      }
-    };
+      };
     default:
       return state;
   }

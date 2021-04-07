@@ -1,7 +1,7 @@
 import { Grid, Typography, Button } from "@material-ui/core"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
-import { removeItem, removeAllItem, Order, changeQuantity, deleteItemFromCart } from "../../redux/actions/OrderListActions/orderListAction"
+import { removeAllItem, changeQuantity, deleteItemFromCart } from "../../redux/actions/OrderListActions/orderListAction"
 import useStyles from "./OrderSummaryStyle"
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -19,19 +19,25 @@ const OrderSummary = ({ orderList, removeItem, removeAllItems, updateQuantity }:
             axios.put(`${url}/components/orderComponents`, {
                 orderList: orderList
             })
-            clearCart();
+            clearCart()
         }
     };
 
     const clearCart = () => {
+        console.log(total)
         removeAllItems()
+        setTotal(0)
     };
 
     useEffect(() => {
-        orderList.orderList.forEach(component => {
-            console.log(component)
-            setTotal(total => total + component.price * component.selectedQuantity)
-        })
+        console.log(orderList.orderList)
+        let cartTotal=0
+        for(let i=0;i<orderList.orderList.length;i++){
+            cartTotal = cartTotal + orderList.orderList[i].price * orderList.orderList[i].selectedQuantity
+            if(orderList.orderList.length-1===i){
+                setTotal(cartTotal)
+            }
+        }
     }, [orderList.orderList])
 
     const ItemRow = ({ component }) => {
@@ -64,10 +70,8 @@ const OrderSummary = ({ orderList, removeItem, removeAllItems, updateQuantity }:
 
                     <Grid item xs={4}>
                         <Button onClick={() => {
-                            if (!(component.selectedQuantity + 1 > component.quantity)) {
-                                setTotal(total => total + component.price)
-                                updateQuantity(orderList.orderList, componentId, component.selectedQuantity + 1)
-                            }
+                            setTotal(total => total + component.price)
+                            updateQuantity(orderList.orderList, componentId, component.selectedQuantity + 1)
                         }}>
                             <AddIcon />
                         </Button>
