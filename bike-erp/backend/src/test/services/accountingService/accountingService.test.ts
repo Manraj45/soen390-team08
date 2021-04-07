@@ -2,17 +2,14 @@ import { AccountPayableDAO } from "../../../main/dao/AccountPayableDAO";
 import { AccountReceivableDAO } from "../../../main/dao/AccountReceivableDAO";
 import db from "../../../main/helpers/db";
 import { BikeOrder } from "../../../main/models/interfaces/BikeOrder";
-import {
-  AccountingService,
-  Order,
-} from "../../../main/services/accountingService/AccountingService";
+import { AccountingService, Order } from "../../../main/services/accountingService/AccountingService";
 
 // Tests for Accounting Service
 describe("Accounting Service Test", () => {
   // Mock order list
   const orderList: Order[] = [
-    { id: 1, quantity: 20, info: "Test Component 1", price: 50 },
-    { id: 2, quantity: 30, info: "Test Component 2", price: 40 },
+    { id: 1, quantity: 20, info: "Test Component 1", price: 50, selectedQuantity: 20 },
+    { id: 2, quantity: 30, info: "Test Component 2", price: 40, selectedQuantity: 20 },
   ];
 
   // Mock account payable list

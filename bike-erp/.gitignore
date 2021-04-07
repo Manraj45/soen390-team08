@@ -22,6 +22,7 @@
 
 #vscodeSettings
 /.vscode
+/.vs
 
 npm-debug.log*
 yarn-debug.log*
