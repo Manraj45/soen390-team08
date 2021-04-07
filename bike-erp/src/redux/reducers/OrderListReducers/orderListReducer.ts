@@ -1,10 +1,9 @@
 import {
   ADD_ITEM,
+  UPDATE_QUANTITY,
   REMOVE_ALL_ITEMS,
   REMOVE_ITEM
 } from "../../types/OrderListTypes/orderListTypes";
-
-import { Order } from "../../actions/OrderListActions/orderListAction";
 
 const initialState = {
     error: "",
@@ -22,12 +21,17 @@ const reducer = (state = initialState, action: any) => {
     case REMOVE_ITEM:
       return {
         ...state,
-        orderList: state.orderList.filter((order: Order) => order.id !== action.payload)
+        orderList: action.payload
       };
     case REMOVE_ALL_ITEMS:
       return {
         error: "",
         orderList: []
+      };
+    case UPDATE_QUANTITY:
+      return{
+        ...state,
+        orderList: action.payload
       };
     default:
       return state;
