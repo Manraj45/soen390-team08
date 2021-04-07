@@ -53,7 +53,7 @@ export class AccountingService {
         const transactionItemId = (await AccountingService.accountPayableDAO?.createTransactionItems(
           order.price * order.selectedQuantity,
           order.id,
-          order.quantity
+          order.selectedQuantity
         )) as number;
         await AccountingService.accountPayableDAO?.createConsistOf(
           accountPayableId,

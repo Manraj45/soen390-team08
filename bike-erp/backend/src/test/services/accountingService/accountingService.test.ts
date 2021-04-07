@@ -8,8 +8,8 @@ import { AccountingService, Order } from "../../../main/services/accountingServi
 describe("Accounting Service Test", () => {
   // Mock order list
   const orderList: Order[] = [
-    { id: 1, quantity: 20, info: "Test Component 1", price: 50 },
-    { id: 2, quantity: 30, info: "Test Component 2", price: 40 },
+    { id: 1, quantity: 20, info: "Test Component 1", price: 50, selectedQuantity:20},
+    { id: 2, quantity: 30, info: "Test Component 2", price: 40, selectedQuantity:20 },
   ];
 
   // Mock account payable list
