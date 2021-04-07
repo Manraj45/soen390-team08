@@ -31,6 +31,14 @@ const SideBarMenu = ({ account }: any) => {
           </Link>
         }
         {
+          (account.account.role === "ADMIN" || account.account.role === "MANAGER")
+          && <Link to="/addComponent" style={{ textDecoration: "none" }}>
+            <ListItem className={styles.menuItems}>
+              <Typography>Add Component</Typography>
+            </ListItem>
+          </Link>
+        }
+        {
           (account.account.role === "ADMIN" || account.account.role === "MANAGER" || account.account.role === "EMPLOYEE")
           && <Link to="/inventory" style={{ textDecoration: "none" }}>
             <ListItem className={styles.menuItems}>
@@ -66,14 +74,6 @@ const SideBarMenu = ({ account }: any) => {
           <Link to="/accountReceivable" style={{ textDecoration: 'none' }}>
             <ListItem className={styles.menuItems}>
               <Typography>Account Receivable</Typography>
-            </ListItem>
-          </Link>
-        }
-        {
-          (account.account.role === "ADMIN" || account.account.role === "MANAGER")
-          && <Link to="/addComponent" style={{ textDecoration: "none" }}>
-            <ListItem className={styles.menuItems}>
-              <Typography>Add Component</Typography>
             </ListItem>
           </Link>
         }

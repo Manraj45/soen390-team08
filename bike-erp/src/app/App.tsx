@@ -17,17 +17,17 @@ import SideBarMenu from "../components/Menu/SideBarMenu/SideBarMenu";
 import IdleTimerContainer from "../components/IdleTimerContainer/IdleTimerContainer";
 import PermissionManagement from "../pages/PermissionManagement/PermissionManagement";
 import Inventory from "../pages/Inventory/Inventory";
-import OrderComponent from "../pages/OrderService/OrderComponent/OrderComponent";
-import OrderBike from "../pages/OrderService/OrderBike/OrderBike";
+import OrderComponent from "../pages/OrderComponent/OrderComponent";
 import UserLogs from "../pages/UserLogs/UserLogs";
 import PayableHistory from "../pages/PaymentHistory/PayableHistory";
 import ReceivableHistory from "../pages/PaymentHistory/ReceivableHistory";
+import OrderBike from "../pages/OrderBike/OrderBike"
 import CustomComponent from "../pages/CustomComponent/CustomComponent";
 
 // STYLING
 import { Box } from "@material-ui/core";
 import "./App.css";
-
+  
 const App = ({ account, isAuthenticated }: any) => {
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -36,7 +36,7 @@ const App = ({ account, isAuthenticated }: any) => {
     if (localStorageService.getAccessToken()) {
       localStorageService.setBearerToken();
     }
-    isAuthenticated();
+    isAuthenticated();  
   }, [account.authenticated, isAuthenticated, account.loading]);
 
   axios.interceptors.response.use(

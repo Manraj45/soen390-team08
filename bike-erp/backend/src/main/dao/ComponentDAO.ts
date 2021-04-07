@@ -46,6 +46,16 @@ export const fetchComponentLocation = (id: string) => {
   });
 };
 
+export const fetchAllLocations = () => {
+  return new Promise((resolve, reject) => {
+    const query = "select distinct location_name from component_location"
+    db.query(query, (err, rows) => {
+      if (err) return reject(err);
+      resolve(JSON.parse(JSON.stringify(rows)))
+    })
+  })
+}
+
 export const fetchComponentTypes = (location: string, size: string) => {
   return new Promise<Array<any>>((resolve, reject) => {
     //queries for each type of component
