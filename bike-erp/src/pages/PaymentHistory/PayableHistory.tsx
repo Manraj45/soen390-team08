@@ -10,6 +10,7 @@ import { BACKEND_URL } from "../../core/utils/config";
 import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, Box } from "@material-ui/core";
 import useStyles from "./PayableHistoryStyle";
 import DataExport from "../../components/DataExport/DataExport";
+
 /*
   This page pertains to the accounts payable.
   This page is accessible to companies to track their expenses relative to ordering components.

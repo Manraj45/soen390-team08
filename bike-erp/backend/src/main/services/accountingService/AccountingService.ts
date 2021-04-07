@@ -119,11 +119,9 @@ export class AccountingService {
     });
   }
 
-  // Method for getting bikes based on the account receivable
-  public static getBikesByAccountReceivable(accountReceivableId: number) {
-    return AccountingService.accountReceivableDAO?.fetchBikesByAccountReceivableId(
-      accountReceivableId
-    );
+  // Method for getting bikes based on the account receivable id
+  public static getBikesByAccountReceivableId(accountReceivableId: number) {
+    return AccountingService.accountReceivableDAO?.fetchBikesByAccountReceivableId(accountReceivableId);
   }
 
   // Method for getting account payables based on user who request it
@@ -142,10 +140,8 @@ export class AccountingService {
   }
 
   // Method for getting transaction items based on the account receivable
-  public static getTransactionItemsByAccountPayable(accountPayableId: number) {
-    return AccountingService.accountPayableDAO?.getTransactionByAccountPayableID(
-      accountPayableId
-    );
+  public static getTransactionItemsByAccountPayableId(accountPayableId: number) {
+    return AccountingService.accountPayableDAO?.getTransactionByAccountPayableID(accountPayableId);
   }
 }
 export interface Order {

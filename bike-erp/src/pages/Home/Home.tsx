@@ -2,6 +2,10 @@
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/AccountActions/accountAction";
 
+// SERVICES
+import RecentPayableTransactions from "../../components/RecentPurchases/RecentPayableTransactions";
+import RecentReceivableTransactions from "../../components/RecentPurchases/RecentReceivableTransactions";
+
 // STYLING
 import { Button, Typography } from "@material-ui/core";
 
@@ -12,9 +16,10 @@ const Home = (props: any) => {
   return (
     <div>
       <Typography variant="h1">Welcome</Typography>
-      <Button variant="contained" color="primary" onClick={props.logout}>
-        Logout
-      </Button>
+      <div className="recentTransactions" style={{ display: "flex", maxWidth: 800, justifyContent: "space-evenly" }}>
+        <RecentPayableTransactions />
+        <RecentReceivableTransactions />
+      </div>
     </div>
   );
 };

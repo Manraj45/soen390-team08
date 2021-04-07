@@ -37,7 +37,7 @@ router.get(
     if (!Number.isInteger(id)) {
       res.status(400).send({ message: "Invalid Account Payable ID" });
     } else {
-      AccountingService.getTransactionItemsByAccountPayable(id)
+      AccountingService.getTransactionItemsByAccountPayableId(id)
         ?.then((response) => {
           res.json(response);
         })
@@ -67,7 +67,7 @@ router.get("/accountReceivables/:id/bikes", authenticateToken, (req, res) => {
   if (!Number.isInteger(id)) {
     res.status(400).send({ message: "Invalid Account Receivable ID" });
   } else {
-    AccountingService.getBikesByAccountReceivable(id)
+    AccountingService.getBikesByAccountReceivableId(id)
       ?.then((response) => {
         res.json(response);
       })
