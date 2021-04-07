@@ -14,7 +14,7 @@ import accountingRouter from "./routes/accouting_routes";
 import bikeRouter from "./routes/bike_routes";
 import userLogsRouter from "./routes/user_logs_routes";
 import emailRouter from "./routes/email_routes";
-
+import triggersRouter from "./routes/triggers_routes";
 // Configure dotenv
 dotenv.config();
 
@@ -35,6 +35,7 @@ app.use("/finance", accountingRouter);
 app.use("/bike", bikeRouter);
 app.use("/userlogs", userLogsRouter);
 app.use("/email", emailRouter)
+app.use("/triggers", triggersRouter);
 
 const port = process.env.PORT || BACKEND_PORT;
 app.listen(port, () => console.log(`Server started on port ${port}`));
