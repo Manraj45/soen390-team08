@@ -6,9 +6,9 @@ export class AccountReceivableDAO {
     // Insert a new row to database (account receivable)
     public createAccountReceivable(total: number, payableDate: string, email: string): Promise<number> {
         return new Promise((resolve, reject) => {
-            const query = `insert into account_receivable (email,total, payable_date)
-            values ('${email}', ${total}, '${payableDate}')`;
-
+            const query = `
+                INSERT INTO account_receivable (email,total, payable_date)
+                VALUES ('${email}', ${total}, '${payableDate}')`;
             db.query(query, (err, rows) => {
                 if (err) return reject(err);
                 resolve(JSON.parse(JSON.stringify(rows)).insertId);
@@ -19,8 +19,9 @@ export class AccountReceivableDAO {
     // Insert a new row to database (bike_in_account_receivable)
     public createBikeInAccountReceivable(accountReceivableId: number, bikeId: number) {
         return new Promise((resolve, reject) => {
-            const query = `insert into bike_in_account_receivable (account_receivable_id, bike_id)
-            values ('${accountReceivableId}',${bikeId})`;
+            const query = `
+                INSERT INTO bike_in_account_receivable (account_receivable_id, bike_id)
+                VALUES ('${accountReceivableId}',${bikeId})`;
             db.query(query, (err, rows) => {
                 if (err) return reject(err);
                 resolve(true);
@@ -28,10 +29,13 @@ export class AccountReceivableDAO {
         })
     }
 
-    // select all account receivable based on email
+    // Select all account receivable based on email
     public fetchAllAccountReceivableByUser(email: string) {
         return new Promise((resolve, reject) => {
-            const query = `select * from account_receivable where email='${email}'`
+            const query = `
+                SELECT *
+                FROM account_receivable
+                WHERE email='${email}'`
             db.query(query, (err, rows) => {
                 if (err) return reject(err);
                 resolve(JSON.parse(JSON.stringify(rows)));
@@ -39,24 +43,21 @@ export class AccountReceivableDAO {
         })
     }
 
-    // select all bikes based on account receivables
+    // Select all bikes based on account receivable id
     public fetchBikesByAccountReceivableId(account_receivable_id: number) {
         return new Promise((resolve, reject) => {
             const query = `
-            SELECT bike.*  
-            FROM bike, bike_in_account_receivable 
-            WHERE bike_in_account_receivable.account_receivable_id = ${account_receivable_id} and bike.bike_id = bike_in_account_receivable.bike_id;`
-
+                SELECT bike.*  
+                FROM bike, bike_in_account_receivable 
+                WHERE bike_in_account_receivable.account_receivable_id = ${account_receivable_id}
+                AND bike.bike_id = bike_in_account_receivable.bike_id;`;
             db.query(query, (err, rows) => {
                 if (err) return reject(err);
-
                 const response = JSON.parse(JSON.stringify(rows));
-
                 // If response is empty
                 if (response.length === 0) {
                     reject({ status: 400, message: "Account Receivable Not Found" });
                 }
-
                 resolve(response);
             })
         })

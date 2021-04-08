@@ -9,7 +9,8 @@
     "dev": "nodemon src/main/app.ts",
     "authStart": "nodemon src/main/services/authenticationService/AuthServer.ts",
     "build": "tsc -p .",
-    "test": "jest src/test"
+    "test": "jest src/test",
+    "testCoverage": "jest src/test --coverage"
   },
   "proxy": "http://localhost:3000",
   "author": "",
@@ -21,7 +22,8 @@
     "eslint": "^7.20.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mysql2": "^2.2.5"
+    "mysql2": "^2.2.5",
+    "nodemailer": "^6.5.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.9",

@@ -1,7 +1,10 @@
+// DEPENDENCIES
 import Enzyme, { shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import renderer from "react-test-renderer";
-import UserLogs from "../../components/UserLogs/UserLogs";
+
+// PAGES
+import UserLogs from "../../pages/UserLogs/UserLogs";
 
 /*Frontend test for user logs page*/
 
@@ -17,7 +20,6 @@ describe("UserLogs", () => {
   // checks that user log page appears
   it("userlogs page should appear", () => {
     const data = wrapper.find("#userLogsPage");
-    console.log(wrapper);
     expect(data.length).toBe(1);
   });
 

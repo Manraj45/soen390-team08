@@ -3,6 +3,7 @@ export class AccountPayable {
   private account_id: number;
   private payable_date: Date;
   private total: number;
+  
   constructor(
     account_payable_id: number,
     account_id: number,

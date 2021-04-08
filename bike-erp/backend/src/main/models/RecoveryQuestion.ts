@@ -6,5 +6,5 @@ export const recoveryQuestion = {
   5: "What is your pet name?",
   6: "What is your dad middle name?",
   7: "What is the model of your first car?",
-  8: "What is your mother madden name?",
+  8: "What is your mother maiden name?",
 };

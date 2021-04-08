@@ -1,8 +1,10 @@
+// DEPENDENCIES
 import Enzyme, { shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import * as React from "react";
 import renderer from "react-test-renderer";
-import Inventory from "../../components/Inventory/inventory";
+
+// PAGES
+import Inventory from "../../pages/Inventory/Inventory";
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -14,9 +16,7 @@ describe("Inventory", () => {
   });
 
   it("inventory page should appear", () => {
-    console.log(wrapper);
     const data = wrapper.find("#inventoryPageTest");
-    console.log(wrapper);
     expect(data.length).toBe(1);
   });
 

@@ -12,78 +12,280 @@ exports[`Inventory matches the snapshot 1`] = `
     Inventory
   </div>
   <br />
-  <table
-    className="MuiTable-root makeStyles-tableStyle-4"
-    role={null}
+  <div
+    className="MuiPaper-root makeStyles-place-7 MuiPaper-elevation1 MuiPaper-rounded"
   >
-    <thead
-      className="MuiTableHead-root makeStyles-tableHead-3"
+    <table
+      className="MuiTable-root makeStyles-tableStyle-4 MuiTable-stickyHeader"
       role={null}
     >
-      <tr
-        className="MuiTableRow-root makeStyles-topRow-6 MuiTableRow-head"
+      <thead
+        className="MuiTableHead-root makeStyles-tableHead-3"
         role={null}
       >
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head makeStyles-emptyCell-7 MuiTableCell-sizeSmall"
-          scope="col"
-        />
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
+        <tr
+          className="MuiTableRow-root MuiTableRow-head"
+          role={null}
         >
-          Type
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Price
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Quantity
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Status
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Size
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Component Type
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
-          scope="col"
-        >
-          Location
-        </th>
-      </tr>
-    </thead>
-    <tbody
-      className="MuiTableBody-root"
-      role={null}
-    />
-  </table>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+             Type 
+            <span
+              aria-disabled={false}
+              className="MuiButtonBase-root MuiTableSortLabel-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+             Price 
+            <span
+              aria-disabled={false}
+              className="MuiButtonBase-root MuiTableSortLabel-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+             Quantity 
+            <span
+              aria-disabled={false}
+              className="MuiButtonBase-root MuiTableSortLabel-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+             Status 
+            <span
+              aria-disabled={false}
+              className="MuiButtonBase-root MuiTableSortLabel-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+             Size 
+            <span
+              aria-disabled={false}
+              className="MuiButtonBase-root MuiTableSortLabel-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+             Component Type 
+            <span
+              aria-disabled={false}
+              className="MuiButtonBase-root MuiTableSortLabel-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head makeStyles-topRow-6 MuiTableCell-sizeSmall MuiTableCell-stickyHeader"
+            scope="col"
+          >
+             Location 
+            <span
+              aria-disabled={false}
+              className="MuiButtonBase-root MuiTableSortLabel-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        className="MuiTableBody-root"
+        role={null}
+      />
+    </table>
+  </div>
 </div>
 `;
