@@ -98,7 +98,7 @@ const CustomComponent = () => {
 
     return (
         <div>
-            <div className={classes.container}>
+            <div>
                 <div className={classes.title}>
                     Add Component
                 </div>
@@ -120,10 +120,7 @@ const CustomComponent = () => {
                             </FormControl>
                         </div>
                         <div>
-                            {/* <label>
-                            Price: */}
                             <input placeholder="Price" name="price" value={inputs.price} onChange={handleInput} pattern="^\d*(\.\d{0,2})?$" title="Enter a positive number with AT MOST 2 decimal numbers." className={classes.price} />
-                            {/* </label> */}
                         </div>
                         <div>
                             <FormControl className={classes.drop}>

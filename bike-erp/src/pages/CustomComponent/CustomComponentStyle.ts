@@ -8,15 +8,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "200%",
     marginTop: "250px",
   },
-  container: {
-    //   display: "flex",
-    //   justifyContent: "center",
-    //   alignItems: "center",
-  },
   form: {
       marginTop: "25px"
-    // position: "absolute",
-    // margin: "auto",
   },
   textfield: {
     width: "60%",
