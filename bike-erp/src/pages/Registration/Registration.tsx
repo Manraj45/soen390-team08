@@ -10,7 +10,16 @@ import { BACKEND_URL } from "../../core/utils/config";
 import bike_logo from "../../assets/images/login_bike_logo.png";
 
 // STYLING
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography, } from "@material-ui/core";
+import {
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import useStyles from "./RegistrationStyle";
 
 /*
@@ -31,7 +40,6 @@ interface RegistrationData {
 }
 
 const RegistrationPage = () => {
-
   const styles = useStyles();
   const url = BACKEND_URL;
 
@@ -65,9 +73,9 @@ const RegistrationPage = () => {
     setQuestion2(event.target.value as string);
   };
 
-  const handleRegistration = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     const registrationData: RegistrationData = {
       email: event.currentTarget.email.value,
       organization: event.currentTarget.organization.value,
@@ -81,7 +89,12 @@ const RegistrationPage = () => {
       recovery_question2_answer: event.currentTarget.answer2.value,
     };
 
-    axios
+    // Used to add email into user_triggers table upon registration
+    const registrationEmail = {
+      email: event.currentTarget.email.value,
+    };
+
+    await axios
       .post(`${url}/register/submission`, registrationData)
       .then((response) => {
         history.push("/login");
@@ -89,22 +102,50 @@ const RegistrationPage = () => {
       .catch((error) => {
         setRegistrationErrorMessage(error.response.data.message);
       });
+
+    axios.post(`${url}/triggers/add`, registrationEmail)
   };
 
   return (
     <div id="registrationPage">
-      <Grid container spacing={0} direction="row" className={styles.registrationPageWrapper}>
+      <Grid
+        container
+        spacing={0}
+        direction="row"
+        className={styles.registrationPageWrapper}
+      >
         <Grid item xs={12} md={7} className={styles.grid}>
           <form autoComplete="off" onSubmit={handleRegistration}>
-            <TextField name="email" label="Email" className={styles.textfield}/>
+            <TextField
+              name="email"
+              label="Email"
+              className={styles.textfield}
+            />
             <br />
-            <TextField name="organization" label="Organization" className={styles.textfield}/>
+            <TextField
+              name="organization"
+              label="Organization"
+              className={styles.textfield}
+            />
             <br />
-            <TextField type="password" name="password" label="Password" className={styles.textfield}/>
+            <TextField
+              type="password"
+              name="password"
+              label="Password"
+              className={styles.textfield}
+            />
             <br />
             <div>
-              <TextField name="firstName" label="First Name" className={styles.firstName}/>
-              <TextField name="lastName" label="Last Name" className={styles.lastName}/>
+              <TextField
+                name="firstName"
+                label="First Name"
+                className={styles.firstName}
+              />
+              <TextField
+                name="lastName"
+                label="Last Name"
+                className={styles.lastName}
+              />
             </div>
             <br />
             <FormControl className={styles.recoveryQuestion}>
@@ -117,17 +158,19 @@ const RegistrationPage = () => {
                 value={question1}
                 onChange={handleQuestion1}
               >
-                {
-                  Object.values(recoveryQuestions).map((question: any) => (
-                    <MenuItem key={question} value={question}>
-                      {question}
-                    </MenuItem>
-                  ))
-                }
+                {Object.values(recoveryQuestions).map((question: any) => (
+                  <MenuItem key={question} value={question}>
+                    {question}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             <br />
-            <TextField name="answer1" label="Answer Question 1" className={styles.textfield}/>
+            <TextField
+              name="answer1"
+              label="Answer Question 1"
+              className={styles.textfield}
+            />
             <br />
             <FormControl className={styles.recoveryQuestion}>
               <InputLabel id="demo-simple-select-helper-label">
@@ -139,27 +182,33 @@ const RegistrationPage = () => {
                 value={question2}
                 onChange={handleQuestion2}
               >
-                {
-                  Object.values(recoveryQuestions).map((question: any) => (
-                    <MenuItem key={question} value={question}>
-                      {question}
-                    </MenuItem>
-                  ))
-                }
+                {Object.values(recoveryQuestions).map((question: any) => (
+                  <MenuItem key={question} value={question}>
+                    {question}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             <br />
-            <TextField name="answer2" label="Answer Question 2" className={styles.textfield}/>
+            <TextField
+              name="answer2"
+              label="Answer Question 2"
+              className={styles.textfield}
+            />
             <br />
-            {
-              registrationErrorMessage
-              ?
-                <Typography className={styles.error}>
-                  {registrationErrorMessage}
-                </Typography>
-              : <></>
-            }
-            <Button variant="contained" color="primary" className={styles.button} type="submit">
+            {registrationErrorMessage ? (
+              <Typography className={styles.error}>
+                {registrationErrorMessage}
+              </Typography>
+            ) : (
+              <></>
+            )}
+            <Button
+              variant="contained"
+              color="primary"
+              className={styles.button}
+              type="submit"
+            >
               Register
             </Button>
           </form>

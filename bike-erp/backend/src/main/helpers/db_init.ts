@@ -147,93 +147,109 @@ export const initialize_db = (): void => {
         FOREIGN KEY(email) REFERENCES account(email)
         );`;
 
-  db.query(createAccountQuery, (err, result) => {
-    if (err) throw err;
-    console.log("Account Table Created");
-  });
+    const createTriggers: string = `
+    CREATE TABLE IF NOT EXISTS user_triggers (
+        email varchar(60) NOT NULL PRIMARY KEY,
+        QUANTITY_REACHES_ZERO boolean DEFAULT FALSE,
+        ROLE_CHANGE boolean DEFAULT FALSE,
+        COMPONENT_ORDER boolean DEFAULT FALSE,
+        BIKE_ORDER boolean DEFAULT TRUE,
+        FOREIGN KEY(email) REFERENCES account(email)
+    );`;
 
-  db.query(createComponentQuery, (err, result) => {
-    if (err) throw err;
-    console.log("Component Table Created");
-  });
+    db.query(createAccountQuery, (err, result) => {
+        if (err) throw err;
+        console.log("Account Table Created");
+    });
 
-  db.query(createComponentLocation, (err, result) => {
-    if (err) throw err;
-    console.log("Component Table Created");
-  });
+    db.query(createComponentQuery, (err, result) => {
+        if (err) throw err;
+        console.log("Component Table Created");
+    });
 
-  db.query(createBike, (err, result) => {
-    if (err) throw err;
-    console.log("Bike Tables Created");
-  });
+    db.query(createComponentLocation, (err, result) => {
+        if (err) throw err;
+        console.log("Component Table Created");
+    });
 
-  db.query(createFrame, (err, result) => {
-    if (err) throw err;
-    console.log("Frame Tables Created");
-  });
+    db.query(createBike, (err, result) => {
+        if (err) throw err;
+        console.log("Bike Tables Created");
+    });
 
-  db.query(createSeat, (err, result) => {
-    if (err) throw err;
-    console.log("Seat Tables Created");
-  });
+    db.query(createFrame, (err, result) => {
+        if (err) throw err;
+        console.log("Frame Tables Created");
+    });
 
-  db.query(createWheel, (err, result) => {
-    if (err) throw err;
-    console.log("Wheel Tables Created");
-  });
+    db.query(createSeat, (err, result) => {
+        if (err) throw err;
+        console.log("Seat Tables Created");
+    });
 
-  db.query(createHandle, (err, result) => {
-    if (err) throw err;
-    console.log("Handle Tables Created");
-  });
+    db.query(createWheel, (err, result) => {
+        if (err) throw err;
+        console.log("Wheel Tables Created");
+    });
 
-  db.query(createDriveTrain, (err, result) => {
-    if (err) throw err;
-    console.log("Drive_train Tables Created");
-  });
+    db.query(createHandle, (err, result) => {
+        if (err) throw err;
+        console.log("Handle Tables Created");
+    });
 
-  db.query(createComposedOf, (err, result) => {
-    if (err) throw err;
-    console.log("Composed_of Tables Created");
-  });
+    db.query(createDriveTrain, (err, result) => {
+        if (err) throw err;
+        console.log("Drive_train Tables Created");
+    });
 
-  db.query(createAccountPayable, (err, result) => {
-    if (err) throw err;
-    console.log("Account_Payable Tables Created");
-  });
+    db.query(createComposedOf, (err, result) => {
+        if (err) throw err;
+        console.log("Composed_of Tables Created");
+    });
 
-  db.query(createTransactionItem, (err, result) => {
-    if (err) throw err;
-    console.log("Transaction_item Tables Created");
-  });
+    db.query(createAccountPayable, (err, result) => {
+        if (err) throw err;
+        console.log("Account_Payable Tables Created");
+    });
 
-  db.query(createConsistOf, (err, result) => {
-    if (err) throw err;
-    console.log("Consist_of Tables Created");
-  });
+    db.query(createTransactionItem, (err, result) => {
+        if (err) throw err;
+        console.log("Transaction_item Tables Created");
+    });
 
-  db.query(createAccountReceivable, (err, result) => {
-    if (err) throw err;
-    console.log("Account_receivable Tables Created");
-  });
+    db.query(createConsistOf, (err, result) => {
+        if (err) throw err;
+        console.log("Consist_of Tables Created");
+    });
 
-  db.query(createBikeInAccountReceivable, (err) => {
-    if (err) throw err;
-    console.log("Bike_In_Account_Receivable Tables Created");
-  });
+    db.query(createAccountReceivable, (err, result) => {
+        if (err) throw err;
+        console.log("Account_receivable Tables Created");
+    });
 
-  db.query(createUserLogs, (err, result) => {
-    if (err) throw err;
-    console.log("User_logs Tables Created");
-  });
+    db.query(createBikeInAccountReceivable, (err) => {
+        if (err) throw err;
+        console.log("Bike_In_Account_Receivable Tables Created");
+    });
 
-  db.query(fillComponentCatalogue, (err, result) => {
-    if (err) throw err;
-    console.log("Filling Component Catalogue");
-  });
+    db.query(createUserLogs, (err, result) => {
+        if (err) throw err;
+        console.log("User_logs Tables Created");
+    });
 
-  db.query(fillLocation, (err, result) => {
-    if (err) throw err;
-    console.log("Adding Component Catalogue to Location");
-  });
+    db.query(createTriggers, (err, result) => {
+        if (err) throw err;
+        console.log("User_triggers Tables Created");
+    });
+
+    db.query(fillComponentCatalogue, (err, result) => {
+        if (err) throw err;
+        console.log("Filling Component Catalogue");
+    });
+
+    db.query(fillLocation, (err, result) => {
+        if (err) throw err;
+        console.log("Adding Component Catalogue to Location");
+    });
+    
 };

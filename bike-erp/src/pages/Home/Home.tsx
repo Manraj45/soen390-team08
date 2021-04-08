@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { logout } from "../../redux/actions/AccountActions/accountAction";
 
 // SERVICES
+import Triggers from "../../components/Triggers/Triggers";
 import RecentPayableTransactions from "../../components/RecentPurchases/RecentPayableTransactions";
 import RecentReceivableTransactions from "../../components/RecentPurchases/RecentReceivableTransactions";
 
@@ -17,11 +18,12 @@ const Home = () => {
   const classes = useStyles();
 
   return (
-    <div>
+    <div className={classes.home}>
       <Typography variant="h1">Welcome</Typography>
       <div className={classes.content}>
-        <RecentPayableTransactions />
-        <RecentReceivableTransactions />
+        <Triggers/>
+        <RecentPayableTransactions/>
+        <RecentReceivableTransactions/>
       </div>
     </div>
   );
