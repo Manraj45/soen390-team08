@@ -5,8 +5,6 @@ import { connect } from "react-redux"
 import { BACKEND_URL } from "../../core/utils/config"
 import { BikeSold, removeAllBikes, removeAllComponents, removeBike, removeComponentSold } from "../../redux/actions/OrderBikeActions/orderBikeActions"
 import useStyles from "./BikeOrderSummaryStyle"
-import RemoveIcon from '@material-ui/icons/Remove';
-import AddIcon from '@material-ui/icons/Add';
 import axios from "axios"
 import { useEffect } from "react"
 
@@ -63,18 +61,8 @@ const BikeOrderSummary = ({ bikeOrderList, removeBike, removeAllBikes, removeAll
                     <Typography className={classes.item}>{bike.description}</Typography>
                 </Grid>
                 <Grid item xs={3} container alignItems="center">
-                    <Grid item xs={4}>
-                        <Button>
-                            <RemoveIcon />
-                        </Button>
-                    </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12}>
                         <Typography className={classes.item}>{bike.quantity}</Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Button>
-                            <AddIcon />
-                        </Button>
                     </Grid>
                 </Grid>
                 <Grid item xs={3}>
