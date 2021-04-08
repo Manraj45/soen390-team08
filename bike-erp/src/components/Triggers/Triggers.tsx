@@ -48,19 +48,6 @@ const Triggers = ({ account, isAuthenticated }: any) => {
         {triggers.map((trigger) => (
           <FormControl>
             <FormGroup>
-              {(account.account.role === "ADMIN" || account.account.role === "MANAGER" || account.account.role === "EMPLOYEE") && (
-                <FormControlLabel
-                  control={
-                    <Switch
-                      color="primary"
-                      checked={Boolean(trigger.QUANTITY_REACHES_ZERO)}
-                      onChange={() => handleChange("QUANTITY_REACHES_ZERO")}
-                    />
-                  }
-                  label="Receive email when component quantity reaches zero"
-                  labelPlacement="start"
-                />
-              )}
               {(account.account.role === "ADMIN" || account.account.role === "MANAGER") && (
               <FormControlLabel
                 control={

@@ -148,12 +148,12 @@ export const initialize_db = (): void => {
         );`;
 
     const createTriggers: string = `
-        CREATE TABLE IF NOT EXISTS user_triggers (
+    CREATE TABLE IF NOT EXISTS user_triggers (
         email varchar(60) NOT NULL PRIMARY KEY,
         QUANTITY_REACHES_ZERO boolean DEFAULT FALSE,
         ROLE_CHANGE boolean DEFAULT FALSE,
         COMPONENT_ORDER boolean DEFAULT FALSE,
-        BIKE_ORDER boolean DEFAULT FALSE,
+        BIKE_ORDER boolean DEFAULT TRUE,
         FOREIGN KEY(email) REFERENCES account(email)
     );`;
 

@@ -1,6 +1,9 @@
 import nodemailer from "nodemailer";
 import { EmailDAO } from "../../dao/EmailDAO";
 
+/**
+ * This class is responsible for processing and sending emails to users of the application
+ */
 export class EmailService {
 
     private static emailService: EmailService | undefined;
@@ -34,7 +37,7 @@ export class EmailService {
      
         // send mail with defined transport object
         await transporter.sendMail({
-        from: 'bikekinginc@gmail.com', // sender address
+        from: '<Bike King Inc> bikekinginc@gmail.com', // sender address
         to: emailAddress, // list of receivers "bar@example.com, baz@example.com"
         subject: emailSubject, // Subject line
         text: emailBody, // plain text body

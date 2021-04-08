@@ -19,4 +19,8 @@ export class TriggerService {
     return triggersDao.addUserTriggers(email);
   };
 
+  public getTriggersAsArray = (email: string) => {
+    return triggersDao.fetchUserTriggers(email);
+  };
+
 }

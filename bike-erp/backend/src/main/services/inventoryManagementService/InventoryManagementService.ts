@@ -9,6 +9,7 @@ import {
 } from "../../dao/ComponentDAO";
 import { AccountingService } from "../accountingService/AccountingService";
 import { EmailService } from "../emailService/emailService";
+import { TriggerService } from "../triggerService/TriggerService";
 
 export class InventoryManagementService {
   private static accountingService: AccountingService | undefined;
@@ -71,9 +72,18 @@ export class InventoryManagementService {
           })
         })
 
-         // send email to confirm
-         await EmailService.email(userEmail, "Component Order Confirmation", "You have sucessfully ordered a component from Bike King Inc. Thank you for your purchase").catch((error)=>{ console.log("An error has occured sending the email")});
-        
+      const triggerService : TriggerService = new TriggerService();
+      triggerService.getCurrentTriggers(userEmail).then(async (response) =>{
+        const triggers : any[] = response;
+        if(triggers[0].COMPONENT_ORDER){
+          // send email to confirm
+          console.log(response);
+         await EmailService.email(userEmail, "Component Order Confirmation", "You have sucessfully ordered a component from Bike King Inc. Thank you for your purchase.").catch((error)=>{ console.log("An error has occured sending the email")});
+        }
+      })
+      .catch((error) => {
+      })
+         
         resolve({ status: 201, message: "Components have been ordered successfully" });
       })
       
