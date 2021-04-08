@@ -7,7 +7,7 @@ import UserAccountsTable from "../../components/PermissionManagement/UserAccount
 
 // STYLING
 import {
-  Avatar, Grid, Paper, Typography, Button,
+  Grid, Paper, Typography, Button,
   Dialog, DialogTitle, DialogActions,
 } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
@@ -35,14 +35,6 @@ const PermissionManagement = ({ account }: any) => {
             <Typography className={styles.title} variant="h4">
               Permission Management
             </Typography>
-          </Grid>
-          <Grid item xs={12} md={12} className={styles.name}>
-            <div className={styles.avatarName}>
-              <Avatar src="/broken-image.jpg" />
-              <span className={styles.name}>
-                {account.account.firstName} {account.account.lastName}
-              </span>
-            </div>
           </Grid>
           <Grid wrap="nowrap" item xs={12} md={12}>
             <Paper className={styles.place}>

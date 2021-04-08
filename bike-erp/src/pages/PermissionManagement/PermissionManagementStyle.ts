@@ -24,28 +24,19 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: "10px",
     },
   },
-  name: {
-    marginLeft: "10px",
-    alignItems: "flex-end",
-    textAlign: "right",
-  },
-  avatarName: {
-    display: "flex",
-    flexWrap: "wrap",
-    alignItems: "center",
-    float: "right",
-  },
   place: {
     maxHeight: "50px",
-    maxWeidth: "50px",
+    width: "70%",
+    marginLeft: "auto",
+    marginRight: "auto",
     overflow: "auto",
     [theme.breakpoints.down("sm")]: {
       marginTop: "50px",
-      minHeight: "300px",
+      minHeight: "500px",
     },
     [theme.breakpoints.up("md")]: {
       marginTop: "10px",
-      minHeight: "500px",
+      minHeight: "650px",
     },
   },
   grid: {
