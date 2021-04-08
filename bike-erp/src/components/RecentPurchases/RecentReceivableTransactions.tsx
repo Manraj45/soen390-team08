@@ -8,8 +8,12 @@ import { BACKEND_URL } from "../../core/utils/config";
 
 // STYLING
 import { Button, Card, CardActions, CardContent, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
-import useStyles from "./RecentTransactionsStyles";
+import useStyles from "./RecentReceivableTransactionsStyles";
 
+/*
+  Displays the five most recent account receivable transactions.
+  Also links to the full account receivable information.
+*/
 const RecentReceivableTransactions = ({ account }: any) => {
 
   const classes = useStyles();
@@ -29,48 +33,46 @@ const RecentReceivableTransactions = ({ account }: any) => {
   }, [backend]);
 
   return (
-    <div className={classes.recentTransactions}>
-      <Card variant="outlined">
-        <CardContent style={{ paddingBottom: 0 }}>
-          <Typography style={{ textTransform: "capitalize" }} variant="h5">
-            Recent Account Payable Transactions
-          </Typography>
-        </CardContent>
-        <CardContent>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell className={classes.headerCell}>Order number</TableCell>
-                <TableCell className={classes.headerCell}>Date</TableCell>
-                <TableCell className={classes.headerCell}>Total</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {
-                Object.keys(accountReceivables).length < 5
-                ? Object.values(accountReceivables).map((order: any) => (
-                    <TableRow key={order.account_receivable_id}>
-                      <TableCell>{order.account_receivable_id}</TableCell>
-                      <TableCell>{order.payable_date.substring(0, 10)}</TableCell>
-                      <TableCell>{"$" + order.total.toFixed(2)}</TableCell>
-                    </TableRow>
-                  ))
-                : Object.values(accountReceivables).slice(0, 4).map((order: any) => (
-                    <TableRow key={order.account_receivable_id}>
-                      <TableCell>{order.account_receivable_id}</TableCell>
-                      <TableCell>{order.payable_date.substring(0, 10)}</TableCell>
-                      <TableCell>{"$" + order.total.toFixed(2)}</TableCell>
-                    </TableRow>
-                  ))
-              }
-            </TableBody>
-          </Table>
-        </CardContent>
-        <CardActions className={classes.seeMore}>
-          <Button href="/accountReceivable" size="medium" style={{color: "white"}}>SEE MORE</Button>
-        </CardActions>
-      </Card>
-    </div>
+    <Card variant="outlined" className={classes.recentReceivableTransactions}>
+      <CardContent style={{ paddingBottom: 0 }}>
+        <Typography style={{ textTransform: "capitalize" }} variant="h5">
+          Recent Account Receivable Transactions
+        </Typography>
+      </CardContent>
+      <CardContent>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.headerCell}>Order number</TableCell>
+              <TableCell className={classes.headerCell}>Date</TableCell>
+              <TableCell className={classes.headerCell}>Total</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {
+              Object.keys(accountReceivables).length < 5
+              ? Object.values(accountReceivables).map((order: any) => (
+                  <TableRow key={order.account_receivable_id}>
+                    <TableCell>{order.account_receivable_id}</TableCell>
+                    <TableCell>{order.payable_date.substring(0, 10)}</TableCell>
+                    <TableCell>{"$" + order.total.toFixed(2)}</TableCell>
+                  </TableRow>
+                ))
+              : Object.values(accountReceivables).slice(0, 4).map((order: any) => (
+                  <TableRow key={order.account_receivable_id}>
+                    <TableCell>{order.account_receivable_id}</TableCell>
+                    <TableCell>{order.payable_date.substring(0, 10)}</TableCell>
+                    <TableCell>{"$" + order.total.toFixed(2)}</TableCell>
+                  </TableRow>
+                ))
+            }
+          </TableBody>
+        </Table>
+      </CardContent>
+      <CardActions className={classes.seeMore}>
+        <Button href="/accountReceivable" size="medium" style={{color: "white"}}>SEE MORE</Button>
+      </CardActions>
+    </Card>
   );
 };
 

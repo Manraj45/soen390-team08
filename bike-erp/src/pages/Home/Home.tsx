@@ -7,16 +7,19 @@ import RecentPayableTransactions from "../../components/RecentPurchases/RecentPa
 import RecentReceivableTransactions from "../../components/RecentPurchases/RecentReceivableTransactions";
 
 // STYLING
-import { Button, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
+import useStyles from "./HomeStyles";
 
 /*
   The homepage.
 */
-const Home = (props: any) => {
+const Home = () => {
+  const classes = useStyles();
+
   return (
     <div>
       <Typography variant="h1">Welcome</Typography>
-      <div className="recentTransactions" style={{ display: "flex", maxWidth: 800, justifyContent: "space-evenly" }}>
+      <div className={classes.content}>
         <RecentPayableTransactions />
         <RecentReceivableTransactions />
       </div>

@@ -1,8 +1,11 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  recentTransactions: {
-    maxWidth: 350
+  recentPayableTransactions: {
+    maxWidth: 350,
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "30px",
+    }
   },
   headerCell: {
     paddingTop: 0
