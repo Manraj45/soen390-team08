@@ -12,6 +12,7 @@ import {
   FormGroup,
   FormControlLabel,
   FormControl,
+  Typography
 } from "@material-ui/core";
 import useStyles from "./TriggersStyles";
 
@@ -40,11 +41,11 @@ const Triggers = ({ account, isAuthenticated }: any) => {
 
   return (
     <React.Fragment>
-      <div id="triggerComponent" className={styles.background}>
+      <div id="triggerComponent" className={styles.trigger}>
         <br></br>
-        {(account.account.role !== "CUSTOMER") && (
-        <div className={styles.title}>Triggers</div>
-        )}
+        { (account.account.role !== "CUSTOMER")
+          && <Typography style={{ textTransform: "capitalize" }} variant="h5">Triggers</Typography> 
+        }
         {triggers.map((trigger) => (
           <FormControl>
             <FormGroup>

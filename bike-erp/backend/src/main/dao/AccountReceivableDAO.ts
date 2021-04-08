@@ -29,7 +29,7 @@ export class AccountReceivableDAO {
         })
     }
 
-    // select all account receivable based on email
+    // Select all account receivable based on email
     public fetchAllAccountReceivableByUser(email: string) {
         return new Promise((resolve, reject) => {
             const query = `
@@ -43,14 +43,14 @@ export class AccountReceivableDAO {
         })
     }
 
-    // select all bikes based on account receivables
+    // Select all bikes based on account receivable id
     public fetchBikesByAccountReceivableId(account_receivable_id: number) {
         return new Promise((resolve, reject) => {
             const query = `
-            SELECT bike.*  
-            FROM bike, bike_in_account_receivable 
-            WHERE bike_in_account_receivable.account_receivable_id = ${account_receivable_id}
-            AND bike.bike_id = bike_in_account_receivable.bike_id;`
+                SELECT bike.*  
+                FROM bike, bike_in_account_receivable 
+                WHERE bike_in_account_receivable.account_receivable_id = ${account_receivable_id}
+                AND bike.bike_id = bike_in_account_receivable.bike_id;`;
             db.query(query, (err, rows) => {
                 if (err) return reject(err);
                 const response = JSON.parse(JSON.stringify(rows));

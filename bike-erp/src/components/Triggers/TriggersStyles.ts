@@ -1,14 +1,9 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-    title: {
-      textAlign: "center",
-      fontWeight: "bold",
-      fontFamily: "Inter",
-      fontSize: "64",
-    },
-    background: {
+    trigger: {
       background: "#DDDDDD",
+      maxWidth: 350
     },
   }));
 

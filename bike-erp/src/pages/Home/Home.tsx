@@ -1,24 +1,30 @@
 // DEPENDENCIES
 import { connect } from "react-redux";
 import { logout } from "../../redux/actions/AccountActions/accountAction";
+
+// SERVICES
 import Triggers from "../../components/Triggers/Triggers";
+import RecentPayableTransactions from "../../components/RecentPurchases/RecentPayableTransactions";
+import RecentReceivableTransactions from "../../components/RecentPurchases/RecentReceivableTransactions";
 
 // STYLING
-import { Button, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
+import useStyles from "./HomeStyles";
 
 /*
   The homepage.
 */
-const Home = (props: any) => {
+const Home = () => {
+  const classes = useStyles();
 
   return (
-    <div>
+    <div className={classes.home}>
       <Typography variant="h1">Welcome</Typography>
-      <Triggers/>
-      <br/>
-      <Button variant="contained" color="primary" onClick={props.logout}>
-        Logout
-      </Button>
+      <div className={classes.content}>
+        <Triggers/>
+        <RecentPayableTransactions/>
+        <RecentReceivableTransactions/>
+      </div>
     </div>
   );
 };
