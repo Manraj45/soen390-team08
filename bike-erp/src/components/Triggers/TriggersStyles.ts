@@ -1,13 +1,10 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  image: {
-    width: 500,
-    height: 305,
-  },
-  location: {
-    minWidth: 200,
-  }
-}));
+    trigger: {
+      background: "#DDDDDD",
+      maxWidth: 350
+    },
+  }));
 
 export default useStyles;

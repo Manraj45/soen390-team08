@@ -1,6 +1,8 @@
 import { AccountDao } from "../../dao/AccountDAO";
 import { Role } from "../../models/Account";
 import { UserLogService } from "../userlogService/UserLogService";
+import { EmailService } from "../emailService/emailService";
+import { TriggerService } from "../triggerService/TriggerService";
 
 export class AccountManagementService {
   // Creating a static accountManagementService object
@@ -82,6 +84,18 @@ export class AccountManagementService {
           .catch((error) => {
             reject({ status: error.status, message: error.message });
           });
+        
+        // check triggers and send email to the person whose role has been changed
+        const triggerService : TriggerService = new TriggerService();
+        
+        triggerService.getCurrentTriggers(currentUserEmail).then(async (response) =>{
+        const triggers : any[] = response;
+        if(triggers[0].ROLE_CHANGE){
+          await EmailService.email(email, "Role Change Advisory", "Your Bike King Inc. account has been updated and your role has been updated.").catch((error)=>{ console.log("An error has occured sending the email")});
+        }
+      })
+      .catch((error) => {
+      })
       }
     });
   };

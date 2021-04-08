@@ -1,6 +1,8 @@
 import { BikeDao } from "../../dao/BikeDao";
 import { AccountingService } from "../accountingService/AccountingService";
 import { UserLogService } from "../userlogService/UserLogService";
+import { EmailService } from "../emailService/emailService";
+import { TriggerService } from "../triggerService/TriggerService";
 
 export class BikeOrderService {
   private static bikeOrderService: BikeOrderService | undefined;
@@ -84,6 +86,18 @@ export class BikeOrderService {
           return rejects({ status: 500, message: error.sqlMessage });
         }
       }
+
+      const triggerService : TriggerService = new TriggerService();
+      triggerService.getCurrentTriggers(email).then(async (response) =>{
+        const triggers : any[] = response;
+        console.log(response);
+        if(triggers[0].BIKE_ORDER){
+          await EmailService.email(email, "Bike Order Confirmation", "You have sucessfully ordered a bike from Bike King Inc. Thank you for your purchase.").catch((error)=>{ console.log("An error has occured sending the email")});
+        }
+      })
+      .catch((error) => {
+      })
+      
       UserLogService.addLog(email, "Ordered a bike").catch((error) => { });;
       return resolve({ status: 201, message: "Bike was sold succesfully" });
     });

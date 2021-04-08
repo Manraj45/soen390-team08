@@ -17,16 +17,17 @@ import SideBarMenu from "../components/Menu/SideBarMenu/SideBarMenu";
 import IdleTimerContainer from "../components/IdleTimerContainer/IdleTimerContainer";
 import PermissionManagement from "../pages/PermissionManagement/PermissionManagement";
 import Inventory from "../pages/Inventory/Inventory";
-import OrderComponent from "../pages/OrderService/OrderComponent/OrderComponent";
-import OrderBike from "../pages/OrderService/OrderBike/OrderBike";
+import OrderComponent from "../pages/OrderComponent/OrderComponent";
 import UserLogs from "../pages/UserLogs/UserLogs";
 import PayableHistory from "../pages/PaymentHistory/PayableHistory";
 import ReceivableHistory from "../pages/PaymentHistory/ReceivableHistory";
+import OrderBike from "../pages/OrderBike/OrderBike"
+import CustomComponent from "../pages/CustomComponent/CustomComponent";
 
 // STYLING
 import { Box } from "@material-ui/core";
 import "./App.css";
-
+  
 const App = ({ account, isAuthenticated }: any) => {
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -35,7 +36,7 @@ const App = ({ account, isAuthenticated }: any) => {
     if (localStorageService.getAccessToken()) {
       localStorageService.setBearerToken();
     }
-    isAuthenticated();
+    isAuthenticated();  
   }, [account.authenticated, isAuthenticated, account.loading]);
 
   axios.interceptors.response.use(
@@ -59,14 +60,14 @@ const App = ({ account, isAuthenticated }: any) => {
       <Box>
         <Box className="App">
           <Box>
-            { account.authenticated && <HeaderMenu setMenuIsOpen={setMenuIsOpen} menuIsOpen={menuIsOpen}/> }
-            { menuIsOpen && <SideBarMenu/> }
+            {account.authenticated && <HeaderMenu setMenuIsOpen={setMenuIsOpen} menuIsOpen={menuIsOpen} />}
+            {menuIsOpen && <SideBarMenu />}
           </Box>
-          <IdleTimerContainer/>
+          <IdleTimerContainer />
           <Switch>
-            <Route exact path="/" render={() => account.authenticated ? <Home/> : <Redirect to="/login" />}/>
+            <Route exact path="/" render={() => account.authenticated ? <Home /> : <Redirect to="/login" />} />
             <Route path="/login"
-              render={ () => account.loading
+              render={() => account.loading
                 ? <></>
                 : account.authenticated
                   ? <Redirect to="/" />
@@ -132,7 +133,7 @@ const App = ({ account, isAuthenticated }: any) => {
                 ? <></>
                 : account.authenticated
                   ? <PayableHistory />
-                  : <Redirect to="/login"/>
+                  : <Redirect to="/login" />
               }
             />
             <Route path="/accountReceivable"
@@ -140,6 +141,16 @@ const App = ({ account, isAuthenticated }: any) => {
                 ? <></>
                 : account.authenticated
                   ? <ReceivableHistory />
+                  : <Redirect to="/login" />
+              }
+            />
+            <Route path="/addComponent"
+              render={() => account.loading
+                ? <></>
+                : account.authenticated
+                  && (account.account.role === "ADMIN"
+                    || account.account.role === "MANAGER")
+                  ? <CustomComponent />
                   : <Redirect to="/login" />
               }
             />

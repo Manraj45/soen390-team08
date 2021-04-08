@@ -21,9 +21,30 @@ router.get("/", authenticateToken, (req, res) => {
 });
 
 //Backend endpoint to get all the component types in categories
-router.get("/componentTypes", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
+router.get("/componentTypes", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE, Role.CUSTOMER]), (req, res) => {
   inventoryManagementService
-    .getComponentTypes(req.body.location, req.body.size)
+    .getComponentTypes(req.query.location as string, req.query.size as string)
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((error) => {
+      res.status(400).send(error);
+    });
+});
+
+router.post("/addComponent", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER]), (req, res) => {
+  inventoryManagementService.addComponent(req.body.price, req.body.quantity, req.body.component_type, req.body.component_status, req.body.size, req.body.specificComponentType, req.body.location_name)
+  .then((response) => {
+    res.json(response);
+  })
+  .catch((error) => {
+    res.status(error.status).send(error);
+  })
+})
+
+router.get("/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE, Role.CUSTOMER]), (req, res) => {
+  inventoryManagementService
+    .getComponent(req.params.component_id)
     .then((response) => {
       res.json(response);
     })
@@ -32,19 +53,8 @@ router.get("/componentTypes", authenticateToken, verifyRole([Role.ADMIN, Role.MA
     });
 });
 
-router.get("/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
-  inventoryManagementService
-    .getComponent(req.params.component_id)
-    .then((response) => {
-      res.json(response);
-    })
-    .catch((error) => {
-      res.status(error.status).send(error.messages);
-    });
-});
-
 // Edit the quantity depending on the Id of the component
-router.put("/updateQuantity", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
+router.put("/updateQuantity", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE, Role.CUSTOMER]), (req, res) => {
   const id = req.body.id;
   const quantity = req.body.quantity;
   inventoryManagementService
@@ -58,7 +68,7 @@ router.put("/updateQuantity", authenticateToken, verifyRole([Role.ADMIN, Role.MA
 });
 
 // API used to modify the quantity of each components that are sold
-router.put("/sellComponents", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
+router.put("/sellComponents", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE, Role.CUSTOMER]), (req, res) => {
   const componentSaleList: Array<any> = req.body.componentSaleList;
   inventoryManagementService
     .editComponentQuantitySale(componentSaleList)
@@ -74,7 +84,6 @@ router.put("/sellComponents", authenticateToken, verifyRole([Role.ADMIN, Role.MA
 // Requires a orderList in body
 router.put("/orderComponents", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   const orderList: Array<any> = req.body.orderList.orderList;
-
   // Setting the endpoint header to authorization
   const authHeader = req.headers["authorization"];
 
@@ -93,7 +102,7 @@ router.put("/orderComponents", authenticateToken, verifyRole([Role.ADMIN, Role.M
     });
 });
 
-router.get("/componentLocation/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
+router.get("/componentLocation/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE, Role.CUSTOMER]), (req, res) => {
   inventoryManagementService
     .getComponentLocation(req.params.component_id)
     .then((response) => {
@@ -102,6 +111,14 @@ router.get("/componentLocation/:component_id", authenticateToken, verifyRole([Ro
     .catch((error) => {
       res.status(error.status).send(error.message);
     });
+});
+
+router.get("/locations/all", authenticateToken, (_, res) => {
+  inventoryManagementService.getAllLocations().then((response) => {
+    res.json(response)
+  }).catch((error) => {
+    res.status(500).send(error)
+  })
 });
 
 export default router;

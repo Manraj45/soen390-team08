@@ -4,8 +4,12 @@ import {
   updateComponent,
   fetchComponentLocation,
   fetchComponentTypes,
+  fetchAllLocations,
+  insertNewComponent,
 } from "../../dao/ComponentDAO";
 import { AccountingService } from "../accountingService/AccountingService";
+import { EmailService } from "../emailService/emailService";
+import { TriggerService } from "../triggerService/TriggerService";
 
 export class InventoryManagementService {
   private static accountingService: AccountingService | undefined;
@@ -27,6 +31,11 @@ export class InventoryManagementService {
 
     return fetchComponent(id);
   };
+
+  //Add component type
+  public addComponent = (price: string, quantity: string, component_type: string, component_status: string, size: string, specificComponentType: string, location_name: string) => {
+    return insertNewComponent(price, quantity, component_type, component_status, size, specificComponentType, location_name);
+  }
 
   // Edit the quantity of a specific component identified by a unique id number
   public editComponent = (id: string, quantity: string) => {
@@ -58,16 +67,26 @@ export class InventoryManagementService {
     return new Promise((resolve, rejects) => {
       const updateQuantityInDB = new Promise(async (resolve, rejects) => {
         orderList.forEach((order) => {
-          this.editComponent(order.id, order.quantity).catch((error) => {
+          this.editComponent(order.id, order.quantity + order.selectedQuantity).catch((error) => {
             rejects(error);
-          });
-        });
-        resolve({
-          status: 201,
-          message: "Components have been ordered successfully",
-        });
-      });
+          })
+        })
 
+      const triggerService : TriggerService = new TriggerService();
+      triggerService.getCurrentTriggers(userEmail).then(async (response) =>{
+        const triggers : any[] = response;
+        if(triggers[0].COMPONENT_ORDER){
+          // send email to confirm
+          console.log(response);
+         await EmailService.email(userEmail, "Component Order Confirmation", "You have sucessfully ordered a component from Bike King Inc. Thank you for your purchase.").catch((error)=>{ console.log("An error has occured sending the email")});
+        }
+      })
+      .catch((error) => {
+      })
+         
+        resolve({ status: 201, message: "Components have been ordered successfully" });
+      })
+      
       updateQuantityInDB
         .then(async () => {
           const response = await AccountingService.createAccountPayable(
@@ -97,4 +116,8 @@ export class InventoryManagementService {
   public getComponentTypes = (location: string, size: string) => {
     return fetchComponentTypes(location, size);
   };
+
+  public getAllLocations = ()=>{
+    return fetchAllLocations();
+  }
 }
