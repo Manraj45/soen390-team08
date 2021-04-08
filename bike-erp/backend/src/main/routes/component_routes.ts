@@ -21,7 +21,7 @@ router.get("/", authenticateToken, (req, res) => {
 });
 
 //Backend endpoint to get all the component types in categories
-router.get("/componentTypes", authenticateToken, (req, res) => {
+router.get("/componentTypes", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE, Role.CUSTOMER]), (req, res) => {
   inventoryManagementService
     .getComponentTypes(req.query.location as string, req.query.size as string)
     .then((response) => {
@@ -40,9 +40,9 @@ router.post("/addComponent", authenticateToken, verifyRole([Role.ADMIN, Role.MAN
   .catch((error) => {
     res.status(error.status).send(error);
   })
-});
+})
 
-router.get("/:component_id", authenticateToken, (req, res) => {
+router.get("/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE, Role.CUSTOMER]), (req, res) => {
   inventoryManagementService
     .getComponent(req.params.component_id)
     .then((response) => {
@@ -54,7 +54,7 @@ router.get("/:component_id", authenticateToken, (req, res) => {
 });
 
 // Edit the quantity depending on the Id of the component
-router.put("/updateQuantity", authenticateToken, (req, res) => {
+router.put("/updateQuantity", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE, Role.CUSTOMER]), (req, res) => {
   const id = req.body.id;
   const quantity = req.body.quantity;
   inventoryManagementService
@@ -68,7 +68,7 @@ router.put("/updateQuantity", authenticateToken, (req, res) => {
 });
 
 // API used to modify the quantity of each components that are sold
-router.put("/sellComponents", authenticateToken, (req, res) => {
+router.put("/sellComponents", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE, Role.CUSTOMER]), (req, res) => {
   const componentSaleList: Array<any> = req.body.componentSaleList;
   inventoryManagementService
     .editComponentQuantitySale(componentSaleList)
@@ -102,7 +102,7 @@ router.put("/orderComponents", authenticateToken, verifyRole([Role.ADMIN, Role.M
     });
 });
 
-router.get("/componentLocation/:component_id", authenticateToken, (req, res) => {
+router.get("/componentLocation/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE, Role.CUSTOMER]), (req, res) => {
   inventoryManagementService
     .getComponentLocation(req.params.component_id)
     .then((response) => {
