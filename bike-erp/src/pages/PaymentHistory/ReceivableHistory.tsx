@@ -102,9 +102,9 @@ const ReceivableHistory = ({ account }: any) => {
                   <TableRow key={item.bike_id}>
                     <TableCell className={classes.orderCell}>{item.bike_id}</TableCell>
                     <TableCell className={classes.orderCell}>{item.bike_description}</TableCell>
-                    <TableCell className={classes.orderCell}>{"$" + (item.price / item.quantity).toFixed(2)}</TableCell>
-                    <TableCell className={classes.orderCell}>{item.quantity}</TableCell>
                     <TableCell className={classes.orderCell}>{"$" + item.price.toFixed(2)}</TableCell>
+                    <TableCell className={classes.orderCell}>{item.quantity}</TableCell>
+                    <TableCell className={classes.orderCell}>{"$" + (item.price* item.quantity).toFixed(2)}</TableCell>
                   </TableRow>
                 ))
               }

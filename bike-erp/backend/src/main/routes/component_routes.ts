@@ -23,14 +23,24 @@ router.get("/", authenticateToken, (req, res) => {
 //Backend endpoint to get all the component types in categories
 router.get("/componentTypes", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   inventoryManagementService
-    .getComponentTypes(req.body.location, req.body.size)
+    .getComponentTypes(req.query.location as string, req.query.size as string)
     .then((response) => {
       res.json(response);
     })
     .catch((error) => {
-      res.status(error.status).send(error.message);
+      res.status(400).send(error);
     });
 });
+
+router.post("/addComponent", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER]), (req, res) => {
+  inventoryManagementService.addComponent(req.body.price, req.body.quantity, req.body.component_type, req.body.component_status, req.body.size, req.body.specificComponentType, req.body.location_name)
+  .then((response) => {
+    res.json(response);
+  })
+  .catch((error) => {
+    res.status(error.status).send(error);
+  })
+})
 
 router.get("/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   inventoryManagementService
@@ -39,7 +49,7 @@ router.get("/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MAN
       res.json(response);
     })
     .catch((error) => {
-      res.status(error.status).send(error.messages);
+      res.status(error.status).send(error.message);
     });
 });
 
@@ -74,7 +84,6 @@ router.put("/sellComponents", authenticateToken, verifyRole([Role.ADMIN, Role.MA
 // Requires a orderList in body
 router.put("/orderComponents", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
   const orderList: Array<any> = req.body.orderList.orderList;
-
   // Setting the endpoint header to authorization
   const authHeader = req.headers["authorization"];
 
@@ -102,6 +111,14 @@ router.get("/componentLocation/:component_id", authenticateToken, verifyRole([Ro
     .catch((error) => {
       res.status(error.status).send(error.message);
     });
+});
+
+router.get("/locations/all", authenticateToken, (_, res) => {
+  inventoryManagementService.getAllLocations().then((response) => {
+    res.json(response)
+  }).catch((error) => {
+    res.status(500).send(error)
+  })
 });
 
 export default router;
