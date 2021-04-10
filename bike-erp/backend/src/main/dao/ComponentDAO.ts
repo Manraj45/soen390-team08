@@ -159,13 +159,26 @@ export const insertNewComponent = (price: string, quantity: string, component_ty
       else {
         reject({ status: 404, message: "Component already exists."});
       }
-    })}
+      })}
+      else {
+        reject({ status: 404, message: "Component type or status cannot contain numbers."});
+      };
+    }
     else {
-      reject({ status: 404, message: "Component type or status cannot contain numbers."});
-    };
-  }
-  else {
-    reject({ status: 404, message: "Missing / Incorrect inputs."});
-  }
+      reject({ status: 404, message: "Missing / Incorrect inputs."});
+    }
+  })
+};
+
+export const fetchComponentsByLocation = (location: any) =>{
+  return new Promise<Array<any>>((resolve, reject) => {
+    const query = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+    FROM component c, component_location cl
+    WHERE c.component_id = cl.component_id AND cl.location_name = ?;`;
+
+    db.query(query, [location], (err, rows) => {
+      if (err) return reject(err);
+      resolve(JSON.parse(JSON.stringify(rows)));
+    });
   });
 };
