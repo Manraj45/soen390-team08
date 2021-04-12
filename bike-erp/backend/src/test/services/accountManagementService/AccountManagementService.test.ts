@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 
 // SERVICES
-import db from "../../../main/helpers/db";
 import { AccountManagementService } from "../../../main/services/accountManagementService/AccountManagementService";
 import { Role } from "../../../main/models/Account";
 
@@ -28,11 +27,6 @@ describe("Update role test", () => {
         AccountManagementService.getAccountDao().fetchAccount = jest
             .fn()
             .mockReturnValue(Promise.resolve([{ email: "test@test.com", password: hashedPassword }]));
-    });
-
-    afterAll(() => {
-        //Closing connection to database
-        db.end();
     });
 
     test("Updating role of user with valid role and email and not current user", async () => {

@@ -2,7 +2,6 @@
 import dotenv from "dotenv";
 
 // SERVICES
-import db from "../../../main/helpers/db";
 import { RegistrationService } from "../../../main/services/registrationService/RegistrationService";
 import { UserLogService } from "../../../main/services/userlogService/UserLogService";
 
@@ -25,11 +24,6 @@ describe("Registration test", () => {
     );
     RegistrationService.getAccountDao().fetchAccountTableSize = jest.fn().mockReturnValue(Promise.resolve([{ number_of_accounts: 1 }]));
     UserLogService.getUserLogDao().addToUserLog = jest.fn().mockReturnValue(Promise.resolve());
-  });
-
-  afterAll(() => {
-    //Closing connection to database
-    db.end();
   });
 
   //Testing registration with correct information
