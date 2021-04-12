@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "start": "node dist/main/app.js",
-    "auth": "node dist/main/services/authenticationService/AuthServer.js",
+    "auth": "node dist/main/app.js",
+    "start": "node dist/main/services/authenticationService/AuthServer.js",
     "dev": "nodemon src/main/app.ts",
     "authStart": "nodemon src/main/services/authenticationService/AuthServer.ts",
     "build": "tsc -p .",
