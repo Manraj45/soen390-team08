@@ -1,6 +1,7 @@
 // DEPENDENCIES
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { BACKEND_URL } from "../../core/utils/config"
 
 // STYLING
 import { Table, TableHead, TableBody, TableRow, TableCell, Paper, TableSortLabel, createMuiTheme, ThemeProvider } from "@material-ui/core"
@@ -14,9 +15,10 @@ const Inventory: React.FC = () => {
   const [inventoryTable, setInventoryTable] = useState<any[]>([]);
   const [sortOrder, setSortOrder] = useState({ 'component_type': 0, 'price': 0, 'quantity': 0, 'component_status': 0, 'size': 0, 'specificComponentType': 0, 'location_name': 0 });
   const [arrowUp, setArrowUp] = useState({ 'component_type': true, 'price': true, 'quantity': true, 'component_status': true, 'size': true, 'specificComponentType': true, 'location_name': true });
+  const URL = BACKEND_URL
 
   useEffect(() => {
-    axios.get("http://localhost:3001/components/").then((response) => {
+    axios.get(`${URL}/components`).then((response) => {
       setInventoryTable(response.data);
     });
   }, []);
