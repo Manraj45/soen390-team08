@@ -2,11 +2,16 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Typography, Button, Dialog, DialogTitle, DialogActions } from "@material-ui/core";
+import { Typography, Button, Dialog, DialogTitle, DialogActions, TextField, InputLabel, FormControl } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 // SERVICES
 import { BACKEND_URL } from "../../core/utils/config";
+
+// STYLING
+import useStyles from "./CustomComponentStyle";
 
 //interface for the data
 interface CustomComponentData {
@@ -49,12 +54,14 @@ const CustomComponent = () => {
 
     function clearPage() {
         setCustomComponentErrorMessage("");
-        setInputs({location: "",
-        price: "",
-        size: "SMALL",
-        component_type: "HANDLE",
-        specificComponentType: ""});
-      }
+        setInputs({
+            location: "",
+            price: "",
+            size: "SMALL",
+            component_type: "HANDLE",
+            specificComponentType: ""
+        });
+    }
 
     //handle submit
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -87,53 +94,55 @@ const CustomComponent = () => {
         return (location.length > 0 && price.length > 0 && size.length > 0 && component_type.length > 0 && specificComponentType.length > 0);
     }
 
+    const classes = useStyles();
+
     return (
         <div>
             <div>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>
-                            Location:
-                    <input type="text" name="location" value={inputs.location} onChange={handleInput} />
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            Size:
-                        <select value={inputs.size} name="size" onChange={handleInput}>
-                                <option value="SMALL"> Small </option>
-                                <option value="MEDIUM"> Medium </option>
-                                <option value="LARGE"> Large </option>
-                            </select>
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            Price:
-                    <input name="price" value={inputs.price} onChange={handleInput} pattern="^\d*(\.\d{0,2})?$" title="Enter a positive number with AT MOST 2 decimal numbers." />
-                        </label>
-                    </div>
+                <div className={classes.title}>
+                    Add Component
+                </div>
+                <div className={classes.form}>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <TextField label="Location" type="text" name="location" value={inputs.location} onChange={handleInput} className={classes.textfield} />
+                        </div>
+                        <div>
+                            <FormControl className={classes.drop}>
+                                <InputLabel>
+                                    Component Type:
+                            </InputLabel>
+                                <Select value={inputs.size} name="size" onChange={handleInput}>
+                                    <MenuItem value="SMALL"> Small </MenuItem>
+                                    <MenuItem value="MEDIUM"> Medium </MenuItem>
+                                    <MenuItem value="LARGE"> Large </MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+                        <div>
+                            <input placeholder="Price" name="price" value={inputs.price} onChange={handleInput} pattern="^\d*(\.\d{0,2})?$" title="Enter a positive number with AT MOST 2 decimal numbers." className={classes.price} />
+                        </div>
+                        <div>
+                            <FormControl className={classes.drop}>
+                                <InputLabel>
+                                    Component Type:
+                            </InputLabel>
+                                <Select value={inputs.component_type} name="component_type" onChange={handleInput} >
+                                    <MenuItem value="HANDLE"> Handle </MenuItem>
+                                    <MenuItem value="WHEEL"> Wheel </MenuItem>
+                                    <MenuItem value="SEAT"> Seat </MenuItem>
+                                    <MenuItem value="DRIVE_TRAIN"> Drive Train </MenuItem>
+                                    <MenuItem value="FRAME"> Frame </MenuItem>
+                                </Select>
 
-                    <div>
-                        <label>
-                            Component Type:
-                        <select value={inputs.component_type} name="component_type" onChange={handleInput} >
-                                <option value="HANDLE"> Handle </option>
-                                <option value="WHEEL"> Wheel </option>
-                                <option value="SEAT"> Seat </option>
-                                <option value="DRIVE_TRAIN"> Drive Train </option>
-                                <option value="FRAME"> Frame </option>
-                            </select>
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            Specific Component Type:
-                    <input type="text" value={inputs.specificComponentType} name="specificComponentType" onChange={handleInput} />
-                        </label>
-                    </div>
-                    <input type="submit" disabled={!isFormValid()}></input>
-                </form>
+                            </FormControl>
+                        </div>
+                        <div>
+                            <TextField label="Specific Component Type" type="text" value={inputs.specificComponentType} name="specificComponentType" onChange={handleInput} className={classes.textfield} />
+                        </div>
+                        <Button type="submit" variant="contained" color="primary" disabled={!isFormValid()}>Submit</Button>
+                    </form>
+                </div>
                 {
                     customComponentErrorMessage
                         ?
