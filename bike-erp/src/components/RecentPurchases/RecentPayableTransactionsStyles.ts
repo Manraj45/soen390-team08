@@ -5,8 +5,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 350,
     height: "100%",
     [theme.breakpoints.down("sm")]: {
-      marginTop: "30px",
-    }
+      marginTop: 30,
+    },
+    marginBottom: 30
   },
   headerCell: {
     paddingTop: 0

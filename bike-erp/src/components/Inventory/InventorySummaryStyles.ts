@@ -4,6 +4,9 @@ const useStyles = makeStyles((theme) => ({
   inventorySummary: {
     maxWidth: 500,
     height: "100%",
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: 375,
+    },
     boxSizing: "border-box"
   },
   headerCell: {
@@ -11,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
   },
   charts: {
     display: "flex",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    boxSizing: "border-box"
   },
   seeMore: {
     backgroundColor: "black"
