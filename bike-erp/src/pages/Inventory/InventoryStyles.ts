@@ -8,12 +8,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "200%",
   },
   background: {
-    background: "#DDDDDD",
+    background: "rgb(240, 240, 240)",
     paddingLeft: "10px",
     paddingRight: "10px",
   },
   tableHead: {
-    backgroundColor: "black",
+    backgroundColor: "#f15e32",
     padding: "7px",
   },
   tableStyle: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   topRow: {
     fontWeight: "bold",
     color: "white",
-    background: "black",
+    background: "#f15e32",
     minWidth:"150px",
   },
   place: {

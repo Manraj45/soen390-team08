@@ -26,10 +26,17 @@ const useStyles = makeStyles((theme) => ({
     header:{
         textAlign:"center",
         padding:"10px",
-        minWidth:"20px"
+        minWidth:"20px",
+        color:"white",
     },
     headerRow:{
-        background:"#C4C4C4"
+        background:"#f15e32"
+    },
+    btn:{
+        background:"#f15e32",
+        color:"white",
+        padding:"5px",
+        margin:"5px",
     }
 })
 );
