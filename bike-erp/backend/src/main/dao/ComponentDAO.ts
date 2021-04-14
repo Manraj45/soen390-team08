@@ -3,9 +3,9 @@ import db from "../helpers/db";
 export const fetchAllComponents = () => {
   return new Promise<Array<any>>((resolve, reject) => {
     const query = `
-            SELECT c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.component_id, cl.location_name 
-            FROM component c , component_location cl
-            WHERE c.component_id=cl.component_id`;
+      SELECT c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.component_id, cl.location_name 
+      FROM component c , component_location cl
+      WHERE c.component_id=cl.component_id`;
     db.query(query, (err, rows) => {
       if (err) return reject(err);
       resolve(JSON.parse(JSON.stringify(rows)));
@@ -16,9 +16,9 @@ export const fetchAllComponents = () => {
 export const fetchComponent = (id: string) => {
   return new Promise((resolve, reject) => {
     const query = `
-            SELECT c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.component_id, cl.location_name 
-            FROM component c , component_location cl
-            WHERE c.component_id = ? and c.component_id = cl.component_id`;
+      SELECT c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.component_id, cl.location_name 
+      FROM component c , component_location cl
+      WHERE c.component_id = ? and c.component_id = cl.component_id`;
     db.query(query, [id], (err, rows) => {
       if (err) return reject(err);
       resolve(JSON.parse(JSON.stringify(rows)));
@@ -59,25 +59,45 @@ export const fetchAllLocations = () => {
 export const fetchComponentTypes = (location: string, size: string) => {
   return new Promise<Array<any>>((resolve, reject) => {
     //queries for each type of component
-    const queryHandle = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
-    FROM component c, component_location cl
-    WHERE c.component_type = "HANDLE" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
+    const queryHandle = `
+      SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+      FROM component c, component_location cl
+      WHERE c.component_type = "HANDLE"
+      AND c.component_id = cl.component_id
+      AND cl.location_name = ?
+      AND c.size = ?;`;
 
-    const queryWheel = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
-    FROM component c, component_location cl
-    WHERE c.component_type = "WHEEL" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
+    const queryWheel = `
+      SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+      FROM component c, component_location cl
+      WHERE c.component_type = "WHEEL"
+      AND c.component_id = cl.component_id
+      AND cl.location_name = ?
+      AND c.size = ?;`;
 
-    const querySeat = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
-    FROM component c, component_location cl
-    WHERE c.component_type = "SEAT" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
+    const querySeat = `
+      SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+      FROM component c, component_location cl
+      WHERE c.component_type = "SEAT"
+      AND c.component_id = cl.component_id
+      AND cl.location_name = ?
+      AND c.size = ?;`;
 
-    const queryDriveTrain = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
-    FROM component c, component_location cl
-    WHERE c.component_type = "DRIVE_TRAIN" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
+    const queryDriveTrain = `
+      SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+      FROM component c, component_location cl
+      WHERE c.component_type = "DRIVE_TRAIN"
+      AND c.component_id = cl.component_id
+      AND cl.location_name = ?
+      AND c.size = ?;`;
 
-    const queryFrame = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
-    FROM component c, component_location cl
-    WHERE c.component_type = "FRAME" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
+    const queryFrame = `
+      SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+      FROM component c, component_location cl
+      WHERE c.component_type = "FRAME"
+      AND c.component_id = cl.component_id
+      AND cl.location_name = ?
+      AND c.size = ?;`;
 
     let results: any = {
       HANDLE: [],

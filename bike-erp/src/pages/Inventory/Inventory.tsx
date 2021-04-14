@@ -2,6 +2,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
+// SERVICES
+import { BACKEND_URL } from "../../core/utils/config";
+
 // STYLING
 import { Table, TableHead, TableBody, TableRow, TableCell, Paper, TableSortLabel, createMuiTheme, ThemeProvider } from "@material-ui/core"
 import useStyles from "./InventoryStyles";
@@ -12,11 +15,29 @@ import useStyles from "./InventoryStyles";
 */
 const Inventory: React.FC = () => {
   const [inventoryTable, setInventoryTable] = useState<any[]>([]);
-  const [sortOrder, setSortOrder] = useState({ 'component_type': 0, 'price': 0, 'quantity': 0, 'component_status': 0, 'size': 0, 'specificComponentType': 0, 'location_name': 0 });
-  const [arrowUp, setArrowUp] = useState({ 'component_type': true, 'price': true, 'quantity': true, 'component_status': true, 'size': true, 'specificComponentType': true, 'location_name': true });
+  
+  const [sortOrder, setSortOrder] = useState({
+    'component_type': 0,
+    'price': 0,
+    'quantity': 0,
+    'component_status': 0,
+    'size': 0,
+    'specificComponentType': 0,
+    'location_name': 0
+  });
+
+  const [arrowUp, setArrowUp] = useState({
+    'component_type': true,
+    'price': true,
+    'quantity': true,
+    'component_status': true,
+    'size': true,
+    'specificComponentType': true,
+    'location_name': true
+  });
 
   useEffect(() => {
-    axios.get("http://localhost:3001/components/").then((response) => {
+    axios.get(`${BACKEND_URL}/components/`).then((response) => {
       setInventoryTable(response.data);
     });
   }, []);
@@ -99,13 +120,41 @@ const Inventory: React.FC = () => {
             <TableHead className={classes.tableHead}>
               <TableRow>
                 <ThemeProvider theme={theme}>
-                  <TableCell className={classes.topRow}> Type <TableSortLabel direction={arrowUp['component_type'] ? "asc" : "desc"} onClick={() => sortTable('component_type')}></TableSortLabel></TableCell>
-                  <TableCell className={classes.topRow}> Price <TableSortLabel direction={arrowUp['price'] ? "asc" : "desc"} onClick={() => sortTable('price')}></TableSortLabel></TableCell>
-                  <TableCell className={classes.topRow}> Quantity <TableSortLabel direction={arrowUp['quantity'] ? "asc" : "desc"} onClick={() => sortTable('quantity')}></TableSortLabel></TableCell>
-                  <TableCell className={classes.topRow}> Status <TableSortLabel direction={arrowUp['component_status'] ? "asc" : "desc"} onClick={() => sortTable('component_status')}></TableSortLabel></TableCell>
-                  <TableCell className={classes.topRow}> Size <TableSortLabel direction={arrowUp['size'] ? "asc" : "desc"} onClick={() => sortTable('size')}></TableSortLabel></TableCell>
-                  <TableCell className={classes.topRow}> Component Type <TableSortLabel direction={arrowUp['specificComponentType'] ? "asc" : "desc"} onClick={() => sortTable('specificComponentType')}></TableSortLabel></TableCell>
-                  <TableCell className={classes.topRow}> Location <TableSortLabel direction={arrowUp['location_name'] ? "asc" : "desc"} onClick={() => sortTable('location_name')}></TableSortLabel></TableCell>
+                  <TableCell className={classes.topRow}>
+                    Type
+                    <TableSortLabel direction={arrowUp['component_type'] ? "asc" : "desc"}
+                      onClick={() => sortTable('component_type')}/>
+                  </TableCell>
+                  <TableCell className={classes.topRow}>
+                    Price
+                    <TableSortLabel direction={arrowUp['price'] ? "asc" : "desc"}
+                      onClick={() => sortTable('price')}/>
+                    </TableCell>
+                  <TableCell className={classes.topRow}>
+                    Quantity
+                    <TableSortLabel direction={arrowUp['quantity'] ? "asc" : "desc"}
+                      onClick={() => sortTable('quantity')}/>
+                  </TableCell>
+                  <TableCell className={classes.topRow}>
+                    Status
+                    <TableSortLabel direction={arrowUp['component_status'] ? "asc" : "desc"}
+                      onClick={() => sortTable('component_status')}/>
+                    </TableCell>
+                  <TableCell className={classes.topRow}>
+                    Size
+                    <TableSortLabel direction={arrowUp['size'] ? "asc" : "desc"}
+                      onClick={() => sortTable('size')}/>
+                    </TableCell>
+                  <TableCell className={classes.topRow}>
+                    Component Type
+                    <TableSortLabel direction={arrowUp['specificComponentType'] ? "asc" : "desc"}
+                      onClick={() => sortTable('specificComponentType')}/>
+                    </TableCell>
+                  <TableCell className={classes.topRow}>
+                    Location
+                    <TableSortLabel direction={arrowUp['location_name'] ? "asc" : "desc"}
+                      onClick={() => sortTable('location_name')}/>
+                    </TableCell>
                 </ThemeProvider>
               </TableRow>
             </TableHead>
