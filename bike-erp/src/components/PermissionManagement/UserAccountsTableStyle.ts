@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   tableHeader: {
-    backgroundColor: "black",
+    backgroundColor: "#f15e32",
     color: "white",
     padding: "7px",
   },
@@ -15,9 +15,9 @@ const useStyles = makeStyles((theme) => ({
   },
   saveBtn: {
     margin: theme.spacing(1),
-    backgroundColor: "black",
+    backgroundColor: "#f15e32",
     "&:hover": {
-      backgroundColor: "#343835",
+      backgroundColor: "#f15e32",
     },
   },
   saveBtnContainer: {

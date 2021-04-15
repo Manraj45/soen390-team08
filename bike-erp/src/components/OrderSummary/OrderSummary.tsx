@@ -114,8 +114,8 @@ const OrderSummary = ({ orderList, removeItem, removeAllItems, updateQuantity }:
             {
                 orderList.orderList.length !== 0 && <>
                     <Typography variant="h6">Total: ${total}</Typography>
-                    <Button variant="contained" onClick={updateQuantityOfListOrder}>Proceed</Button>
-                    <Button variant="contained" onClick={removeAllItems}>Clear Cart</Button>
+                    <Button className={classes.btn} variant="contained" onClick={updateQuantityOfListOrder}>Proceed</Button>
+                    <Button className={classes.btn} variant="contained" onClick={removeAllItems}>Clear Cart</Button>
                 </>
 
             }

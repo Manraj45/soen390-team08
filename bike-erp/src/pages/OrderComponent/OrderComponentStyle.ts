@@ -15,7 +15,10 @@ const useStyles = makeStyles((theme) => ({
         fontWeight:"bold"
     },
     addCart:{
-        margin:"10px"
+        margin:"10px",
+        background:"#f15e32",
+        color:"white",
+        padding:"5px",
     },
     title: {
         alignItems: "center",
