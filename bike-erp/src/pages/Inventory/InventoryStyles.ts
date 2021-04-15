@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "200%",
   },
   background: {
-    background: "rgb(240, 240, 240)",
+    background: "#f0f0f0",
     paddingLeft: "10px",
     paddingRight: "10px",
   },
