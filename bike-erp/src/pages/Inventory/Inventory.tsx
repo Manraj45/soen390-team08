@@ -53,7 +53,7 @@ const Inventory = () => {
               { field: 'specificComponentType', headerName: 'Component Type',disableClickEventBubbling: true, width: 200 },
               { field: 'location_name', headerName: 'Location',disableClickEventBubbling: true, width: 200 },
             ]} 
-            pageSize={25}
+            pageSize={50}
             className={classes.dataGrid}/>
         </Paper>
       </div> 

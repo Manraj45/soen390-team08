@@ -53,16 +53,16 @@ createStyles({
     marginRight: "auto",
   },
   dataGrid:{
-    color:'#ffff',
+    color:'#ffffff',
     '& .MuiDataGrid-columnsContainer': {
-      backgroundColor: '#1d1d1d',
-      color: '#ffff',
+      backgroundColor: '#f15e32',
+      color: '#fff',
     },
     '& .MuiDataGrid-cell': {
       color: '#000000',
     },
-    '& .MuiDataGrid-columnsContainer .MuiIconButton-root': {
-      color: 'white'
+    '&.MuiIconButton-root': {
+      color: '#fff'
     },
   },
 }));
