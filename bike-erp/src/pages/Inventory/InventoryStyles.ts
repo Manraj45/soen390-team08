@@ -14,23 +14,30 @@ const useStyles = makeStyles((theme) =>
           paddingRight: "10px",
       },
       tableBack: {
-          height: 700,
-          width: "70%",
-          marginLeft: "auto",
-          marginRight: "auto",
+        height: 700,
+        width: "70%",
+        marginLeft: "auto",
+        marginRight: "auto",
+        "&.MuiIconButton-root": {
+          color: "#fff",
+        },
       },
       dataGrid: {
-          color: "#ffffff",
-          "& .MuiDataGrid-columnsContainer": {
-              backgroundColor: "#f15e32",
-              color: "#fff",
-          },
-          "& .MuiDataGrid-cell": {
-              color: "#000000",
-          },
-          "&.MuiIconButton-root": {
-              color: "#fff",
-          },
+        letterSpacing: 'normal',
+        color: "#ffffff",
+        "& .MuiDataGrid-columnsContainer": {
+            backgroundColor: "#f15e32",
+            color: "#fff",
+        },
+        "& .MuiDataGrid-cell": {
+          color: "#000000",
+        },
+        "& .MuiIconButton-root-239":{
+          color:"#fff"
+        },
+        "& .MuiDataGrid-colCellTitle":{
+          fontWeight: "bold",
+        },
       },
   })
 );

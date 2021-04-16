@@ -5,7 +5,8 @@ import React, { useEffect, useState } from "react";
 // STYLING
 import { Paper } from "@material-ui/core";
 import useStyles from "./InventoryStyles";
-import { DataGrid, GridRowsProp } from '@material-ui/data-grid';
+import { DataGrid, GridRowsProp, useGridSlotComponentProps } from '@material-ui/data-grid';
+import { Pagination } from "@material-ui/lab";
 
 /*
   The inventory page.
@@ -34,6 +35,21 @@ const Inventory = () => {
 
   const classes = useStyles();
 
+  const CustomPagination = () => {
+    const { state, apiRef } = useGridSlotComponentProps();
+  
+    return (
+      <Pagination
+        color="primary"
+        variant="outlined"
+        size="medium"
+        page={state.pagination.page + 1}
+        count={state.pagination.pageCount}
+        onChange={(event, value) => apiRef.current.setPage(value - 1)}
+      />
+    );
+  }
+
   return (
     <React.Fragment>
       <div id="inventoryPageTest" className={classes.background}>
@@ -41,20 +57,24 @@ const Inventory = () => {
         <div className={classes.title}>Inventory</div>
         <br/>
         <Paper className={classes.tableBack}>
-          <DataGrid 
-            rows={inventoryTable as GridRowsProp} 
-            columns={[
-              { field: 'id' , headerName: 'Id',disableClickEventBubbling: true, width: 100},
-              { field: 'component_type', headerName: 'Type',disableClickEventBubbling: true, width: 200 },
-              { field: 'price', headerName: 'Price',disableClickEventBubbling: true, type: 'number', width: 140 },
-              { field: 'quantity', headerName: 'Qty',disableClickEventBubbling: true, type: 'number', width: 140 },
-              { field: 'component_status', headerName: 'Status',disableClickEventBubbling: true, width: 200 },
-              { field: 'size', headerName: 'Size',disableClickEventBubbling: true, width: 125 },
-              { field: 'specificComponentType', headerName: 'Component Type',disableClickEventBubbling: true, width: 200 },
-              { field: 'location_name', headerName: 'Location',disableClickEventBubbling: true, width: 200 },
-            ]} 
-            pageSize={50}
-            className={classes.dataGrid}/>
+            <DataGrid
+              rows={inventoryTable as GridRowsProp} 
+              columns={[
+                { field: 'id' , headerName: 'Id',disableClickEventBubbling: true,type:'number', width: 100},
+                { field: 'component_type', headerName: 'Type',disableClickEventBubbling: true, width: 200 },
+                { field: 'price', headerName: 'Price',disableClickEventBubbling: true, type: 'number', width: 140 },
+                { field: 'quantity', headerName: 'Qty',disableClickEventBubbling: true, type: 'number', width: 140 },
+                { field: 'component_status', headerName: 'Status',disableClickEventBubbling: true, width: 200 },
+                { field: 'size', headerName: 'Size',disableClickEventBubbling: true, width: 125 },
+                { field: 'specificComponentType', headerName: 'Component Type',disableClickEventBubbling: true, width: 200 },
+                { field: 'location_name', headerName: 'Location',disableClickEventBubbling: true, width: 200 },
+              ]} 
+              pageSize={50}
+              pagination
+              components={{
+                Pagination: CustomPagination,
+              }}
+              className={classes.dataGrid}/>
         </Paper>
       </div> 
     </React.Fragment>
