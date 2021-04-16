@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "200%",
   },
   background: {
-    background: "#DDDDDD",
     paddingLeft: "10px",
     paddingRight: "10px",
   },
@@ -27,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   topRow: {
     fontWeight: "bold",
     color: "white",
-    background: "black",
+    background: "#f15e32",
     minWidth:"150px",
   },
   place: {
