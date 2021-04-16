@@ -1,6 +1,7 @@
-import { makeStyles } from "@material-ui/core";
+import { createStyles, makeStyles } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => 
+createStyles({
   title: {
     alignItems: "center",
     textAlign: "center",
@@ -43,6 +44,25 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("md")]: {
       marginTop: "10px",
       minHeight: "650px",
+    },
+  },
+  tableBack:{
+    height: 700,
+    width: "70%",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  dataGrid:{
+    color:'#ffff',
+    '& .MuiDataGrid-columnsContainer': {
+      backgroundColor: '#1d1d1d',
+      color: '#ffff',
+    },
+    '& .MuiDataGrid-cell': {
+      color: '#000000',
+    },
+    '& .MuiDataGrid-columnsContainer .MuiIconButton-root': {
+      color: 'white'
     },
   },
 }));
