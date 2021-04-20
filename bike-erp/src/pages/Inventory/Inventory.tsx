@@ -1,7 +1,6 @@
 // DEPENDENCIES
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BACKEND_URL } from "../../core/utils/config"
 
 // SERVICES
 import { BACKEND_URL } from "../../core/utils/config";
