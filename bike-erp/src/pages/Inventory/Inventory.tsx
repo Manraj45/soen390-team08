@@ -6,186 +6,83 @@ import React, { useEffect, useState } from "react";
 import { BACKEND_URL } from "../../core/utils/config";
 
 // STYLING
-import { Table, TableHead, TableBody, TableRow, TableCell, Paper, TableSortLabel, createMuiTheme, ThemeProvider } from "@material-ui/core"
+import { Paper } from "@material-ui/core";
 import useStyles from "./InventoryStyles";
+import { DataGrid, GridRowsProp, useGridSlotComponentProps } from '@material-ui/data-grid';
+import { Pagination } from "@material-ui/lab";
 
 /*
   The inventory page.
   This shows what a logged-in user's inventory contains.
 */
-const Inventory: React.FC = () => {
+const Inventory = () => {
   const [inventoryTable, setInventoryTable] = useState<any[]>([]);
-  
-  const [sortOrder, setSortOrder] = useState({
-    'component_type': 0,
-    'price': 0,
-    'quantity': 0,
-    'component_status': 0,
-    'size': 0,
-    'specificComponentType': 0,
-    'location_name': 0
-  });
-
-  const [arrowUp, setArrowUp] = useState({
-    'component_type': true,
-    'price': true,
-    'quantity': true,
-    'component_status': true,
-    'size': true,
-    'specificComponentType': true,
-    'location_name': true
-  });
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/components/`).then((response) => {
-      setInventoryTable(response.data);
+      const temp = response.data.map(({
+        component_id, component_status, component_type,
+        location_name, price, quantity, size, specificComponentType
+      }) => {
+        return {
+          id: component_id,
+          component_status: component_status,
+          component_type: component_type,
+          location_name: location_name,
+          price: price,
+          quantity: quantity,
+          size: size,
+          specificComponentType: specificComponentType,
+        }
+      });
+      setInventoryTable(temp);
     });
   }, []);
 
   const classes = useStyles();
 
-  const theme = createMuiTheme({
-    overrides: {
-      MuiTableSortLabel: {
-        icon: {
-          color: "white",
-          opacity: 1,
-          marginBottom: "3px",
-        },
-      },
-    },
-  });
-
-  // Method to sort table depending on the column header clicked
-  const sortTable = (sortBy: string) => {
-    let sortBy2 = sortBy + '2';
-    let sortedTable = inventoryTable.slice(0);
-    let sortDirection = sortOrder[sortBy];
-    let newSortDirection = sortOrder;
-    let newArrowDirection = arrowUp;
-
-    sortedTable.sort((a, b) => {
-      let x = '';
-      let y = '';
-
-      const sortByObject = {
-        'component_type': a.component_type,
-        'component_type2': b.component_type,
-        'price': a.price,
-        'price2': b.price,
-        'quantity': a.quantity,
-        'quantity2': b.quantity,
-        'component_status': a.component_status,
-        'component_status2': b.component_status,
-        'size': a.size,
-        'size2': b.size,
-        'specificComponentType': a.specificComponentType,
-        'specificComponentType2': b.specificComponentType,
-        'location_name': a.location_name,
-        'location_name2': b.location_name
-      }
-
-      if (sortDirection === 0) {
-        x = sortByObject[sortBy];
-        y = sortByObject[sortBy2];
-        return x < y ? -1 : x > y ? 1 : 0;
-      } else {
-        x = sortByObject[sortBy];
-        y = sortByObject[sortBy2];
-        return x > y ? -1 : x < y ? 1 : 0;
-      }
-    });
-
-    if (sortDirection === 0) {
-      newSortDirection[sortBy] = 1;
-      newArrowDirection[sortBy] = true;
-    } else {
-      newSortDirection[sortBy] = 0;
-      newArrowDirection[sortBy] = false;
-    }
-
-    setSortOrder(newSortDirection);
-    setArrowUp(newArrowDirection);
-    setInventoryTable([...sortedTable]);
+  const CustomPagination = () => {
+    const { state, apiRef } = useGridSlotComponentProps();
+  
+    return (
+      <Pagination
+        color="primary"
+        variant="outlined"
+        size="medium"
+        page={state.pagination.page + 1}
+        count={state.pagination.pageCount}
+        onChange={(event, value) => apiRef.current.setPage(value - 1)}
+      />
+    );
   }
 
   return (
     <React.Fragment>
       <div id="inventoryPageTest" className={classes.background}>
-        <br></br>
+        <br/>
         <div className={classes.title}>Inventory</div>
-        <br></br>
-        <Paper className={classes.place}>
-          <Table size="small" stickyHeader className={classes.tableStyle}>
-            <TableHead className={classes.tableHead}>
-              <TableRow>
-                <ThemeProvider theme={theme}>
-                  <TableCell className={classes.topRow}>
-                    Type
-                    <TableSortLabel direction={arrowUp['component_type'] ? "asc" : "desc"}
-                      onClick={() => sortTable('component_type')}/>
-                  </TableCell>
-                  <TableCell className={classes.topRow}>
-                    Price
-                    <TableSortLabel direction={arrowUp['price'] ? "asc" : "desc"}
-                      onClick={() => sortTable('price')}/>
-                    </TableCell>
-                  <TableCell className={classes.topRow}>
-                    Quantity
-                    <TableSortLabel direction={arrowUp['quantity'] ? "asc" : "desc"}
-                      onClick={() => sortTable('quantity')}/>
-                  </TableCell>
-                  <TableCell className={classes.topRow}>
-                    Status
-                    <TableSortLabel direction={arrowUp['component_status'] ? "asc" : "desc"}
-                      onClick={() => sortTable('component_status')}/>
-                    </TableCell>
-                  <TableCell className={classes.topRow}>
-                    Size
-                    <TableSortLabel direction={arrowUp['size'] ? "asc" : "desc"}
-                      onClick={() => sortTable('size')}/>
-                    </TableCell>
-                  <TableCell className={classes.topRow}>
-                    Component Type
-                    <TableSortLabel direction={arrowUp['specificComponentType'] ? "asc" : "desc"}
-                      onClick={() => sortTable('specificComponentType')}/>
-                    </TableCell>
-                  <TableCell className={classes.topRow}>
-                    Location
-                    <TableSortLabel direction={arrowUp['location_name'] ? "asc" : "desc"}
-                      onClick={() => sortTable('location_name')}/>
-                    </TableCell>
-                </ThemeProvider>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {inventoryTable.map((row) => (
-                <TableRow key={row.component_id}>
-                  <TableCell className={classes.innerTable}>
-                    {row.component_type}
-                  </TableCell>
-                  <TableCell className={classes.innerTable}>
-                    {row.price}
-                  </TableCell>
-                  <TableCell className={classes.innerTable}>
-                    {row.quantity}
-                  </TableCell>
-                  <TableCell className={classes.innerTable}>
-                    {row.component_status}
-                  </TableCell>
-                  <TableCell className={classes.innerTable}>{row.size}</TableCell>
-                  <TableCell className={classes.innerTable}>
-                    {row.specificComponentType}
-                  </TableCell>
-                  <TableCell className={classes.innerTable}>
-                    {row.location_name}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        <br/>
+        <Paper className={classes.tableBack}>
+            <DataGrid
+              rows={inventoryTable as GridRowsProp} 
+              columns={[
+                { field: 'id' , headerName: 'Id',disableClickEventBubbling: true,type:'number', width: 100},
+                { field: 'component_type', headerName: 'Type',disableClickEventBubbling: true, width: 200 },
+                { field: 'price', headerName: 'Price',disableClickEventBubbling: true, type: 'number', width: 140 },
+                { field: 'quantity', headerName: 'Qty',disableClickEventBubbling: true, type: 'number', width: 140 },
+                { field: 'component_status', headerName: 'Status',disableClickEventBubbling: true, width: 200 },
+                { field: 'size', headerName: 'Size',disableClickEventBubbling: true, width: 125 },
+                { field: 'specificComponentType', headerName: 'Component Type',disableClickEventBubbling: true, width: 200 },
+                { field: 'location_name', headerName: 'Location',disableClickEventBubbling: true, width: 200 },
+              ]} 
+              pageSize={50}
+              pagination
+              components={{
+                Pagination: CustomPagination,
+              }}
+              className={classes.dataGrid}/>
         </Paper>
-      </div>
+      </div> 
     </React.Fragment>
   );
 };

@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     trigger: {
-      background: "#DDDDDD",
+      background: "#f0f0f0",
       maxWidth: 350
     },
   }));

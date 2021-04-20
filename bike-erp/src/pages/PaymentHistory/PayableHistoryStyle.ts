@@ -32,12 +32,12 @@ const useStyles = makeStyles((theme) => ({
     textAlign:"right"
   },
   tableHeader: {
-    backgroundColor: "black",
+    backgroundColor: "#f15e32",
     color: "white",
     padding: "7px",
     border: 1,
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: "#f15e32",
     borderStyle: "solid",
   },
   place: {

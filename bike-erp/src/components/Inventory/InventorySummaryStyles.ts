@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 0
   },
   seeMore: {
-    backgroundColor: "black"
+    backgroundColor: "#f15e32",
   }
 }));
 
