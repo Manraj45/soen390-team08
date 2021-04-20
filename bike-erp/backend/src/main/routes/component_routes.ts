@@ -42,6 +42,18 @@ router.post("/addComponent", authenticateToken, verifyRole([Role.ADMIN, Role.MAN
   })
 })
 
+router.get("/componentByLocation", authenticateToken, (req, res) => {
+  const loc = req.query.location;
+  inventoryManagementService
+    .getComponentsByLocation(loc)
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((error) => {
+      res.status(error.status).send(error.message);
+    });
+});
+
 router.get("/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE, Role.CUSTOMER]), (req, res) => {
   inventoryManagementService
     .getComponent(req.params.component_id)

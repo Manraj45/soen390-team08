@@ -36,7 +36,7 @@ const LoginPage = (props: any) => {
         direction="row"
       >
         <Grid item xs={12} md={4} className={classes.grid}>
-          <Typography variant="h3">Badob Inc</Typography>
+          <Typography variant="h3">Bike King</Typography>
           <img src={bike_logo} alt="bike_logo" className={classes.logo}></img>
         </Grid>
         <Grid item xs={12} md={4} className={classes.grid}>
