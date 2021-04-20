@@ -6,15 +6,16 @@ import { logout } from "../../redux/actions/AccountActions/accountAction";
 import Triggers from "../../components/Triggers/Triggers";
 import RecentPayableTransactions from "../../components/RecentPurchases/RecentPayableTransactions";
 import RecentReceivableTransactions from "../../components/RecentPurchases/RecentReceivableTransactions";
+import InventorySummary from "../../components/Inventory/InventorySummary";
 
 // STYLING
-import { Typography } from "@material-ui/core";
 import useStyles from "./HomeStyles";
+import { Typography } from "@material-ui/core";
 
 /*
   The homepage.
 */
-const Home = () => {
+const Home = (props: any) => {
   const classes = useStyles();
 
   return (
@@ -24,6 +25,7 @@ const Home = () => {
         <Triggers/>
         <RecentPayableTransactions/>
         <RecentReceivableTransactions/>
+        <InventorySummary/>
       </div>
     </div>
   );

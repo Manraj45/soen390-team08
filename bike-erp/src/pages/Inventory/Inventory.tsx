@@ -2,6 +2,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
+// SERVICES
+import { BACKEND_URL } from "../../core/utils/config";
+
 // STYLING
 import { Paper } from "@material-ui/core";
 import useStyles from "./InventoryStyles";
@@ -16,8 +19,11 @@ const Inventory = () => {
   const [inventoryTable, setInventoryTable] = useState<any[]>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/components/").then((response) => {
-      const temp = response.data.map(({component_id, component_status, component_type, location_name, price, quantity, size, specificComponentType}) => {
+    axios.get(`${BACKEND_URL}/components/`).then((response) => {
+      const temp = response.data.map(({
+        component_id, component_status, component_type,
+        location_name, price, quantity, size, specificComponentType
+      }) => {
         return {
           id: component_id,
           component_status: component_status,

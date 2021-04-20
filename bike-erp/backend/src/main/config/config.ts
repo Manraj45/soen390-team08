@@ -12,3 +12,4 @@ export const DB_USER: string = "sql5398940";
 // export const DB_PASSWORD: string = "password";
 // export const DB_DATABASE: string = "bike_erp";
 // export const DB_PORT: number = 3306;
+// export const DB_USER: string = "sql5398940";

@@ -5,11 +5,11 @@ import { connect } from "react-redux";
 
 // SERVICES
 import { BACKEND_URL } from "../../core/utils/config";
+import DataExport from "../../components/DataExport/DataExport";
 
 // STYLING
 import { Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, Box } from "@material-ui/core";
 import useStyles from "./PayableHistoryStyle";
-import DataExport from "../../components/DataExport/DataExport";
 
 /*
   This page pertains to the accounts payable.
