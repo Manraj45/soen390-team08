@@ -16,6 +16,9 @@ const InventorySummary = ({ account }: any) => {
   const classes = useStyles();
   const [allLocations, setAllLocations] = useState<any[]>([]);
   const [locationInventories, setLocationInventories] = useState<any[]>([]);
+  const [compTypePerLoc, setCompTypePerLoc] = useState<any[]>([]);
+  const [compCountPerLoc, setCompCountPerLoc] = useState<any[]>([]);
+  const [countDataset, setCountDataset] = useState<any[]>([]);
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
   // Fetch all locations
@@ -43,9 +46,10 @@ const InventorySummary = ({ account }: any) => {
   }, [allLocations]);
 
   // Calculate inventory count
-  let componentTypePerLocation : any[] = [];
-  let componentCountPerLocation : any[] = [];
   useEffect(() => {
+    let componentTypePerLocation : any[] = [];
+    let componentCountPerLocation : any[] = [];
+
     function calculateInventoryCount() {
       for (let i = 0; i < locationInventories.length; i++) {
 
@@ -87,6 +91,8 @@ const InventorySummary = ({ account }: any) => {
       }
     }
     calculateInventoryCount();
+    setCompTypePerLoc(componentTypePerLocation);
+    setCompCountPerLoc(componentCountPerLocation);
   }, [locationInventories]);
 
   // Generate dataset
@@ -110,32 +116,19 @@ const InventorySummary = ({ account }: any) => {
   ];
 
   // Generate dataset for component type by location
-  let countDataset : any[] = [];
   useEffect(() => {
+    console.log("START");
+    setCountDataset([]);
     for (let i = 0; i < allLocations.length; i++) {
-      countDataset.push({
+      setCountDataset((data) => [...data, {
         label: allLocations[i].location_name.toUpperCase(),
         backgroundColor: backgroundColors[i%backgroundColors.length],
         borderColor: borderColors[i%backgroundColors.length],
         borderWidth: 1,
-        data: componentTypePerLocation[i]
-      });
+        data: compTypePerLoc[i]
+      }]);
     }
-  }, [componentTypePerLocation])
-
-  // Generate dataset for component count by location
-  let locationDataset : any[] = [];
-  useEffect(() => {
-    for(let i = 0; i< allLocations.length; i++) {
-      locationDataset.push({
-        label: allLocations[i].location_name.toUpperCase(),
-        backgroundColor: backgroundColors[i%backgroundColors.length],
-        borderColor: borderColors[i%backgroundColors.length],
-        borderWidth: 1,
-        data: componentCountPerLocation[i]
-      });
-    }
-  }, [componentCountPerLocation])
+  }, [compTypePerLoc])
 
   const countData = {
     labels: dataLabels,
@@ -154,34 +147,42 @@ const InventorySummary = ({ account }: any) => {
     },
   }
 
+  // Generate dataset for component count by location
   let locationNames : any[] = [];
   for (let i = 0; i < allLocations.length; i++) {
     locationNames[i] = allLocations[i].location_name.toUpperCase();
   }
 
+  let locationBgColors: any[] = [];
+  let locationBorderColors : any[] = [];
+  for(let i = 0; i < allLocations.length; i++) {
+    locationBgColors.push(backgroundColors[i%backgroundColors.length]);
+    locationBorderColors.push(borderColors[i%backgroundColors.length]);
+  }
+
   const locationData = {
     labels: locationNames,
-    datasets: locationDataset
+    datasets: [{
+      label: "Inventory per lcation",
+      data: compCountPerLoc,
+      backgroundColor: locationBgColors,
+      borderColor: locationBorderColors,
+      borderWidth: 1
+    }]
   }
 
   return(
-    <div>
-      <Card variant="outlined" className={classes.inventorySummary}>
+    <div className={classes.inventorySummary}>
+      <Card variant="outlined">
         <CardContent style={{ paddingBottom: 0 }}>
           <Typography style={{ textTransform: "capitalize" }} variant="h5">
             Inventory Summary
           </Typography>
         </CardContent>
         <CardContent>
-          <div className={classes.charts}>
+          <div>
             <Doughnut type="doughnut" data={locationData}/>
             <Bar type="bar" data={countData} options={countOptions}/>
-            {
-              console.log("count: ", countData)
-            }
-            {
-              console.log("data: ", locationData)
-            }
           </div>
         </CardContent>
         <CardActions className={classes.seeMore}>
