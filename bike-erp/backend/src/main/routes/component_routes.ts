@@ -54,7 +54,7 @@ router.get("/componentByLocation", authenticateToken, (req, res) => {
     });
 });
 
-router.get("/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE]), (req, res) => {
+router.get("/:component_id", authenticateToken, verifyRole([Role.ADMIN, Role.MANAGER, Role.EMPLOYEE, Role.CUSTOMER]), (req, res) => {
   inventoryManagementService
     .getComponent(req.params.component_id)
     .then((response) => {
