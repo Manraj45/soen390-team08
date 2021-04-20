@@ -117,7 +117,6 @@ const InventorySummary = ({ account }: any) => {
 
   // Generate dataset for component type by location
   useEffect(() => {
-    console.log("START");
     setCountDataset([]);
     for (let i = 0; i < allLocations.length; i++) {
       setCountDataset((data) => [...data, {
@@ -172,7 +171,7 @@ const InventorySummary = ({ account }: any) => {
   }
 
   return(
-    <div className={classes.inventorySummary}>
+    <div className={classes.root}>
       <Card variant="outlined">
         <CardContent style={{ paddingBottom: 0 }}>
           <Typography style={{ textTransform: "capitalize" }} variant="h5">

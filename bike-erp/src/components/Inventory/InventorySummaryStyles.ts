@@ -1,10 +1,14 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  inventorySummary: {
+  root: {
     width: 500,
-    overflow: "visible",
-    marginBottom: 30
+    height: "100%",
+    [theme.breakpoints.down("sm")]: {
+      marginTop: 30,
+      maxWidth: 350
+    },
+    marginBottom: 30,
   },
   headerCell: {
     paddingTop: 0
