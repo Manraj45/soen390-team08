@@ -127,6 +127,7 @@ const InventorySummary = ({ account }: any) => {
         data: compTypePerLoc[i]
       }]);
     }
+    // eslint-disable-next-line
   }, [compTypePerLoc])
 
   const countData = {
