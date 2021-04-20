@@ -14,89 +14,132 @@ import useStyles from "./InventorySummaryStyles";
 const InventorySummary = ({ account }: any) => {
 
   const classes = useStyles();
-  const [montrealInventory, setMontrealInventory] = useState<any[]>([]);
-  const [torontoInventory, setTorontoInventory] = useState<any[]>([]);
-  const [ottawaInventory, setOttawaInventory] = useState<any[]>([]);
+  const [allLocations, setAllLocations] = useState<any[]>([]);
+  const [locationInventories, setLocationInventories] = useState<any[]>([]);
+  const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
+  // Fetch all locations
   useEffect(() => {
     axios.all([
-      axios.get(`${BACKEND_URL}/components/componentByLocation`, {params: {location: "MONTREAL"}}),
-      axios.get(`${BACKEND_URL}/components/componentByLocation`, {params: {location: "TORONTO"}}),
-      axios.get(`${BACKEND_URL}/components/componentByLocation`, {params: {location: "OTTAWA"}}),
-    ]).then(axios.spread((res1, res2, res3) => {
-      setMontrealInventory(res1.data)
-      setTorontoInventory(res2.data)
-      setOttawaInventory(res3.data)
-    }));
+      axios.get(`${BACKEND_URL}/components/locations/all`)
+    ]).then((response) => {
+      setAllLocations(response[0].data);
+    });
   }, []);
-  
-  // Compute MTL inventory
-  const mtlInventoryCount = [];
-  mtlInventoryCount["FRAMES"] = montrealInventory.filter(item => item.component_type === "FRAME").length;
-  mtlInventoryCount["SADDLES"] = montrealInventory.filter(item => item.component_type === "SEAT").length;
-  mtlInventoryCount["HANDLES"] = montrealInventory.filter(item => item.component_type === "HANDLE").length;
-  mtlInventoryCount["WHEELS"] = montrealInventory.filter(item => item.component_type === "WHEEL").length;
-  mtlInventoryCount["DRIVETRAINs"] = montrealInventory.filter(item => item.component_type === "DRIVE TRAIN").length;
 
- // Compute TOR inventory
-  const torInventoryCount = [];
-  torInventoryCount["FRAMES"] = torontoInventory.filter(item => item.component_type === "FRAME").length;
-  torInventoryCount["SADDLES"] = torontoInventory.filter(item => item.component_type === "SEAT").length;
-  torInventoryCount["HANDLES"] = torontoInventory.filter(item => item.component_type === "HANDLE").length;
-  torInventoryCount["WHEELS"] = torontoInventory.filter(item => item.component_type === "WHEEL").length;
-  torInventoryCount["DRIVETRAINs"] = torontoInventory.filter(item => item.component_type === "DRIVE TRAIN").length;
+  // Fetch inventory by location
+  useEffect(() => {
+    let promises : Promise<any>[] = [];
+    setLocationInventories([]);
+    for (let i = 0; i < allLocations.length; i++) {
+      promises.push(axios
+        .get(`${BACKEND_URL}/components/componentByLocation`, { params: {location: `${allLocations[i].location_name}` }})
+        .then((response) => {
+          setLocationInventories((inv) => [...inv, response.data]);
+        })
+      );
+    }
+    Promise.all(promises);
+  }, [allLocations]);
 
-  // Compute OTT inventory
-  const ottInventoryCount = [];
-  ottInventoryCount["FRAMES"] = ottawaInventory.filter(item => item.component_type === "FRAME").length;
-  ottInventoryCount["SADDLES"] = ottawaInventory.filter(item => item.component_type === "SEAT").length;
-  ottInventoryCount["HANDLES"] = ottawaInventory.filter(item => item.component_type === "HANDLE").length;
-  ottInventoryCount["WHEELS"] = ottawaInventory.filter(item => item.component_type === "WHEEL").length;
-  ottInventoryCount["DRIVETRAINs"] = ottawaInventory.filter(item => item.component_type === "DRIVE TRAIN").length;
+  // Calculate inventory count
+  let componentTypePerLocation : any[] = [];
+  let componentCountPerLocation : any[] = [];
+  useEffect(() => {
+    function calculateInventoryCount() {
+      for (let i = 0; i < locationInventories.length; i++) {
+
+        const frames = locationInventories[i].filter(item => item.component_type === "FRAME");
+        for (let i = 0; i < frames.length; i++) {
+          frames[i] = frames[i].quantity;
+        }
+
+        const saddles = locationInventories[i].filter(item => item.component_type === "SEAT");
+        for (let i = 0; i < saddles.length; i++) {
+          saddles[i] = saddles[i].quantity;
+        }
+
+        const wheels = locationInventories[i].filter(item => item.component_type === "WHEEL");
+        for (let i = 0; i < wheels.length; i++) {
+          wheels[i] = wheels[i].quantity;
+        }
+
+        const driveTrains = locationInventories[i].filter(item => item.component_type === "DRIVE_TRAIN");
+        for (let i = 0; i < driveTrains.length; i++) {
+          driveTrains[i] = driveTrains[i].quantity;
+        }
+
+        componentTypePerLocation.push([
+          frames.reduce(reducer, 0),
+          saddles.reduce(reducer, 0),
+          wheels.reduce(reducer, 0),
+          wheels.reduce(reducer, 0),
+          driveTrains.reduce(reducer, 0)
+        ]);
+
+        componentCountPerLocation.push([
+          frames.reduce(reducer, 0),
+          saddles.reduce(reducer, 0),
+          wheels.reduce(reducer, 0),
+          wheels.reduce(reducer, 0),
+          driveTrains.reduce(reducer, 0)
+        ].reduce(reducer, 0));
+      }
+    }
+    calculateInventoryCount();
+  }, [locationInventories]);
+
+  // Generate dataset
+  const dataLabels = ["Frames", "Saddles", "Handles", "Wheels", "Drivetrains"];
+
+  const backgroundColors = [
+    "rgba(255, 99, 132, 0.2)",
+    "rgba(54, 162, 235, 0.2)",
+    "rgba(255, 206, 86, 0.2)",
+    "rgba(75, 192, 192, 0.2)",
+    "rgba(153, 102, 255, 0.2)",
+    "rgba(255, 159, 64, 0.2)"
+  ];
+  const borderColors = [
+    "rgba(255, 99, 132, 1)",
+    "rgba(54, 162, 235, 1)",
+    "rgba(255, 206, 86, 1)",
+    "rgba(75, 192, 192, 1)",
+    "rgba(153, 102, 255, 1)",
+    "rgba(255, 159, 64, 1)"
+  ];
+
+  // Generate dataset for component type by location
+  let countDataset : any[] = [];
+  useEffect(() => {
+    for (let i = 0; i < allLocations.length; i++) {
+      countDataset.push({
+        label: allLocations[i].location_name.toUpperCase(),
+        backgroundColor: backgroundColors[i%backgroundColors.length],
+        borderColor: borderColors[i%backgroundColors.length],
+        borderWidth: 1,
+        data: componentTypePerLocation[i]
+      });
+    }
+  }, [componentTypePerLocation])
+
+  // Generate dataset for component count by location
+  let locationDataset : any[] = [];
+  useEffect(() => {
+    for(let i = 0; i< allLocations.length; i++) {
+      locationDataset.push({
+        label: allLocations[i].location_name.toUpperCase(),
+        backgroundColor: backgroundColors[i%backgroundColors.length],
+        borderColor: borderColors[i%backgroundColors.length],
+        borderWidth: 1,
+        data: componentCountPerLocation[i]
+      });
+    }
+  }, [componentCountPerLocation])
 
   const countData = {
-    labels: ['Frames', 'Saddles', 'Handles', 'Wheels', 'Drivetrains'],
-    datasets: [
-      {
-        label: 'Montreal',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-        data: [
-          mtlInventoryCount["FRAMES"],
-          mtlInventoryCount["SADDLES"],
-          mtlInventoryCount["HANDLES"],
-          mtlInventoryCount["WHEELS"],
-          mtlInventoryCount["DRIVETRAINS"]
-        ]
-      },
-      {
-        label: 'Toronto',
-        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-        borderColor: 'rgba(153, 102, 255, 1)',
-        borderWidth: 1,
-        data: [
-          torInventoryCount["FRAMES"],
-          torInventoryCount["SADDLES"],
-          torInventoryCount["HANDLES"],
-          torInventoryCount["WHEELS"],
-          torInventoryCount["DRIVETRAINS"]
-        ]
-      },
-      {
-        label: 'Ottawa',
-        backgroundColor: 'rgba(255, 206, 86, 0.2)',
-        borderColor: 'rgba(255, 206, 86, 1)',
-        borderWidth: 1,
-        data: [
-          ottInventoryCount["FRAMES"],
-          ottInventoryCount["SADDLES"],
-          ottInventoryCount["HANDLES"],
-          ottInventoryCount["WHEELS"],
-          ottInventoryCount["DRIVETRAINS"]
-        ]
-      }
-    ]
+    labels: dataLabels,
+    datasets: countDataset
   }
 
   const countOptions = {
@@ -111,25 +154,14 @@ const InventorySummary = ({ account }: any) => {
     },
   }
 
+  let locationNames : any[] = [];
+  for (let i = 0; i < allLocations.length; i++) {
+    locationNames[i] = allLocations[i].location_name.toUpperCase();
+  }
+
   const locationData = {
-    labels: ['Montreal', 'Toronto', 'Ottawa'],
-    datasets: [
-      {
-        label: 'Inventory per location',
-        data: [montrealInventory.length, torontoInventory.length, ottawaInventory.length],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)'
-        ],
-        borderWidth: 1,
-      }
-    ]
+    labels: locationNames,
+    datasets: locationDataset
   }
 
   return(
@@ -142,8 +174,14 @@ const InventorySummary = ({ account }: any) => {
         </CardContent>
         <CardContent>
           <div className={classes.charts}>
-            <Doughnut type="doughnut" data={locationData} width={350}/>
-            <Bar type="bar" data={countData} options={countOptions} width={350}/>
+            <Doughnut type="doughnut" data={locationData}/>
+            <Bar type="bar" data={countData} options={countOptions}/>
+            {
+              console.log("count: ", countData)
+            }
+            {
+              console.log("data: ", locationData)
+            }
           </div>
         </CardContent>
         <CardActions className={classes.seeMore}>
