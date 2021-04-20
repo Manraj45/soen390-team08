@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 
 // SERVICES
-import db from "../../../main/helpers/db";
 import { ReportingService } from "../../../main/services/reportingService/ReportingService";
 import { UserLogService } from "../../../main/services/userlogService/UserLogService";
 
@@ -19,11 +18,6 @@ describe("Fetching sales report information", () => {
 
         // Mocking addToUserLog method from UserLogService
         UserLogService.getUserLogDao().addToUserLog = jest.fn().mockReturnValue(Promise.resolve());
-    });
-
-    afterAll(() => {
-        // Closing connection to database
-        db.end();
     });
 
     test("Fetching sales report info with empty start date", async () => {
@@ -68,11 +62,6 @@ describe("Fetching expenses report information", () => {
 
         // Mocking addToUserLog method from UserLogService
         UserLogService.getUserLogDao().addToUserLog = jest.fn().mockReturnValue(Promise.resolve());
-    });
-
-    afterAll(() => {
-        // Closing connection to database
-        db.end();
     });
 
     test("Fetching expenses report info with empty start date", async () => {

@@ -1,13 +1,6 @@
-import db from "../../../main/helpers/db";
 import { InventoryManagementService } from "../../../main/services/inventoryManagementService/InventoryManagementService";
 
 describe("Component Fetching", () => {
-  // teardown after tests
-  afterAll(() => {
-    //Closing connection to database
-    db.end();
-  });
-
   // Invalid number input for get component
   test("Get Component with Negative Id", async () => {
     const inventoryManagementService: InventoryManagementService = new InventoryManagementService();

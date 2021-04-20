@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 
 // SERVICES
 import { AccountDao } from "../../../main/dao/AccountDAO";
-import db from "../../../main/helpers/db";
 import { AuthenticationService } from "../../../main/services/authenticationService/AuthenticationService";
 
 //Test for login method
@@ -27,11 +26,6 @@ describe("Login test", () => {
     accountDao.fetchAccount = jest
       .fn()
       .mockReturnValue([{ email: "test@test.com", password: hashedPassword }]);
-  });
-
-  afterAll(() => {
-    //Closing connection to database
-    db.end();
   });
 
   test("Login in with the right password and email", async () => {
@@ -98,11 +92,6 @@ describe("Logout test", () => {
   //Setting the new refresh token array for the authentication service
   AuthenticationService.setRefreshToken(refreshTokens);
 
-  afterAll(() => {
-    //Closing the connection to the database
-    db.end();
-  });
-
   test("Log out successfully", () => {
     //Expecting a success json when logging out
     expect(AuthenticationService.logout(refreshTokens)).toMatchObject({
@@ -130,11 +119,6 @@ describe("Generating new access token", () => {
 
   //Setting the new refresh token array for the authentication service
   AuthenticationService.setRefreshToken(refreshTokens);
-
-  afterAll(() => {
-    //Closing the connection to the database
-    db.end();
-  });
 
   test("Refresh token is null", async () => {
     let errorMessage = "";
