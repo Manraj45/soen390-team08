@@ -90,7 +90,6 @@ export class BikeOrderService {
       const triggerService : TriggerService = new TriggerService();
       triggerService.getCurrentTriggers(email).then(async (response) =>{
         const triggers : any[] = response;
-        console.log(response);
         if(triggers[0].BIKE_ORDER){
           await EmailService.email(email, "Bike Order Confirmation", "You have sucessfully ordered a bike from Bike King Inc. Thank you for your purchase.").catch((error)=>{ console.log("An error has occured sending the email")});
         }

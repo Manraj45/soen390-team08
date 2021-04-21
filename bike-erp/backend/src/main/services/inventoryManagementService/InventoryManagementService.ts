@@ -6,6 +6,7 @@ import {
   fetchComponentTypes,
   fetchAllLocations,
   insertNewComponent,
+  fetchComponentsByLocation,
 } from "../../dao/ComponentDAO";
 import { AccountingService } from "../accountingService/AccountingService";
 import { EmailService } from "../emailService/emailService";
@@ -112,12 +113,18 @@ export class InventoryManagementService {
     return fetchComponentLocation(id);
   };
 
-  //Get all the types of components
+  // Get all the types of components
   public getComponentTypes = (location: string, size: string) => {
     return fetchComponentTypes(location, size);
   };
 
-  public getAllLocations = ()=>{
+  // Get all locations
+  public getAllLocations = ()=> {
     return fetchAllLocations();
+  }
+
+  // Get all components for a s pecified location
+  public getComponentsByLocation = (location: any) => {
+    return fetchComponentsByLocation(location);
   }
 }

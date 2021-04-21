@@ -1,6 +1,6 @@
 // DEPENDENCIES
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 
@@ -25,7 +25,7 @@ import OrderBike from "../pages/OrderBike/OrderBike"
 import CustomComponent from "../pages/CustomComponent/CustomComponent";
 
 // STYLING
-import { Box } from "@material-ui/core";
+import { Box, createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import "./App.css";
   
 const App = ({ account, isAuthenticated }: any) => {
@@ -55,109 +55,126 @@ const App = ({ account, isAuthenticated }: any) => {
     }
   );
 
+  const theme = createMuiTheme(
+    {
+      palette: {
+        primary: {
+          main: '#f15e32',
+        },
+        secondary: {
+          main: '#414141',
+        },
+      },
+    }
+  );
+
+  
+
   return (
     <Router>
-      <Box>
-        <Box className="App">
-          <Box>
-            {account.authenticated && <HeaderMenu setMenuIsOpen={setMenuIsOpen} menuIsOpen={menuIsOpen} />}
-            {menuIsOpen && <SideBarMenu />}
+      <MuiThemeProvider theme={theme}>    
+        <Box>
+          <Box className="App">
+            <Box>
+              {account.authenticated && <HeaderMenu setMenuIsOpen={setMenuIsOpen} menuIsOpen={menuIsOpen} />}
+              {menuIsOpen && <SideBarMenu />}
+            </Box>
+            <IdleTimerContainer />
+            <Switch>
+              <Route exact path="/" render={() => account.authenticated ? <Home /> : <Redirect to="/login" />} />
+              <Route path="/login"
+                render={() => account.loading
+                  ? <></>
+                  : account.authenticated
+                    ? <Redirect to="/" />
+                    : <Login />
+                }
+              />
+              <Route path="/register"
+                render={() => account.loading
+                  ? <></>
+                  : account.authenticated
+                    ? <Redirect to="/" />
+                    : <Registration />
+                }
+              />
+              <Route path="/admin"
+                render={() => account.loading
+                  ? <></>
+                  : account.authenticated && account.account.role === "ADMIN"
+                    ? <PermissionManagement />
+                    : <Redirect to="/login" />
+                }
+              />
+              <Route path="/order"
+                render={() => account.loading
+                  ? <></>
+                  : account.authenticated
+                    && (account.account.role === "ADMIN"
+                      || account.account.role === "MANAGER"
+                      || account.account.role === "EMPLOYEE")
+                    ? <OrderComponent />
+                    : <Redirect to="/login" />
+                }
+              />
+              <Route path="/inventory"
+                render={() => account.loading
+                  ? <></>
+                  : account.authenticated
+                    && (account.account.role === "ADMIN"
+                      || account.account.role === "MANAGER"
+                      || account.account.role === "EMPLOYEE")
+                    ? <Inventory />
+                    : <Redirect to="login" />
+                }
+              />
+              <Route path="/orderbike"
+                render={() => account.loading
+                  ? <></>
+                  : account.authenticated
+                    ? <OrderBike />
+                    : <Redirect to="/login" />
+                }
+              />
+              <Route path="/userlogs"
+                render={() => account.loading
+                  ? <></>
+                  : account.authenticated && account.account.role === "ADMIN"
+                    ? <UserLogs />
+                    : <Redirect to="/login" />
+                }
+              />
+              <Route path="/accountPayable"
+                render={() => account.loading
+                  ? <></>
+                  : account.authenticated
+                    ? <PayableHistory />
+                    : <Redirect to="/login" />
+                }
+              />
+              <Route path="/accountReceivable"
+                render={() => account.loading
+                  ? <></>
+                  : account.authenticated
+                    ? <ReceivableHistory />
+                    : <Redirect to="/login" />
+                }
+              />
+              <Route path="/addComponent"
+                render={() => account.loading
+                  ? <></>
+                  : account.authenticated
+                    && (account.account.role === "ADMIN"
+                      || account.account.role === "MANAGER")
+                    ? <CustomComponent />
+                    : <Redirect to="/login" />
+                }
+              />
+              <Route exact path="*" render={() => <Redirect to="/" />} />
+            </Switch>
           </Box>
-          <IdleTimerContainer />
-          <Switch>
-            <Route exact path="/" render={() => account.authenticated ? <Home /> : <Redirect to="/login" />} />
-            <Route path="/login"
-              render={() => account.loading
-                ? <></>
-                : account.authenticated
-                  ? <Redirect to="/" />
-                  : <Login />
-              }
-            />
-            <Route path="/register"
-              render={() => account.loading
-                ? <></>
-                : account.authenticated
-                  ? <Redirect to="/" />
-                  : <Registration />
-              }
-            />
-            <Route path="/admin"
-              render={() => account.loading
-                ? <></>
-                : account.authenticated && account.account.role === "ADMIN"
-                  ? <PermissionManagement />
-                  : <Redirect to="/login" />
-              }
-            />
-            <Route path="/order"
-              render={() => account.loading
-                ? <></>
-                : account.authenticated
-                  && (account.account.role === "ADMIN"
-                    || account.account.role === "MANAGER"
-                    || account.account.role === "EMPLOYEE")
-                  ? <OrderComponent />
-                  : <Redirect to="/login" />
-              }
-            />
-            <Route path="/inventory"
-              render={() => account.loading
-                ? <></>
-                : account.authenticated
-                  && (account.account.role === "ADMIN"
-                    || account.account.role === "MANAGER"
-                    || account.account.role === "EMPLOYEE")
-                  ? <Inventory />
-                  : <Redirect to="login" />
-              }
-            />
-            <Route path="/orderbike"
-              render={() => account.loading
-                ? <></>
-                : account.authenticated
-                  ? <OrderBike />
-                  : <Redirect to="/login" />
-              }
-            />
-            <Route path="/userlogs"
-              render={() => account.loading
-                ? <></>
-                : account.authenticated && account.account.role === "ADMIN"
-                  ? <UserLogs />
-                  : <Redirect to="/login" />
-              }
-            />
-            <Route path="/accountPayable"
-              render={() => account.loading
-                ? <></>
-                : account.authenticated
-                  ? <PayableHistory />
-                  : <Redirect to="/login" />
-              }
-            />
-            <Route path="/accountReceivable"
-              render={() => account.loading
-                ? <></>
-                : account.authenticated
-                  ? <ReceivableHistory />
-                  : <Redirect to="/login" />
-              }
-            />
-            <Route path="/addComponent"
-              render={() => account.loading
-                ? <></>
-                : account.authenticated
-                  && (account.account.role === "ADMIN"
-                    || account.account.role === "MANAGER")
-                  ? <CustomComponent />
-                  : <Redirect to="/login" />
-              }
-            />
-            <Route exact path="*" render={() => <Redirect to="/" />} />
-          </Switch>
         </Box>
-      </Box>
+      </MuiThemeProvider>
     </Router>
   );
 };

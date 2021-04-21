@@ -95,12 +95,17 @@ class InventoryManagementService {
             }
             return ComponentDAO_1.fetchComponentLocation(id);
         };
-        //Get all the types of components
+        // Get all the types of components
         this.getComponentTypes = (location, size) => {
             return ComponentDAO_1.fetchComponentTypes(location, size);
         };
+        // Get all locations
         this.getAllLocations = () => {
             return ComponentDAO_1.fetchAllLocations();
+        };
+        // Get all components for a s pecified location
+        this.getComponentsByLocation = (location) => {
+            return ComponentDAO_1.fetchComponentsByLocation(location);
         };
         AccountingService_1.AccountingService.getAccountingService();
     }

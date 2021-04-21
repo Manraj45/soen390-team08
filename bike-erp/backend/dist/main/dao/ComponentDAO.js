@@ -3,14 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertNewComponent = exports.fetchComponentTypes = exports.fetchAllLocations = exports.fetchComponentLocation = exports.updateComponent = exports.fetchComponent = exports.fetchAllComponents = void 0;
+exports.fetchComponentsByLocation = exports.insertNewComponent = exports.fetchComponentTypes = exports.fetchAllLocations = exports.fetchComponentLocation = exports.updateComponent = exports.fetchComponent = exports.fetchAllComponents = void 0;
 const db_1 = __importDefault(require("../helpers/db"));
 const fetchAllComponents = () => {
     return new Promise((resolve, reject) => {
         const query = `
-            SELECT c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.component_id, cl.location_name 
-            FROM component c , component_location cl
-            WHERE c.component_id=cl.component_id`;
+      SELECT c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.component_id, cl.location_name 
+      FROM component c , component_location cl
+      WHERE c.component_id=cl.component_id`;
         db_1.default.query(query, (err, rows) => {
             if (err)
                 return reject(err);
@@ -22,9 +22,9 @@ exports.fetchAllComponents = fetchAllComponents;
 const fetchComponent = (id) => {
     return new Promise((resolve, reject) => {
         const query = `
-            SELECT c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.component_id, cl.location_name 
-            FROM component c , component_location cl
-            WHERE c.component_id = ? and c.component_id = cl.component_id`;
+      SELECT c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.component_id, cl.location_name 
+      FROM component c , component_location cl
+      WHERE c.component_id = ? and c.component_id = cl.component_id`;
         db_1.default.query(query, [id], (err, rows) => {
             if (err)
                 return reject(err);
@@ -57,7 +57,7 @@ const fetchComponentLocation = (id) => {
 exports.fetchComponentLocation = fetchComponentLocation;
 const fetchAllLocations = () => {
     return new Promise((resolve, reject) => {
-        const query = "select distinct location_name from component_location";
+        const query = "SELECT DISTINCT location_name FROM component_location";
         db_1.default.query(query, (err, rows) => {
             if (err)
                 return reject(err);
@@ -69,21 +69,41 @@ exports.fetchAllLocations = fetchAllLocations;
 const fetchComponentTypes = (location, size) => {
     return new Promise((resolve, reject) => {
         //queries for each type of component
-        const queryHandle = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
-    FROM component c, component_location cl
-    WHERE c.component_type = "HANDLE" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
-        const queryWheel = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
-    FROM component c, component_location cl
-    WHERE c.component_type = "WHEEL" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
-        const querySeat = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
-    FROM component c, component_location cl
-    WHERE c.component_type = "SEAT" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
-        const queryDriveTrain = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
-    FROM component c, component_location cl
-    WHERE c.component_type = "DRIVE_TRAIN" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
-        const queryFrame = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
-    FROM component c, component_location cl
-    WHERE c.component_type = "FRAME" AND c.component_id = cl.component_id AND cl.location_name = ? AND c.size = ?;`;
+        const queryHandle = `
+      SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+      FROM component c, component_location cl
+      WHERE c.component_type = "HANDLE"
+      AND c.component_id = cl.component_id
+      AND cl.location_name = ?
+      AND c.size = ?;`;
+        const queryWheel = `
+      SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+      FROM component c, component_location cl
+      WHERE c.component_type = "WHEEL"
+      AND c.component_id = cl.component_id
+      AND cl.location_name = ?
+      AND c.size = ?;`;
+        const querySeat = `
+      SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+      FROM component c, component_location cl
+      WHERE c.component_type = "SEAT"
+      AND c.component_id = cl.component_id
+      AND cl.location_name = ?
+      AND c.size = ?;`;
+        const queryDriveTrain = `
+      SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+      FROM component c, component_location cl
+      WHERE c.component_type = "DRIVE_TRAIN"
+      AND c.component_id = cl.component_id
+      AND cl.location_name = ?
+      AND c.size = ?;`;
+        const queryFrame = `
+      SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+      FROM component c, component_location cl
+      WHERE c.component_type = "FRAME"
+      AND c.component_id = cl.component_id
+      AND cl.location_name = ?
+      AND c.size = ?;`;
         let results = {
             HANDLE: [],
             WHEEL: [],
@@ -171,3 +191,17 @@ const insertNewComponent = (price, quantity, component_type, component_status, s
     });
 };
 exports.insertNewComponent = insertNewComponent;
+const fetchComponentsByLocation = (location) => {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT c.component_id, c.price, c.quantity, c.component_type, c.component_status, c.size, c.specificComponentType, cl.location_name
+      FROM component c, component_location cl
+      WHERE c.component_id = cl.component_id
+      AND cl.location_name = ?;`;
+        db_1.default.query(query, [location], (err, rows) => {
+            if (err)
+                return reject(err);
+            resolve(JSON.parse(JSON.stringify(rows)));
+        });
+    });
+};
+exports.fetchComponentsByLocation = fetchComponentsByLocation;

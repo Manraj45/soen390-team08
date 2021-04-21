@@ -72,7 +72,6 @@ BikeOrderService.addBike = (bikeOrderList, email) => __awaiter(void 0, void 0, v
         const triggerService = new TriggerService_1.TriggerService();
         triggerService.getCurrentTriggers(email).then((response) => __awaiter(void 0, void 0, void 0, function* () {
             const triggers = response;
-            console.log(response);
             if (triggers[0].BIKE_ORDER) {
                 yield emailService_1.EmailService.email(email, "Bike Order Confirmation", "You have sucessfully ordered a bike from Bike King Inc. Thank you for your purchase.").catch((error) => { console.log("An error has occured sending the email"); });
             }

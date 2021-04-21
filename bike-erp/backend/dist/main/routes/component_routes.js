@@ -41,6 +41,17 @@ router.post("/addComponent", AuthenticationService_1.authenticateToken, Authenti
         res.status(error.status).send(error);
     });
 });
+router.get("/componentByLocation", AuthenticationService_1.authenticateToken, (req, res) => {
+    const loc = req.query.location;
+    inventoryManagementService
+        .getComponentsByLocation(loc)
+        .then((response) => {
+        res.json(response);
+    })
+        .catch((error) => {
+        res.status(error.status).send(error.message);
+    });
+});
 router.get("/:component_id", AuthenticationService_1.authenticateToken, AuthenticationService_1.verifyRole([Account_1.Role.ADMIN, Account_1.Role.MANAGER, Account_1.Role.EMPLOYEE, Account_1.Role.CUSTOMER]), (req, res) => {
     inventoryManagementService
         .getComponent(req.params.component_id)

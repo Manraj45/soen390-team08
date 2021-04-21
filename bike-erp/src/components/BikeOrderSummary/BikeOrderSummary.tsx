@@ -108,8 +108,8 @@ const BikeOrderSummary = ({ bikeOrderList, removeBike, removeAllBikes, removeAll
                 bikeOrderList.bikeOrderList.length !== 0 &&
                 <>
                     <Typography variant="h6">Total: ${total}</Typography>
-                    <Button onClick={proceedToSell} variant="contained">Buy</Button>
-                    <Button variant="contained" onClick={removeAllComponents}>Clear Cart</Button>
+                    <Button className={classes.btn} onClick={proceedToSell} variant="contained">Buy</Button>
+                    <Button className={classes.btn} variant="contained" onClick={removeAllComponents}>Clear Cart</Button>
                 </>
             }
         </div>
